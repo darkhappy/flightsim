@@ -1,0 +1,6 @@
+@startuml
+
+class Airport {}
+class Airplane {}
+
+@enduml
