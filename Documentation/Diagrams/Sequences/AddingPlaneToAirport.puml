@@ -1,4 +1,35 @@
 @startuml Adding plane to airport
 title Adding a plane into an airport in the generator
 
-actor user
+actor User
+
+
+
+'Do we need to check if the same airplane already exists ?
+
+
+
+'Add a new airplane to the model
+User -> FormGenerator ++: AddAirplane(object sender, system.EventAr0gs e)
+FormGenerator -> Generator ++: AddAirplane(string AirportId, string[] data)
+Generator -> Scenario ++: AddAirplane(string AirportId, string[] data)
+Scenario -> Airport ++: AddAirplane(string[] data)
+Airport -> AirplaneFactory ++: CreateAirplane(string[] data)
+AirplaneFactory -> Airplane ++: new Airplane()
+Airplane -> Position ++: new Position(string longitude, string latitude)
+return Position
+return Airplane
+return
+return
+return
+
+'Get the scenario's string serialized form
+Generator -> Scenario ++: ToString()
+Scenario -> Airport ++: ToString()
+Airport -> Airplane ++: ToString()
+return string
+return string
+return string
+
+'
+Generator -> FormGenerator ++:
