@@ -2,76 +2,106 @@
 
 package Models {
 
-class Scenario {
-    - _airports: List<Airport>
-    + Export(): void
-    + GetAirportInfo(int airport): 
-}
+    class Scenario {
+        - _airports: List<Airport>
+        + AddAirport(string[] data): void
+        + EditAirport(string id, string[] data): void
+        + DeleteAirport(string id): void
+        + AddAirplane(string id, string[] data): void
+        + EditAirplane(string id, string[] data): void
+        + DeleteAirplane(string id): void
+        + ToString(): string
+    }
 
-Scenario "1" *--> "N" Airport
+    Scenario "1" *--> "N" Airport
 
-class Airport {
-    - _name: string
-    - _position: Position
-    - _airplanes: List<Airplane>
-    - _passengerTraffic: int
-    - _merchandiseTraffic: double
-    - _passenger: int
-    - _merchandise: double
-}
+    class Airport {
+        - _id: string
+        - _name: string
+        - _position: Position
+        - _airplanes: List<Airplane>
+        - _passengerTraffic: int
+        - _merchandiseTraffic: double
+        - _passenger: int
+        - _merchandise: double
+        + AddAirplane(string[] data): void
+        + EditAirplane(string[] data): void
+        + DeleteAirplane(): void
+        + Export(): string[]
+    }
+    
+    class AirplaneFactory {
+        - static _airplaneFactory: AirplaneFactory
+        + static GetAirplaneFactory(): AirplaneFactory
+        + CreateAirplane(string[] data): Airplane
+    }
+    
+    AirplaneFactory "0..1" *--> "1" AirplaneFactory
+    Airport ---> AirplaneFactory
+    AirplaneFactory ---> Airplane
 
-abstract class Airplane {
-    - _name: string
-    - _speed: int
-    - _maintenanceTime: int
-    - _origin: Airport
-    - _current: Position
-    - _destination: Position
-    - _colour: Colour 
-}
+    abstract class Airplane {
+        - _id: string
+        - _name: string
+        - _speed: int
+        - _maintenanceTime: int
+        - _origin: Airport
+        - _current: Position
+        - _destination: Position
+        - _colour: Colour 
+    }
 
-class FirePlane extends Airplane{
-    - _chargingTime: int
-    - _droppingTime: int
-}
-abstract class TransportPlane extends Airplane {
-    - _capacity: double
-    - _maxCapacity: double
-    - _embarkingTime: int
-    - _disembarkingTime: int
-}
-class PassengerPlane extends TransportPlane {}
-class MerchandisePlane extends TransportPlane {}
-class ObserverPlane extends Airplane{}
-class RescuePlane extends Airplane{}
+    class FirePlane extends Airplane{
+        - _chargingTime: int
+        - _droppingTime: int
+    }
+    abstract class TransportPlane extends Airplane {
+        - _capacity: double
+        - _maxCapacity: double
+        - _embarkingTime: int
+        - _disembarkingTime: int
+    }
+    class PassengerPlane extends TransportPlane {}
+    class MerchandisePlane extends TransportPlane {}
+    class ObserverPlane extends Airplane{}
+    class RescuePlane extends Airplane{}
 
-' Red = Rescue
-' Yellow = Fires
-' Blue = Cargo
-' Green = Passenger
-' Gray = Observer
-enum Colour {
-    RED
-    YELLOW
-    BLUE
-    GREEN
-    GRAY
-}
+    ' Red = Rescue
+    ' Yellow = Fires
+    ' Blue = Cargo
+    ' Green = Passenger
+    ' Gray = Observer
+    enum Colour {
+        RED
+        YELLOW
+        BLUE
+        GREEN
+        GRAY
+    }
 
-class Position {
-    - _x: int
-    - _y: int
-    + Position(int x, int y)
-    + Position(string longitude, string latitude)
-    + ToString(): String
-}
-Airport "1" *--> "N" Airplane
-Airplane "1" o--> "1" Airport
+    class Position {
+        - _x: int
+        - _y: int
+        + Position(int x, int y)
+        + Position(string longitude, string latitude)
+        + ToString(): String
+    }
+    Airport "1" *--> "N" Airplane
+    Airplane "1" o--> "1" Airport
 }
 
 package Controllers {
     class Generator {
-    
+        - _form: FormGenerator
+        + AddAirport(string[] data): void
+        + EditAirport(int id, string[] data): void
+        + DeleteAirport(int id): void
+        + AddAirplane(int id, string[] data): void
+        + EditAirplane(int airportID, int airplaneID, string[] data): void
+        + DeleteAirplane(int airportID, int airplaneID): void
+        + Export(): void
+        - ConvertXMLToString(): string[]
+        + Import(): void
     }
 }
 
@@ -83,6 +113,8 @@ package Views {
     }
     class FormGenerator {
         - _data: string[]
+        - _listAirports: string[]
+        - _listAirplanes: string[]
         - AddAirport(): void
         - EditAirport(): void
         - DeleteAirport(): void
@@ -91,6 +123,7 @@ package Views {
         - DeleteAirplane(): void
         - Save(): void
         - Exit(): void
+        + UpdateView(string[] data): void
     }
 }
 
