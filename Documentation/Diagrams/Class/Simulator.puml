@@ -1,0 +1,41 @@
+@startuml
+
+class Simulator {
+}
+
+class EventFactory {
+    - _eventFactory: EventFactory
+    + GenerateFire(): Fire
+    + GenerateRescue(): Rescue
+    + GeneratePassengers(): Passenger
+    + GenerateMerchandise(): Merchandise
+    + GenerateObservation(): Observation
+}
+
+EventFactory "0..1" *--> "1" EventFactory
+EventFactory --> Event
+
+abstract class Event {
+    - _location : Position
+    + ToString() : string
+}
+
+class Passenger extends Event {
+    - _count: int
+}
+
+class Merchandise extends Event {
+    - _count: double
+}
+
+class Rescue extends Event {
+}
+
+class Observation extends Event {
+}
+
+class Fire extends Event {
+    - _intensity: int
+}
+
+@enduml

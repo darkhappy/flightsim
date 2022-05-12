@@ -1,0 +1,100 @@
+@startuml
+
+package Models {
+
+class Scenario {
+    - _airports: List<Airport>
+    + Export(): void
+    + GetAirportInfo(int airport): 
+}
+
+Scenario "1" *--> "N" Airport
+
+class Airport {
+    - _name: string
+    - _position: Position
+    - _airplanes: List<Airplane>
+    - _passengerTraffic: int
+    - _merchandiseTraffic: double
+    - _passenger: int
+    - _merchandise: double
+}
+
+abstract class Airplane {
+    - _name: string
+    - _speed: int
+    - _maintenanceTime: int
+    - _origin: Airport
+    - _current: Position
+    - _destination: Position
+    - _colour: Colour 
+}
+
+class FirePlane extends Airplane{
+    - _chargingTime: int
+    - _droppingTime: int
+}
+abstract class TransportPlane extends Airplane {
+    - _capacity: double
+    - _maxCapacity: double
+    - _embarkingTime: int
+    - _disembarkingTime: int
+}
+class PassengerPlane extends TransportPlane {}
+class MerchandisePlane extends TransportPlane {}
+class ObserverPlane extends Airplane{}
+class RescuePlane extends Airplane{}
+
+' Red = Rescue
+' Yellow = Fires
+' Blue = Cargo
+' Green = Passenger
+' Gray = Observer
+enum Colour {
+    RED
+    YELLOW
+    BLUE
+    GREEN
+    GRAY
+}
+
+class Position {
+    - _x: int
+    - _y: int
+    + Position(int x, int y)
+    + Position(string longitude, string latitude)
+    + ToString(): String
+}
+Airport "1" *--> "N" Airplane
+Airplane "1" o--> "1" Airport
+}
+
+package Controllers {
+    class Generator {
+    
+    }
+}
+
+package Views {
+    class FormMap {
+        - ClickOnMap(): void
+        - Select(): void
+        - Cancel(): void
+    }
+    class FormGenerator {
+        - _data: string[]
+        - AddAirport(): void
+        - EditAirport(): void
+        - DeleteAirport(): void
+        - AddAirplane(): void
+        - EditAirplane(): void
+        - DeleteAirplane(): void
+        - Save(): void
+        - Exit(): void
+    }
+}
+
+Generator "1" *--> "n" Scenario
+Generator "1" *--> "n" FormGenerator
+
+@enduml
