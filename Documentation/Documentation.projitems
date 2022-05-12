@@ -11,5 +11,7 @@
   <ItemGroup>
     <Content Include="$(MSBuildThisFileDirectory)Diagrams\Class\Generator.puml" />
     <Content Include="$(MSBuildThisFileDirectory)Diagrams\Class\Simulator.puml" />
+    <Content Include="$(MSBuildThisFileDirectory)Diagrams\Sequences\AddingPlaneToAirport.puml" />
+    <Content Include="$(MSBuildThisFileDirectory)Diagrams\Sequences\LoopInSimulator.puml" />
   </ItemGroup>
 </Project>

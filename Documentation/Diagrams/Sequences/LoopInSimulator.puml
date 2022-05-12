@@ -1,0 +1,4 @@
+@startuml Loop in simulator
+title A loop with too much event in the simulator
+
+actor user
