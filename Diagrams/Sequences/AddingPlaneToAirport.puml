@@ -1,0 +1,4 @@
+@startuml Adding plane to airport
+title Adding a plane into an airport in the generator
+
+actor user
