@@ -3,15 +3,15 @@ Ce que je veux voir dans votre rapport final :
 
 - Dictionnaire de classe complet incluant : 
    - Nom et description de chaque classe
-   - Données membres, description, type et accesseurs
-   - Méthodes, description, signature, visibilité
+   - DonnÃ©es membres, description, type et accesseurs
+   - MÃ©thodes, description, signature, visibilitÃ©
 
 - Commentaires sur GRASP
-   - Décrivez les efforts déployés pour respecter les principes GRASP
+   - DÃ©crivez les efforts dÃ©ployÃ©s pour respecter les principes GRASP
 
-- Descriptions GOF. Pour chaque patron GOF implanté, fournissez les informations suivantes :
+- Descriptions GOF. Pour chaque patron GOF implantÃ©, fournissez les informations suivantes :
    - Nom du patron
-   - Classe impliquées
-   - But et bénéfices de l'implantation de ce patron dans le design
+   - Classe impliquÃ©es
+   - But et bÃ©nÃ©fices de l'implantation de ce patron dans le design
 
-NOTE : Vous devrez fournir les informations ci-dessus en double (générateur + simulateur).
+NOTE : Vous devrez fournir les informations ci-dessus en double (gÃ©nÃ©rateur + simulateur).
