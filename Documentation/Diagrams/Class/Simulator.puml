@@ -1,9 +1,171 @@
 @startuml
+package Models {
 
-class Simulator {
-}
+    ' Red = Rescue
+    ' Yellow = Fires
+    ' Blue = Cargo
+    ' Green = Passenger
+    ' Gray = Observer
+    enum Colour {
+        RED
+        YELLOW
+        BLUE
+        GREEN
+        GRAY
+    }
+    
+    enum AirplaneType {
+        PASSENGER
+        CARGO
+        FIRE
+        RESCUE
+        SCOUT
+    }
+    
 
-class EventFactory {
+    class Position {
+        - _x: int
+        - _y: int
+        + Position(int x, int y)
+        + Position(string longitude, string latitude)
+        + {static} Transpose(int x, int y): string
+        + {static} Transpose(string): Tuple<int, int>
+        + ToString(): string
+    }
+    
+    note bottom of Position
+    Position is a class that represents a position in the world.
+    Most, if not all, of the classes in this project uses this class.
+    end note
+
+    class Scenario {
+        - _airports: AirportList
+        + AddAirport(string[] data): void
+        + EditAirport(string id, string[] data): void
+        + DeleteAirport(string id): void
+        + AddAirplane(string id, string[] data): void
+        + EditAirplane(string id, string[] data): void
+        + DeleteAirplane(string id): void
+        + ToString(): string
+    }
+
+    Scenario "1" *--> "1" AirportList
+    Scenario --> Airport
+    AirportList "1" *--> "N" Airport
+    
+    class AirportList {
+        - _airports : List<Airport>
+        + Add(Airport airport): void
+        + Get(string id): Airport
+        + GetAll(): List<Airport>
+        + Sort(): void
+        + Remove(Airport airport): void
+        + Remove(string id): void
+    }
+    
+
+    class Airport {
+        - _id: string
+        - _name: string
+        - _location: Position
+        - _airplanes: AirplaneList
+        - _passengerTraffic: int
+        - _merchandiseTraffic: double
+        - _passenger: int
+        - _merchandise: double
+        + AddAirplane(string[] data): void
+        + EditAirplane(string[] data): void
+        + DeleteAirplane(): void
+        + Export(): string[]
+    }
+    
+    class AirplaneList {
+        - _airplanes : List<Airplane>
+        + Add(Airplane airplane): void
+        + Get(string id): Airplane
+        + Get(AirplaneType type): Airplane
+        + GetAll(): List<Airplane>
+        + Sort(): void
+        + Remove(Airplane airplane): void
+    }
+    
+    Airport ---> Airplane
+    Airport "1" *--> "1" AirplaneList
+    AirplaneList "1" *--> "N" Airplane
+    Airplane "1" o--> "1" Airport
+
+    abstract class Airplane {
+        - _id: string
+        - _name: string
+        - _speed: int
+        - _maintenanceTime: int
+        - _origin: Airport
+        - _colour: Colour 
+        - _state: IState
+        - _available: bool
+    }
+
+    class FirePlane extends Airplane{
+        - _chargingTime: int
+        - _droppingTime: int
+    }
+    abstract class TransportPlane extends Airplane {
+        - _capacity: double
+        - _maxCapacity: double
+        - _embarkingTime: int
+        - _disembarkingTime: int
+    }
+    class PassengerPlane extends TransportPlane {}
+    class MerchandisePlane extends TransportPlane {}
+    class ObserverPlane extends Airplane{}
+    class RescuePlane extends Airplane{}
+   
+    interface IState {
+        + FlyTo(Position position): void
+        + Action(int time): void
+    }
+    
+    abstract class Flying extends IState {
+        - _current: Position
+        - _angle: int
+        - _destination: Position
+        + FlyTo(Position destination): void
+    }
+    abstract Grounded extends IState {
+        + FlyTo(Position destination): void
+    }
+    class Embark extends Grounded {
+        - _time: int
+        + Action(int time): void
+    }
+    class Disembark extends Grounded {
+        - _time: int
+        + Action(int time): void
+    }
+    class Rescue extends Flying {
+        + Action(int time): void
+    }
+    class Fight extends Flying {
+        + Action(int time): void
+    }
+    class Transport extends Flying {
+        + Action(int time): void
+    }
+    class Scout extends Flying {
+        + Action(int time): void
+        - GeneratePath(Position position): List<Position>
+    }
+    class Maintenance extends Grounded {
+        - _maintenanceOver: int
+        + Action(int time): void
+    }
+    class Standby extends Grounded {
+        + FlyTo(Position position): void
+        + Action(int time): void
+    }
+    Airplane "1" o--> "1" IState
+
+class EventFactory << (S,orange) Singleton>> {
     - _eventFactory: EventFactory
     + GenerateFire(): Fire
     + GenerateRescue(): Rescue
@@ -12,7 +174,6 @@ class EventFactory {
     + GenerateObservation(): Observation
 }
 
-EventFactory "0..1" *--> "1" EventFactory
 EventFactory --> Event
 
 abstract class Event {
@@ -20,22 +181,35 @@ abstract class Event {
     + ToString() : string
 }
 
-class Passenger extends Event {
+class EventPassenger extends Event {
     - _count: int
 }
 
-class Merchandise extends Event {
+class EventMerchandise extends Event {
     - _count: double
 }
 
-class Rescue extends Event {
+class EventRescue extends Event {
 }
 
-class Observation extends Event {
+class EventObservation extends Event {
 }
 
-class Fire extends Event {
-    - _intensity: int
+class EventFight extends Event {
+    - _hp: int
 }
 
+}
+
+package Controllers {
+    class Simulator << (S,orange) Singleton>> {
+    }
+}
+
+package Views {
+    class FormMap {
+    }
+}
+
+Simulator "1" *--> "n" Scenario
 @enduml
