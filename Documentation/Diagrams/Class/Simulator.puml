@@ -1,6 +1,5 @@
 @startuml
-package Models {
-
+package Enum {
     ' Red = Rescue
     ' Yellow = Fires
     ' Blue = Cargo
@@ -21,37 +20,41 @@ package Models {
         RESCUE
         SCOUT
     }
-    
+}
 
-    class Position {
-        - _x: int
-        - _y: int
-        + Position(int x, int y)
-        + Position(string longitude, string latitude)
-        + {static} Transpose(int x, int y): string
-        + {static} Transpose(string): Tuple<int, int>
-        + ToString(): string
-    }
-    
-    note bottom of Position
-    Position is a class that represents a position in the world.
-    Most, if not all, of the classes in this project uses this class.
-    end note
+class Position {
+    - _x: int
+    - _y: int
+    + Position(int x, int y)
+    + Position(string longitude, string latitude)
+    + {static} Transpose(int x, int y): string
+    + {static} Transpose(string): Tuple<int, int>
+    + ToString(): string
+}
 
+note bottom of Position
+Position is a class that represents a position in the world.
+Most, if not all, of the classes in this project uses this class.
+end note
+
+package Models {
     class Scenario {
         - _airports: AirportList
-        + AddAirport(string[] data): void
-        + EditAirport(string id, string[] data): void
-        + DeleteAirport(string id): void
-        + AddAirplane(string id, string[] data): void
-        + EditAirplane(string id, string[] data): void
-        + DeleteAirplane(string id): void
-        + ToString(): string
+        - _events: EventList
+        + Action(int time): void
     }
 
     Scenario "1" *--> "1" AirportList
     Scenario --> Airport
     AirportList "1" *--> "N" Airport
+    
+    class EventList {
+        - _events: List<Event>
+        + Add(Event): void
+    }
+    
+    Scenario "1" *--> "1" EventList
+    EventList "1" *--> "N" Event
     
     class AirportList {
         - _airports : List<Airport>
@@ -73,9 +76,6 @@ package Models {
         - _merchandiseTraffic: double
         - _passenger: int
         - _merchandise: double
-        + AddAirplane(string[] data): void
-        + EditAirplane(string[] data): void
-        + DeleteAirplane(): void
         + Export(): string[]
     }
     
@@ -119,7 +119,6 @@ package Models {
     class MerchandisePlane extends TransportPlane {}
     class ObserverPlane extends Airplane{}
     class RescuePlane extends Airplane{}
-   
     interface IState {
         + FlyTo(Position position): void
         + Action(int time): void
@@ -163,46 +162,55 @@ package Models {
         + FlyTo(Position position): void
         + Action(int time): void
     }
+    
     Airplane "1" o--> "1" IState
 
-class EventFactory << (S,orange) Singleton>> {
-    - _eventFactory: EventFactory
-    + GenerateFire(): Fire
-    + GenerateRescue(): Rescue
-    + GeneratePassengers(): Passenger
-    + GenerateMerchandise(): Merchandise
-    + GenerateObservation(): Observation
-}
+    class EventFactory << (S,orange) Singleton>> {
+        - _eventFactory: EventFactory
+        + GenerateFire(): Fire
+        + GenerateRescue(): Rescue
+        + GeneratePassengers(): Passenger
+        + GenerateMerchandise(): Merchandise
+        + GenerateObservation(): Observation
+    }
 
-EventFactory --> Event
+    EventFactory --> Event
 
-abstract class Event {
-    - _location : Position
-    + ToString() : string
-}
+    abstract class Event {
+        - _location : Position
+        + ToString() : string
+    }
 
-class EventPassenger extends Event {
-    - _count: int
-}
+    abstract class EventTransport extends Event {
+        - _destination : Airport
+    }
 
-class EventMerchandise extends Event {
-    - _count: double
-}
+    class Passenger extends EventTransport {
+        - _count: int
+    }
 
-class EventRescue extends Event {
-}
+    class Merchandise extends EventTransport {
+        - _count: double
+    }
 
-class EventObservation extends Event {
-}
+    class EventRescue extends Event {
+    }
 
-class EventFight extends Event {
-    - _hp: int
-}
+    class EventScout extends Event {
+    }
 
+    class EventFight extends Event {
+        - _force: int
+    }
 }
 
 package Controllers {
     class Simulator << (S,orange) Singleton>> {
+        - _simulator: Simulator
+        - _scenario: Scenario
+        - _view : FormMap
+        + GetSimulator(): void
+        - OnTick(int time): void
     }
 }
 
@@ -211,5 +219,9 @@ package Views {
     }
 }
 
-Simulator "1" *--> "n" Scenario
+Simulator "1" *--> "1" Scenario
+Simulator "1" *--> "1" Simulator
+Simulator "1" *--> "1" FormMap
+Scenario --> EventFactory
+FormMap --> Simulator
 @enduml
