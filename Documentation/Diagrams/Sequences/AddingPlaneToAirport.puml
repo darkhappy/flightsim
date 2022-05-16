@@ -1,5 +1,5 @@
 @startuml Adding plane to airport
-title Adding a plane into an airport in the generator
+title Adding a plane into an airport
 
 actor User
 
@@ -11,8 +11,8 @@ actor User
 
 'Add a new airplane to the model
 User -> FormGenerator ++: AddAirplane(object sender, system.EventAr0gs e)
-FormGenerator -> Generator ++: AddAirplane(string AirportId, string[] data)
-Generator -> Scenario ++: AddAirplane(string AirportId, string[] data)
+FormGenerator -> Generator ++: AddAirplane(string id, string[] data)
+Generator -> Scenario ++: AddAirplane(string id, string[] data)
 Scenario -> Airport ++: AddAirplane(string[] data)
 Airport -> AirplaneFactory ++: CreateAirplane(string[] data)
 AirplaneFactory -> Airplane ++: new Airplane()
@@ -31,5 +31,15 @@ return string
 return string
 return string
 
-'
-Generator -> FormGenerator ++:
+'Update the form
+Generator -> FormGenerator ++: UpdateView(string[] data, string id = null)
+FormGenerator -> FormGenerator ++: SelectAirport(string id)
+return
+FormGenerator -> FormGenerator ++: SelectAirplane(string id)
+return
+return
+
+return
+return
+
+@enduml
