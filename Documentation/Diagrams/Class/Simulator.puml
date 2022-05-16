@@ -1,6 +1,10 @@
 @startuml
-package Enum {
-    ' Red = Rescue
+
+skinparam linetype polyline
+
+package Models {
+    ' ----------------------------------- '
+    ' -- Enum                          -- '
     ' Yellow = Fires
     ' Blue = Cargo
     ' Green = Passenger
@@ -20,42 +24,30 @@ package Enum {
         RESCUE
         SCOUT
     }
-}
 
-class Position {
-    - _x: int
-    - _y: int
-    + Position(int x, int y)
-    + Position(string longitude, string latitude)
-    + {static} Transpose(int x, int y): string
-    + {static} Transpose(string): Tuple<int, int>
-    + ToString(): string
-}
+    class Position {
+        - _x: int
+        - _y: int
+        + Position(int x, int y)
+        + Position(string longitude, string latitude)
+        + {static} Transpose(int x, int y): string
+        + {static} Transpose(string): Tuple<int, int>
+        + ToString(): string
+    }
 
-note bottom of Position
-Position is a class that represents a position in the world.
-Most, if not all, of the classes in this project uses this class.
-end note
-
-package Models {
+    note bottom of Position
+    Position is a class that represents a position in the world.
+    Most, if not all, of the classes in this project uses this class.
+    end note
+    
     class Scenario {
         - _airports: AirportList
         - _events: EventList
         + Action(int time): void
     }
-
-    Scenario "1" *--> "1" AirportList
-    Scenario --> Airport
-    AirportList "1" *--> "N" Airport
     
-    class EventList {
-        - _events: List<Event>
-        + Add(Event): void
-    }
-    
-    Scenario "1" *--> "1" EventList
-    EventList "1" *--> "N" Event
-    
+    ' -----------------------------------'
+    ' -- Airport Management           -- '
     class AirportList {
         - _airports : List<Airport>
         + Add(Airport airport): void
@@ -66,7 +58,6 @@ package Models {
         + Remove(string id): void
     }
     
-
     class Airport {
         - _id: string
         - _name: string
@@ -79,6 +70,8 @@ package Models {
         + Export(): string[]
     }
     
+    ' -----------------------------------'
+    ' -- Airplane Management          -- '
     class AirplaneList {
         - _airplanes : List<Airplane>
         + Add(Airplane airplane): void
@@ -89,10 +82,11 @@ package Models {
         + Remove(Airplane airplane): void
     }
     
-    Airport ---> Airplane
-    Airport "1" *--> "1" AirplaneList
-    AirplaneList "1" *--> "N" Airplane
-    Airplane "1" o--> "1" Airport
+    class AirplaneFactory << (S,orange) Singleton>> {
+        - {static} _airplaneFactory: AirplaneFactory
+        + {static} GetAirplaneFactory(): AirplaneFactory
+        + CreateAirplane(string[] data): Airplane
+    }
 
     abstract class Airplane {
         - _id: string
@@ -109,62 +103,84 @@ package Models {
         - _chargingTime: int
         - _droppingTime: int
     }
+    
     abstract class TransportPlane extends Airplane {
         - _capacity: double
         - _maxCapacity: double
         - _embarkingTime: int
         - _disembarkingTime: int
     }
-    class PassengerPlane extends TransportPlane {}
-    class MerchandisePlane extends TransportPlane {}
-    class ObserverPlane extends Airplane{}
-    class RescuePlane extends Airplane{}
-    interface IState {
-        + FlyTo(Position position): void
-        + Action(int time): void
+    
+    class PassengerPlane extends TransportPlane {
     }
     
-    abstract class Flying extends IState {
+    class MerchandisePlane extends TransportPlane {
+    }
+    
+    class ObserverPlane extends Airplane{
+    }
+    
+    class RescuePlane extends Airplane{
+    }
+    
+    ' -----------------------------------'
+    ' -- Airplane States              -- '
+    interface IState {
+        + FlyTo(Position position): void
+    }
+    
+    abstract class Flying implements IState {
         - _current: Position
         - _angle: int
         - _destination: Position
-        + FlyTo(Position destination): void
     }
-    abstract Grounded extends IState {
-        + FlyTo(Position destination): void
+    
+    abstract Grounded implements IState {
     }
+    
     class Embark extends Grounded {
         - _time: int
         + Action(int time): void
     }
+    
     class Disembark extends Grounded {
         - _time: int
         + Action(int time): void
     }
-    class Rescue extends Flying {
+    
+    class Standby extends Grounded {
         + Action(int time): void
     }
-    class Fight extends Flying {
-        + Action(int time): void
-    }
-    class Transport extends Flying {
-        + Action(int time): void
-    }
-    class Scout extends Flying {
-        + Action(int time): void
-        - GeneratePath(Position position): List<Position>
-    }
+    
     class Maintenance extends Grounded {
         - _maintenanceOver: int
         + Action(int time): void
     }
-    class Standby extends Grounded {
-        + FlyTo(Position position): void
+    
+    class Rescue extends Flying {
         + Action(int time): void
     }
     
-    Airplane "1" o--> "1" IState
-
+    class Fight extends Flying {
+        + Action(int time): void
+    }
+    
+    class Transport extends Flying {
+        + Action(int time): void
+    }
+    
+    class Scout extends Flying {
+        + Action(int time): void
+        - GeneratePath(Position position): List<Position>
+    }
+    
+    ' ---------------------------------- '
+    ' -- Events Management            -- '
+    class EventList {
+        - _events: List<Event>
+        + Add(Event): void
+    }
+    
     class EventFactory << (S,orange) Singleton>> {
         - _eventFactory: EventFactory
         + GenerateFire(): Fire
@@ -173,8 +189,6 @@ package Models {
         + GenerateMerchandise(): Merchandise
         + GenerateObservation(): Observation
     }
-
-    EventFactory --> Event
 
     abstract class Event {
         - _location : Position
@@ -219,9 +233,40 @@ package Views {
     }
 }
 
+' Relations
+' - Global
+' -- Controller and View
+Simulator "1" *--> "1" FormMap
+FormMap --> Simulator
+' -- Controller and Model
 Simulator "1" *--> "1" Scenario
 Simulator "1" *--> "1" Simulator
-Simulator "1" *--> "1" FormMap
+
+' - Model
+' -- Scenario
+Scenario --> Airport
 Scenario --> EventFactory
-FormMap --> Simulator
+Scenario "1" *--> "1" AirportList
+Scenario "1" *--> "1" EventList
+
+' -- Airport
+Airport --> AirplaneFactory
+Airport ---> Airplane
+Airport "1" *--> "1" AirplaneList
+
+' -- Airplane
+AirportList "1" *--> "N" Airport
+AirplaneFactory --> Airplane
+Airplane "1" o--> "1" IState
+Airplane "1" o--> "1" Airport
+
+' -- Events
+EventList "1" *--> "N" Event
+EventFactory --> Event
+   
+' -- Events and State
+Fight "1" o--> "1" EventFight
+Scout "1" o--> "1" EventScout
+Rescue "1" o--> "1" EventRescue
+
 @enduml
