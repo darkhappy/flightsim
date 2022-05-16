@@ -3,22 +3,22 @@
 
 state Idle
 
-Idle --> Flight : event started
+Idle --> Flying : fight has been generated
 
-state Flight
+state Flying
 
-Flight --> Fighting : arrived
+Flying --> Fighting : arrived at fight
 
 state Maintenance
 
 state Fighting {
-    state Flying
+    state "Flying" as FlyingBack
     state Fight
-    state c <<choice>> : is it a fight or a flight?
+    state c <<choice>>
     
     [*] --> Fight
-    Fight -> Flying : retreat
-    Flying --> c : is the fight over?
+    Fight -> FlyingBack : retreat
+    FlyingBack --> c : is the fight over?
     c --> Fight : no
     c --> [*] : yes
 }
@@ -26,7 +26,7 @@ state Fighting {
 Fighting -> Maintenance : return to base
 
 
-Maintenance -> Idle : repaired
+Maintenance -> Idle : finished repair
 
 
 
