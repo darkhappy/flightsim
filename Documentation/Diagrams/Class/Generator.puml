@@ -128,50 +128,60 @@ package Models {
     class MerchandisePlane extends TransportPlane {}
     class ObserverPlane extends Airplane{}
     class RescuePlane extends Airplane{}
-    
+   
     interface IState {
         + FlyTo(Position position): void
-        + Action(): void
+        + Action(int time): void
     }
     
-    class Flying extends IState {
+    abstract class Flying extends IState {
         - _current: Position
         - _angle: int
         - _destination: Position
         + FlyTo(Position destination): void
     }
     abstract Grounded extends IState {
+        + FlyTo(Position destination): void
     }
-    
+    class Embark extends Grounded {
+        - _time: int
+        + Action(int time): void
+    }
+    class Disembark extends Grounded {
+        - _time: int
+        + Action(int time): void
+    }
     class Rescue extends Flying {
-        + Action(): void
+        + Action(int time): void
     }
     class Fight extends Flying {
-        + Action(): void
+        + Action(int time): void
     }
     class Transport extends Flying {
-        + Action(): void
+        + Action(int time): void
     }
     class Scout extends Flying {
-        + Action(): void
+        + Action(int time): void
         - GeneratePath(Position position): List<Position>
     }
     class Maintenance extends Grounded {
         - _maintenanceOver: int
-        + FlyTo(Position position): void
-        + Action(): void
+        + Action(int time): void
     }
     class Standby extends Grounded {
         + FlyTo(Position position): void
-        + Action(): void
+        + Action(int time): void
     }
-    
     Airplane "1" o--> "1" IState
 }
 
 package Controllers {
-    class Generator {
+    class Generator << (S,orange) Singleton>> {
         - _form: FormGenerator
+        - _generator: Generator
+        + GetGenerator(): Generator
+        + SelectAirport(): void
+        + SelectAirplane(): void
         + AddAirport(string[] data): void
         + EditAirport(string id, string[] data): void
         + DeleteAirport(string id): void
@@ -193,6 +203,8 @@ package Views {
         - _data: string[]
         - _listAirports: string[]
         - _listAirplanes: string[]
+        - _selectedAirport: string
+        - _selectedAirplane: string
         - AddAirport(): void
         - EditAirport(): void
         - DeleteAirport(): void
