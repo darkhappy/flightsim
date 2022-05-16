@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+state Idle
+
+Idle --> Flying : fight has been generated
+
+state Flying
+
+Flying --> Fighting : arrived at fight
+
+state Maintenance
+
+state Fighting {
+    state "Flying" as FlyingBack
+    state Fight
+    state c <<choice>>
+    
+    [*] --> Fight
+    Fight -> FlyingBack : retreat
+    FlyingBack --> c : is the fight over?
+    c --> Fight : no
+    c --> [*] : yes
+}
+
+Fighting -> Maintenance : return to base
+
+
+Maintenance -> Idle : finished repair
+
+
+
+@enduml
