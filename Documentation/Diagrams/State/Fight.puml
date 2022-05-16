@@ -1,0 +1,33 @@
+@startuml
+'https://plantuml.com/state-diagram
+
+state Idle
+
+Idle --> Flight : event started
+
+state Flight
+
+Flight --> Fighting : arrived
+
+state Maintenance
+
+state Fighting {
+    state Flying
+    state Fight
+    state c <<choice>> : is it a fight or a flight?
+    
+    [*] --> Fight
+    Fight -> Flying : retreat
+    Flying --> c : is the fight over?
+    c --> Fight : no
+    c --> [*] : yes
+}
+
+Fighting -> Maintenance : return to base
+
+
+Maintenance -> Idle : repaired
+
+
+
+@enduml
