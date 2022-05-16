@@ -1,9 +1,46 @@
 @startuml
 
+
 package Models {
 
+    ' Red = Rescue
+    ' Yellow = Fires
+    ' Blue = Cargo
+    ' Green = Passenger
+    ' Gray = Observer
+    enum Colour {
+        RED
+        YELLOW
+        BLUE
+        GREEN
+        GRAY
+    }
+    
+    enum AirplaneType {
+        PASSENGER
+        CARGO
+        FIRE
+        RESCUE
+        SCOUT
+    }
+    
+
+    class Position {
+        - _x: int
+        - _y: int
+        + Position(int x, int y)
+        + Position(string longitude, string latitude)
+        + Transpose(int x, int y): string
+        + ToString(): string
+    }
+    
+    note bottom of Position
+    Position is a class that represents a position in the world.
+    Most, if not all, of the classes in this project uses this class.
+    end note
+
     class Scenario {
-        - _airports: List<Airport>
+        - _airports: AirportList
         + AddAirport(string[] data): void
         + EditAirport(string id, string[] data): void
         + DeleteAirport(string id): void
@@ -13,13 +50,26 @@ package Models {
         + ToString(): string
     }
 
-    Scenario "1" *--> "N" Airport
+    Scenario "1" *--> "1" AirportList
+    Scenario --> Airport
+    AirportList "1" *--> "N" Airport
+    
+    class AirportList {
+        - _airports : List<Airport>
+        + Add(Airport airport): void
+        + Get(string id): Airport
+        + GetAll(): List<Airport>
+        + Sort(): void
+        + Remove(Airport airport): void
+        + Remove(string id): void
+    }
+    
 
     class Airport {
         - _id: string
         - _name: string
         - _location: Position
-        - _airplanes: List<Airplane>
+        - _airplanes: AirplaneList
         - _passengerTraffic: int
         - _merchandiseTraffic: double
         - _passenger: int
@@ -30,15 +80,28 @@ package Models {
         + Export(): string[]
     }
     
-    class AirplaneFactory {
-        - static _airplaneFactory: AirplaneFactory
-        + static GetAirplaneFactory(): AirplaneFactory
+    class AirplaneList {
+        - _airplanes : List<Airplane>
+        + Add(Airplane airplane): void
+        + Get(string id): Airplane
+        + Get(AirplaneType type): Airplane
+        + GetAll(): List<Airplane>
+        + Sort(): void
+        + Remove(Airplane airplane): void
+    }
+    
+    class AirplaneFactory << (S,orange) Singleton>> {
+        - {static} _airplaneFactory: AirplaneFactory
+        + {static} GetAirplaneFactory(): AirplaneFactory
         + CreateAirplane(string[] data): Airplane
     }
     
-    AirplaneFactory "0..1" *--> "1" AirplaneFactory
-    Airport ---> AirplaneFactory
-    AirplaneFactory ---> Airplane
+    Airport --> AirplaneFactory
+    Airport ---> Airplane
+    Airport "1" *--> "1" AirplaneList
+    AirplaneList "1" *--> "N" Airplane
+    Airplane "1" o--> "1" Airport
+    AirplaneFactory --> Airplane
 
     abstract class Airplane {
         - _id: string
@@ -48,6 +111,7 @@ package Models {
         - _origin: Airport
         - _colour: Colour 
         - _state: IState
+        - _available: bool
     }
 
     class FirePlane extends Airplane{
@@ -64,47 +128,45 @@ package Models {
     class MerchandisePlane extends TransportPlane {}
     class ObserverPlane extends Airplane{}
     class RescuePlane extends Airplane{}
-
-    ' Red = Rescue
-    ' Yellow = Fires
-    ' Blue = Cargo
-    ' Green = Passenger
-    ' Gray = Observer
-    enum Colour {
-        RED
-        YELLOW
-        BLUE
-        GREEN
-        GRAY
-    }
-
-    class Position {
-        - _x: int
-        - _y: int
-        + Position(int x, int y)
-        + Position(string longitude, string latitude)
-        + Transpose(int x, int y): string
-        + ToString(): string
-    }
     
     interface IState {
-        + FlyTo(): void
-        + Land(): void
-        + TakeOff(): void
-        + Maintenance(): void
+        + FlyTo(Position position): void
+        + Action(): void
     }
     
     class Flying extends IState {
         - _current: Position
+        - _angle: int
         - _destination: Position
+        + FlyTo(Position destination): void
     }
-    class Maintenance extends IState {}
-    class Standby extends IState {}
+    abstract Grounded extends IState {
+    }
+    
+    class Rescue extends Flying {
+        + Action(): void
+    }
+    class Fight extends Flying {
+        + Action(): void
+    }
+    class Transport extends Flying {
+        + Action(): void
+    }
+    class Scout extends Flying {
+        + Action(): void
+        - GeneratePath(Position position): List<Position>
+    }
+    class Maintenance extends Grounded {
+        - _maintenanceOver: int
+        + FlyTo(Position position): void
+        + Action(): void
+    }
+    class Standby extends Grounded {
+        + FlyTo(Position position): void
+        + Action(): void
+    }
     
     Airplane "1" o--> "1" IState
-    
-    Airport "1" *--> "N" Airplane
-    Airplane "1" o--> "1" Airport
 }
 
 package Controllers {
