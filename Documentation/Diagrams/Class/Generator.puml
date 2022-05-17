@@ -1,8 +1,10 @@
 @startuml Generator
 
+skinparam linetype polyline
 
 package Models {
-
+    ' ----------------------------------- '
+    ' -- Enum                          -- '
     ' Red = Rescue
     ' Yellow = Fires
     ' Blue = Cargo
@@ -23,21 +25,16 @@ package Models {
         RESCUE
         SCOUT
     }
-    
 
     class Position {
         - _x: int
         - _y: int
         + Position(int x, int y)
         + Position(string longitude, string latitude)
-        + Transpose(int x, int y): string
+        + {static} Transpose(int x, int y): string
+        + {static} Transpose(string): Tuple<int, int>
         + ToString(): string
     }
-    
-    note bottom of Position
-    Position is a class that represents a position in the world.
-    Most, if not all, of the classes in this project uses this class.
-    end note
 
     class Scenario {
         - _airports: AirportList
@@ -49,130 +46,130 @@ package Models {
         + DeleteAirplane(string id): void
         + ToString(): string
     }
+    
+    ' -----------------------------------'
+    ' -- Airport Management           -- '
+    'package "Airplanes and Airports" {
+        class Airport {
+            - _id: string
+            - _name: string
+            - _location: Position
+            - _airplanes: List<Airplane>
+            - _passengerTraffic: int
+            - _merchandiseTraffic: double
+            - _passenger: int
+            - _merchandise: double
+            + Export(): string[]
+            + Action(int time): void
+        }
+    
+    ' -----------------------------------'
+    ' -- Airplane Management          -- '
+        class AirplaneFactory << (S,orange) Singleton>> {
+            - {static} _airplaneFactory: AirplaneFactory
+            + {static} GetAirplaneFactory(): AirplaneFactory
+            + CreateAirplane(string[] data): Airplane
+        }
 
-    Scenario "1" *--> "1" AirportList
-    Scenario --> Airport
-    AirportList "1" *--> "N" Airport
-    
-    class AirportList {
-        - _airports : List<Airport>
-        + Add(Airport airport): void
-        + Get(string id): Airport
-        + GetAll(): List<Airport>
-        + Sort(): void
-        + Remove(Airport airport): void
-        + Remove(string id): void
-    }
-    
+        abstract class Airplane {
+            - _id: string
+            - _name: string
+            - _speed: int
+            - _maintenanceTime: int
+            - _origin: Airport
+            - _colour: Colour 
+            - _state: IState
+            - _available: bool
+            + Action(int time): void
+        }
 
-    class Airport {
-        - _id: string
-        - _name: string
-        - _location: Position
-        - _airplanes: AirplaneList
-        - _passengerTraffic: int
-        - _merchandiseTraffic: double
-        - _passenger: int
-        - _merchandise: double
-        + AddAirplane(string[] data): void
-        + EditAirplane(string[] data): void
-        + DeleteAirplane(): void
-        + Export(): string[]
-    }
+        class FightPlane extends Airplane{
+            - _chargingTime: int
+            - _droppingTime: int
+        }
+        
+        abstract class TransportPlane extends Airplane {
+            - _maxCapacity: double
+            - _embarkingTime: int
+            - _disembarkingTime: int
+        }
+        
+        class PassengerPlane extends TransportPlane {
+        }
+        
+        class MerchandisePlane extends TransportPlane {
+        }
+        
+        class ScoutPlane extends Airplane{
+        }
+        
+        class RescuePlane extends Airplane{
+        }
+    '}
     
-    class AirplaneList {
-        - _airplanes : List<Airplane>
-        + Add(Airplane airplane): void
-        + Get(string id): Airplane
-        + Get(AirplaneType type): Airplane
-        + GetAll(): List<Airplane>
-        + Sort(): void
-        + Remove(Airplane airplane): void
-    }
+    ' -----------------------------------'
+    ' -- Airplane States              -- '
     
-    class AirplaneFactory << (S,orange) Singleton>> {
-        - {static} _airplaneFactory: AirplaneFactory
-        + {static} GetAirplaneFactory(): AirplaneFactory
-        + CreateAirplane(string[] data): Airplane
+/'
+    package "Airplane States" {
+        interface IState {
+            + Action(int time): void
+        }
+        
+        abstract class Flying implements IState {
+            - _current: Position
+            - _angle: int
+            - _destination: Position
+        }
+        
+        abstract Grounded implements IState {
+        }
+        
+        abstract AtAirport extends Grounded {
+            - _time: int
+            - _capacity : double
+            + Action(int time): void
+        }
+        
+        class Embark extends AtAirport {
+            + Action(int time): void
+        }
+        
+        class Disembark extends AtAirport {
+            + Action(int time): void
+        }
+        
+        class Standby extends Grounded {
+            + Action(int time): void
+        }
+        
+        class Maintenance extends Grounded {
+            - _maintenanceOver: int
+            + Action(int time): void
+        }
+        
+        class Transport extends Flying {
+            - _event : EventClient
+            - _capacity : double
+            + Action(int time): void
+        }
+        
+        class Fight extends Flying {
+            - _event : EventFight
+            + Action(int time): void
+        }
+        
+        class Rescue extends Flying {
+            - _event : EventRescue
+            + Action(int time): void
+        }
+        class Scout extends Flying {
+            - _event : EventScout
+            + Action(int time): void
+            - GeneratePath(Position position): List<Position>
+        }
     }
-    
-    Airport --> AirplaneFactory
-    Airport ---> Airplane
-    Airport "1" *--> "1" AirplaneList
-    AirplaneList "1" *--> "N" Airplane
-    Airplane "1" o--> "1" Airport
-    AirplaneFactory --> Airplane
-
-    abstract class Airplane {
-        - _id: string
-        - _name: string
-        - _speed: int
-        - _maintenanceTime: int
-        - _origin: Airport
-        - _colour: Colour 
-        - _state: IState
-        - _available: bool
-    }
-
-    class FirePlane extends Airplane{
-        - _chargingTime: int
-        - _droppingTime: int
-    }
-    abstract class TransportPlane extends Airplane {
-        - _capacity: double
-        - _maxCapacity: double
-        - _embarkingTime: int
-        - _disembarkingTime: int
-    }
-    class PassengerPlane extends TransportPlane {}
-    class MerchandisePlane extends TransportPlane {}
-    class ObserverPlane extends Airplane{}
-    class RescuePlane extends Airplane{}
-   
-    interface IState {
-        + FlyTo(Position position): void
-        + Action(int time): void
-    }
-    
-    abstract class Flying extends IState {
-        - _current: Position
-        - _angle: int
-        - _destination: Position
-        + FlyTo(Position destination): void
-    }
-    abstract Grounded extends IState {
-        + FlyTo(Position destination): void
-    }
-    class Embark extends Grounded {
-        - _time: int
-        + Action(int time): void
-    }
-    class Disembark extends Grounded {
-        - _time: int
-        + Action(int time): void
-    }
-    class Rescue extends Flying {
-        + Action(int time): void
-    }
-    class Fight extends Flying {
-        + Action(int time): void
-    }
-    class Transport extends Flying {
-        + Action(int time): void
-    }
-    class Scout extends Flying {
-        + Action(int time): void
-        - GeneratePath(Position position): List<Position>
-    }
-    class Maintenance extends Grounded {
-        - _maintenanceOver: int
-        + Action(int time): void
-    }
-    class Standby extends Grounded {
-        + FlyTo(Position position): void
-        + Action(int time): void
-    }
-    Airplane "1" o--> "1" IState
+'/
 }
 
 package Controllers {
@@ -217,7 +214,28 @@ package Views {
     }
 }
 
-Generator "1" *--> "n" Scenario
-Generator "1" *--> "n" FormGenerator
+' Relations
+' - Global
+' -- Controller and View
+Generator "1" *--> "1" FormGenerator
+FormGenerator --> Generator
+' -- Controller and Model
+Generator "1" *--> "1" Scenario
+
+' - View
+FormGenerator "0..1" *--> "1" FormMap
+
+' - Model
+' -- Scenario
+Scenario "1" *-d-> "N" Airport
+
+' -- Airport
+Airport -d-> AirplaneFactory
+Airport "1" *--> "N" Airplane
+
+' -- Airplane
+AirplaneFactory --> Airplane
+Airplane "1" o--> "1" Airport
+' Airplane "1" o-u-> "1" IState
 
 @enduml
