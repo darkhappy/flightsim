@@ -1,6 +1,5 @@
 @startuml
 
-skinparam linetype polyline
 
 package Models {
     ' ----------------------------------- '
@@ -35,11 +34,6 @@ package Models {
         + ToString(): string
     }
 
-    note bottom of Position
-    Position is a class that represents a position in the world.
-    Most, if not all, of the classes in this project uses this class.
-    end note
-    
     class Scenario {
         - _airports: AirportList
         - _events: EventList
@@ -48,16 +42,6 @@ package Models {
     
     ' -----------------------------------'
     ' -- Airport Management           -- '
-    class AirportList {
-        - _airports : List<Airport>
-        + Add(Airport airport): void
-        + Get(string id): Airport
-        + GetAll(): List<Airport>
-        + Sort(): void
-        + Remove(Airport airport): void
-        + Remove(string id): void
-    }
-    
     class Airport {
         - _id: string
         - _name: string
@@ -72,149 +56,141 @@ package Models {
     
     ' -----------------------------------'
     ' -- Airplane Management          -- '
-    class AirplaneList {
-        - _airplanes : List<Airplane>
-        + Add(Airplane airplane): void
-        + Get(string id): Airplane
-        + Get(AirplaneType type): Airplane
-        + GetAll(): List<Airplane>
-        + Sort(): void
-        + Remove(Airplane airplane): void
-    }
-    
-    class AirplaneFactory << (S,orange) Singleton>> {
-        - {static} _airplaneFactory: AirplaneFactory
-        + {static} GetAirplaneFactory(): AirplaneFactory
-        + CreateAirplane(string[] data): Airplane
-    }
+    package Airplane {
+        class AirplaneFactory << (S,orange) Singleton>> {
+            - {static} _airplaneFactory: AirplaneFactory
+            + {static} GetAirplaneFactory(): AirplaneFactory
+            + CreateAirplane(string[] data): Airplane
+        }
 
-    abstract class Airplane {
-        - _id: string
-        - _name: string
-        - _speed: int
-        - _maintenanceTime: int
-        - _origin: Airport
-        - _colour: Colour 
-        - _state: IState
-        - _available: bool
-    }
+        abstract class Airplane {
+            - _id: string
+            - _name: string
+            - _speed: int
+            - _maintenanceTime: int
+            - _origin: Airport
+            - _colour: Colour 
+            - _state: IState
+            - _available: bool
+        }
 
-    class FirePlane extends Airplane{
-        - _chargingTime: int
-        - _droppingTime: int
-    }
-    
-    abstract class TransportPlane extends Airplane {
-        - _capacity: double
-        - _maxCapacity: double
-        - _embarkingTime: int
-        - _disembarkingTime: int
-    }
-    
-    class PassengerPlane extends TransportPlane {
-    }
-    
-    class MerchandisePlane extends TransportPlane {
-    }
-    
-    class ObserverPlane extends Airplane{
-    }
-    
-    class RescuePlane extends Airplane{
+        class FirePlane extends Airplane{
+            - _chargingTime: int
+            - _droppingTime: int
+        }
+        
+        abstract class TransportPlane extends Airplane {
+            - _capacity: double
+            - _maxCapacity: double
+            - _embarkingTime: int
+            - _disembarkingTime: int
+        }
+        
+        class PassengerPlane extends TransportPlane {
+        }
+        
+        class MerchandisePlane extends TransportPlane {
+        }
+        
+        class ObserverPlane extends Airplane{
+        }
+        
+        class RescuePlane extends Airplane{
+        }
     }
     
     ' -----------------------------------'
     ' -- Airplane States              -- '
-    interface IState {
-        + FlyTo(Position position): void
-    }
     
-    abstract class Flying implements IState {
-        - _current: Position
-        - _angle: int
-        - _destination: Position
-    }
-    
-    abstract Grounded implements IState {
-    }
-    
-    class Embark extends Grounded {
-        - _time: int
-        + Action(int time): void
-    }
-    
-    class Disembark extends Grounded {
-        - _time: int
-        + Action(int time): void
-    }
-    
-    class Standby extends Grounded {
-        + Action(int time): void
-    }
-    
-    class Maintenance extends Grounded {
-        - _maintenanceOver: int
-        + Action(int time): void
-    }
-    
-    class Rescue extends Flying {
-        + Action(int time): void
-    }
-    
-    class Fight extends Flying {
-        + Action(int time): void
-    }
-    
-    class Transport extends Flying {
-        + Action(int time): void
-    }
-    
-    class Scout extends Flying {
-        + Action(int time): void
-        - GeneratePath(Position position): List<Position>
+    package State {
+        interface IState {
+            + FlyTo(Position position): void
+        }
+        
+        abstract class Flying implements IState {
+            - _current: Position
+            - _angle: int
+            - _destination: Position
+        }
+        
+        abstract Grounded implements IState {
+        }
+        
+        class Embark extends Grounded {
+            - _time: int
+            + Action(int time): void
+        }
+        
+        class Disembark extends Grounded {
+            - _time: int
+            + Action(int time): void
+        }
+        
+        class Standby extends Grounded {
+            + Action(int time): void
+        }
+        
+        class Maintenance extends Grounded {
+            - _maintenanceOver: int
+            + Action(int time): void
+        }
+        
+        class Rescue extends Flying {
+            + Action(int time): void
+        }
+        
+        class Fight extends Flying {
+            + Action(int time): void
+        }
+        
+        class Transport extends Flying {
+            + Action(int time): void
+        }
+        
+        class Scout extends Flying {
+            + Action(int time): void
+            - GeneratePath(Position position): List<Position>
+        }
     }
     
     ' ---------------------------------- '
     ' -- Events Management            -- '
-    class EventList {
-        - _events: List<Event>
-        + Add(Event): void
-    }
-    
-    class EventFactory << (S,orange) Singleton>> {
-        - _eventFactory: EventFactory
-        + GenerateFire(): Fire
-        + GenerateRescue(): Rescue
-        + GeneratePassengers(): Passenger
-        + GenerateMerchandise(): Merchandise
-        + GenerateObservation(): Observation
-    }
+    package Event {
+        class EventFactory << (S,orange) Singleton>> {
+            - _eventFactory: EventFactory
+            + GenerateFire(): Fire
+            + GenerateRescue(): Rescue
+            + GeneratePassengers(): Passenger
+            + GenerateMerchandise(): Merchandise
+            + GenerateObservation(): Observation
+        }
 
-    abstract class Event {
-        - _location : Position
-        + ToString() : string
-    }
+        abstract class Event {
+            - _location : Position
+            + ToString() : string
+        }
 
-    abstract class EventTransport extends Event {
-        - _destination : Airport
-    }
+        abstract class EventTransport extends Event {
+            - _destination : Airport
+        }
 
-    class Passenger extends EventTransport {
-        - _count: int
-    }
+        class Passenger extends EventTransport {
+            - _count: int
+        }
 
-    class Merchandise extends EventTransport {
-        - _count: double
-    }
+        class Merchandise extends EventTransport {
+            - _count: double
+        }
 
-    class EventRescue extends Event {
-    }
+        class EventRescue extends Event {
+        }
 
-    class EventScout extends Event {
-    }
+        class EventScout extends Event {
+        }
 
-    class EventFight extends Event {
-        - _force: int
+        class EventFight extends Event {
+            - _force: int
+        }
     }
 }
 
@@ -244,29 +220,38 @@ Simulator "1" *--> "1" Simulator
 
 ' - Model
 ' -- Scenario
-Scenario --> Airport
-Scenario --> EventFactory
-Scenario "1" *--> "1" AirportList
-Scenario "1" *--> "1" EventList
+Scenario -d-> EventFactory
+Scenario "1" *-d-> "N" Event
+Scenario "1" *-l-> "N" Airport
 
 ' -- Airport
-Airport --> AirplaneFactory
-Airport ---> Airplane
-Airport "1" *--> "1" AirplaneList
+Airport -d-> AirplaneFactory
+Airport "1" *-l-> "N" Airplane
 
 ' -- Airplane
-AirportList "1" *--> "N" Airport
-AirplaneFactory --> Airplane
+AirplaneFactory -d-> Airplane
 Airplane "1" o--> "1" IState
-Airplane "1" o--> "1" Airport
+Airplane "1" o-u-> "1" Airport
+
+' -- States
+Fight -[hidden]- Rescue
+Rescue -[hidden]- Scout
+Scout -[hidden]- Transport
+Transport -[hidden]- Maintenance
+Maintenance -[hidden]- Embark
+Embark -[hidden]- Disembark
+Disembark -[hidden]- Standby
 
 ' -- Events
-EventList "1" *--> "N" Event
-EventFactory --> Event
+EventFactory -d-> Event
+EventFight -[hidden]- EventRescue
+EventRescue -[hidden]- EventScout
+EventScout -[hidden]- EventTransport
    
 ' -- Events and State
-Fight "1" o--> "1" EventFight
-Scout "1" o--> "1" EventScout
-Rescue "1" o--> "1" EventRescue
+Fight "1" o-d-> "1" EventFight
+Scout "1" o-d-> "1" EventScout
+Rescue "1" o-d-> "1" EventRescue
+Transport "1" o-d-> "1" EventTransport
 
 @enduml

@@ -1,33 +1,21 @@
 @startuml
 'https://plantuml.com/state-diagram
+Title TIE Interceptor 
 
 state Idle
-
-Idle --> Flying : fight has been generated
-
-state Flying
-
-Flying --> Fighting : arrived at fight
-
+state Fight
+state c <<choice>>
 state Maintenance
 
-state Fighting {
-    state "Flying" as FlyingBack
-    state Fight
-    state c <<choice>>
-    
-    [*] --> Fight
-    Fight -> FlyingBack : retreat
-    FlyingBack --> c : is the fight over?
-    c --> Fight : no
-    c --> [*] : yes
-}
+[*] -> Idle : scenario start
+Idle --> Fight : new Fight()
 
-Fighting -> Maintenance : return to base
+Fight --> c : fight.hp > 0
+c -> Maintenance : true
+c --> Fight : false
 
+Maintenance -> Idle : onRepairFinish()
 
-Maintenance -> Idle : finished repair
-
-
+Idle -> [*] : scenario end
 
 @enduml
