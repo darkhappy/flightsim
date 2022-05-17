@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/state-diagram
+Title TIE Scout 
+
+state Idle
+state Scout
+state Maintenance
+
+[*] -> Idle : scenario start 
+Idle --> Scout : new scouting mission
+Scout -> Maintenance : finished scouting
+Maintenance -> Idle : finished repairs
+Idle -> [*] : scenario end
+
+@enduml

@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/state-diagram
+Title Imperial Shuttle 
+
+state Idle
+state Rescue
+state Maintenance
+
+[*] -> Idle : scenario start 
+Idle --> Rescue : new rescue mission
+Rescue -> Maintenance : finished rescuing
+Maintenance -> Idle : finished repairs
+Idle -> [*] : scenario end
+
+@enduml

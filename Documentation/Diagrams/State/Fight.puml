@@ -10,9 +10,9 @@ state Maintenance
 [*] -> Idle : scenario start
 Idle --> Fight : new Fight()
 
-Fight --> c : fight.hp > 0
+Fight -> c : fight.hp > 0
 c -> Maintenance : true
-c --> Fight : false
+c -> Fight : false
 
 Maintenance -> Idle : onRepairFinish()
 

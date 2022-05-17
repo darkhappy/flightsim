@@ -14,6 +14,9 @@
     <Content Include="$(MSBuildThisFileDirectory)Diagrams\Sequences\AddingPlaneToAirport.puml" />
     <Content Include="$(MSBuildThisFileDirectory)Diagrams\Sequences\LoopInSimulator.puml" />
     <Content Include="$(MSBuildThisFileDirectory)Diagrams\State\Fight.puml" />
+    <Content Include="$(MSBuildThisFileDirectory)Diagrams\State\Rescue.puml" />
+    <Content Include="$(MSBuildThisFileDirectory)Diagrams\State\Scout.puml" />
+    <Content Include="$(MSBuildThisFileDirectory)Diagrams\State\Transport.puml" />
     <Content Include="$(MSBuildThisFileDirectory)Docs\420-P56-JO TP2 A2022.pdf" />
     <Content Include="$(MSBuildThisFileDirectory)Docs\420-P56-JO_HIV2022_TP2 (Remises et contraintes).doc" />
     <Content Include="$(MSBuildThisFileDirectory)Docs\Rapport final.txt" />
