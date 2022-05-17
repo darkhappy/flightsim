@@ -1,9 +1,11 @@
 @startuml
 
+skinparam linetype polyline
 
 package Models {
     ' ----------------------------------- '
     ' -- Enum                          -- '
+    ' Red = Rescue
     ' Yellow = Fires
     ' Blue = Cargo
     ' Green = Passenger
@@ -35,28 +37,29 @@ package Models {
     }
 
     class Scenario {
-        - _airports: AirportList
-        - _events: EventList
+        - _airports: List<Airport>
+        - _events: List<Event>
         + Action(int time): void
     }
     
     ' -----------------------------------'
     ' -- Airport Management           -- '
-    class Airport {
-        - _id: string
-        - _name: string
-        - _location: Position
-        - _airplanes: AirplaneList
-        - _passengerTraffic: int
-        - _merchandiseTraffic: double
-        - _passenger: int
-        - _merchandise: double
-        + Export(): string[]
-    }
+    package "Airplanes and Airports" {
+        class Airport {
+            - _id: string
+            - _name: string
+            - _location: Position
+            - _airplanes: List<Airplane>
+            - _passengerTraffic: int
+            - _merchandiseTraffic: double
+            - _passenger: int
+            - _merchandise: double
+            + Export(): string[]
+            + Action(int time): void
+        }
     
     ' -----------------------------------'
     ' -- Airplane Management          -- '
-    package Airplane {
         class AirplaneFactory << (S,orange) Singleton>> {
             - {static} _airplaneFactory: AirplaneFactory
             + {static} GetAirplaneFactory(): AirplaneFactory
@@ -72,15 +75,15 @@ package Models {
             - _colour: Colour 
             - _state: IState
             - _available: bool
+            + Action(int time): void
         }
 
-        class FirePlane extends Airplane{
+        class FightPlane extends Airplane{
             - _chargingTime: int
             - _droppingTime: int
         }
         
         abstract class TransportPlane extends Airplane {
-            - _capacity: double
             - _maxCapacity: double
             - _embarkingTime: int
             - _disembarkingTime: int
@@ -92,19 +95,19 @@ package Models {
         class MerchandisePlane extends TransportPlane {
         }
         
-        class ObserverPlane extends Airplane{
+        class ScoutPlane extends Airplane{
         }
         
         class RescuePlane extends Airplane{
         }
-    }
+        }
     
     ' -----------------------------------'
     ' -- Airplane States              -- '
     
-    package State {
+    package "Airplane States" {
         interface IState {
-            + FlyTo(Position position): void
+            + Action(int time): void
         }
         
         abstract class Flying implements IState {
@@ -116,13 +119,17 @@ package Models {
         abstract Grounded implements IState {
         }
         
-        class Embark extends Grounded {
+        abstract AtAirport extends Grounded {
             - _time: int
+            - _capacity : double
             + Action(int time): void
         }
         
-        class Disembark extends Grounded {
-            - _time: int
+        class Embark extends AtAirport {
+            + Action(int time): void
+        }
+        
+        class Disembark extends AtAirport {
             + Action(int time): void
         }
         
@@ -135,19 +142,23 @@ package Models {
             + Action(int time): void
         }
         
-        class Rescue extends Flying {
+        class Transport extends Flying {
+            - _event : EventClient
+            - _capacity : double
             + Action(int time): void
         }
         
         class Fight extends Flying {
+            - _event : EventFight
             + Action(int time): void
         }
         
-        class Transport extends Flying {
+        class Rescue extends Flying {
+            - _event : EventRescue
             + Action(int time): void
         }
-        
         class Scout extends Flying {
+            - _event : EventScout
             + Action(int time): void
             - GeneratePath(Position position): List<Position>
         }
@@ -157,12 +168,13 @@ package Models {
     ' -- Events Management            -- '
     package Event {
         class EventFactory << (S,orange) Singleton>> {
-            - _eventFactory: EventFactory
-            + GenerateFire(): Fire
-            + GenerateRescue(): Rescue
-            + GeneratePassengers(): Passenger
-            + GenerateMerchandise(): Merchandise
-            + GenerateObservation(): Observation
+            - {static} _eventFactory: EventFactory
+            + {static} GetEventFactory(): EventFactory
+            + GenerateFight(): EventFight
+            + GenerateRescue(): EventRescue
+            + GeneratePassengers(): ClientPassenger
+            + GenerateMerchandise(): ClientMerchandise
+            + GenerateScout(): EventScout
         }
 
         abstract class Event {
@@ -170,16 +182,18 @@ package Models {
             + ToString() : string
         }
 
-        abstract class EventTransport extends Event {
+        abstract class EventClient extends Event {
             - _destination : Airport
         }
 
-        class Passenger extends EventTransport {
-            - _count: int
-        }
+        together {
+            class ClientPassenger extends EventClient {
+                - _count: int
+            }
 
-        class Merchandise extends EventTransport {
-            - _count: double
+            class ClientMerchandise extends EventClient {
+                - _count: double
+            }
         }
 
         class EventRescue extends Event {
@@ -222,36 +236,40 @@ Simulator "1" *--> "1" Simulator
 ' -- Scenario
 Scenario -d-> EventFactory
 Scenario "1" *-d-> "N" Event
-Scenario "1" *-l-> "N" Airport
+Scenario "1" *-d-> "N" Airport
 
 ' -- Airport
 Airport -d-> AirplaneFactory
-Airport "1" *-l-> "N" Airplane
+Airport "1" *--> "N" Airplane
 
 ' -- Airplane
-AirplaneFactory -d-> Airplane
+AirplaneFactory --> Airplane
 Airplane "1" o--> "1" IState
-Airplane "1" o-u-> "1" Airport
+Airplane "1" o--> "1" Airport
 
 ' -- States
-Fight -[hidden]- Rescue
-Rescue -[hidden]- Scout
-Scout -[hidden]- Transport
-Transport -[hidden]- Maintenance
-Maintenance -[hidden]- Embark
-Embark -[hidden]- Disembark
-Disembark -[hidden]- Standby
+Transport -[hidden]d- Flying
+Scout -[hidden]d- Flying
+Fight -[hidden]d- Flying
+Rescue -[hidden]d- Flying
+
+Transport -[hidden]r- Fight
+Fight -[hidden]r- Rescue
+Rescue -[hidden]r- Scout
 
 ' -- Events
-EventFactory -d-> Event
-EventFight -[hidden]- EventRescue
-EventRescue -[hidden]- EventScout
-EventScout -[hidden]- EventTransport
+EventFactory --> Event
+
+EventClient "1" o-r-> "1" Airport
+EventClient -[hidden]l- EventFight
+EventFight -[hidden]l- EventRescue
+EventRescue -[hidden]l- EventScout
+ClientMerchandise -[hidden]u- ClientPassenger
    
 ' -- Events and State
-Fight "1" o-d-> "1" EventFight
-Scout "1" o-d-> "1" EventScout
-Rescue "1" o-d-> "1" EventRescue
-Transport "1" o-d-> "1" EventTransport
+Transport "1" o-u--> "1" EventClient
+Fight "1" o-u--> "1" EventFight
+Rescue "1" o-u--> "1" EventRescue
+Scout "1" o-u--> "1" EventScout
 
 @enduml
