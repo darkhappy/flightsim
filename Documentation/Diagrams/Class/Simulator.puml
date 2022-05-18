@@ -36,10 +36,15 @@ package Models {
         + ToString(): string
     }
 
-    class Scenario {
+    class Scenario << (S, Orange) Singleton >> {
         - _airports: List<Airport>
         - _events: List<Event>
-        + Action(int time): void
+        - {static} _scenario: Scenario
+        + {static} GetScenario(): Scenario
+        + GenerateEvents(): void
+        + HandleTick(int time): void
+        + RemoveEvent(Event e): void
+        + GetNearestAirport(Position position): Airport
     }
     
     ' -----------------------------------'
@@ -74,7 +79,6 @@ package Models {
             - _origin: Airport
             - _colour: Colour 
             - _state: IState
-            - _available: bool
             + Action(int time): void
         }
 
@@ -179,6 +183,7 @@ package Models {
 
         abstract class Event {
             - _location : Position
+            + HandleEvent(): void
             + ToString() : string
         }
 
@@ -259,6 +264,7 @@ Rescue -[hidden]r- Scout
 
 ' -- Events
 EventFactory --> Event
+' Event --> Scenario (commented since it messed up the diagram)
 
 EventClient "1" o-r-> "1" Airport
 EventClient -[hidden]l- EventFight
