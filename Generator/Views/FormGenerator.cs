@@ -1,17 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Media;
 using System.Windows.Forms;
 
 namespace Generator
 {
   public partial class FormGenerator : Form
   {
+    SoundPlayer _player;
+
     public FormGenerator()
     {
       InitializeComponent();
@@ -19,6 +15,10 @@ namespace Generator
 
     private void FormGenerator_Load(object sender, EventArgs e)
     {
+      _player = new SoundPlayer();
+      _player.Stream = Properties.Resources.Cantina_Band;
+      _player.PlayLooping();
+
       listAirports.View = View.Details;
       listAirports.Columns.Add("Name", (int)(listAirports.Width * 0.33));
       listAirports.Columns.Add("Location", (int)(listAirports.Width * 0.33));
@@ -36,6 +36,16 @@ namespace Generator
       listView1.Columns.Add("Charging", (int)(listAirports.Width * 0.08));
       listView1.Columns.Add("Dropping", (int)(listAirports.Width * 0.08));
       listView1.Columns.Add("Maintenance", (int)(listAirports.Width * 0.088));
+    }
+
+    private void subToolStart_Click(object sender, EventArgs e)
+    {
+      _player.PlayLooping();
+    }
+
+    private void subToolStop_Click(object sender, EventArgs e)
+    {
+      _player.Stop();
     }
   }
 }

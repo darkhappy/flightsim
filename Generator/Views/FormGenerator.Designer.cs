@@ -30,19 +30,34 @@
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGenerator));
       this.gbAirports = new System.Windows.Forms.GroupBox();
-      this.listAirports = new System.Windows.Forms.ListView();
-      this.txbAirportName = new System.Windows.Forms.TextBox();
-      this.labAiportName = new System.Windows.Forms.Label();
-      this.btnAddAirport = new System.Windows.Forms.Button();
-      this.btnModifyAirport = new System.Windows.Forms.Button();
-      this.btnDeleteAirport = new System.Windows.Forms.Button();
-      this.labPosition = new System.Windows.Forms.Label();
-      this.txbPosition = new System.Windows.Forms.TextBox();
-      this.labPTraffic = new System.Windows.Forms.Label();
-      this.numPTraffic = new System.Windows.Forms.NumericUpDown();
       this.numMTraffic = new System.Windows.Forms.NumericUpDown();
       this.labMTraffic = new System.Windows.Forms.Label();
+      this.numPTraffic = new System.Windows.Forms.NumericUpDown();
+      this.labPTraffic = new System.Windows.Forms.Label();
+      this.txbPosition = new System.Windows.Forms.TextBox();
+      this.labPosition = new System.Windows.Forms.Label();
+      this.btnDeleteAirport = new System.Windows.Forms.Button();
+      this.btnModifyAirport = new System.Windows.Forms.Button();
+      this.btnAddAirport = new System.Windows.Forms.Button();
+      this.labAiportName = new System.Windows.Forms.Label();
+      this.txbAirportName = new System.Windows.Forms.TextBox();
+      this.listAirports = new System.Windows.Forms.ListView();
       this.gbAirplanes = new System.Windows.Forms.GroupBox();
+      this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
+      this.labSpeed = new System.Windows.Forms.Label();
+      this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
+      this.gbTimeOptions = new System.Windows.Forms.GroupBox();
+      this.numMaintenance = new System.Windows.Forms.NumericUpDown();
+      this.label4 = new System.Windows.Forms.Label();
+      this.numLarging = new System.Windows.Forms.NumericUpDown();
+      this.labDropping = new System.Windows.Forms.Label();
+      this.numCharging = new System.Windows.Forms.NumericUpDown();
+      this.labCharging = new System.Windows.Forms.Label();
+      this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+      this.label1 = new System.Windows.Forms.Label();
+      this.numEmbarking = new System.Windows.Forms.NumericUpDown();
+      this.labEmbarking = new System.Windows.Forms.Label();
+      this.cmbType = new System.Windows.Forms.ComboBox();
       this.labCapacity = new System.Windows.Forms.Label();
       this.labType = new System.Windows.Forms.Label();
       this.txbNameAirport = new System.Windows.Forms.TextBox();
@@ -53,39 +68,29 @@
       this.labIdAirport = new System.Windows.Forms.Label();
       this.txbIdAirport = new System.Windows.Forms.TextBox();
       this.listView1 = new System.Windows.Forms.ListView();
-      this.cmbType = new System.Windows.Forms.ComboBox();
-      this.gbTimeOptions = new System.Windows.Forms.GroupBox();
-      this.labEmbarking = new System.Windows.Forms.Label();
-      this.numEmbarking = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-      this.label1 = new System.Windows.Forms.Label();
-      this.numCharging = new System.Windows.Forms.NumericUpDown();
-      this.labCharging = new System.Windows.Forms.Label();
-      this.numLarging = new System.Windows.Forms.NumericUpDown();
-      this.labDropping = new System.Windows.Forms.Label();
-      this.numMaintenance = new System.Windows.Forms.NumericUpDown();
-      this.label4 = new System.Windows.Forms.Label();
-      this.numericUpDown3 = new System.Windows.Forms.NumericUpDown();
-      this.numericUpDown2 = new System.Windows.Forms.NumericUpDown();
-      this.labSpeed = new System.Windows.Forms.Label();
-      this.toolStrip1 = new System.Windows.Forms.ToolStrip();
+      this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
+      this.toolStrip = new System.Windows.Forms.ToolStrip();
       this.toolFile = new System.Windows.Forms.ToolStripDropDownButton();
       this.subToolNew = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolOpen = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolSave = new System.Windows.Forms.ToolStripMenuItem();
+      this.subToolDelete = new System.Windows.Forms.ToolStripMenuItem();
+      this.toolMusic = new System.Windows.Forms.ToolStripDropDownButton();
+      this.subToolStart = new System.Windows.Forms.ToolStripMenuItem();
+      this.subToolStop = new System.Windows.Forms.ToolStripMenuItem();
       this.gbAirports.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numMTraffic)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).BeginInit();
       this.gbAirplanes.SuspendLayout();
-      this.gbTimeOptions.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numCharging)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numLarging)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numMaintenance)).BeginInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).BeginInit();
-      this.toolStrip1.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).BeginInit();
+      this.gbTimeOptions.SuspendLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numMaintenance)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numLarging)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numCharging)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).BeginInit();
+      this.toolStrip.SuspendLayout();
       this.SuspendLayout();
       // 
       // gbAirports
@@ -109,96 +114,6 @@
       this.gbAirports.TabStop = false;
       this.gbAirports.Text = "Airports";
       // 
-      // listAirports
-      // 
-      this.listAirports.HideSelection = false;
-      this.listAirports.Location = new System.Drawing.Point(7, 20);
-      this.listAirports.Name = "listAirports";
-      this.listAirports.Size = new System.Drawing.Size(790, 320);
-      this.listAirports.TabIndex = 0;
-      this.listAirports.UseCompatibleStateImageBehavior = false;
-      // 
-      // txbAirportName
-      // 
-      this.txbAirportName.Location = new System.Drawing.Point(894, 27);
-      this.txbAirportName.Name = "txbAirportName";
-      this.txbAirportName.Size = new System.Drawing.Size(212, 20);
-      this.txbAirportName.TabIndex = 1;
-      // 
-      // labAiportName
-      // 
-      this.labAiportName.AutoSize = true;
-      this.labAiportName.Location = new System.Drawing.Point(814, 30);
-      this.labAiportName.Name = "labAiportName";
-      this.labAiportName.Size = new System.Drawing.Size(38, 13);
-      this.labAiportName.TabIndex = 2;
-      this.labAiportName.Text = "Name:";
-      // 
-      // btnAddAirport
-      // 
-      this.btnAddAirport.Location = new System.Drawing.Point(803, 317);
-      this.btnAddAirport.Name = "btnAddAirport";
-      this.btnAddAirport.Size = new System.Drawing.Size(97, 23);
-      this.btnAddAirport.TabIndex = 3;
-      this.btnAddAirport.Text = "Add";
-      this.btnAddAirport.UseVisualStyleBackColor = true;
-      // 
-      // btnModifyAirport
-      // 
-      this.btnModifyAirport.Location = new System.Drawing.Point(906, 317);
-      this.btnModifyAirport.Name = "btnModifyAirport";
-      this.btnModifyAirport.Size = new System.Drawing.Size(97, 23);
-      this.btnModifyAirport.TabIndex = 4;
-      this.btnModifyAirport.Text = "Modify";
-      this.btnModifyAirport.UseVisualStyleBackColor = true;
-      // 
-      // btnDeleteAirport
-      // 
-      this.btnDeleteAirport.Location = new System.Drawing.Point(1009, 317);
-      this.btnDeleteAirport.Name = "btnDeleteAirport";
-      this.btnDeleteAirport.Size = new System.Drawing.Size(97, 23);
-      this.btnDeleteAirport.TabIndex = 5;
-      this.btnDeleteAirport.Text = "Delete";
-      this.btnDeleteAirport.UseVisualStyleBackColor = true;
-      // 
-      // labPosition
-      // 
-      this.labPosition.AutoSize = true;
-      this.labPosition.Location = new System.Drawing.Point(814, 72);
-      this.labPosition.Name = "labPosition";
-      this.labPosition.Size = new System.Drawing.Size(47, 13);
-      this.labPosition.TabIndex = 6;
-      this.labPosition.Text = "Position:";
-      // 
-      // txbPosition
-      // 
-      this.txbPosition.Location = new System.Drawing.Point(894, 72);
-      this.txbPosition.Name = "txbPosition";
-      this.txbPosition.Size = new System.Drawing.Size(212, 20);
-      this.txbPosition.TabIndex = 7;
-      // 
-      // labPTraffic
-      // 
-      this.labPTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
-      this.labPTraffic.AutoSize = true;
-      this.labPTraffic.Location = new System.Drawing.Point(814, 118);
-      this.labPTraffic.Name = "labPTraffic";
-      this.labPTraffic.Size = new System.Drawing.Size(93, 13);
-      this.labPTraffic.TabIndex = 8;
-      this.labPTraffic.Text = "Passenger Traffic:";
-      // 
-      // numPTraffic
-      // 
-      this.numPTraffic.Location = new System.Drawing.Point(944, 116);
-      this.numPTraffic.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-      this.numPTraffic.Name = "numPTraffic";
-      this.numPTraffic.Size = new System.Drawing.Size(162, 20);
-      this.numPTraffic.TabIndex = 9;
-      // 
       // numMTraffic
       // 
       this.numMTraffic.Location = new System.Drawing.Point(944, 163);
@@ -220,6 +135,97 @@
       this.labMTraffic.Size = new System.Drawing.Size(104, 13);
       this.labMTraffic.TabIndex = 10;
       this.labMTraffic.Text = "Merchandise Traffic:";
+      // 
+      // numPTraffic
+      // 
+      this.numPTraffic.Location = new System.Drawing.Point(944, 116);
+      this.numPTraffic.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+      this.numPTraffic.Name = "numPTraffic";
+      this.numPTraffic.Size = new System.Drawing.Size(162, 20);
+      this.numPTraffic.TabIndex = 9;
+      // 
+      // labPTraffic
+      // 
+      this.labPTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
+      this.labPTraffic.AutoSize = true;
+      this.labPTraffic.Location = new System.Drawing.Point(814, 118);
+      this.labPTraffic.Name = "labPTraffic";
+      this.labPTraffic.Size = new System.Drawing.Size(93, 13);
+      this.labPTraffic.TabIndex = 8;
+      this.labPTraffic.Text = "Passenger Traffic:";
+      // 
+      // txbPosition
+      // 
+      this.txbPosition.Enabled = false;
+      this.txbPosition.Location = new System.Drawing.Point(894, 72);
+      this.txbPosition.Name = "txbPosition";
+      this.txbPosition.Size = new System.Drawing.Size(212, 20);
+      this.txbPosition.TabIndex = 7;
+      // 
+      // labPosition
+      // 
+      this.labPosition.AutoSize = true;
+      this.labPosition.Location = new System.Drawing.Point(814, 72);
+      this.labPosition.Name = "labPosition";
+      this.labPosition.Size = new System.Drawing.Size(47, 13);
+      this.labPosition.TabIndex = 6;
+      this.labPosition.Text = "Position:";
+      // 
+      // btnDeleteAirport
+      // 
+      this.btnDeleteAirport.Location = new System.Drawing.Point(1009, 317);
+      this.btnDeleteAirport.Name = "btnDeleteAirport";
+      this.btnDeleteAirport.Size = new System.Drawing.Size(97, 23);
+      this.btnDeleteAirport.TabIndex = 5;
+      this.btnDeleteAirport.Text = "Delete";
+      this.btnDeleteAirport.UseVisualStyleBackColor = true;
+      // 
+      // btnModifyAirport
+      // 
+      this.btnModifyAirport.Location = new System.Drawing.Point(906, 317);
+      this.btnModifyAirport.Name = "btnModifyAirport";
+      this.btnModifyAirport.Size = new System.Drawing.Size(97, 23);
+      this.btnModifyAirport.TabIndex = 4;
+      this.btnModifyAirport.Text = "Modify";
+      this.btnModifyAirport.UseVisualStyleBackColor = true;
+      // 
+      // btnAddAirport
+      // 
+      this.btnAddAirport.Location = new System.Drawing.Point(803, 317);
+      this.btnAddAirport.Name = "btnAddAirport";
+      this.btnAddAirport.Size = new System.Drawing.Size(97, 23);
+      this.btnAddAirport.TabIndex = 3;
+      this.btnAddAirport.Text = "Add";
+      this.btnAddAirport.UseVisualStyleBackColor = true;
+      // 
+      // labAiportName
+      // 
+      this.labAiportName.AutoSize = true;
+      this.labAiportName.Location = new System.Drawing.Point(814, 30);
+      this.labAiportName.Name = "labAiportName";
+      this.labAiportName.Size = new System.Drawing.Size(38, 13);
+      this.labAiportName.TabIndex = 2;
+      this.labAiportName.Text = "Name:";
+      // 
+      // txbAirportName
+      // 
+      this.txbAirportName.Location = new System.Drawing.Point(894, 27);
+      this.txbAirportName.Name = "txbAirportName";
+      this.txbAirportName.Size = new System.Drawing.Size(212, 20);
+      this.txbAirportName.TabIndex = 1;
+      // 
+      // listAirports
+      // 
+      this.listAirports.HideSelection = false;
+      this.listAirports.Location = new System.Drawing.Point(7, 20);
+      this.listAirports.Name = "listAirports";
+      this.listAirports.Size = new System.Drawing.Size(790, 320);
+      this.listAirports.TabIndex = 0;
+      this.listAirports.UseCompatibleStateImageBehavior = false;
       // 
       // gbAirplanes
       // 
@@ -244,6 +250,172 @@
       this.gbAirplanes.TabIndex = 12;
       this.gbAirplanes.TabStop = false;
       this.gbAirplanes.Text = "Airplanes";
+      // 
+      // numericUpDown2
+      // 
+      this.numericUpDown2.Location = new System.Drawing.Point(894, 140);
+      this.numericUpDown2.Maximum = new decimal(new int[] {
+            2000,
+            0,
+            0,
+            0});
+      this.numericUpDown2.Name = "numericUpDown2";
+      this.numericUpDown2.Size = new System.Drawing.Size(61, 20);
+      this.numericUpDown2.TabIndex = 16;
+      this.numericUpDown2.Value = new decimal(new int[] {
+            900,
+            0,
+            0,
+            0});
+      // 
+      // labSpeed
+      // 
+      this.labSpeed.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
+      this.labSpeed.AutoSize = true;
+      this.labSpeed.Location = new System.Drawing.Point(814, 140);
+      this.labSpeed.Name = "labSpeed";
+      this.labSpeed.Size = new System.Drawing.Size(75, 13);
+      this.labSpeed.TabIndex = 15;
+      this.labSpeed.Text = "Speed (km/h):";
+      // 
+      // numericUpDown3
+      // 
+      this.numericUpDown3.Location = new System.Drawing.Point(1039, 140);
+      this.numericUpDown3.Name = "numericUpDown3";
+      this.numericUpDown3.Size = new System.Drawing.Size(61, 20);
+      this.numericUpDown3.TabIndex = 14;
+      this.numericUpDown3.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+      // 
+      // gbTimeOptions
+      // 
+      this.gbTimeOptions.Controls.Add(this.numMaintenance);
+      this.gbTimeOptions.Controls.Add(this.label4);
+      this.gbTimeOptions.Controls.Add(this.numLarging);
+      this.gbTimeOptions.Controls.Add(this.labDropping);
+      this.gbTimeOptions.Controls.Add(this.numCharging);
+      this.gbTimeOptions.Controls.Add(this.labCharging);
+      this.gbTimeOptions.Controls.Add(this.numericUpDown1);
+      this.gbTimeOptions.Controls.Add(this.label1);
+      this.gbTimeOptions.Controls.Add(this.numEmbarking);
+      this.gbTimeOptions.Controls.Add(this.labEmbarking);
+      this.gbTimeOptions.Location = new System.Drawing.Point(817, 178);
+      this.gbTimeOptions.Name = "gbTimeOptions";
+      this.gbTimeOptions.Size = new System.Drawing.Size(289, 133);
+      this.gbTimeOptions.TabIndex = 13;
+      this.gbTimeOptions.TabStop = false;
+      this.gbTimeOptions.Text = "Time (Minutes)";
+      // 
+      // numMaintenance
+      // 
+      this.numMaintenance.Location = new System.Drawing.Point(77, 98);
+      this.numMaintenance.Name = "numMaintenance";
+      this.numMaintenance.Size = new System.Drawing.Size(61, 20);
+      this.numMaintenance.TabIndex = 9;
+      this.numMaintenance.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+      // 
+      // label4
+      // 
+      this.label4.AutoSize = true;
+      this.label4.Location = new System.Drawing.Point(6, 100);
+      this.label4.Name = "label4";
+      this.label4.Size = new System.Drawing.Size(72, 13);
+      this.label4.TabIndex = 8;
+      this.label4.Text = "Maintenance:";
+      // 
+      // numLarging
+      // 
+      this.numLarging.Location = new System.Drawing.Point(222, 66);
+      this.numLarging.Name = "numLarging";
+      this.numLarging.Size = new System.Drawing.Size(61, 20);
+      this.numLarging.TabIndex = 7;
+      // 
+      // labDropping
+      // 
+      this.labDropping.AutoSize = true;
+      this.labDropping.Location = new System.Drawing.Point(149, 68);
+      this.labDropping.Name = "labDropping";
+      this.labDropping.Size = new System.Drawing.Size(53, 13);
+      this.labDropping.TabIndex = 6;
+      this.labDropping.Text = "Dropping:";
+      // 
+      // numCharging
+      // 
+      this.numCharging.Location = new System.Drawing.Point(77, 64);
+      this.numCharging.Name = "numCharging";
+      this.numCharging.Size = new System.Drawing.Size(61, 20);
+      this.numCharging.TabIndex = 5;
+      this.numCharging.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+      // 
+      // labCharging
+      // 
+      this.labCharging.AutoSize = true;
+      this.labCharging.Location = new System.Drawing.Point(6, 66);
+      this.labCharging.Name = "labCharging";
+      this.labCharging.Size = new System.Drawing.Size(52, 13);
+      this.labCharging.TabIndex = 4;
+      this.labCharging.Text = "Charging:";
+      // 
+      // numericUpDown1
+      // 
+      this.numericUpDown1.Location = new System.Drawing.Point(222, 32);
+      this.numericUpDown1.Name = "numericUpDown1";
+      this.numericUpDown1.Size = new System.Drawing.Size(61, 20);
+      this.numericUpDown1.TabIndex = 3;
+      this.numericUpDown1.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+      // 
+      // label1
+      // 
+      this.label1.AutoSize = true;
+      this.label1.Location = new System.Drawing.Point(149, 34);
+      this.label1.Name = "label1";
+      this.label1.Size = new System.Drawing.Size(74, 13);
+      this.label1.TabIndex = 2;
+      this.label1.Text = "Disembarking:";
+      // 
+      // numEmbarking
+      // 
+      this.numEmbarking.Location = new System.Drawing.Point(77, 32);
+      this.numEmbarking.Name = "numEmbarking";
+      this.numEmbarking.Size = new System.Drawing.Size(61, 20);
+      this.numEmbarking.TabIndex = 1;
+      this.numEmbarking.Value = new decimal(new int[] {
+            15,
+            0,
+            0,
+            0});
+      // 
+      // labEmbarking
+      // 
+      this.labEmbarking.AutoSize = true;
+      this.labEmbarking.Location = new System.Drawing.Point(6, 34);
+      this.labEmbarking.Name = "labEmbarking";
+      this.labEmbarking.Size = new System.Drawing.Size(60, 13);
+      this.labEmbarking.TabIndex = 0;
+      this.labEmbarking.Text = "Embarking:";
+      // 
+      // cmbType
+      // 
+      this.cmbType.FormattingEnabled = true;
+      this.cmbType.Location = new System.Drawing.Point(894, 100);
+      this.cmbType.Name = "cmbType";
+      this.cmbType.Size = new System.Drawing.Size(212, 21);
+      this.cmbType.TabIndex = 12;
       // 
       // labCapacity
       // 
@@ -333,189 +505,34 @@
       this.listView1.TabIndex = 0;
       this.listView1.UseCompatibleStateImageBehavior = false;
       // 
-      // cmbType
+      // toolStripDropDownButton1
       // 
-      this.cmbType.FormattingEnabled = true;
-      this.cmbType.Location = new System.Drawing.Point(894, 100);
-      this.cmbType.Name = "cmbType";
-      this.cmbType.Size = new System.Drawing.Size(212, 21);
-      this.cmbType.TabIndex = 12;
+      this.toolStripDropDownButton1.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.toolStripDropDownButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripDropDownButton1.Image")));
+      this.toolStripDropDownButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.toolStripDropDownButton1.Name = "toolStripDropDownButton1";
+      this.toolStripDropDownButton1.Size = new System.Drawing.Size(164, 22);
+      this.toolStripDropDownButton1.Text = "toolStripDropDownButton1";
       // 
-      // gbTimeOptions
+      // toolStrip
       // 
-      this.gbTimeOptions.Controls.Add(this.numMaintenance);
-      this.gbTimeOptions.Controls.Add(this.label4);
-      this.gbTimeOptions.Controls.Add(this.numLarging);
-      this.gbTimeOptions.Controls.Add(this.labDropping);
-      this.gbTimeOptions.Controls.Add(this.numCharging);
-      this.gbTimeOptions.Controls.Add(this.labCharging);
-      this.gbTimeOptions.Controls.Add(this.numericUpDown1);
-      this.gbTimeOptions.Controls.Add(this.label1);
-      this.gbTimeOptions.Controls.Add(this.numEmbarking);
-      this.gbTimeOptions.Controls.Add(this.labEmbarking);
-      this.gbTimeOptions.Location = new System.Drawing.Point(817, 178);
-      this.gbTimeOptions.Name = "gbTimeOptions";
-      this.gbTimeOptions.Size = new System.Drawing.Size(289, 133);
-      this.gbTimeOptions.TabIndex = 13;
-      this.gbTimeOptions.TabStop = false;
-      this.gbTimeOptions.Text = "Time (Minutes)";
-      // 
-      // labEmbarking
-      // 
-      this.labEmbarking.AutoSize = true;
-      this.labEmbarking.Location = new System.Drawing.Point(6, 34);
-      this.labEmbarking.Name = "labEmbarking";
-      this.labEmbarking.Size = new System.Drawing.Size(60, 13);
-      this.labEmbarking.TabIndex = 0;
-      this.labEmbarking.Text = "Embarking:";
-      // 
-      // numEmbarking
-      // 
-      this.numEmbarking.Location = new System.Drawing.Point(77, 32);
-      this.numEmbarking.Name = "numEmbarking";
-      this.numEmbarking.Size = new System.Drawing.Size(61, 20);
-      this.numEmbarking.TabIndex = 1;
-      this.numEmbarking.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-      // 
-      // numericUpDown1
-      // 
-      this.numericUpDown1.Location = new System.Drawing.Point(222, 32);
-      this.numericUpDown1.Name = "numericUpDown1";
-      this.numericUpDown1.Size = new System.Drawing.Size(61, 20);
-      this.numericUpDown1.TabIndex = 3;
-      this.numericUpDown1.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-      // 
-      // label1
-      // 
-      this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(149, 34);
-      this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(74, 13);
-      this.label1.TabIndex = 2;
-      this.label1.Text = "Disembarking:";
-      // 
-      // numCharging
-      // 
-      this.numCharging.Location = new System.Drawing.Point(77, 64);
-      this.numCharging.Name = "numCharging";
-      this.numCharging.Size = new System.Drawing.Size(61, 20);
-      this.numCharging.TabIndex = 5;
-      this.numCharging.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-      // 
-      // labCharging
-      // 
-      this.labCharging.AutoSize = true;
-      this.labCharging.Location = new System.Drawing.Point(6, 66);
-      this.labCharging.Name = "labCharging";
-      this.labCharging.Size = new System.Drawing.Size(52, 13);
-      this.labCharging.TabIndex = 4;
-      this.labCharging.Text = "Charging:";
-      // 
-      // numLarging
-      // 
-      this.numLarging.Location = new System.Drawing.Point(222, 66);
-      this.numLarging.Name = "numLarging";
-      this.numLarging.Size = new System.Drawing.Size(61, 20);
-      this.numLarging.TabIndex = 7;
-      // 
-      // labDropping
-      // 
-      this.labDropping.AutoSize = true;
-      this.labDropping.Location = new System.Drawing.Point(149, 68);
-      this.labDropping.Name = "labDropping";
-      this.labDropping.Size = new System.Drawing.Size(53, 13);
-      this.labDropping.TabIndex = 6;
-      this.labDropping.Text = "Dropping:";
-      // 
-      // numMaintenance
-      // 
-      this.numMaintenance.Location = new System.Drawing.Point(77, 98);
-      this.numMaintenance.Name = "numMaintenance";
-      this.numMaintenance.Size = new System.Drawing.Size(61, 20);
-      this.numMaintenance.TabIndex = 9;
-      this.numMaintenance.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-      // 
-      // label4
-      // 
-      this.label4.AutoSize = true;
-      this.label4.Location = new System.Drawing.Point(6, 100);
-      this.label4.Name = "label4";
-      this.label4.Size = new System.Drawing.Size(72, 13);
-      this.label4.TabIndex = 8;
-      this.label4.Text = "Maintenance:";
-      // 
-      // numericUpDown3
-      // 
-      this.numericUpDown3.Location = new System.Drawing.Point(1039, 140);
-      this.numericUpDown3.Name = "numericUpDown3";
-      this.numericUpDown3.Size = new System.Drawing.Size(61, 20);
-      this.numericUpDown3.TabIndex = 14;
-      this.numericUpDown3.Value = new decimal(new int[] {
-            15,
-            0,
-            0,
-            0});
-      // 
-      // numericUpDown2
-      // 
-      this.numericUpDown2.Location = new System.Drawing.Point(894, 140);
-      this.numericUpDown2.Maximum = new decimal(new int[] {
-            2000,
-            0,
-            0,
-            0});
-      this.numericUpDown2.Name = "numericUpDown2";
-      this.numericUpDown2.Size = new System.Drawing.Size(61, 20);
-      this.numericUpDown2.TabIndex = 16;
-      this.numericUpDown2.Value = new decimal(new int[] {
-            900,
-            0,
-            0,
-            0});
-      // 
-      // labSpeed
-      // 
-      this.labSpeed.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
-      this.labSpeed.AutoSize = true;
-      this.labSpeed.Location = new System.Drawing.Point(814, 140);
-      this.labSpeed.Name = "labSpeed";
-      this.labSpeed.Size = new System.Drawing.Size(75, 13);
-      this.labSpeed.TabIndex = 15;
-      this.labSpeed.Text = "Speed (km/h):";
-      // 
-      // toolStrip1
-      // 
-      this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolFile});
-      this.toolStrip1.Location = new System.Drawing.Point(0, 0);
-      this.toolStrip1.Name = "toolStrip1";
-      this.toolStrip1.Size = new System.Drawing.Size(1153, 25);
-      this.toolStrip1.TabIndex = 13;
-      this.toolStrip1.Text = "toolStrip1";
+      this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolFile,
+            this.toolMusic});
+      this.toolStrip.Location = new System.Drawing.Point(0, 0);
+      this.toolStrip.Name = "toolStrip";
+      this.toolStrip.Size = new System.Drawing.Size(1153, 25);
+      this.toolStrip.TabIndex = 13;
+      this.toolStrip.Text = "toolStrip1";
       // 
       // toolFile
       // 
       this.toolFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.toolFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.subToolNew,
             this.subToolOpen,
-            this.subToolSave});
+            this.subToolNew,
+            this.subToolSave,
+            this.subToolDelete});
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolFile.Name = "toolFile";
@@ -526,7 +543,7 @@
       // 
       this.subToolNew.Name = "subToolNew";
       this.subToolNew.Size = new System.Drawing.Size(180, 22);
-      this.subToolNew.Text = "New Scenario";
+      this.subToolNew.Text = "New Scenario...";
       // 
       // subToolOpen
       // 
@@ -538,14 +555,46 @@
       // 
       this.subToolSave.Name = "subToolSave";
       this.subToolSave.Size = new System.Drawing.Size(180, 22);
-      this.subToolSave.Text = "Save Scenario...";
+      this.subToolSave.Text = "Save Scenario";
+      // 
+      // subToolDelete
+      // 
+      this.subToolDelete.Name = "subToolDelete";
+      this.subToolDelete.Size = new System.Drawing.Size(180, 22);
+      this.subToolDelete.Text = "Delete Scenario";
+      // 
+      // toolMusic
+      // 
+      this.toolMusic.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+      this.toolMusic.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.subToolStart,
+            this.subToolStop});
+      this.toolMusic.Image = ((System.Drawing.Image)(resources.GetObject("toolMusic.Image")));
+      this.toolMusic.ImageTransparentColor = System.Drawing.Color.Magenta;
+      this.toolMusic.Name = "toolMusic";
+      this.toolMusic.Size = new System.Drawing.Size(52, 22);
+      this.toolMusic.Text = "Music";
+      // 
+      // subToolStart
+      // 
+      this.subToolStart.Name = "subToolStart";
+      this.subToolStart.Size = new System.Drawing.Size(180, 22);
+      this.subToolStart.Text = "Start";
+      this.subToolStart.Click += new System.EventHandler(this.subToolStart_Click);
+      // 
+      // subToolStop
+      // 
+      this.subToolStop.Name = "subToolStop";
+      this.subToolStop.Size = new System.Drawing.Size(180, 22);
+      this.subToolStop.Text = "Stop";
+      this.subToolStop.Click += new System.EventHandler(this.subToolStop_Click);
       // 
       // FormGenerator
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1153, 750);
-      this.Controls.Add(this.toolStrip1);
+      this.ClientSize = new System.Drawing.Size(1153, 747);
+      this.Controls.Add(this.toolStrip);
       this.Controls.Add(this.gbAirplanes);
       this.Controls.Add(this.gbAirports);
       this.Name = "FormGenerator";
@@ -553,21 +602,21 @@
       this.Load += new System.EventHandler(this.FormGenerator_Load);
       this.gbAirports.ResumeLayout(false);
       this.gbAirports.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numMTraffic)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).EndInit();
       this.gbAirplanes.ResumeLayout(false);
       this.gbAirplanes.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
       this.gbTimeOptions.ResumeLayout(false);
       this.gbTimeOptions.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numCharging)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numLarging)).EndInit();
       ((System.ComponentModel.ISupportInitialize)(this.numMaintenance)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown3)).EndInit();
-      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown2)).EndInit();
-      this.toolStrip1.ResumeLayout(false);
-      this.toolStrip1.PerformLayout();
+      ((System.ComponentModel.ISupportInitialize)(this.numLarging)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numCharging)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).EndInit();
+      this.toolStrip.ResumeLayout(false);
+      this.toolStrip.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -614,10 +663,15 @@
     private System.Windows.Forms.NumericUpDown numericUpDown2;
     private System.Windows.Forms.Label labSpeed;
     private System.Windows.Forms.NumericUpDown numericUpDown3;
-    private System.Windows.Forms.ToolStrip toolStrip1;
+    private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
+    private System.Windows.Forms.ToolStrip toolStrip;
     private System.Windows.Forms.ToolStripDropDownButton toolFile;
-    private System.Windows.Forms.ToolStripMenuItem subToolNew;
     private System.Windows.Forms.ToolStripMenuItem subToolOpen;
+    private System.Windows.Forms.ToolStripMenuItem subToolNew;
     private System.Windows.Forms.ToolStripMenuItem subToolSave;
+    private System.Windows.Forms.ToolStripMenuItem subToolDelete;
+    private System.Windows.Forms.ToolStripDropDownButton toolMusic;
+    private System.Windows.Forms.ToolStripMenuItem subToolStart;
+    private System.Windows.Forms.ToolStripMenuItem subToolStop;
   }
 }
