@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32210.238
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{A388B5B2-D9C9-4728-808E-F06F25707409}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{FCD0BA12-38C8-4FDE-BDF8-6CFADBFF9D84}"
@@ -9,6 +12,9 @@ EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Documentation", "Documentation\Documentation.shproj", "{BAEF5755-A1BD-49E8-A832-D5AC97ADF012}"
 EndProject
 Global
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Documentation\Documentation.projitems*{baef5755-a1bd-49e8-a832-d5ac97adf012}*SharedItemsImports = 13
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -26,5 +32,11 @@ Global
 		{54FE47B2-C9BA-42C8-AA6C-6ACE697448EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{54FE47B2-C9BA-42C8-AA6C-6ACE697448EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{54FE47B2-C9BA-42C8-AA6C-6ACE697448EE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C8A6EBE2-EF22-4880-8593-24A6EC293F75}
 	EndGlobalSection
 EndGlobal
