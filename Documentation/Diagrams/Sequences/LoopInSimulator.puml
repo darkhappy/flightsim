@@ -9,11 +9,25 @@ Simulator -> Scenario ++: Action(int time)
     loop for each Airport
         Scenario -> Airport ++: Action(int time)
         loop for each Airplane
-            group if airplane is a FightPlane
+            Airport -> AirPlane ++: Action(int time)
+            AirPlane -> State ++: Action(int time)
+            State -> Event ++: HandleEvent()
+            Event -> Scenario ++: RemoveEvent()
+            return
+            return
+            State -> State ++: ChangeState()
+            State -> State ++: Action(int time)
+            return
+            return
+            return
+            return
+            
+            /'group if airplane is a FightPlane
                 Airport -> FightPlane ++: Action(int time)
                 FightPlane -> Fight ++: Action(int time)
                 Fight -> EventFight ++: HandleEvent()
                 EventFight -> Scenario ++: RemoveEvent()
+                
                 return 
                 return
                 return
@@ -27,21 +41,32 @@ Simulator -> Scenario ++: Action(int time)
                 return
                 return
             end
+            
             group if airplane is a TransportPlane
                 Airport -> TransportPlane ++: Action(int time)
-                TransportPlane -> Transport ++: Action(int time)
+                TransportPlane -> Transport ++: Action(int tim)
                 Transport -> EventClient ++: HandleEvent()
-                EventFight -> Scenario ++: RemoveEvent()
+                EventClient -> Scenario ++: RemoveEvent()
+                return
+                return
+                Transport -> Transport ++: ChangeState(int time)
                 return
                 return
                 return
-                return
+                
             end
+            group if airplane is a RescuePlane
+               Airport -> RescuePlane ++: Action(int time)
+               RescuePlane -> Rescue ++: Action(int time)
+               Rescue -> EventRescue ++: HandleEvent()
+               return
+               return
+               return
+            end
+            '/
         end
+        return
     end
-return
-
-
 end
 
 
