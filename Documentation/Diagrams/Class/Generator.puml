@@ -1,7 +1,5 @@
 @startuml Generator
 
-skinparam linetype polyline
-
 package Models {
     ' ----------------------------------- '
     ' -- Enum                          -- '
@@ -81,11 +79,10 @@ package Models {
             - _state: IState
             - _available: bool
             + Action(int time): void
+            + Export(): string[]
         }
 
         class FightPlane extends Airplane{
-            - _chargingTime: int
-            - _droppingTime: int
         }
         
         abstract class TransportPlane extends Airplane {

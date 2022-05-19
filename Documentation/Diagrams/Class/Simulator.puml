@@ -16,14 +16,6 @@ package Models {
         GREEN
         GRAY
     }
-    
-    enum AirplaneType {
-        PASSENGER
-        CARGO
-        FIRE
-        RESCUE
-        SCOUT
-    }
 
     class Position {
         - _x: int
@@ -37,7 +29,7 @@ package Models {
 
     class Scenario << (S, Orange) Singleton >> {
         - _airports: List<Airport>
-        - _Tasks: List<Task>
+        - _tasks: List<Task>
         - _unassignedTasks: List<Task>
         - {static} _scenario: Scenario
         + {static} GetScenario(): Scenario
@@ -53,12 +45,11 @@ package Models {
         class Airport {
             - _id: string
             - _name: string
-            - _location: Position
+            - _position: Position
             - _airplanes: List<Airplane>
             - _passengerTraffic: int
             - _merchandiseTraffic: double
             - _clients : List<TaskTransport>
-            + Export(): string[]
             + Action(double time): double
             + AssignTask(Task task): bool
         }
@@ -79,6 +70,7 @@ package Models {
 
         class FightPlane extends Airplane{
             + AssignTask(Task task): bool
+            + ChangeState(): void
         }
         
         abstract class TransportPlane extends Airplane {
@@ -86,6 +78,8 @@ package Models {
             - _embarkingTime: int
             - _disembarkingTime: int
             + AssignTask(Task task): bool
+            + ChangeState(): void
+            + ChangeState(Task task): void
         }
         
         class PassengerPlane extends TransportPlane {
@@ -96,10 +90,12 @@ package Models {
         
         class ScoutPlane extends Airplane{
             + AssignTask(Task task): bool
+            + ChangeState(): void
         }
         
         class RescuePlane extends Airplane{
             + AssignTask(Task task): bool
+            + ChangeState(): void
         }
     }
     
@@ -131,7 +127,7 @@ package Models {
             + Action(double time): double
         }
         
-        class MaintenanceState implements TimedState {
+        class MaintenanceState extends TimedState {
         }
         
         abstract class TimedStateWithTask extends TimedState implements ITaskState {
@@ -172,12 +168,14 @@ package Models {
             + GeneratePassengers(): ClientPassenger
             + GenerateMerchandise(): ClientMerchandise
             + GenerateScout(): TaskScout
+            - GetRandomPosition(): Position
         }
 
         abstract class Task {
-            - _location : Position
+            - _position : Position
             + ToString() : string
             + HandleTask() : void
+            - GenerateRandomPosition : Position
         }
 
         abstract class TaskTransport extends Task {
@@ -201,6 +199,7 @@ package Models {
         }
 
         class TaskFight extends Task {
+            + HandleTask() : void
             - _force: int
         }
     }
@@ -209,10 +208,12 @@ package Models {
 package Controllers {
     class Simulator << (S,orange) Singleton>> {
         - _simulator: Simulator
-        - _scenario: Scenario
         - _view : FormMap
-        + GetSimulator(): void
-        - OnTick(double time): void
+        - {static} _instance: Scenario
+        + {static} Instance(): Scenario 
+        + {static} Main(): void
+        + LoadScenario(): void
+        + OnTick(double time): void
     }
 }
 
@@ -224,11 +225,11 @@ package Views {
 ' Relations
 ' - Global
 ' -- Controller and View
-Simulator "1" *--> "1" FormMap
-FormMap --> Simulator
+Simulator "1" *-u-> "1" FormMap
+FormMap -d-> Simulator
 ' -- Controller and Model
 Simulator "1" *--> "1" Scenario
-Simulator "1" *--> "1" Simulator
+Simulator "1" *-> "1" Simulator
 
 ' - Model
 ' -- Scenario
