@@ -37,13 +37,13 @@ package Models {
 
     class Scenario << (S, Orange) Singleton >> {
         - _airports: List<Airport>
-        - _events: List<Event>
-        - _unassignedEvents: List<Event>
+        - _Tasks: List<Task>
+        - _unassignedTasks: List<Task>
         - {static} _scenario: Scenario
         + {static} GetScenario(): Scenario
-        + GenerateEvents(): void
+        + GenerateTasks(): void
         + HandleTick(double time): void
-        + RemoveEvent(Event e): void
+        + RemoveTask(Task task): void
         + GetNearestAirports(Position position): List<Airport>
     }
     
@@ -57,10 +57,10 @@ package Models {
             - _airplanes: List<Airplane>
             - _passengerTraffic: int
             - _merchandiseTraffic: double
-            - _clients : List<EventClient>
+            - _clients : List<TaskTransport>
             + Export(): string[]
             + Action(double time): double
-            + AssignJob(Event e): bool
+            + AssignTask(Task task): bool
         }
     
         abstract class Airplane {
@@ -72,19 +72,20 @@ package Models {
             - _colour: Colour 
             - _state: IState
             + Action(double time): double
-            + AssignJob(Event e): bool
+            + AssignTask(Task task): bool
             + ChangeState(): void
+            + ChangeState(Task task): void
         }
 
         class FightPlane extends Airplane{
-            + AssignJob(Event e): bool
+            + AssignTask(Task task): bool
         }
         
         abstract class TransportPlane extends Airplane {
             - _maxCapacity: double
             - _embarkingTime: int
             - _disembarkingTime: int
-            + AssignJob(Event e): bool
+            + AssignTask(Task task): bool
         }
         
         class PassengerPlane extends TransportPlane {
@@ -94,11 +95,11 @@ package Models {
         }
         
         class ScoutPlane extends Airplane{
-            + AssignJob(Event e): bool
+            + AssignTask(Task task): bool
         }
         
         class RescuePlane extends Airplane{
-            + AssignJob(Event e): bool
+            + AssignTask(Task task): bool
         }
     }
     
@@ -110,19 +111,19 @@ package Models {
             + Action(double time): double
         }
         
-        abstract class Flying implements EventState {
+        abstract class FlyingState implements ITaskState {
             - _current: Position
             - _destination: Position
             - CalculateDistance(Position current, Position destination): Position
             + Action(double time): double
         }
         
-        class Standby implements IState {
+        class StandbyState implements IState {
             + Action(double time): double
         }
         
-        interface EventState extends IState {
-            # Event : Event
+        interface ITaskState extends IState {
+            # Task : Task
         }
         
         abstract TimedState implements IState {
@@ -130,76 +131,76 @@ package Models {
             + Action(double time): double
         }
         
-        class Maintenance implements TimedState {
+        class MaintenanceState implements TimedState {
         }
         
-        abstract class TimedStateWithEvent extends TimedState implements EventState {
+        abstract class TimedStateWithTask extends TimedState implements ITaskState {
         }
         
-        class Embark extends TimedStateWithEvent {
+        class EmbarkState extends TimedStateWithTask {
         }
         
-        class Disembark extends TimedStateWithEvent {
+        class DisembarkState extends TimedStateWithTask {
         }
         
-        class Transport extends Flying {
+        class TransportFlight extends FlyingState {
             - _capacity : double
             + Action(double time): double
         }
         
-        class Fight extends Flying {
+        class FightingFlight extends FlyingState {
             + Action(double time): double
         }
         
-        class Rescue extends Flying {
+        class RescueFlight extends FlyingState {
             + Action(double time): double
         }
         
-        class Scout extends Flying {
+        class ScoutFlight extends FlyingState {
             + Action(double time): double
         }
     }
     
     ' ---------------------------------- '
-    ' -- Events Management            -- '
-    package Event {
-        class EventFactory << (S,orange) Singleton>> {
-            - {static} _instance: EventFactory
-            + {static} GetInstance(): EventFactory
-            + GenerateFight(): EventFight
-            + GenerateRescue(): EventRescue
+    ' -- Tasks Management            -- '
+    package Task {
+        class TaskFactory << (S,orange) Singleton>> {
+            - {static} _instance: TaskFactory
+            + {static} GetInstance(): TaskFactory
+            + GenerateFight(): TaskFight
+            + GenerateRescue(): TaskRescue
             + GeneratePassengers(): ClientPassenger
             + GenerateMerchandise(): ClientMerchandise
-            + GenerateScout(): EventScout
+            + GenerateScout(): TaskScout
         }
 
-        abstract class Event {
+        abstract class Task {
             - _location : Position
             + ToString() : string
-            + HandleEvent() : void
+            + HandleTask() : void
         }
 
-        abstract class EventClient extends Event {
+        abstract class TaskTransport extends Task {
             - _destination : Airport
         }
 
         together {
-            class ClientPassenger extends EventClient {
+            class ClientPassenger extends TaskTransport {
                 - _count: int
             }
 
-            class ClientMerchandise extends EventClient {
+            class ClientMerchandise extends TaskTransport {
                 - _count: double
             }
         }
 
-        class EventRescue extends Event {
+        class TaskRescue extends Task {
         }
 
-        class EventScout extends Event {
+        class TaskScout extends Task {
         }
 
-        class EventFight extends Event {
+        class TaskFight extends Task {
             - _force: int
         }
     }
@@ -231,26 +232,27 @@ Simulator "1" *--> "1" Simulator
 
 ' - Model
 ' -- Scenario
-Scenario -d-> EventFactory
+Scenario -d-> TaskFactory
 Scenario "1" *--> "1" Scenario
-Scenario "1" *-d-> "N" Event
+Scenario "1" *-d-> "N" Task
 Scenario "1" *-l-> "N" Airport
 
 ' -- Airport
 Airport "1" *--> "N" Airplane
-Airport "1" o-> "N" EventClient
+Airport "1" o-> "N" TaskTransport
 
 ' -- Airplane
 Airplane "1" o---d-> "1" IState
 Airplane "1" o--> "1" Airport
 
-' -- Events
-EventFactory --> Event
-EventFactory "1" *--> "1" EventFactory
-EventState "1" o--> "1" Event
+' -- Tasks
+TaskFactory --> Task
+TaskFactory "1" *--> "1" TaskFactory
+ITaskState "1" o--> "1" Task
 
-EventClient "1" o-> "1" Airport
-Event <.. Airport
-Event <.. Airplane
+TaskTransport "1" o-> "1" Airport
+Task <.. Airport
+Task <.. Airplane
+Task -u-> Scenario
    
 @enduml

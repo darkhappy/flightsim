@@ -2,20 +2,20 @@
 'https://plantuml.com/state-diagram
 Title TIE Interceptor 
 
-state Idle
+state Standby
 state Fight
 state c <<choice>>
 state Maintenance
 
-[*] -> Idle : scenario start
-Idle --> Fight : new Fight()
+[*] -> Standby : scenario start
+Standby --> Fight : new fight
 
-Fight -> c : fight.hp > 0
-c -> Maintenance : true
-c -> Fight : false
+Fight -> c : arrived at base 
+c -> Fight : go back to fight
+c -> Maintenance : finished fight
 
-Maintenance -> Idle : onRepairFinish()
+Maintenance -> Standby : finished repairs 
 
-Idle -> [*] : scenario end
+Standby -> [*] : scenario end
 
 @enduml

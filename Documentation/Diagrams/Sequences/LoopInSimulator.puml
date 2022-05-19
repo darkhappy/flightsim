@@ -1,73 +1,99 @@
 @startuml Loop in simulator
-title A loop with too much event in the simulator
+title Simulator.OnTick()
 'hello jp
-loop for each Tick
+Simulator ++
 Simulator -> Simulator ++: CanGenerate()
 return false
 Simulator -> Simulator ++: UpdateEvents()
-Simulator -> Scenario ++: Action(int time)
+Simulator -> Scenario ++: HandleTick(double time)
+    Scenario ->  Scenario ++: AssignUnassignedEvents()
+    loop for each unassigned event
+        loop for each Airport until an event is assigned
+            Scenario -> Airport ++: AssignJob(Event e)
+            loop for each Airplane until an event is assigned
+                group Case where an airplane can respond
+                    Airport -> Airplane ++: AssignJob(Event e)
+                    Airplane -> FlyingState ++: new State(Event e)
+                    return
+                    return true
+                end
+                group Case where an airplane cannot respond
+                    Airport -> Airplane ++: AssignJob(Event e)
+                    return false
+                end
+            end
+            return true if an event was assigned
+        end
+        return true if an event was assigned
+    end
     loop for each Airport
-        Scenario -> Airport ++: Action(int time)
+        Scenario -> Airport ++: Action(double time)
         loop for each Airplane
-            Airport -> AirPlane ++: Action(int time)
-            AirPlane -> State ++: Action(int time)
-            State -> Event ++: HandleEvent()
-            Event -> Scenario ++: RemoveEvent()
-            return
-            return
-            State -> State ++: ChangeState()
-            State -> State ++: Action(int time)
-            return
-            return
-            return
-            return
+            Airport -> Airplane ++: Action(double time)
             
-            /'group if airplane is a FightPlane
-                Airport -> FightPlane ++: Action(int time)
-                FightPlane -> Fight ++: Action(int time)
-                Fight -> EventFight ++: HandleEvent()
-                EventFight -> Scenario ++: RemoveEvent()
-                
+            group Case where a timed state is not changed
+                Airplane -> State ++: Action(double time)
+                return
+            end
+            
+            group Case where a flying state is not changed
+                Airplane -> State ++: Action(double time)
+                State -> State ++: UpdatePosition(Position current, Position destination, double time, double speed)
+                return 
+                return
+            end
+            
+            group Case where a timed state is changed
+                Airplane -> State ++: Action(double time)
+                State -> Airplane ++: ChangeState(double overlap)
+                Airplane -> State ++: new State(double overlap)
+                note right
+                    If a state has an overlap, the action must be called again
+                    in order to handle overlapped time. This will loop until
+                    the overlap is 0.
+                end note 
+                State -> State ++: Action(double time)
+                return 
                 return 
                 return
                 return
-                return
             end
-            group if airplane is a ScoutPlane
-                Airport -> ScoutPlane ++: Action(int time)
-                ScoutPlane -> Scout ++: Action(int time)
-                Scout -> EventScout ++: HandleEvent()
+            
+            group Case where an event is handled and destroyed
+                Airplane -> State ++: Action(double time)
+                State -> State ++: UpdatePosition(Position current, Position destination, double time, double speed)
+                return
+                State -> Event ++: HandleEvent()
+                Event -> Scenario ++: DeleteEvent(this)
                 return
                 return
                 return
             end
             
-            group if airplane is a TransportPlane
-                Airport -> TransportPlane ++: Action(int time)
-                TransportPlane -> Transport ++: Action(int tim)
-                Transport -> EventClient ++: HandleEvent()
-                EventClient -> Scenario ++: RemoveEvent()
+            group Case where a flying state changes to a timed state (such as maintenance)
+                Airplane -> State ++: Action(double time)
+                State -> State ++: UpdatePosition(Position current, Position destination, double time, double speed)
+                return 
+                State -> Airplane ++: ChangeState(double overlap)
+                Airplane -> State ++: new State(double overlap)
+                State -> Airplane ++: GetMaintenanceTime()
+                return time
+                note right
+                    If a state has an overlap, the action must be called again
+                    in order to handle overlapped time. This will loop until
+                    the overlap is 0.
+                end note 
+                State -> State ++: Action(double time)
+                return 
+                return 
                 return
                 return
-                Transport -> Transport ++: ChangeState(int time)
-                return
-                return
-                return
-                
             end
-            group if airplane is a RescuePlane
-               Airport -> RescuePlane ++: Action(int time)
-               RescuePlane -> Rescue ++: Action(int time)
-               Rescue -> EventRescue ++: HandleEvent()
-               return
-               return
-               return
-            end
-            '/
+            return
         end
         return
     end
-end
-
+    return
+return
 
 @enduml
