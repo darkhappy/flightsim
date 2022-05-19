@@ -169,8 +169,6 @@ package Controllers {
         - _form: FormGenerator
         - _generator: Generator
         + GetGenerator(): Generator
-        + SelectAirport(): void
-        + SelectAirplane(): void
         + AddAirport(string[] data): void
         + EditAirport(string id, string[] data): void
         + DeleteAirport(string id): void

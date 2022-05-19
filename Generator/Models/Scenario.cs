@@ -1,24 +1,26 @@
-﻿using System;
-using System.Windows.Forms;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
-namespace Generator.Controllers
+namespace Generator.Models
 {
-  public class Generator
+  public class Scenario
   {
-    private readonly FormGenerator _frmGen;
-    private readonly FormGenerator _frmMap;
-    private Generator _instance;
-    public Generator Instance => _instance ?? (_instance = new Generator());
+    private List<Airport> _airports;
 
-    private Generator()
+    public Scenario()
     {
-      _frmGen = new FormGenerator();
-      Application.Run(_frmGen);
+      _airports = new List<Airport>();
     }
 
-    public static void Main(string[] args)
+    private Airport? GetAirportWithPlane(string airplaneCode)
     {
-      new Generator();
+      return _airports.FirstOrDefault(a => a.HasPlane(airplaneCode));
+    }
+
+    private Airport? GetAirport(string airportCode)
+    {
+      return _airports.FirstOrDefault(a => a.Id == airportCode);
     }
 
     public void AddAirplane(string id, string[] data)
@@ -52,10 +54,6 @@ namespace Generator.Controllers
     }
 
     public void Export()
-    {
-    }
-
-    public void Import()
     {
     }
   }

@@ -12,6 +12,8 @@
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>8</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -41,6 +43,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\Airplane.cs" />
+    <Compile Include="Models\Airport.cs" />
+    <Compile Include="Models\CargoPlane.cs" />
+    <Compile Include="Models\Colour.cs" />
+    <Compile Include="Models\FightPlane.cs" />
+    <Compile Include="Models\PassengerPlane.cs" />
+    <Compile Include="Models\Position.cs" />
+    <Compile Include="Models\RescuePlane.cs" />
+    <Compile Include="Models\Scenario.cs" />
+    <Compile Include="Models\ScoutPlane.cs" />
+    <Compile Include="Models\TransportPlane.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
