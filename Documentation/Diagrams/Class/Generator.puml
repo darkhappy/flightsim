@@ -15,14 +15,6 @@ package Models {
         GREEN
         GRAY
     }
-    
-    enum AirplaneType {
-        PASSENGER
-        CARGO
-        FIRE
-        RESCUE
-        SCOUT
-    }
 
     class Position {
         - _x: int
@@ -59,6 +51,9 @@ package Models {
             - _merchandise: double
             + Export(): string[]
             + Action(int time): void
+            + AddAirplane(string[] data): void
+            + EditAirplane(string id, string[] data): void
+            + DeleteAirplane(string id): void
         }
     
     ' -----------------------------------'
