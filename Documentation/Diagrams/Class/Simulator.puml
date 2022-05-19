@@ -110,8 +110,7 @@ package Models {
             + Action(double time): double
         }
         
-        abstract class Flying extends IState {
-            - _event: Event
+        abstract class Flying implements EventState {
             - _current: Position
             - _destination: Position
             - CalculateDistance(Position current, Position destination): Position
@@ -122,18 +121,25 @@ package Models {
             + Action(double time): double
         }
         
-        abstract class TimedState extends IState {
-            - _time: int
+        interface EventState extends IState {
+            # Event : Event
+        }
+        
+        abstract TimedState implements IState {
+            - _time : double
             + Action(double time): double
         }
         
-        class Maintenance extends TimedState {
+        class Maintenance implements TimedState {
         }
         
-        class Embark extends TimedState {
+        abstract class TimedStateWithEvent extends TimedState implements EventState {
         }
         
-        class Disembark extends TimedState {
+        class Embark extends TimedStateWithEvent {
+        }
+        
+        class Disembark extends TimedStateWithEvent {
         }
         
         class Transport extends Flying {
@@ -232,20 +238,18 @@ Scenario "1" *-l-> "N" Airport
 
 ' -- Airport
 Airport "1" *--> "N" Airplane
-Airport "1" o--> "N" EventClient
+Airport "1" o-> "N" EventClient
 
 ' -- Airplane
-Airplane "1" o-d-> "1" IState
+Airplane "1" o---d-> "1" IState
 Airplane "1" o--> "1" Airport
-
-' -- States
-Flying "1" o--> "1" Event
 
 ' -- Events
 EventFactory --> Event
 EventFactory "1" *--> "1" EventFactory
+EventState "1" o--> "1" Event
 
-EventClient "1" *--> "1" Airport
+EventClient "1" o-> "1" Airport
 Event <.. Airport
 Event <.. Airplane
    
