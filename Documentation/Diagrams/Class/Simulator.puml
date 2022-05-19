@@ -32,19 +32,19 @@ package Models {
         + Position(string longitude, string latitude)
         + {static} Transpose(int x, int y): string
         + {static} Transpose(string): Tuple<int, int>
-        + {static} Move (Position initial, Position target, int speed, int time): Tuple<Position, int>
         + ToString(): string
     }
 
     class Scenario << (S, Orange) Singleton >> {
         - _airports: List<Airport>
         - _events: List<Event>
+        - _unassignedEvents: List<Event>
         - {static} _scenario: Scenario
         + {static} GetScenario(): Scenario
         + GenerateEvents(): void
-        + HandleTick(int time): void
+        + HandleTick(double time): void
         + RemoveEvent(Event e): void
-        + GetNearestAirport(Position position): Airport
+        + GetNearestAirports(Position position): List<Airport>
     }
     
     ' -----------------------------------'
@@ -59,7 +59,8 @@ package Models {
             - _merchandiseTraffic: double
             - _clients : List<EventClient>
             + Export(): string[]
-            + Action(int time): void
+            + Action(double time): double
+            + AssignJob(Event e): bool
         }
     
         abstract class Airplane {
@@ -69,19 +70,21 @@ package Models {
             - _maintenanceTime: int
             - _origin: Airport
             - _colour: Colour 
-            - _state: State
-            + Action(int time): void
+            - _state: IState
+            + Action(double time): double
+            + AssignJob(Event e): bool
+            + ChangeState(): void
         }
 
         class FightPlane extends Airplane{
-            - _chargingTime: int
-            - _droppingTime: int
+            + AssignJob(Event e): bool
         }
         
         abstract class TransportPlane extends Airplane {
             - _maxCapacity: double
             - _embarkingTime: int
             - _disembarkingTime: int
+            + AssignJob(Event e): bool
         }
         
         class PassengerPlane extends TransportPlane {
@@ -91,9 +94,11 @@ package Models {
         }
         
         class ScoutPlane extends Airplane{
+            + AssignJob(Event e): bool
         }
         
         class RescuePlane extends Airplane{
+            + AssignJob(Event e): bool
         }
     }
     
@@ -101,72 +106,51 @@ package Models {
     ' -- Airplane States              -- '
     
     package "Airplane States" {
-        interface State {
-            + Action(int time): void
+        interface IState {
+            + Action(double time): double
         }
         
-        abstract TimedState implements State {
-            - _time: int
-        }
-        
-        abstract class HandlingEvent extends TimedState {
+        abstract class Flying extends IState {
             - _event: Event
-            - _strategy : Strategy
-            + Action(int time): void
-            + ChangeStrategy(Strategy s): void
+            - _current: Position
+            - _destination: Position
+            - CalculateDistance(Position current, Position destination): Position
+            + Action(double time): double
         }
         
-        interface Strategy { 
-            + Action(int time) : int
+        class Standby implements IState {
+            + Action(double time): double
         }
         
-        together {
-            class Embark implements Strategy {
-            }
-            
-            class Disembark implements Strategy {
-            }
-        }
-        
-        class Standby implements State {
-            + Action(int time): void
+        abstract class TimedState extends IState {
+            - _time: int
+            + Action(double time): double
         }
         
         class Maintenance extends TimedState {
-            + Action(int time): void
         }
         
-        class Transport extends HandlingEvent {
+        class Embark extends TimedState {
+        }
+        
+        class Disembark extends TimedState {
+        }
+        
+        class Transport extends Flying {
             - _capacity : double
+            + Action(double time): double
         }
         
-        together {
-            class Engage implements Strategy {
-            }
-            
-            class Refuel implements Strategy {
-            }
+        class Fight extends Flying {
+            + Action(double time): double
         }
         
-        class Fight extends HandlingEvent {
+        class Rescue extends Flying {
+            + Action(double time): double
         }
         
-        class Rescue extends HandlingEvent {
-        }
-        
-        class Scout extends HandlingEvent {
-        }
-        
-        class Circle implements Strategy {
-            - GenerateRadius(): int
-        }
-        
-        together {
-            class Departure implements Strategy {
-            }
-            
-            class Arrival implements Strategy {
-            }
+        class Scout extends Flying {
+            + Action(double time): double
         }
     }
     
@@ -174,8 +158,8 @@ package Models {
     ' -- Events Management            -- '
     package Event {
         class EventFactory << (S,orange) Singleton>> {
-            - {static} _eventFactory: EventFactory
-            + {static} GetEventFactory(): EventFactory
+            - {static} _instance: EventFactory
+            + {static} GetInstance(): EventFactory
             + GenerateFight(): EventFight
             + GenerateRescue(): EventRescue
             + GeneratePassengers(): ClientPassenger
@@ -221,7 +205,7 @@ package Controllers {
         - _scenario: Scenario
         - _view : FormMap
         + GetSimulator(): void
-        - OnTick(int time): void
+        - OnTick(double time): void
     }
 }
 
@@ -248,21 +232,21 @@ Scenario "1" *-l-> "N" Airport
 
 ' -- Airport
 Airport "1" *--> "N" Airplane
-Airport "1" *--> "N" EventClient
+Airport "1" o--> "N" EventClient
 
 ' -- Airplane
-Airplane "1" o-d-> "1" State
+Airplane "1" o-d-> "1" IState
 Airplane "1" o--> "1" Airport
 
 ' -- States
-
-HandlingEvent "1" *--> "1"  Strategy
-HandlingEvent "1" o--> "1" Event
+Flying "1" o--> "1" Event
 
 ' -- Events
 EventFactory --> Event
 EventFactory "1" *--> "1" EventFactory
 
 EventClient "1" *--> "1" Airport
+Event <.. Airport
+Event <.. Airplane
    
 @enduml
