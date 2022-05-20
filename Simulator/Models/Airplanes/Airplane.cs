@@ -5,24 +5,21 @@ namespace Simulator.Models.Airplanes
 {
   public abstract class Airplane
   {
-    private readonly IState _state;
+    public IState State { get; }
 
-    protected Airplane(string id, string name, Position position, int speed, int maintenanceTime, Airport origin)
+    protected Airplane(string id, string name, int speed, int maintenanceTime, Airport origin)
     {
       Id = id;
       Name = name;
-      Position = position;
       Speed = speed;
       MaintenanceTime = maintenanceTime;
       Origin = origin;
-      _state = new StandbyState();
+      State = new StandbyState();
     }
 
     public string Id { get; set; }
 
     public string Name { get; set; }
-
-    public Position Position { get; set; }
 
     public int Speed { get; set; }
 
@@ -34,13 +31,13 @@ namespace Simulator.Models.Airplanes
 
     public void Action(double time)
     {
-      _state.Action(time);
+      State.Action(time);
     }
 
     public abstract void ChangeState();
 
     public abstract void ChangeState(Task task);
 
-    public abstract void AssignTask(Task task);
+    public abstract bool AssignTask(Task task);
   }
 }

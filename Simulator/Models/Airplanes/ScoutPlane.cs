@@ -5,8 +5,8 @@ namespace Simulator.Models.Airplanes
 {
   public class ScoutPlane : Airplane
   {
-    public ScoutPlane(string id, string name, Position position, int speed, int maintenanceTime, Airport origin) : base(
-      id, name, position, speed, maintenanceTime, origin)
+    public ScoutPlane(string id, string name, int speed, int maintenanceTime, Airport origin) : base(
+      id, name, speed, maintenanceTime, origin)
     {
     }
 
@@ -22,7 +22,7 @@ namespace Simulator.Models.Airplanes
       throw new NotImplementedException();
     }
 
-    public override void AssignTask(Task task)
+    public override bool AssignTask(Task task)
     {
       throw new NotImplementedException();
     }

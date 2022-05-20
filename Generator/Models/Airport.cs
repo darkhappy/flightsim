@@ -16,7 +16,7 @@ namespace Generator.Models
       CargoTraffic = cargoTraffic;
     }
     
-    public Airplane FindAirplane(string id)
+    public Airplane? FindAirplane(string id)
     {
       return Airplanes.FirstOrDefault(a => a.Id == id);
     }
