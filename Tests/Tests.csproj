@@ -42,12 +42,18 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Generator\AirportTests.cs" />
+        <Compile Include="Generator\Misc.cs" />
         <Compile Include="Simulator\AirplaneTests.cs" />
         <Compile Include="Simulator\StateTests.cs" />
         <Compile Include="Tests.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Generator\Generator.csproj">
+        <Project>{54fe47b2-c9ba-42c8-aa6c-6ace697448ee}</Project>
+        <Name>Generator</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Simulator\Simulator.csproj">
         <Project>{fcd0ba12-38c8-4fde-bdf8-6cfadbff9d84}</Project>
         <Name>Simulator</Name>

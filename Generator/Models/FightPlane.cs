@@ -2,8 +2,8 @@ namespace Generator.Models
 {
   public class FightPlane : Airplane
   {
-    public FightPlane(string id, string name, int speed, int maintenanceTime, Airport origin) : base(
-      id, name, speed, maintenanceTime, origin)
+    public FightPlane(string id, string name, int speed, int maintenanceTime) : base(
+      id, name, speed, maintenanceTime)
     {
     }
 

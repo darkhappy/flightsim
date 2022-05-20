@@ -2,9 +2,9 @@ namespace Generator.Models
 {
   public class PassengerPlane : TransportPlane
   {
-    public PassengerPlane(string id, string name, int speed, int maintenanceTime, Airport origin,
+    public PassengerPlane(string id, string name, int speed, int maintenanceTime,
                           double maxCapacity, int embarkingTime, int disembarkingTime) : base(id, name, speed,
-      maintenanceTime, origin, maxCapacity, embarkingTime, disembarkingTime)
+      maintenanceTime, maxCapacity, embarkingTime, disembarkingTime)
     {
     }
 

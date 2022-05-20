@@ -28,29 +28,44 @@ namespace Generator.Models
     public double CargoTraffic { get; set; }
     public List<Airplane> Airplanes { get; }
 
-    public void Action(double time)
-    {
-      throw new NotImplementedException();
-    }
-
     public bool HasPlane(string airplaneCode)
     {
       return Airplanes.Any(a => a.Id == airplaneCode);
     }
     
-    public void AddAirplane(string[] data)
+    public void AddAirplane(Dictionary<string, object> data)
     {
-      throw new NotImplementedException();
+      var newPlane = AirplaneFactory.Instance.CreateAirplane(data);
+      Airplanes.Add(newPlane);
     }
 
-    public void EditAirplane(string id, string[] data)
+    public void EditAirplane(string id, Dictionary<string, object> data)
     {
-      throw new NotImplementedException();
+      // TODO: Probably edit the airplane itself, not create a new one?
+      // Get the old airplane
+      var oldPlane = FindAirplane(id);
+      if (oldPlane == null)
+      {
+        return;
+      }
+      
+      // Remove the old airplane
+      Airplanes.Remove(oldPlane);
+      
+      // Create the new airplane
+      var newPlane = AirplaneFactory.Instance.CreateAirplane(data);
+      Airplanes.Add(newPlane);
     }
 
     public void DeleteAirplane(string id)
     {
-      throw new NotImplementedException();
+      var oldPlane = FindAirplane(id);
+      if (oldPlane == null)
+      {
+        return;
+      }
+      
+      Airplanes.Remove(oldPlane);
     }
 
   }

@@ -2,9 +2,9 @@ namespace Generator.Models
 {
   public abstract class TransportPlane : Airplane
   {
-    protected TransportPlane(string id, string name, int speed, int maintenanceTime, Airport origin,
+    protected TransportPlane(string id, string name, int speed, int maintenanceTime,
                              double maxCapacity, int embarkingTime, int disembarkingTime) : base(
-      id, name, speed, maintenanceTime, origin)
+      id, name, speed, maintenanceTime)
     {
       MaxCapacity = maxCapacity;
       EmbarkingTime = embarkingTime;
