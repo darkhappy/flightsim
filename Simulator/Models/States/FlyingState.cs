@@ -5,27 +5,40 @@ namespace Simulator.Models.States
 {
   public abstract class FlyingState : ITaskState
   {
-    private Position _current;
-    private Position _destination;
-    private int _speed;
+    protected readonly int Speed;
+    protected Position Current;
+    protected Position Destination;
 
     protected FlyingState(int speed)
     {
-      _speed = speed;
+      Speed = speed;
     }
 
     public void Action(double time)
     {
-      var result = CalculateDistance();
-      _current = result.Item1;
+      var (position, timeLeft) = CalculateDistance();
+      Current = position;
 
-      if (_current.Equals(_destination)) OnArrived(result.Item2);
+      if (Current.Equals(Destination)) OnArrived(timeLeft);
     }
 
     public Task Task { get; }
 
-    private Tuple<Position, double> CalculateDistance()
+    protected virtual Tuple<Position, double> CalculateDistance()
     {
+      var distanceX = Destination.X - Current.X;
+      var distanceY = Destination.Y - Current.Y;
+
+      var norm = Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2));
+      var directionX = distanceX / norm;
+      var directionY = distanceY / norm;
+
+      var newX = directionX * Speed;
+      var newY = directionY * Speed;
+
+      var newPos = new Position(Convert.ToInt32(newX), Convert.ToInt32(newY));
+
+      // TODO: Calculate the time remaining in case we arrive before the tick is over
       throw new NotImplementedException();
     }
 
