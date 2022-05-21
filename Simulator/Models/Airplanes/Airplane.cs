@@ -5,8 +5,6 @@ namespace Simulator.Models.Airplanes
 {
   public abstract class Airplane
   {
-    public IState State { get; }
-
     protected Airplane(string id, string name, int speed, int maintenanceTime, Airport origin)
     {
       Id = id;
@@ -16,6 +14,8 @@ namespace Simulator.Models.Airplanes
       Origin = origin;
       State = new StandbyState();
     }
+
+    public IState State { get; }
 
     public string Id { get; set; }
 

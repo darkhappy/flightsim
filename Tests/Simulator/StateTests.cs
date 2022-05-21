@@ -9,14 +9,14 @@ namespace Tests.Simulator
   [TestFixture]
   public class StateTests
   {
-    private Airport _firstAirport;
-
     [SetUp]
     public void Setup()
     {
       _firstAirport = new Airport("DS-01", "Death Star", new Position(50, 50), 100, 100);
     }
-    
+
+    private Airport _firstAirport;
+
     [Test]
     public void SwitchingWhenFinishedTimeState()
     {
@@ -26,7 +26,7 @@ namespace Tests.Simulator
       plane.AssignTask(task);
       plane.ChangeState();
       plane.Action(2);
-      
+
       Assert.That(plane.State, Is.TypeOf<StandbyState>());
     }
 
@@ -35,7 +35,7 @@ namespace Tests.Simulator
     {
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       plane.Action(4124);
-      
+
       Assert.That(plane.State, Is.TypeOf<StandbyState>());
     }
   }

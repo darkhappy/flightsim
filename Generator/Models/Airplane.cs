@@ -12,16 +12,6 @@ namespace Generator.Models
       MaintenanceTime = maintenanceTime;
     }
 
-    public virtual void Edit(Dictionary<string, object> data)
-    {
-      if (!AirplaneFactory.Instance.VerifyData(data)) return;
-
-      Id = (string) data["id"];
-      Name = (string) data["name"];
-      Speed = (int) data["speed"];
-      MaintenanceTime = (int) data["maintenanceTime"];
-    }
-
     public string Id { get; private set; }
 
     public string Name { get; private set; }
@@ -32,5 +22,15 @@ namespace Generator.Models
 
     public abstract Colour Colour { get; }
     public abstract AirplaneType Type { get; }
+
+    public virtual void Edit(Dictionary<string, object> data)
+    {
+      if (!AirplaneFactory.Instance.VerifyData(data)) return;
+
+      Id = (string) data["id"];
+      Name = (string) data["name"];
+      Speed = (int) data["speed"];
+      MaintenanceTime = (int) data["maintenanceTime"];
+    }
   }
 }

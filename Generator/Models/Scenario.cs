@@ -6,7 +6,7 @@ namespace Generator.Models
 {
   public class Scenario
   {
-    private List<Airport> _airports;
+    private readonly List<Airport> _airports;
 
     public Scenario()
     {

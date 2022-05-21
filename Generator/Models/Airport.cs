@@ -14,11 +14,6 @@ namespace Generator.Models
       PassengerTraffic = passengerTraffic;
       CargoTraffic = cargoTraffic;
     }
-    
-    public Airplane? FindAirplane(string id)
-    {
-      return Airplanes.FirstOrDefault(a => a.Id == id);
-    }
 
     public string Id { get; set; }
     public string Name { get; set; }
@@ -27,11 +22,16 @@ namespace Generator.Models
     public double CargoTraffic { get; set; }
     public List<Airplane> Airplanes { get; }
 
+    public Airplane? FindAirplane(string id)
+    {
+      return Airplanes.FirstOrDefault(a => a.Id == id);
+    }
+
     public bool HasPlane(string airplaneCode)
     {
       return Airplanes.Any(a => a.Id == airplaneCode);
     }
-    
+
     public void AddAirplane(Dictionary<string, object> data)
     {
       var newPlane = AirplaneFactory.Instance.CreateAirplane(data);
@@ -57,19 +57,14 @@ namespace Generator.Models
         // Otherwise, just edit the old one
         oldPlane.Edit(data);
       }
-
     }
 
     public void DeleteAirplane(string id)
     {
       var oldPlane = FindAirplane(id);
-      if (oldPlane == null)
-      {
-        return;
-      }
-      
+      if (oldPlane == null) return;
+
       Airplanes.Remove(oldPlane);
     }
-
   }
 }

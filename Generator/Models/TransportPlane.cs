@@ -13,6 +13,10 @@ namespace Generator.Models
       DisembarkingTime = disembarkingTime;
     }
 
+    public double MaxCapacity { get; private set; }
+    public int EmbarkingTime { get; private set; }
+    public int DisembarkingTime { get; private set; }
+
     public override void Edit(Dictionary<string, object> data)
     {
       base.Edit(data);
@@ -21,9 +25,5 @@ namespace Generator.Models
       EmbarkingTime = (int) data["embarkingTime"];
       DisembarkingTime = (int) data["disembarkingTime"];
     }
-
-    public double MaxCapacity { get; private set; }
-    public int EmbarkingTime { get; private set; }
-    public int DisembarkingTime { get; private set; }
   }
 }

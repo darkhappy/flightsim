@@ -8,6 +8,6 @@ namespace Generator.Models
     }
 
     public override Colour Colour => Colour.Yellow;
-    public override AirplaneType Type => AirplaneType.Fight; 
+    public override AirplaneType Type => AirplaneType.Fight;
   }
 }

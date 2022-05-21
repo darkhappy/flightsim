@@ -8,13 +8,14 @@ namespace Generator.Controllers
     private readonly FormGenerator _frmGen;
     private readonly FormGenerator _frmMap;
     private Generator _instance;
-    public Generator Instance => _instance ?? (_instance = new Generator());
 
     private Generator()
     {
       _frmGen = new FormGenerator();
       Application.Run(_frmGen);
     }
+
+    public Generator Instance => _instance ?? (_instance = new Generator());
 
     public static void Main(string[] args)
     {

@@ -7,12 +7,6 @@ namespace Tests.Generator
   [TestFixture]
   public class AirportTests
   {
-    private Airport _airport;
-    private Dictionary<string, object> _baseDetails;
-    private Dictionary<string, object> _baseTransportDetails;
-    private Dictionary<string, object> _baseDetailsWithoutType;
-    private Dictionary<string, object> _baseTransportDetailsWithoutType;
-
     [SetUp]
     public void Setup()
     {
@@ -54,6 +48,12 @@ namespace Tests.Generator
         {"disembarkingTime", 2}
       };
     }
+
+    private Airport _airport;
+    private Dictionary<string, object> _baseDetails;
+    private Dictionary<string, object> _baseTransportDetails;
+    private Dictionary<string, object> _baseDetailsWithoutType;
+    private Dictionary<string, object> _baseTransportDetailsWithoutType;
 
     [Test]
     [TestCase(AirplaneType.Fight)]
@@ -137,7 +137,7 @@ namespace Tests.Generator
     {
       _airport.AddAirplane(_baseDetails);
       _airport.DeleteAirplane("T-01");
-      
+
       Assert.That(_airport.HasPlane("T-01"), Is.False);
     }
 
@@ -146,10 +146,10 @@ namespace Tests.Generator
     {
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2);
       _airport.Airplanes.Add(plane);
-      
+
       Assert.That(_airport.HasPlane("T-01"), Is.True);
     }
-    
+
     [Test]
     public void FindingANonExistingPlane()
     {
@@ -166,7 +166,7 @@ namespace Tests.Generator
         {"type", AirplaneType.Fight},
         {"speed", 100}
       };
-      
+
       // This should throw an exception, since we do not have the base plane details
       Assert.That(() => _airport.AddAirplane(incompleteInfo), Throws.ArgumentException);
     }

@@ -9,9 +9,6 @@ namespace Tests.Simulator
   [TestFixture]
   public class AirplaneTests
   {
-    private Airport _firstAirport;
-    private Airport _secondAirport;
-
     [SetUp]
     public void Setup()
     {
@@ -19,13 +16,16 @@ namespace Tests.Simulator
       _secondAirport = new Airport("COR", "Coruscant", new Position(0, 0), 1000, 1000);
     }
 
+    private Airport _firstAirport;
+    private Airport _secondAirport;
+
     [Test]
     public void PlaneIsInAirport()
     {
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       Assert.That(_firstAirport.Airplanes, Contains.Item(plane));
     }
-    
+
     [Test]
     public void PlaneIsNotInAirport()
     {
@@ -38,7 +38,7 @@ namespace Tests.Simulator
     {
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       var fight = new TaskFight(new Position(100, 100));
-      
+
       Assert.That(plane.AssignTask(fight), Is.True);
     }
 
@@ -59,18 +59,17 @@ namespace Tests.Simulator
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       var fight = new TaskFight(new Position(100, 100));
       plane.AssignTask(fight);
-      
+
       Assert.That(plane.State, Is.TypeOf<FightingFlight>());
     }
 
     [Test]
     public void SwitchingFromFightToMaintenance()
     {
-      
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       var fight = new TaskFight(new Position(100, 100));
       plane.AssignTask(fight);
-      
+
       plane.ChangeState();
       Assert.That(plane.State, Is.TypeOf<MaintenanceState>());
     }
@@ -81,7 +80,7 @@ namespace Tests.Simulator
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       var fight = new TaskFight(new Position(100, 100));
       plane.AssignTask(fight);
-      
+
       plane.ChangeState();
       plane.ChangeState();
       Assert.That(plane.State, Is.TypeOf<MaintenanceState>());

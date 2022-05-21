@@ -11,7 +11,7 @@ namespace Tests.Generator
     {
       var factoryOne = AirplaneFactory.Instance;
       var factoryTwo = AirplaneFactory.Instance;
-      
+
       Assert.AreSame(factoryOne, factoryTwo);
     }
   }

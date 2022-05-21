@@ -15,10 +15,7 @@ namespace Generator.Models
 
     public Airplane CreateAirplane(Dictionary<string, object> data)
     {
-      if (!VerifyData(data))
-      {
-        throw new ArgumentException("Invalid data");
-      }
+      if (!VerifyData(data)) throw new ArgumentException("Invalid data");
 
       // Get all the information
       var id = (string) data["id"];
