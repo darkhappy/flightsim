@@ -32,13 +32,13 @@ namespace Generator.Models
       return Airplanes.Any(a => a.Id == airplaneCode);
     }
 
-    public void AddAirplane(Dictionary<string, object> data)
+    public void AddAirplane(AirplaneInfo data)
     {
       var newPlane = AirplaneFactory.Instance.CreateAirplane(data);
       Airplanes.Add(newPlane);
     }
 
-    public void EditAirplane(string id, Dictionary<string, object> data)
+    public void EditAirplane(string id, AirplaneInfo data)
     {
       // Get the old airplane
       var oldPlane = FindAirplane(id);
@@ -47,7 +47,7 @@ namespace Generator.Models
       if (oldPlane == null) return;
 
       // If the type of the airplane has changed, remove the old one and add a new one
-      if (oldPlane.Type != (AirplaneType) data["type"])
+      if (oldPlane.Type != data.Type)
       {
         DeleteAirplane(id);
         AddAirplane(data);

@@ -45,16 +45,20 @@
   <ItemGroup>
     <Compile Include="Models\Airplane.cs"/>
     <Compile Include="Models\AirplaneFactory.cs"/>
+    <Compile Include="Models\AirplaneInfo.cs"/>
     <Compile Include="Models\AirplaneType.cs"/>
     <Compile Include="Models\Airport.cs"/>
+    <Compile Include="Models\AirportInfo.cs"/>
     <Compile Include="Models\CargoPlane.cs"/>
     <Compile Include="Models\Colour.cs"/>
     <Compile Include="Models\FightPlane.cs"/>
+    <Compile Include="Models\ObjectInfo.cs"/>
     <Compile Include="Models\PassengerPlane.cs"/>
     <Compile Include="Models\Position.cs"/>
     <Compile Include="Models\RescuePlane.cs"/>
     <Compile Include="Models\Scenario.cs"/>
     <Compile Include="Models\ScoutPlane.cs"/>
+    <Compile Include="Models\TransportInfo.cs"/>
     <Compile Include="Models\TransportPlane.cs"/>
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-
 namespace Generator.Models
 {
   public abstract class Airplane
@@ -23,14 +21,12 @@ namespace Generator.Models
     public abstract Colour Colour { get; }
     public abstract AirplaneType Type { get; }
 
-    public virtual void Edit(Dictionary<string, object> data)
+    public virtual void Edit(AirplaneInfo info)
     {
-      if (!AirplaneFactory.Instance.VerifyData(data)) return;
-
-      Id = (string) data["id"];
-      Name = (string) data["name"];
-      Speed = (int) data["speed"];
-      MaintenanceTime = (int) data["maintenanceTime"];
+      Id = info.Id;
+      Name = info.Name;
+      Speed = info.Speed;
+      MaintenanceTime = info.MaintenanceTime;
     }
   }
 }
