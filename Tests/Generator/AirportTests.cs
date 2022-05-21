@@ -9,7 +9,7 @@ namespace Tests.Generator
     [SetUp]
     public void Setup()
     {
-      _airport = new Airport("CRS", "Coruscant", new Position(0, 0), 100, 100);
+      _airport = new Airport(new AirportInfo("CRS", "Coruscant", new Position(0, 0), 100, 100));
       _baseDetails = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 4, 4);
       _baseTransportDetails = new TransportInfo("T-01", "Tie Fighter", AirplaneType.Passenger, 4, 4, 420, 60, 30);
     }
@@ -58,8 +58,11 @@ namespace Tests.Generator
     {
       _airport.AddAirplane(_baseTransportDetails);
 
-      var newPlaneDetails = _baseDetails;
+      var newPlaneDetails = _baseTransportDetails;
       newPlaneDetails.Id = "X-01";
+      newPlaneDetails.DisembarkingTime = 40;
+      newPlaneDetails.EmbarkingTime = 40;
+      newPlaneDetails.MaxCapacity = 100;
 
       _airport.EditAirplane("T-01", newPlaneDetails);
 

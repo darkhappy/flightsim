@@ -44,6 +44,7 @@
     <ItemGroup>
         <Compile Include="Generator\AirportTests.cs"/>
         <Compile Include="Generator\Misc.cs"/>
+        <Compile Include="Generator\ScenarioTests.cs"/>
         <Compile Include="Simulator\AirplaneTests.cs"/>
         <Compile Include="Simulator\StateTests.cs"/>
         <Compile Include="Tests.cs"/>

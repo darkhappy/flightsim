@@ -5,14 +5,14 @@ namespace Generator.Models
 {
   public class Airport
   {
-    public Airport(string id, string name, Position position, int passengerTraffic, double cargoTraffic)
+    public Airport(AirportInfo data)
     {
-      Id = id;
-      Name = name;
-      Position = position;
+      Id = data.Id;
+      Name = data.Name;
+      Position = data.Position;
       Airplanes = new List<Airplane>();
-      PassengerTraffic = passengerTraffic;
-      CargoTraffic = cargoTraffic;
+      PassengerTraffic = data.PassengerTraffic;
+      CargoTraffic = data.CargoTraffic;
     }
 
     public string Id { get; set; }

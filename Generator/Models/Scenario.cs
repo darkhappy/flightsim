@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -6,55 +5,86 @@ namespace Generator.Models
 {
   public class Scenario
   {
-    private readonly List<Airport> _airports;
-
     public Scenario()
     {
-      _airports = new List<Airport>();
+      Airports = new List<Airport>();
     }
+
+    public List<Airport> Airports { get; }
 
     private Airport? GetAirportWithPlane(string airplaneCode)
     {
-      return _airports.FirstOrDefault(a => a.HasPlane(airplaneCode));
+      return Airports.FirstOrDefault(a => a.HasPlane(airplaneCode));
     }
 
     private Airport? GetAirport(string airportCode)
     {
-      return _airports.FirstOrDefault(a => a.Id == airportCode);
+      return Airports.FirstOrDefault(a => a.Id == airportCode);
     }
 
-    public void AddAirplane(string id, string[] data)
+    public bool HasAirport(string airportCode)
     {
-      throw new NotImplementedException();
+      return GetAirport(airportCode) != null;
     }
 
-    public void EditAirplane(string id, string[] data)
+    public void AddAirplane(string id, AirplaneInfo info)
     {
-      throw new NotImplementedException();
+      if (HasAirplane(info.Id)) return;
+
+      var airport = GetAirport(id);
+
+      airport?.AddAirplane(info);
+    }
+
+    public void EditAirplane(string id, AirplaneInfo info)
+    {
+      var airport = GetAirportWithPlane(id);
+
+      airport?.EditAirplane(id, info);
     }
 
     public void DeleteAirplane(string id)
     {
-      throw new NotImplementedException();
+      var airport = GetAirportWithPlane(id);
+
+      airport?.DeleteAirplane(id);
     }
 
-    public void AddAirport(string[] data)
+    public void AddAirport(AirportInfo info)
     {
-      throw new NotImplementedException();
+      if (HasAirport(info.Id)) return;
+
+      var newAirport = new Airport(info);
+      Airports.Add(newAirport);
     }
 
-    public void EditAirport(string id, string[] data)
+    public void EditAirport(string id, AirportInfo info)
     {
-      throw new NotImplementedException();
+      var airport = GetAirport(id);
+      if (airport == null) return;
+
+      airport.Id = info.Id;
+      airport.Name = info.Name;
+      airport.Position = info.Position;
+      airport.CargoTraffic = info.CargoTraffic;
+      airport.PassengerTraffic = info.PassengerTraffic;
     }
 
     public void DeleteAirport(string id)
     {
-      throw new NotImplementedException();
+      var airport = GetAirport(id);
+      if (airport == null) return;
+
+      Airports.Remove(airport);
     }
 
     public void Export()
     {
+    }
+
+    public bool HasAirplane(string id)
+    {
+      return GetAirportWithPlane(id) != null;
     }
   }
 }
