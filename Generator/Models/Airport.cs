@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -41,20 +40,24 @@ namespace Generator.Models
 
     public void EditAirplane(string id, Dictionary<string, object> data)
     {
-      // TODO: Probably edit the airplane itself, not create a new one?
       // Get the old airplane
       var oldPlane = FindAirplane(id);
-      if (oldPlane == null)
+
+      // If the airplane is not found, return
+      if (oldPlane == null) return;
+
+      // If the type of the airplane has changed, remove the old one and add a new one
+      if (oldPlane.Type != (AirplaneType) data["type"])
       {
-        return;
+        DeleteAirplane(id);
+        AddAirplane(data);
       }
-      
-      // Remove the old airplane
-      Airplanes.Remove(oldPlane);
-      
-      // Create the new airplane
-      var newPlane = AirplaneFactory.Instance.CreateAirplane(data);
-      Airplanes.Add(newPlane);
+      else
+      {
+        // Otherwise, just edit the old one
+        oldPlane.Edit(data);
+      }
+
     }
 
     public void DeleteAirplane(string id)

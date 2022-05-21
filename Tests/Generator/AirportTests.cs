@@ -9,7 +9,9 @@ namespace Tests.Generator
   {
     private Airport _airport;
     private Dictionary<string, object> _baseDetails;
-    private Dictionary<string, object> _detailsWithoutType;
+    private Dictionary<string, object> _baseTransportDetails;
+    private Dictionary<string, object> _baseDetailsWithoutType;
+    private Dictionary<string, object> _baseTransportDetailsWithoutType;
 
     [SetUp]
     public void Setup()
@@ -23,25 +25,55 @@ namespace Tests.Generator
         {"speed", 100},
         {"maintenanceTime", 2}
       };
-      _detailsWithoutType = new Dictionary<string, object>
+      _baseTransportDetails = new Dictionary<string, object>
+      {
+        {"id", "T-01"},
+        {"name", "Tie Shuttle"},
+        {"type", AirplaneType.Cargo},
+        {"speed", 100},
+        {"maintenanceTime", 2},
+        {"maxCapacity", 100.0},
+        {"embarkingTime", 2},
+        {"disembarkingTime", 2}
+      };
+      _baseDetailsWithoutType = new Dictionary<string, object>
       {
         {"id", "T-01"},
         {"name", "Tie Fighter"},
         {"speed", 100},
         {"maintenanceTime", 2}
       };
+      _baseTransportDetailsWithoutType = new Dictionary<string, object>
+      {
+        {"id", "T-01"},
+        {"name", "Tie Fighter"},
+        {"speed", 100},
+        {"maintenanceTime", 2},
+        {"maxCapacity", 2.0},
+        {"embarkingTime", 2},
+        {"disembarkingTime", 2}
+      };
     }
 
     [Test]
-    [TestCase(AirplaneType.Cargo)]
     [TestCase(AirplaneType.Fight)]
-    [TestCase(AirplaneType.Passenger)]
     [TestCase(AirplaneType.Scout)]
     [TestCase(AirplaneType.Rescue)]
     public void AddingANewPlane(AirplaneType type)
     {
-      _detailsWithoutType.Add("type", type);
-      _airport.AddAirplane(_detailsWithoutType);
+      _baseDetailsWithoutType.Add("type", type);
+      _airport.AddAirplane(_baseDetailsWithoutType);
+
+      Assert.That(_airport.HasPlane("T-01"), Is.True);
+    }
+
+    [Test]
+    [TestCase(AirplaneType.Cargo)]
+    [TestCase(AirplaneType.Passenger)]
+    public void AddingANewTransportPlane(AirplaneType type)
+    {
+      _baseTransportDetailsWithoutType.Add("type", type);
+      _airport.AddAirplane(_baseTransportDetailsWithoutType);
 
       Assert.That(_airport.HasPlane("T-01"), Is.True);
     }
@@ -60,6 +92,44 @@ namespace Tests.Generator
       };
       _airport.EditAirplane("T-01", newPlaneDetails);
       Assert.That(_airport.HasPlane("X-01"), Is.True);
+    }
+
+    [Test]
+    public void EditingTransportPlane()
+    {
+      _airport.AddAirplane(_baseTransportDetails);
+      var newPlaneDetails = new Dictionary<string, object>
+      {
+        {"id", "X-01"},
+        {"name", "X-Wing"},
+        {"type", AirplaneType.Passenger},
+        {"speed", 200},
+        {"maintenanceTime", 3},
+        {"maxCapacity", 2000.0},
+        {"embarkingTime", 2},
+        {"disembarkingTime", 2}
+      };
+      _airport.EditAirplane("T-01", newPlaneDetails);
+
+      Assert.That(_airport.HasPlane("X-01"), Is.True);
+    }
+
+    [Test]
+    public void EditingPlaneType()
+    {
+      _airport.AddAirplane(_baseDetails);
+      var newPlaneDetails = new Dictionary<string, object>
+      {
+        {"id", "X-01"},
+        {"name", "X-Wing Rescuer"},
+        {"type", AirplaneType.Rescue},
+        {"speed", 100},
+        {"maintenanceTime", 2}
+      };
+      _airport.EditAirplane("T-01", newPlaneDetails);
+
+      var newPlane = _airport.FindAirplane("X-01");
+      Assert.That(newPlane, Is.TypeOf<RescuePlane>());
     }
 
     [Test]

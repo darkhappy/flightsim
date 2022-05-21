@@ -15,13 +15,10 @@ namespace Generator.Models
 
     public Airplane CreateAirplane(Dictionary<string, object> data)
     {
-      // Verify if any of the required fields is missing
-      if (!data.ContainsKey("id") || !data.ContainsKey("name") || !data.ContainsKey("speed") ||
-          !data.ContainsKey("type") || !data.ContainsKey("maintenanceTime"))
+      if (!VerifyData(data))
       {
         throw new ArgumentException("Invalid data");
       }
-
 
       // Get all the information
       var id = (string) data["id"];
@@ -30,9 +27,16 @@ namespace Generator.Models
       var type = (AirplaneType) data["type"];
       var maintenanceTime = (int) data["maintenanceTime"];
 
-      var maxCapacity = data.ContainsKey("maxCapacity") ? (double) data["maxCapacity"] : 0;
-      var embarkingTime = data.ContainsKey("embarkingTime") ? (int) data["embarkingTime"] : 0;
-      var disembarkingTime = data.ContainsKey("embarkingTime") ? (int) data["disembarkingTime"] : 0;
+      double maxCapacity = 0;
+      var embarkingTime = 0;
+      var disembarkingTime = 0;
+
+      if (type == AirplaneType.Passenger || type == AirplaneType.Cargo)
+      {
+        maxCapacity = (double) data["maxCapacity"];
+        embarkingTime = (int) data["embarkingTime"];
+        disembarkingTime = (int) data["disembarkingTime"];
+      }
 
       // Create the airplane
       return type switch
@@ -46,6 +50,32 @@ namespace Generator.Models
         AirplaneType.Scout => new ScoutPlane(id, name, speed, maintenanceTime),
         _ => throw new ArgumentOutOfRangeException()
       };
+    }
+
+    public bool VerifyData(Dictionary<string, object> data)
+    {
+      // Verify if the data is present
+      if (!data.ContainsKey("id") || !data.ContainsKey("name") || !data.ContainsKey("speed") ||
+          !data.ContainsKey("type") || !data.ContainsKey("maintenanceTime"))
+        return false;
+
+      // Verify each object's type
+      if (!(data["id"] is string) || !(data["name"] is string) || !(data["speed"] is int) ||
+          !(data["type"] is AirplaneType) || !(data["maintenanceTime"] is int))
+        return false;
+
+      var type = (AirplaneType) data["type"];
+
+      // Transport information
+      if (type != AirplaneType.Cargo && type != AirplaneType.Passenger) return true;
+
+      // Verify if the data is present
+      if (!data.ContainsKey("maxCapacity") || !data.ContainsKey("embarkingTime") ||
+          !data.ContainsKey("disembarkingTime"))
+        return false;
+
+      return data["maxCapacity"] is double && data["embarkingTime"] is int &&
+             data["disembarkingTime"] is int;
     }
   }
 }

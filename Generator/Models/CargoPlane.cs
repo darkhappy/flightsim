@@ -9,5 +9,6 @@ namespace Generator.Models
     }
 
     public override Colour Colour => Colour.Blue;
+    public override AirplaneType Type => AirplaneType.Cargo; 
   }
 }
