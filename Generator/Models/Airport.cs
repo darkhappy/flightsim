@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -43,8 +44,8 @@ namespace Generator.Models
       // Get the old airplane
       var oldPlane = FindAirplane(id);
 
-      // If the airplane is not found, return
-      if (oldPlane == null) return;
+      // If the airplane is not found, throw an exception
+      if (oldPlane == null) throw new ArgumentException($"Airplane {id} was not found.");
 
       // If the type of the airplane has changed, remove the old one and add a new one
       if (oldPlane.Type != data.Type)
@@ -62,7 +63,7 @@ namespace Generator.Models
     public void DeleteAirplane(string id)
     {
       var oldPlane = FindAirplane(id);
-      if (oldPlane == null) return;
+      if (oldPlane == null) throw new ArgumentException($"Airplane {id} was not found.");
 
       Airplanes.Remove(oldPlane);
     }

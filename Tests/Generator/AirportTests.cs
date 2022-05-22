@@ -94,8 +94,7 @@ namespace Tests.Generator
     [Test]
     public void FindPlane()
     {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2);
-      _airport.Airplanes.Add(plane);
+      _airport.AddAirplane(_baseDetails);
 
       Assert.That(_airport.HasPlane("T-01"), Is.True);
     }
@@ -112,19 +111,19 @@ namespace Tests.Generator
       var incompleteInfo = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Cargo, 4, 4);
 
       // Should throw an error, as there can't be a max capacity of 0.
-      Assert.That(() => _airport.AddAirplane(incompleteInfo), Throws.ArgumentException);
+      Assert.That(() => _airport.AddAirplane(incompleteInfo), Throws.Exception);
     }
 
     [Test]
     public void EditingNonExistingPlane()
     {
-      Assert.That(() => _airport.EditAirplane("T-01", _baseDetails), Throws.Nothing);
+      Assert.That(() => _airport.EditAirplane("T-01", _baseDetails), Throws.ArgumentException);
     }
 
     [Test]
     public void RemovingNonExistingPlane()
     {
-      Assert.That(() => _airport.DeleteAirplane("X-01"), Throws.Nothing);
+      Assert.That(() => _airport.DeleteAirplane("X-01"), Throws.ArgumentException);
     }
   }
 }

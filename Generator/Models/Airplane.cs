@@ -2,12 +2,12 @@ namespace Generator.Models
 {
   public abstract class Airplane
   {
-    protected Airplane(string id, string name, int speed, int maintenanceTime)
+    protected Airplane(AirplaneInfo info)
     {
-      Id = id;
-      Name = name;
-      Speed = speed;
-      MaintenanceTime = maintenanceTime;
+      Id = info.Id;
+      Name = info.Name;
+      Speed = info.Speed;
+      MaintenanceTime = info.MaintenanceTime;
     }
 
     public string Id { get; private set; }

@@ -1,4 +1,3 @@
-using System.Linq;
 using Generator.Models;
 using NUnit.Framework;
 
@@ -95,9 +94,23 @@ namespace Tests.Generator
       _scenario.AddAirport(_airportInfo);
       var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
       _scenario.AddAirplane("CRS", airplane);
-      _scenario.DeleteAirplane("CRS");
+      _scenario.DeleteAirplane("T-01");
 
-      Assert.That(_scenario.HasAirplane("CRS"), Is.False);
+      Assert.That(_scenario.HasAirplane("T-01"), Is.False);
+    }
+
+    [Test]
+    public void DeletingANonExistentAirplane()
+    {
+      _scenario.AddAirport(_airportInfo);
+
+      void Delete()
+      {
+        _scenario.DeleteAirplane("T-01");
+      }
+
+
+      Assert.That(Delete, Throws.ArgumentException);
     }
 
     [Test]
@@ -113,7 +126,13 @@ namespace Tests.Generator
       _scenario.AddAirport(_airportInfo);
       var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
       _scenario.AddAirplane("CRS", airplane);
-      _scenario.AddAirplane("CRS", airplane);
+
+      void AddDuplicatePlane()
+      {
+        _scenario.AddAirplane("CRS", airplane);
+      }
+
+      Assert.That(AddDuplicatePlane, Throws.ArgumentException);
     }
 
     [Test]
@@ -127,19 +146,42 @@ namespace Tests.Generator
       // Try to add T-01 to both airports
       var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
       _scenario.AddAirplane("CRS", airplane);
-      _scenario.AddAirplane("DS-01", airplane);
+
+      void AddDuplicatePlane()
+      {
+        _scenario.AddAirplane("DS-01", airplane);
+      }
 
       // Assert that there is only airplane
-      Assert.That(_scenario.Airports.Count(a => a.HasPlane("T-01")), Is.EqualTo(1));
+      Assert.That(AddDuplicatePlane, Throws.ArgumentException);
     }
 
     [Test]
     public void CannotAddDuplicateAirport()
     {
       _scenario.AddAirport(_airportInfo);
-      _scenario.AddAirport(_airportInfo);
 
-      Assert.That(_scenario.Airports.Count, Is.EqualTo(1));
+      void AddDuplicateAirport()
+      {
+        _scenario.AddAirport(_airportInfo);
+      }
+
+      Assert.That(AddDuplicateAirport, Throws.ArgumentException);
+    }
+
+    [Test]
+    public void CannotEditANonExistentPlane()
+    {
+      _scenario.AddAirport(_airportInfo);
+      var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", airplane);
+
+      void EditNonExistentPlane()
+      {
+        _scenario.EditAirplane("T-02", airplane);
+      }
+
+      Assert.That(EditNonExistentPlane, Throws.ArgumentException);
     }
   }
 }

@@ -4,15 +4,15 @@ namespace Generator.Models
 {
   public abstract class TransportPlane : Airplane
   {
-    protected TransportPlane(string id, string name, int speed, int maintenanceTime,
-                             double maxCapacity, int embarkingTime, int disembarkingTime) : base(
-      id, name, speed, maintenanceTime)
+    protected TransportPlane(AirplaneInfo info) : base(info)
     {
-      if (maxCapacity <= 0) throw new ArgumentException("Max capacity cannot be less than or equal to 0");
+      if (info.MaxCapacity <= 0)
+        throw new ArgumentOutOfRangeException(nameof(info.MaxCapacity),
+          @"Max capacity cannot be less than or equal to 0");
 
-      MaxCapacity = maxCapacity;
-      EmbarkingTime = embarkingTime;
-      DisembarkingTime = disembarkingTime;
+      MaxCapacity = info.MaxCapacity;
+      EmbarkingTime = info.EmbarkingTime;
+      DisembarkingTime = info.DisembarkingTime;
     }
 
     public double MaxCapacity { get; private set; }

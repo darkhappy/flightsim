@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -29,30 +30,33 @@ namespace Generator.Models
 
     public void AddAirplane(string id, AirplaneInfo info)
     {
-      if (HasAirplane(info.Id)) return;
+      if (HasAirplane(info.Id)) throw new ArgumentException($"Airplane {id} already exists.");
 
       var airport = GetAirport(id);
+      if (airport == null) throw new ArgumentException($"Airport {id} was not found.");
 
-      airport?.AddAirplane(info);
+      airport.AddAirplane(info);
     }
 
     public void EditAirplane(string id, AirplaneInfo info)
     {
       var airport = GetAirportWithPlane(id);
+      if (airport == null) throw new ArgumentException($"Airplane {id} was not found.");
 
-      airport?.EditAirplane(id, info);
+      airport.EditAirplane(id, info);
     }
 
     public void DeleteAirplane(string id)
     {
       var airport = GetAirportWithPlane(id);
+      if (airport == null) throw new ArgumentException($"Airplane {id} was not found.");
 
-      airport?.DeleteAirplane(id);
+      airport.DeleteAirplane(id);
     }
 
     public void AddAirport(AirportInfo info)
     {
-      if (HasAirport(info.Id)) return;
+      if (HasAirport(info.Id)) throw new ArgumentException($"Airport {info.Id} already exists.");
 
       var newAirport = new Airport(info);
       Airports.Add(newAirport);
@@ -61,7 +65,7 @@ namespace Generator.Models
     public void EditAirport(string id, AirportInfo info)
     {
       var airport = GetAirport(id);
-      if (airport == null) return;
+      if (airport == null) throw new ArgumentException($"Airport {id} was not found.");
 
       airport.Id = info.Id;
       airport.Name = info.Name;
@@ -73,7 +77,7 @@ namespace Generator.Models
     public void DeleteAirport(string id)
     {
       var airport = GetAirport(id);
-      if (airport == null) return;
+      if (airport == null) throw new ArgumentException($"Airport {id} was not found.");
 
       Airports.Remove(airport);
     }
