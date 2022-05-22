@@ -18,7 +18,6 @@ namespace Generator.Models
 
     public int MaintenanceTime { get; private set; }
 
-    public abstract Colour Colour { get; }
     public abstract AirplaneType Type { get; }
 
     public virtual void Edit(AirplaneInfo info)
