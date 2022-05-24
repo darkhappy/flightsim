@@ -77,6 +77,8 @@ namespace Generator
       this.toolMusic = new System.Windows.Forms.ToolStripDropDownButton();
       this.subToolStart = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolStop = new System.Windows.Forms.ToolStripMenuItem();
+      this.labError = new System.Windows.Forms.Label();
+      this.gbTraffic = new System.Windows.Forms.GroupBox();
       this.gbAirports.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numMTraffic)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).BeginInit();
@@ -88,14 +90,12 @@ namespace Generator
       ((System.ComponentModel.ISupportInitialize)(this.numDisembarking)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).BeginInit();
       this.toolStrip.SuspendLayout();
+      this.gbTraffic.SuspendLayout();
       this.SuspendLayout();
       // 
       // gbAirports
       // 
-      this.gbAirports.Controls.Add(this.numMTraffic);
-      this.gbAirports.Controls.Add(this.labMTraffic);
-      this.gbAirports.Controls.Add(this.numPTraffic);
-      this.gbAirports.Controls.Add(this.labPTraffic);
+      this.gbAirports.Controls.Add(this.gbTraffic);
       this.gbAirports.Controls.Add(this.txbPosition);
       this.gbAirports.Controls.Add(this.labPosition);
       this.gbAirports.Controls.Add(this.btnDeleteAirport);
@@ -115,22 +115,32 @@ namespace Generator
       // 
       // numMTraffic
       // 
-      this.numMTraffic.Location = new System.Drawing.Point(1416, 251);
+      this.numMTraffic.Location = new System.Drawing.Point(189, 110);
       this.numMTraffic.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numMTraffic.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
+      this.numMTraffic.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.numMTraffic.Name = "numMTraffic";
-      this.numMTraffic.Size = new System.Drawing.Size(243, 26);
+      this.numMTraffic.Size = new System.Drawing.Size(235, 26);
       this.numMTraffic.TabIndex = 11;
+      this.numMTraffic.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
       // 
       // labMTraffic
       // 
       this.labMTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
       this.labMTraffic.AutoSize = true;
-      this.labMTraffic.Location = new System.Drawing.Point(1221, 254);
+      this.labMTraffic.Location = new System.Drawing.Point(10, 112);
       this.labMTraffic.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.labMTraffic.Name = "labMTraffic";
       this.labMTraffic.Size = new System.Drawing.Size(152, 20);
@@ -139,22 +149,32 @@ namespace Generator
       // 
       // numPTraffic
       // 
-      this.numPTraffic.Location = new System.Drawing.Point(1416, 178);
+      this.numPTraffic.Location = new System.Drawing.Point(189, 55);
       this.numPTraffic.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numPTraffic.Maximum = new decimal(new int[] {
             10,
             0,
             0,
             0});
+      this.numPTraffic.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
       this.numPTraffic.Name = "numPTraffic";
-      this.numPTraffic.Size = new System.Drawing.Size(243, 26);
+      this.numPTraffic.Size = new System.Drawing.Size(235, 26);
       this.numPTraffic.TabIndex = 9;
+      this.numPTraffic.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
       // 
       // labPTraffic
       // 
       this.labPTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
       this.labPTraffic.AutoSize = true;
-      this.labPTraffic.Location = new System.Drawing.Point(1221, 182);
+      this.labPTraffic.Location = new System.Drawing.Point(10, 55);
       this.labPTraffic.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
       this.labPTraffic.Name = "labPTraffic";
       this.labPTraffic.Size = new System.Drawing.Size(137, 20);
@@ -163,7 +183,6 @@ namespace Generator
       // 
       // txbPosition
       // 
-      this.txbPosition.Enabled = false;
       this.txbPosition.Location = new System.Drawing.Point(1341, 111);
       this.txbPosition.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.txbPosition.Name = "txbPosition";
@@ -209,6 +228,7 @@ namespace Generator
       this.btnAddAirport.TabIndex = 3;
       this.btnAddAirport.Text = "Add";
       this.btnAddAirport.UseVisualStyleBackColor = true;
+      this.btnAddAirport.Click += new System.EventHandler(this.btnAddAirport_Click);
       // 
       // labAiportName
       // 
@@ -325,10 +345,10 @@ namespace Generator
       // 
       // numMaintenance
       // 
-      this.numMaintenance.Location = new System.Drawing.Point(116, 151);
+      this.numMaintenance.Location = new System.Drawing.Point(188, 151);
       this.numMaintenance.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numMaintenance.Name = "numMaintenance";
-      this.numMaintenance.Size = new System.Drawing.Size(308, 26);
+      this.numMaintenance.Size = new System.Drawing.Size(236, 26);
       this.numMaintenance.TabIndex = 9;
       this.numMaintenance.Value = new decimal(new int[] {
             15,
@@ -348,10 +368,10 @@ namespace Generator
       // 
       // numDisembarking
       // 
-      this.numDisembarking.Location = new System.Drawing.Point(117, 100);
+      this.numDisembarking.Location = new System.Drawing.Point(189, 100);
       this.numDisembarking.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numDisembarking.Name = "numDisembarking";
-      this.numDisembarking.Size = new System.Drawing.Size(308, 26);
+      this.numDisembarking.Size = new System.Drawing.Size(236, 26);
       this.numDisembarking.TabIndex = 3;
       this.numDisembarking.Value = new decimal(new int[] {
             15,
@@ -371,10 +391,10 @@ namespace Generator
       // 
       // numEmbarking
       // 
-      this.numEmbarking.Location = new System.Drawing.Point(116, 49);
+      this.numEmbarking.Location = new System.Drawing.Point(188, 49);
       this.numEmbarking.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numEmbarking.Name = "numEmbarking";
-      this.numEmbarking.Size = new System.Drawing.Size(308, 26);
+      this.numEmbarking.Size = new System.Drawing.Size(236, 26);
       this.numEmbarking.TabIndex = 1;
       this.numEmbarking.Value = new decimal(new int[] {
             15,
@@ -524,7 +544,7 @@ namespace Generator
       this.toolStrip.Location = new System.Drawing.Point(0, 0);
       this.toolStrip.Name = "toolStrip";
       this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-      this.toolStrip.Size = new System.Drawing.Size(1730, 34);
+      this.toolStrip.Size = new System.Drawing.Size(1730, 38);
       this.toolStrip.TabIndex = 13;
       this.toolStrip.Text = "toolStrip1";
       // 
@@ -539,7 +559,7 @@ namespace Generator
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolFile.Name = "toolFile";
-      this.toolFile.Size = new System.Drawing.Size(56, 29);
+      this.toolFile.Size = new System.Drawing.Size(56, 33);
       this.toolFile.Text = "File";
       // 
       // subToolOpen
@@ -575,7 +595,7 @@ namespace Generator
       this.toolMusic.Image = ((System.Drawing.Image)(resources.GetObject("toolMusic.Image")));
       this.toolMusic.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolMusic.Name = "toolMusic";
-      this.toolMusic.Size = new System.Drawing.Size(76, 29);
+      this.toolMusic.Size = new System.Drawing.Size(76, 33);
       this.toolMusic.Text = "Music";
       // 
       // subToolStart
@@ -592,11 +612,38 @@ namespace Generator
       this.subToolStop.Text = "Stop";
       this.subToolStop.Click += new System.EventHandler(this.subToolStop_Click);
       // 
+      // labError
+      // 
+      this.labError.Anchor = System.Windows.Forms.AnchorStyles.Right;
+      this.labError.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labError.ForeColor = System.Drawing.Color.Red;
+      this.labError.Location = new System.Drawing.Point(24, 1139);
+      this.labError.Name = "labError";
+      this.labError.Size = new System.Drawing.Size(1678, 31);
+      this.labError.TabIndex = 12;
+      this.labError.Text = "Error: This is an invisible error, please change text to fit your need";
+      this.labError.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+      this.labError.Visible = false;
+      // 
+      // gbTraffic
+      // 
+      this.gbTraffic.Controls.Add(this.numPTraffic);
+      this.gbTraffic.Controls.Add(this.numMTraffic);
+      this.gbTraffic.Controls.Add(this.labPTraffic);
+      this.gbTraffic.Controls.Add(this.labMTraffic);
+      this.gbTraffic.Location = new System.Drawing.Point(1226, 174);
+      this.gbTraffic.Name = "gbTraffic";
+      this.gbTraffic.Size = new System.Drawing.Size(434, 168);
+      this.gbTraffic.TabIndex = 12;
+      this.gbTraffic.TabStop = false;
+      this.gbTraffic.Text = "Traffic (Min: 1, Max: 10)";
+      // 
       // FormGenerator
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1730, 1149);
+      this.ClientSize = new System.Drawing.Size(1730, 1179);
+      this.Controls.Add(this.labError);
       this.Controls.Add(this.toolStrip);
       this.Controls.Add(this.gbAirplanes);
       this.Controls.Add(this.gbAirports);
@@ -620,6 +667,8 @@ namespace Generator
       ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).EndInit();
       this.toolStrip.ResumeLayout(false);
       this.toolStrip.PerformLayout();
+      this.gbTraffic.ResumeLayout(false);
+      this.gbTraffic.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -672,5 +721,7 @@ namespace Generator
     private ToolStripDropDownButton toolMusic;
     private ToolStripMenuItem subToolStart;
     private ToolStripMenuItem subToolStop;
+    private Label labError;
+    private GroupBox gbTraffic;
   }
 }
