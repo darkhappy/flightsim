@@ -82,13 +82,22 @@ namespace Generator.Models
       Airports.Remove(airport);
     }
 
-    public void Export()
-    {
-    }
-
     public bool HasAirplane(string id)
     {
       return GetAirportWithPlane(id) != null;
+    }
+
+    public List<AirportInfo> GetAirportsInfo()
+    {
+      return Airports.Select(a => a.ToAirportInfo()).ToList();
+    }
+
+    public List<AirplaneInfo> GetAirplanesInfo(string id)
+    {
+      var airport = GetAirport(id);
+      if (airport == null) throw new ArgumentException($"Airport {id} was not found.");
+
+      return airport.GetAirplanesInfo();
     }
   }
 }

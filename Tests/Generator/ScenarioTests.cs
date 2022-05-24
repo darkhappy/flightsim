@@ -183,5 +183,40 @@ namespace Tests.Generator
 
       Assert.That(EditNonExistentPlane, Throws.ArgumentException);
     }
+
+    [Test]
+    public void AddingToANonExistentAirport()
+    {
+      var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
+
+      void AddAirplane()
+      {
+        _scenario.AddAirplane("CRS", airplane);
+      }
+
+      Assert.That(AddAirplane, Throws.ArgumentException);
+    }
+
+    [Test]
+    public void EditingNonExistentAirport()
+    {
+      void EditAirport()
+      {
+        _scenario.EditAirport("DS-01", _airportInfo);
+      }
+
+      Assert.That(EditAirport, Throws.ArgumentException);
+    }
+
+    [Test]
+    public void DeletingNonExistentAirport()
+    {
+      void DeleteAirport()
+      {
+        _scenario.DeleteAirport("DS-01");
+      }
+
+      Assert.That(DeleteAirport, Throws.ArgumentException);
+    }
   }
 }
