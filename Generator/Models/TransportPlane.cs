@@ -29,5 +29,10 @@ namespace Generator.Models
       EmbarkingTime = info.EmbarkingTime;
       DisembarkingTime = info.DisembarkingTime;
     }
+
+    public override AirplaneInfo ToAirplaneInfo()
+    {
+      return new TransportInfo(Id, Name, Type, MaintenanceTime, Speed, MaxCapacity, EmbarkingTime, DisembarkingTime);
+    }
   }
 }

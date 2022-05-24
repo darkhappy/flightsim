@@ -218,5 +218,57 @@ namespace Tests.Generator
 
       Assert.That(DeleteAirport, Throws.ArgumentException);
     }
+
+    [Test]
+    public void ExportingAirplaneData()
+    {
+      _scenario.AddAirport(_airportInfo);
+      var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", airplane);
+
+      var exportedData = _scenario.GetAirplanesInfo("CRS");
+
+      Assert.That(exportedData, Contains.Item(airplane));
+    }
+
+    [Test]
+    public void ExportingAirportData()
+    {
+      _scenario.AddAirport(_airportInfo);
+
+      var exportedData = _scenario.GetAirportsInfo();
+
+      Assert.That(exportedData, Contains.Item(_airportInfo));
+    }
+
+    [Test]
+    public void ModifyingTransportPlaneDataGivesCorrectResult()
+    {
+      _scenario.AddAirport(_airportInfo);
+      var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", airplane);
+
+      var newAirplane = new TransportInfo("X-01", "Tie Fighter", AirplaneType.Cargo, 420, 60, 420, 2, 2);
+      _scenario.EditAirplane("T-01", newAirplane);
+
+      var exportedData = _scenario.GetAirplanesInfo("CRS");
+
+      Assert.That(exportedData, Contains.Item(newAirplane));
+    }
+
+    [Test]
+    public void ModifyingAirplaneDataGivesCorrectResult()
+    {
+      _scenario.AddAirport(_airportInfo);
+      var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", airplane);
+
+      var newAirplane = new AirplaneInfo("X-01", "Tie Fighter", AirplaneType.Fight, 69, 222);
+      _scenario.EditAirplane("T-01", newAirplane);
+
+      var exportedData = _scenario.GetAirplanesInfo("CRS");
+
+      Assert.That(exportedData, Contains.Item(newAirplane));
+    }
   }
 }
