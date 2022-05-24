@@ -59,11 +59,11 @@ namespace Generator
       this.cmbType = new System.Windows.Forms.ComboBox();
       this.labCapacity = new System.Windows.Forms.Label();
       this.labType = new System.Windows.Forms.Label();
-      this.txbNameAirport = new System.Windows.Forms.TextBox();
+      this.txbAirplaneName = new System.Windows.Forms.TextBox();
       this.labNameAirport = new System.Windows.Forms.Label();
-      this.button1 = new System.Windows.Forms.Button();
-      this.button2 = new System.Windows.Forms.Button();
-      this.button3 = new System.Windows.Forms.Button();
+      this.btnDeleteAirplane = new System.Windows.Forms.Button();
+      this.btnModifyAirplane = new System.Windows.Forms.Button();
+      this.btnAddAirplane = new System.Windows.Forms.Button();
       this.labAirplaneId = new System.Windows.Forms.Label();
       this.txbAirplaneId = new System.Windows.Forms.TextBox();
       this.listPlane = new System.Windows.Forms.ListView();
@@ -271,11 +271,11 @@ namespace Generator
       this.gbAirplanes.Controls.Add(this.cmbType);
       this.gbAirplanes.Controls.Add(this.labCapacity);
       this.gbAirplanes.Controls.Add(this.labType);
-      this.gbAirplanes.Controls.Add(this.txbNameAirport);
+      this.gbAirplanes.Controls.Add(this.txbAirplaneName);
       this.gbAirplanes.Controls.Add(this.labNameAirport);
-      this.gbAirplanes.Controls.Add(this.button1);
-      this.gbAirplanes.Controls.Add(this.button2);
-      this.gbAirplanes.Controls.Add(this.button3);
+      this.gbAirplanes.Controls.Add(this.btnDeleteAirplane);
+      this.gbAirplanes.Controls.Add(this.btnModifyAirplane);
+      this.gbAirplanes.Controls.Add(this.btnAddAirplane);
       this.gbAirplanes.Controls.Add(this.labAirplaneId);
       this.gbAirplanes.Controls.Add(this.txbAirplaneId);
       this.gbAirplanes.Controls.Add(this.listPlane);
@@ -418,6 +418,7 @@ namespace Generator
       // 
       // cmbType
       // 
+      this.cmbType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
       this.cmbType.FormattingEnabled = true;
       this.cmbType.Items.AddRange(new object[] {
             "Passenger",
@@ -454,13 +455,13 @@ namespace Generator
       this.labType.TabIndex = 8;
       this.labType.Text = "Type:";
       // 
-      // txbNameAirport
+      // txbAirplaneName
       // 
-      this.txbNameAirport.Location = new System.Drawing.Point(1341, 97);
-      this.txbNameAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.txbNameAirport.Name = "txbNameAirport";
-      this.txbNameAirport.Size = new System.Drawing.Size(316, 26);
-      this.txbNameAirport.TabIndex = 7;
+      this.txbAirplaneName.Location = new System.Drawing.Point(1341, 97);
+      this.txbAirplaneName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.txbAirplaneName.Name = "txbAirplaneName";
+      this.txbAirplaneName.Size = new System.Drawing.Size(316, 26);
+      this.txbAirplaneName.TabIndex = 7;
       // 
       // labNameAirport
       // 
@@ -472,35 +473,36 @@ namespace Generator
       this.labNameAirport.TabIndex = 6;
       this.labNameAirport.Text = "Name:";
       // 
-      // button1
+      // btnDeleteAirplane
       // 
-      this.button1.Location = new System.Drawing.Point(1514, 488);
-      this.button1.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.button1.Name = "button1";
-      this.button1.Size = new System.Drawing.Size(146, 35);
-      this.button1.TabIndex = 5;
-      this.button1.Text = "Delete";
-      this.button1.UseVisualStyleBackColor = true;
+      this.btnDeleteAirplane.Location = new System.Drawing.Point(1514, 488);
+      this.btnDeleteAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnDeleteAirplane.Name = "btnDeleteAirplane";
+      this.btnDeleteAirplane.Size = new System.Drawing.Size(146, 35);
+      this.btnDeleteAirplane.TabIndex = 5;
+      this.btnDeleteAirplane.Text = "Delete";
+      this.btnDeleteAirplane.UseVisualStyleBackColor = true;
       // 
-      // button2
+      // btnModifyAirplane
       // 
-      this.button2.Location = new System.Drawing.Point(1359, 488);
-      this.button2.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.button2.Name = "button2";
-      this.button2.Size = new System.Drawing.Size(146, 35);
-      this.button2.TabIndex = 4;
-      this.button2.Text = "Modify";
-      this.button2.UseVisualStyleBackColor = true;
+      this.btnModifyAirplane.Location = new System.Drawing.Point(1359, 488);
+      this.btnModifyAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnModifyAirplane.Name = "btnModifyAirplane";
+      this.btnModifyAirplane.Size = new System.Drawing.Size(146, 35);
+      this.btnModifyAirplane.TabIndex = 4;
+      this.btnModifyAirplane.Text = "Modify";
+      this.btnModifyAirplane.UseVisualStyleBackColor = true;
       // 
-      // button3
+      // btnAddAirplane
       // 
-      this.button3.Location = new System.Drawing.Point(1204, 488);
-      this.button3.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.button3.Name = "button3";
-      this.button3.Size = new System.Drawing.Size(146, 35);
-      this.button3.TabIndex = 3;
-      this.button3.Text = "Add";
-      this.button3.UseVisualStyleBackColor = true;
+      this.btnAddAirplane.Location = new System.Drawing.Point(1204, 488);
+      this.btnAddAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnAddAirplane.Name = "btnAddAirplane";
+      this.btnAddAirplane.Size = new System.Drawing.Size(146, 35);
+      this.btnAddAirplane.TabIndex = 3;
+      this.btnAddAirplane.Text = "Add";
+      this.btnAddAirplane.UseVisualStyleBackColor = true;
+      this.btnAddAirplane.Click += new System.EventHandler(this.btnAddAirplane_Click);
       // 
       // labAirplaneId
       // 
@@ -563,7 +565,7 @@ namespace Generator
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolFile.Name = "toolFile";
-      this.toolFile.Size = new System.Drawing.Size(56, 29);
+      this.toolFile.Size = new System.Drawing.Size(56, 33);
       this.toolFile.Text = "File";
       // 
       // subToolOpen
@@ -599,7 +601,7 @@ namespace Generator
       this.toolMusic.Image = ((System.Drawing.Image)(resources.GetObject("toolMusic.Image")));
       this.toolMusic.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolMusic.Name = "toolMusic";
-      this.toolMusic.Size = new System.Drawing.Size(76, 29);
+      this.toolMusic.Size = new System.Drawing.Size(76, 33);
       this.toolMusic.Text = "Music";
       // 
       // subToolStart
@@ -716,11 +718,11 @@ namespace Generator
     private ComboBox cmbType;
     private Label labCapacity;
     private Label labType;
-    private TextBox txbNameAirport;
+    private TextBox txbAirplaneName;
     private Label labNameAirport;
-    private Button button1;
-    private Button button2;
-    private Button button3;
+    private Button btnDeleteAirplane;
+    private Button btnModifyAirplane;
+    private Button btnAddAirplane;
     private Label labAirplaneId;
     private TextBox txbAirplaneId;
     private ListView listPlane;

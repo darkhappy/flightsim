@@ -32,7 +32,7 @@ namespace Generator.Controllers
     public static Generator Instance => _instance ??= new Generator();
 
 
-    public void AddAirplane(string id, string[] data)
+    public void AddAirplane(string id, AirplaneInfo info)
     {
       throw new NotImplementedException();
     }
@@ -47,7 +47,7 @@ namespace Generator.Controllers
       throw new NotImplementedException();
     }
 
-    public void AddAirport(AirportInfo airportInfo)
+    public void AddAirport(AirportInfo info)
     {
       throw new NotImplementedException();
     }
