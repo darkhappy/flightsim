@@ -67,5 +67,15 @@ namespace Generator.Models
 
       Airplanes.Remove(oldPlane);
     }
+
+    public List<AirplaneInfo> GetAirplanesInfo()
+    {
+      return Airplanes.Select(airplane => airplane.ToAirplaneInfo()).ToList();
+    }
+
+    public AirportInfo ToAirportInfo()
+    {
+      return new AirportInfo(Id, Name, Position, PassengerTraffic, CargoTraffic);
+    }
   }
 }

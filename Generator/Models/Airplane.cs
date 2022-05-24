@@ -27,5 +27,10 @@ namespace Generator.Models
       Speed = info.Speed;
       MaintenanceTime = info.MaintenanceTime;
     }
+
+    public AirplaneInfo ToAirplaneInfo()
+    {
+      return new AirplaneInfo(Id, Name, Type, Speed, MaintenanceTime);
+    }
   }
 }
