@@ -1,17 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
-  public class Scenario
+  public class Scenario : IExtensibleDataObject
   {
     public Scenario()
     {
       Airports = new List<Airport>();
     }
 
-    public List<Airport> Airports { get; }
+    [DataMember] public List<Airport> Airports { get; }
+
+    public ExtensionDataObject ExtensionData { get; set; } = null!;
 
     private Airport? GetAirportWithPlane(string airplaneCode)
     {

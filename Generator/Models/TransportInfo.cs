@@ -8,7 +8,7 @@ namespace Generator.Models
     private int _embarkingTime;
     private double _maxCapacity;
 
-    public TransportInfo(string id, string name, AirplaneType type, int maintenanceTime, int speed, double maxCapacity,
+    public TransportInfo(string id, string name, AirplaneType type, int speed, int maintenanceTime, double maxCapacity,
                          int embarkingTime, int disembarkingTime) : base(id, name, type, speed, maintenanceTime)
     {
       if (type != AirplaneType.Passenger && type != AirplaneType.Cargo)

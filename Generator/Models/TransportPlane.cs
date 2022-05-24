@@ -1,7 +1,9 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
+  [DataContract]
   public abstract class TransportPlane : Airplane
   {
     protected TransportPlane(AirplaneInfo info) : base(info)
@@ -15,9 +17,9 @@ namespace Generator.Models
       DisembarkingTime = info.DisembarkingTime;
     }
 
-    public double MaxCapacity { get; private set; }
-    public int EmbarkingTime { get; private set; }
-    public int DisembarkingTime { get; private set; }
+    [DataMember] public double MaxCapacity { get; private set; }
+    [DataMember] public int EmbarkingTime { get; private set; }
+    [DataMember] public int DisembarkingTime { get; private set; }
 
     public override void Edit(AirplaneInfo data)
     {
@@ -32,7 +34,7 @@ namespace Generator.Models
 
     public override AirplaneInfo ToAirplaneInfo()
     {
-      return new TransportInfo(Id, Name, Type, MaintenanceTime, Speed, MaxCapacity, EmbarkingTime, DisembarkingTime);
+      return new TransportInfo(Id, Name, Type, Speed, MaintenanceTime, MaxCapacity, EmbarkingTime, DisembarkingTime);
     }
   }
 }
