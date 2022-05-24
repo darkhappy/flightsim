@@ -1,11 +1,14 @@
-﻿namespace Generator
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace Generator
 {
   partial class FormGenerator
   {
     /// <summary>
     /// Required designer variable.
     /// </summary>
-    private System.ComponentModel.IContainer components = null;
+    private IContainer components = null;
 
     /// <summary>
     /// Clean up any resources being used.
@@ -629,54 +632,54 @@
 
     #endregion
 
-    private System.Windows.Forms.GroupBox gbAirports;
-    private System.Windows.Forms.Label labPTraffic;
-    private System.Windows.Forms.TextBox txbPosition;
-    private System.Windows.Forms.Label labPosition;
-    private System.Windows.Forms.Button btnDeleteAirport;
-    private System.Windows.Forms.Button btnModifyAirport;
-    private System.Windows.Forms.Button btnAddAirport;
-    private System.Windows.Forms.Label labAiportName;
-    private System.Windows.Forms.TextBox txbAirportName;
-    private System.Windows.Forms.ListView listAirports;
-    private System.Windows.Forms.NumericUpDown numMTraffic;
-    private System.Windows.Forms.Label labMTraffic;
-    private System.Windows.Forms.NumericUpDown numPTraffic;
-    private System.Windows.Forms.GroupBox gbAirplanes;
-    private System.Windows.Forms.GroupBox gbTimeOptions;
-    private System.Windows.Forms.ComboBox cmbType;
-    private System.Windows.Forms.Label labCapacity;
-    private System.Windows.Forms.Label labType;
-    private System.Windows.Forms.TextBox txbNameAirport;
-    private System.Windows.Forms.Label labNameAirport;
-    private System.Windows.Forms.Button button1;
-    private System.Windows.Forms.Button button2;
-    private System.Windows.Forms.Button button3;
-    private System.Windows.Forms.Label labIdAirport;
-    private System.Windows.Forms.TextBox txbIdAirport;
-    private System.Windows.Forms.ListView listView1;
-    private System.Windows.Forms.NumericUpDown numMaintenance;
-    private System.Windows.Forms.Label label4;
-    private System.Windows.Forms.NumericUpDown numLarging;
-    private System.Windows.Forms.Label labDropping;
-    private System.Windows.Forms.NumericUpDown numCharging;
-    private System.Windows.Forms.Label labCharging;
-    private System.Windows.Forms.NumericUpDown numericUpDown1;
-    private System.Windows.Forms.Label label1;
-    private System.Windows.Forms.NumericUpDown numEmbarking;
-    private System.Windows.Forms.Label labEmbarking;
-    private System.Windows.Forms.NumericUpDown numericUpDown2;
-    private System.Windows.Forms.Label labSpeed;
-    private System.Windows.Forms.NumericUpDown numericUpDown3;
-    private System.Windows.Forms.ToolStripDropDownButton toolStripDropDownButton1;
-    private System.Windows.Forms.ToolStrip toolStrip;
-    private System.Windows.Forms.ToolStripDropDownButton toolFile;
-    private System.Windows.Forms.ToolStripMenuItem subToolOpen;
-    private System.Windows.Forms.ToolStripMenuItem subToolNew;
-    private System.Windows.Forms.ToolStripMenuItem subToolSave;
-    private System.Windows.Forms.ToolStripMenuItem subToolDelete;
-    private System.Windows.Forms.ToolStripDropDownButton toolMusic;
-    private System.Windows.Forms.ToolStripMenuItem subToolStart;
-    private System.Windows.Forms.ToolStripMenuItem subToolStop;
+    private GroupBox gbAirports;
+    private Label labPTraffic;
+    private TextBox txbPosition;
+    private Label labPosition;
+    private Button btnDeleteAirport;
+    private Button btnModifyAirport;
+    private Button btnAddAirport;
+    private Label labAiportName;
+    private TextBox txbAirportName;
+    private ListView listAirports;
+    private NumericUpDown numMTraffic;
+    private Label labMTraffic;
+    private NumericUpDown numPTraffic;
+    private GroupBox gbAirplanes;
+    private GroupBox gbTimeOptions;
+    private ComboBox cmbType;
+    private Label labCapacity;
+    private Label labType;
+    private TextBox txbNameAirport;
+    private Label labNameAirport;
+    private Button button1;
+    private Button button2;
+    private Button button3;
+    private Label labIdAirport;
+    private TextBox txbIdAirport;
+    private ListView listView1;
+    private NumericUpDown numMaintenance;
+    private Label label4;
+    private NumericUpDown numLarging;
+    private Label labDropping;
+    private NumericUpDown numCharging;
+    private Label labCharging;
+    private NumericUpDown numericUpDown1;
+    private Label label1;
+    private NumericUpDown numEmbarking;
+    private Label labEmbarking;
+    private NumericUpDown numericUpDown2;
+    private Label labSpeed;
+    private NumericUpDown numericUpDown3;
+    private ToolStripDropDownButton toolStripDropDownButton1;
+    private ToolStrip toolStrip;
+    private ToolStripDropDownButton toolFile;
+    private ToolStripMenuItem subToolOpen;
+    private ToolStripMenuItem subToolNew;
+    private ToolStripMenuItem subToolSave;
+    private ToolStripMenuItem subToolDelete;
+    private ToolStripDropDownButton toolMusic;
+    private ToolStripMenuItem subToolStart;
+    private ToolStripMenuItem subToolStop;
   }
 }

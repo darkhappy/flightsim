@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System;
+using System.Windows.Forms;
 
 namespace Generator.Controllers
 {
@@ -6,17 +7,57 @@ namespace Generator.Controllers
   {
     private readonly FormGenerator _frmGen;
     private readonly FormGenerator _frmMap;
+    private Generator _instance;
 
-
-    public Generator()
+    private Generator()
     {
       _frmGen = new FormGenerator();
       Application.Run(_frmGen);
     }
 
+    public Generator Instance => _instance ?? (_instance = new Generator());
+
     public static void Main(string[] args)
     {
       new Generator();
+    }
+
+    public void AddAirplane(string id, string[] data)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void EditAirplane(string id, string[] data)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DeleteAirplane(string id)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void AddAirport(string[] data)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void EditAirport(string id, string[] data)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void DeleteAirport(string id)
+    {
+      throw new NotImplementedException();
+    }
+
+    public void Export()
+    {
+    }
+
+    public void Import()
+    {
     }
   }
 }

@@ -1,7 +1,5 @@
 @startuml Generator
 
-skinparam linetype polyline
-
 package Models {
     ' ----------------------------------- '
     ' -- Enum                          -- '
@@ -16,14 +14,6 @@ package Models {
         BLUE
         GREEN
         GRAY
-    }
-    
-    enum AirplaneType {
-        PASSENGER
-        CARGO
-        FIRE
-        RESCUE
-        SCOUT
     }
 
     class Position {
@@ -61,6 +51,9 @@ package Models {
             - _merchandise: double
             + Export(): string[]
             + Action(int time): void
+            + AddAirplane(string[] data): void
+            + EditAirplane(string id, string[] data): void
+            + DeleteAirplane(string id): void
         }
     
     ' -----------------------------------'
@@ -81,11 +74,10 @@ package Models {
             - _state: IState
             - _available: bool
             + Action(int time): void
+            + Export(): string[]
         }
 
         class FightPlane extends Airplane{
-            - _chargingTime: int
-            - _droppingTime: int
         }
         
         abstract class TransportPlane extends Airplane {
@@ -177,8 +169,6 @@ package Controllers {
         - _form: FormGenerator
         - _generator: Generator
         + GetGenerator(): Generator
-        + SelectAirport(): void
-        + SelectAirplane(): void
         + AddAirport(string[] data): void
         + EditAirport(string id, string[] data): void
         + DeleteAirport(string id): void

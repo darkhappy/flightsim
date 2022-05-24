@@ -1,17 +1,19 @@
 @startuml
 'https://plantuml.com/state-diagram
-Title TIE Reaper 
+Title TIE Shuttle 
 
+state Idle
 state Embark
 state Transport
 state Disembark
 state Maintenance
 
-[*] -> Embark : scenario start 
-Embark --> Transport : capacity full
-Transport --> Disembark : arrived at destination
-Disembark -> Maintenance : capacity empty
-Maintenance -> Embark : finished repairs 
-Embark -> [*] : scenario end
+[*] -> Idle : scenario start 
+Idle -d-> Embark : enough clients to leave
+Embark -d-> Transport : capacity full
+Transport -> Disembark : arrived at destination
+Disembark -u-> Maintenance : capacity empty
+Maintenance -u-> Idle : finished repairs 
+Idle -> [*] : scenario end
 
 @enduml
