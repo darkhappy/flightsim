@@ -1,5 +1,5 @@
 using System.IO;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
 using Generator.Models;
 using NUnit.Framework;
 
@@ -274,7 +274,7 @@ namespace Tests.Generator
     }
 
     [Test]
-    public void LetsSerializeBaby()
+    public void Serializor()
     {
       _scenario.AddAirport(_airportInfo);
 
@@ -293,11 +293,15 @@ namespace Tests.Generator
       var newairplane2 = new AirplaneInfo("X-02", "X-Wing", AirplaneType.Fight, 420, 60);
       _scenario.AddAirplane("DS", newairplane2);
 
-      var xs = new XmlSerializer(typeof(Scenario));
-      using (var wr = new StreamWriter("scenario.xml"))
-      {
-        xs.Serialize(wr, _scenario);
-      }
+      var transpo = new TransportInfo("uwu", "Uwu Shuttle", AirplaneType.Passenger, 420, 420, 420, 420, 420);
+      _scenario.AddAirplane("DS", transpo);
+
+      var writer = new FileStream("test.xml", FileMode.Create);
+      var serializer = new DataContractSerializer(typeof(Scenario));
+
+      Assert.That(() => serializer.WriteObject(writer, _scenario), Throws.Nothing);
+
+      writer.Close();
     }
   }
 }

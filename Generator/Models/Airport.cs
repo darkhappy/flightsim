@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Serialization;
+using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
-  public class Airport
+  [DataContract]
+  public class Airport : IExtensibleDataObject
   {
     public Airport(AirportInfo data)
     {
@@ -17,22 +18,19 @@ namespace Generator.Models
       CargoTraffic = data.CargoTraffic;
     }
 
-    private Airport()
-    {
-    }
+    [DataMember] public string Id { get; set; }
 
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public Position Position { get; set; }
-    public int PassengerTraffic { get; set; }
-    public double CargoTraffic { get; set; }
+    [DataMember] public string Name { get; set; }
 
-    [XmlArrayItem(typeof(CargoPlane))]
-    [XmlArrayItem(typeof(ScoutPlane))]
-    [XmlArrayItem(typeof(FightPlane))]
-    [XmlArrayItem(typeof(RescuePlane))]
-    [XmlArrayItem(typeof(PassengerPlane))]
-    public List<Airplane> Airplanes { get; }
+    [DataMember] public Position Position { get; set; }
+
+    [DataMember] public int PassengerTraffic { get; set; }
+
+    [DataMember] public double CargoTraffic { get; set; }
+
+    [DataMember] public List<Airplane> Airplanes { get; }
+
+    public ExtensionDataObject ExtensionData { get; set; }
 
     public Airplane? FindAirplane(string id)
     {

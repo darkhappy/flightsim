@@ -1,12 +1,11 @@
+using System.Runtime.Serialization;
+
 namespace Generator.Models
 {
+  [DataContract]
   public class CargoPlane : TransportPlane
   {
     public CargoPlane(AirplaneInfo info) : base(info)
-    {
-    }
-
-    private CargoPlane()
     {
     }
 
