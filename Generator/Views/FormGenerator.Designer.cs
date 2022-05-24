@@ -71,8 +71,8 @@
       this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
       this.toolStrip = new System.Windows.Forms.ToolStrip();
       this.toolFile = new System.Windows.Forms.ToolStripDropDownButton();
-      this.subToolNew = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolOpen = new System.Windows.Forms.ToolStripMenuItem();
+      this.subToolNew = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolSave = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolDelete = new System.Windows.Forms.ToolStripMenuItem();
       this.toolMusic = new System.Windows.Forms.ToolStripDropDownButton();
@@ -391,6 +391,11 @@
       // numEmbarking
       // 
       this.numEmbarking.Location = new System.Drawing.Point(77, 32);
+      this.numEmbarking.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
       this.numEmbarking.Name = "numEmbarking";
       this.numEmbarking.Size = new System.Drawing.Size(61, 20);
       this.numEmbarking.TabIndex = 1;
@@ -539,28 +544,28 @@
       this.toolFile.Size = new System.Drawing.Size(38, 22);
       this.toolFile.Text = "File";
       // 
-      // subToolNew
-      // 
-      this.subToolNew.Name = "subToolNew";
-      this.subToolNew.Size = new System.Drawing.Size(180, 22);
-      this.subToolNew.Text = "New Scenario...";
-      // 
       // subToolOpen
       // 
       this.subToolOpen.Name = "subToolOpen";
-      this.subToolOpen.Size = new System.Drawing.Size(180, 22);
+      this.subToolOpen.Size = new System.Drawing.Size(160, 22);
       this.subToolOpen.Text = "Open Scenario...";
+      // 
+      // subToolNew
+      // 
+      this.subToolNew.Name = "subToolNew";
+      this.subToolNew.Size = new System.Drawing.Size(160, 22);
+      this.subToolNew.Text = "New Scenario...";
       // 
       // subToolSave
       // 
       this.subToolSave.Name = "subToolSave";
-      this.subToolSave.Size = new System.Drawing.Size(180, 22);
+      this.subToolSave.Size = new System.Drawing.Size(160, 22);
       this.subToolSave.Text = "Save Scenario";
       // 
       // subToolDelete
       // 
       this.subToolDelete.Name = "subToolDelete";
-      this.subToolDelete.Size = new System.Drawing.Size(180, 22);
+      this.subToolDelete.Size = new System.Drawing.Size(160, 22);
       this.subToolDelete.Text = "Delete Scenario";
       // 
       // toolMusic
@@ -578,14 +583,14 @@
       // subToolStart
       // 
       this.subToolStart.Name = "subToolStart";
-      this.subToolStart.Size = new System.Drawing.Size(180, 22);
+      this.subToolStart.Size = new System.Drawing.Size(98, 22);
       this.subToolStart.Text = "Start";
       this.subToolStart.Click += new System.EventHandler(this.subToolStart_Click);
       // 
       // subToolStop
       // 
       this.subToolStop.Name = "subToolStop";
-      this.subToolStop.Size = new System.Drawing.Size(180, 22);
+      this.subToolStop.Size = new System.Drawing.Size(98, 22);
       this.subToolStop.Text = "Stop";
       this.subToolStop.Click += new System.EventHandler(this.subToolStop_Click);
       // 
