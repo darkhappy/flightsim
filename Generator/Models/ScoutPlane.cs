@@ -6,6 +6,13 @@ namespace Generator.Models
     {
     }
 
+    /// <summary>
+    ///   Used for serialization.
+    /// </summary>
+    internal ScoutPlane()
+    {
+    }
+
     public override AirplaneType Type => AirplaneType.Scout;
   }
 }

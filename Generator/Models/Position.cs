@@ -10,6 +10,17 @@ namespace Generator.Models
       Y = y;
     }
 
+    public Position(string position)
+    {
+      var pos = Transpose(position);
+      X = pos.Item1;
+      Y = pos.Item2;
+    }
+
+    private Position()
+    {
+    }
+
     public int X { get; set; }
 
     public int Y { get; set; }

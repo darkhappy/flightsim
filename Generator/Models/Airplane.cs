@@ -1,3 +1,5 @@
+using System.Xml.Serialization;
+
 namespace Generator.Models
 {
   /// <summary>
@@ -17,30 +19,35 @@ namespace Generator.Models
       MaintenanceTime = info.MaintenanceTime;
     }
 
+    protected Airplane()
+    {
+    }
+
     /// <summary>
     ///   Represents the unique identifier for the <see cref="Airplane" />.
     /// </summary>
-    public string Id { get; private set; }
+    public string Id { get; set; }
 
     /// <summary>
     ///   Represents the name of the <see cref="Airplane" />.
     /// </summary>
-    public string Name { get; private set; }
+    public string Name { get; set; }
 
     /// <summary>
     ///   Represents the speed at which the <see cref="Airplane" /> can travel.
     /// </summary>
-    public int Speed { get; private set; }
+    public int Speed { get; set; }
 
     /// <summary>
     ///   Represents the time it takes to perform maintenance on the <see cref="Airplane" />.
     /// </summary>
-    public int MaintenanceTime { get; private set; }
+    public int MaintenanceTime { get; set; }
 
     /// <summary>
     ///   Represents the type of <see cref="Airplane" />.
     /// </summary>
     /// <seealso cref="AirplaneType" />
+    [XmlIgnore]
     public abstract AirplaneType Type { get; }
 
     /// <summary>

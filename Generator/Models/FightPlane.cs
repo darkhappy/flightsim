@@ -6,6 +6,13 @@ namespace Generator.Models
     {
     }
 
+    /// <summary>
+    ///   Only used for serialization.
+    /// </summary>
+    private FightPlane()
+    {
+    }
+
     public override AirplaneType Type => AirplaneType.Fight;
   }
 }

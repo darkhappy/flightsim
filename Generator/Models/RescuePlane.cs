@@ -6,6 +6,10 @@ namespace Generator.Models
     {
     }
 
+    private RescuePlane()
+    {
+    }
+
     public override AirplaneType Type => AirplaneType.Rescue;
   }
 }

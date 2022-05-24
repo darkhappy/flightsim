@@ -6,6 +6,10 @@ namespace Generator.Models
     {
     }
 
+    private PassengerPlane()
+    {
+    }
+
     public override AirplaneType Type => AirplaneType.Passenger;
   }
 }

@@ -15,9 +15,13 @@ namespace Generator.Models
       DisembarkingTime = info.DisembarkingTime;
     }
 
-    public double MaxCapacity { get; private set; }
-    public int EmbarkingTime { get; private set; }
-    public int DisembarkingTime { get; private set; }
+    protected TransportPlane()
+    {
+    }
+
+    public double MaxCapacity { get; set; }
+    public int EmbarkingTime { get; set; }
+    public int DisembarkingTime { get; set; }
 
     public override void Edit(AirplaneInfo data)
     {
@@ -32,7 +36,7 @@ namespace Generator.Models
 
     public override AirplaneInfo ToAirplaneInfo()
     {
-      return new TransportInfo(Id, Name, Type, MaintenanceTime, Speed, MaxCapacity, EmbarkingTime, DisembarkingTime);
+      return new TransportInfo(Id, Name, Type, Speed, MaintenanceTime, MaxCapacity, EmbarkingTime, DisembarkingTime);
     }
   }
 }

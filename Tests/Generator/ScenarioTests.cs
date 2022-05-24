@@ -1,3 +1,5 @@
+using System.IO;
+using System.Xml.Serialization;
 using Generator.Models;
 using NUnit.Framework;
 
@@ -248,7 +250,7 @@ namespace Tests.Generator
       var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
       _scenario.AddAirplane("CRS", airplane);
 
-      var newAirplane = new TransportInfo("X-01", "Tie Fighter", AirplaneType.Cargo, 420, 60, 420, 2, 2);
+      var newAirplane = new TransportInfo("X-01", "Tie Fighter", AirplaneType.Cargo, 60, 420, 420, 2, 2);
       _scenario.EditAirplane("T-01", newAirplane);
 
       var exportedData = _scenario.GetAirplanesInfo("CRS");
@@ -269,6 +271,33 @@ namespace Tests.Generator
       var exportedData = _scenario.GetAirplanesInfo("CRS");
 
       Assert.That(exportedData, Contains.Item(newAirplane));
+    }
+
+    [Test]
+    public void LetsSerializeBaby()
+    {
+      _scenario.AddAirport(_airportInfo);
+
+      var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", airplane);
+
+      var newAirplane = new AirplaneInfo("X-01", "X-Wing", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", newAirplane);
+
+      var airport2 = new AirportInfo("DS", "Death Star", new Position(400, 400), 241, 1515);
+      _scenario.AddAirport(airport2);
+      var airplane4 = new AirplaneInfo("T-02", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("DS", airplane4);
+      var airplane5 = new AirplaneInfo("T-03", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("DS", airplane5);
+      var newairplane2 = new AirplaneInfo("X-02", "X-Wing", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("DS", newairplane2);
+
+      var xs = new XmlSerializer(typeof(Scenario));
+      using (var wr = new StreamWriter("scenario.xml"))
+      {
+        xs.Serialize(wr, _scenario);
+      }
     }
   }
 }
