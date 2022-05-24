@@ -10,6 +10,11 @@ namespace Generator.Models
       Y = y;
     }
 
+    public Position(string position)
+    {
+      Transpose(position);
+    }
+
     public int X { get; set; }
 
     public int Y { get; set; }

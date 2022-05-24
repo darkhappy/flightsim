@@ -47,7 +47,7 @@ namespace Generator.Controllers
       throw new NotImplementedException();
     }
 
-    public void AddAirport(string[] data)
+    public void AddAirport(AirportInfo airportInfo)
     {
       throw new NotImplementedException();
     }

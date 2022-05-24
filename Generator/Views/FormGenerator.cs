@@ -106,13 +106,16 @@ namespace Generator
       labError.Visible = true;
       labError.Text = "Please enter valid data";
 
+      if (String.IsNullOrEmpty(txbAirportId.Text)) return;
       if (String.IsNullOrEmpty(txbAirportName.Text)) return;
       if (String.IsNullOrEmpty(txbPosition.Text)) return;
       if (String.IsNullOrEmpty(numPTraffic.Text)) return;
-      if (String.IsNullOrEmpty(numMTraffic.Text)) return;
+
+      if (!int.TryParse(numPTraffic.Text, out int pTraffic)) return;
+      if (!double.TryParse(numPTraffic.Text, out double mTraffic)) return;
 
       labError.Visible = false;
-      //Controllers.Generator.Instance.AddAirport(new AirportInfo());
+      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
     }
   }
 }
