@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Generator.Models;
+using System;
 using System.Windows.Forms;
 
 namespace Generator.Controllers
@@ -8,19 +9,23 @@ namespace Generator.Controllers
     private readonly FormGenerator _frmGen;
     private readonly FormGenerator _frmMap;
     private Generator _instance;
+    private Scenario _secenario;
 
-    private Generator()
-    {
-      _frmGen = new FormGenerator();
-      Application.Run(_frmGen);
-    }
-
-    public Generator Instance => _instance ?? (_instance = new Generator());
 
     public static void Main(string[] args)
     {
       new Generator();
     }
+
+    private Generator()
+    {
+      _frmGen = new FormGenerator();
+      _frmGen.UpdateView();
+      Application.Run(_frmGen);
+    }
+
+    public Generator Instance => _instance ?? (_instance = new Generator());
+
 
     public void AddAirplane(string id, string[] data)
     {
