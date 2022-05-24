@@ -97,5 +97,41 @@ namespace Generator.Models
       get => 0;
       set { }
     }
+
+    protected bool Equals(AirplaneInfo other)
+    {
+      return base.Equals(other) && _maintenanceTime == other._maintenanceTime && _speed == other._speed &&
+             Type == other.Type;
+    }
+
+    public override bool Equals(object? obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != GetType()) return false;
+      return Equals((AirplaneInfo) obj);
+    }
+
+    public override int GetHashCode()
+    {
+      unchecked
+      {
+        var hashCode = base.GetHashCode();
+        hashCode = (hashCode * 397) ^ _maintenanceTime;
+        hashCode = (hashCode * 397) ^ _speed;
+        hashCode = (hashCode * 397) ^ (int) Type;
+        return hashCode;
+      }
+    }
+
+    public static bool operator ==(AirplaneInfo? left, AirplaneInfo? right)
+    {
+      return Equals(left, right);
+    }
+
+    public static bool operator !=(AirplaneInfo? left, AirplaneInfo? right)
+    {
+      return !Equals(left, right);
+    }
   }
 }

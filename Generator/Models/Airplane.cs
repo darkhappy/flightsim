@@ -56,7 +56,7 @@ namespace Generator.Models
       MaintenanceTime = info.MaintenanceTime;
     }
 
-    public AirplaneInfo ToAirplaneInfo()
+    public virtual AirplaneInfo ToAirplaneInfo()
     {
       return new AirplaneInfo(Id, Name, Type, Speed, MaintenanceTime);
     }

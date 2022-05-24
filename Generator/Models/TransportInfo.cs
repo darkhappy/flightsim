@@ -48,5 +48,41 @@ namespace Generator.Models
         _disembarkingTime = value;
       }
     }
+
+    protected bool Equals(TransportInfo other)
+    {
+      return base.Equals(other) && _disembarkingTime == other._disembarkingTime &&
+             _embarkingTime == other._embarkingTime && _maxCapacity.Equals(other._maxCapacity);
+    }
+
+    public override bool Equals(object? obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != GetType()) return false;
+      return Equals((TransportInfo) obj);
+    }
+
+    public override int GetHashCode()
+    {
+      unchecked
+      {
+        var hashCode = base.GetHashCode();
+        hashCode = (hashCode * 397) ^ _disembarkingTime;
+        hashCode = (hashCode * 397) ^ _embarkingTime;
+        hashCode = (hashCode * 397) ^ _maxCapacity.GetHashCode();
+        return hashCode;
+      }
+    }
+
+    public static bool operator ==(TransportInfo? left, TransportInfo? right)
+    {
+      return Equals(left, right);
+    }
+
+    public static bool operator !=(TransportInfo? left, TransportInfo? right)
+    {
+      return !Equals(left, right);
+    }
   }
 }
