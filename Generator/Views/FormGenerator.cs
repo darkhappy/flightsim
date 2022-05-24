@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Media;
 using System.Windows.Forms;
+using Generator.Controllers;
 using Generator.Models;
 using Generator.Properties;
 
@@ -49,7 +50,7 @@ namespace Generator
 
     public void UpdateView(List<AirportInfo> airports)
     {
-
+      
     }
 
     /// <summary>
@@ -98,6 +99,20 @@ namespace Generator
           break;
 
       }
+    }
+
+    private void btnAddAirport_Click(object sender, EventArgs e)
+    {
+      labError.Visible = true;
+      labError.Text = "Please enter valid data";
+
+      if (String.IsNullOrEmpty(txbAirportName.Text)) return;
+      if (String.IsNullOrEmpty(txbPosition.Text)) return;
+      if (String.IsNullOrEmpty(numPTraffic.Text)) return;
+      if (String.IsNullOrEmpty(numMTraffic.Text)) return;
+
+      labError.Visible = false;
+      //Controllers.Generator.Instance.AddAirport(new AirportInfo());
     }
   }
 }

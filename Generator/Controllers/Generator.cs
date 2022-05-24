@@ -1,5 +1,6 @@
 ﻿using Generator.Models;
 using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace Generator.Controllers
@@ -8,10 +9,13 @@ namespace Generator.Controllers
   {
     private readonly FormGenerator _frmGen;
     private readonly FormGenerator _frmMap;
-    private Generator _instance;
-    private Scenario _secenario;
+    private static Generator _instance;
+    private Scenario _scenario;
 
-
+    /// <summary>
+    /// Entry point of the application
+    /// </summary>
+    /// <param name="args"></param>
     public static void Main(string[] args)
     {
       new Generator();
@@ -19,12 +23,13 @@ namespace Generator.Controllers
 
     private Generator()
     {
+      _scenario = new Scenario();
       _frmGen = new FormGenerator();
-      _frmGen.UpdateView();
+      _frmGen.UpdateView(_scenario.GetAirportsInfo());
       Application.Run(_frmGen);
     }
 
-    public Generator Instance => _instance ?? (_instance = new Generator());
+    public static Generator Instance => _instance ??= new Generator();
 
 
     public void AddAirplane(string id, string[] data)
