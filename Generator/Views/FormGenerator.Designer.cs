@@ -550,7 +550,7 @@ namespace Generator
       this.toolStrip.Location = new System.Drawing.Point(0, 0);
       this.toolStrip.Name = "toolStrip";
       this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-      this.toolStrip.Size = new System.Drawing.Size(1730, 38);
+      this.toolStrip.Size = new System.Drawing.Size(1730, 34);
       this.toolStrip.TabIndex = 13;
       this.toolStrip.Text = "toolStrip1";
       // 

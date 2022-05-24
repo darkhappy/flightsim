@@ -49,28 +49,13 @@ namespace Generator
 
     public void UpdateView(List<AirportInfo> airports)
     {
-      
+      foreach (AirportInfo info in airports)
+      {
+        string[] toAdd = {info.Id, info.Name, info.Position.ToString(), info.PassengerTraffic.ToString(), info.CargoTraffic.ToString()};
+        listAirports.Items.Add(new ListViewItem(toAdd));
+      }
     }
 
-    /// <summary>
-    /// Can start the music
-    /// </summary>
-    /// <param name="sender">Object that trigger the event</param>
-    /// <param name="e">The event</param>
-    private void subToolStart_Click(object sender, EventArgs e)
-    {
-      _player.PlayLooping();
-    }
-
-    /// <summary>
-    /// Can stop the music
-    /// </summary>
-    /// <param name="sender">Object that trigger the event</param>
-    /// <param name="e">The event</param>
-    private void subToolStop_Click(object sender, EventArgs e)
-    {
-      _player.Stop();
-    }
 
     /// <summary>
     /// Change enabled option in the form according to the selected airplane <see cref="AirplaneType"/>
@@ -120,6 +105,7 @@ namespace Generator
 
       labError.Visible = false;
       Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
+
     }
 
     private void btnAddAirplane_Click(object sender, EventArgs e)
@@ -178,6 +164,26 @@ namespace Generator
       labError.Text = listAirports.SelectedItems[0].SubItems[0].ToString();
       //labError.Visible = false;
       //Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0],info);
+    }
+
+    /// <summary>
+    /// Can start the music
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
+    private void subToolStart_Click(object sender, EventArgs e)
+    {
+      _player.PlayLooping();
+    }
+
+    /// <summary>
+    /// Can stop the music
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
+    private void subToolStop_Click(object sender, EventArgs e)
+    {
+      _player.Stop();
     }
   }
 }

@@ -18,7 +18,7 @@ namespace Generator.Controllers
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-      new Generator();
+      var _ = Instance;
     }
 
     private Generator()
@@ -47,9 +47,14 @@ namespace Generator.Controllers
       throw new NotImplementedException();
     }
 
+    /// <summary>
+    /// Call the <see cref="Scenario"/> to create a new <see cref="Airplane"/> and update the <see cref="FormGenerator"/>
+    /// </summary>
+    /// <param name="info"><see cref="AirplaneInfo"/> to create the new <see cref="Airplane"/></param>
     public void AddAirport(AirportInfo info)
     {
-      throw new NotImplementedException();
+      _scenario.AddAirport(info);
+      _frmGen.UpdateView(_scenario.GetAirportsInfo());
     }
 
     public void EditAirport(string id, string[] data)
