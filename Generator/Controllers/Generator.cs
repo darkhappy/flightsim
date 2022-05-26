@@ -7,8 +7,8 @@ namespace Generator.Controllers
 {
   public class Generator
   {
-    private readonly FormGenerator _frmGen;
-    private readonly FormGenerator _frmMap;
+    private FormGenerator _frmGen;
+    private FormGenerator _frmMap;
     private static Generator _instance;
     private Scenario _scenario;
 
@@ -18,23 +18,39 @@ namespace Generator.Controllers
     /// <param name="args"></param>
     public static void Main(string[] args)
     {
-      new Generator();
+      Controllers.Generator.Instance.GenerateView();
     }
 
+    /// <summary>
+    /// Constructor of <see cref="Generator"/>
+    /// </summary>
     private Generator()
     {
       _scenario = new Scenario();
+    }
+
+
+    public void GenerateView()
+    {
       _frmGen = new FormGenerator();
-      _frmGen.UpdateView(_scenario.GetAirportsInfo());
+      _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
       Application.Run(_frmGen);
     }
 
+    /// <summary>
+    /// Singleton getter of <see cref="Generator"/>
+    /// </summary>
     public static Generator Instance => _instance ??= new Generator();
 
-
-    public void AddAirplane(string id, string[] data)
+    public void UpdateAirplanes(string id)
     {
-      throw new NotImplementedException();
+      _frmGen.UpdateAirplanes(_scenario.GetAirplanesInfo(id));
+    }
+
+    public void AddAirplane(string id, AirplaneInfo info)
+    {
+      _scenario.AddAirplane(id, info);
+      UpdateAirplanes(id);
     }
 
     public void EditAirplane(string id, string[] data)
@@ -47,9 +63,14 @@ namespace Generator.Controllers
       throw new NotImplementedException();
     }
 
-    public void AddAirport(string[] data)
+    /// <summary>
+    /// Call the <see cref="Scenario"/> to create a new <see cref="Airplane"/> and update the <see cref="FormGenerator"/>
+    /// </summary>
+    /// <param name="info"><see cref="AirplaneInfo"/> to create the new <see cref="Airplane"/></param>
+    public void AddAirport(AirportInfo info)
     {
-      throw new NotImplementedException();
+      _scenario.AddAirport(info);
+      _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
     }
 
     public void EditAirport(string id, string[] data)

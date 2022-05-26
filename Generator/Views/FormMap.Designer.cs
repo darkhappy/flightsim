@@ -30,12 +30,32 @@ namespace Generator.Views
     /// </summary>
     private void InitializeComponent()
     {
-      this.components = new System.ComponentModel.Container();
+      this.mapPanelPos = new System.Windows.Forms.Panel();
+      this.SuspendLayout();
+      // 
+      // mapPanelPos
+      // 
+      this.mapPanelPos.Location = new System.Drawing.Point(5, 4);
+      this.mapPanelPos.Name = "mapPanelPos";
+      this.mapPanelPos.Size = new System.Drawing.Size(1129, 529);
+      this.mapPanelPos.TabIndex = 16;
+      this.mapPanelPos.Click += new System.EventHandler(this.mapPanelPos_Click);
+      this.mapPanelPos.Paint += new System.Windows.Forms.PaintEventHandler(this.mapPanelPos_Paint);
+      // 
+      // FormMap
+      // 
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(800, 450);
+      this.ClientSize = new System.Drawing.Size(1139, 536);
+      this.Controls.Add(this.mapPanelPos);
+      this.Name = "FormMap";
       this.Text = "FormMap";
+      this.ResumeLayout(false);
+
     }
 
     #endregion
+
+    private System.Windows.Forms.Panel mapPanelPos;
   }
 }

@@ -33,7 +33,8 @@ namespace Generator.Models
 
     public void AddAirplane(string id, AirplaneInfo info)
     {
-      if (HasAirplane(info.Id)) throw new ArgumentException($"Airplane {id} already exists.");
+      if (HasAirplane(info.Id)) 
+        throw new ArgumentException($"Airplane {id} already exists.");
 
       var airport = GetAirport(id);
       if (airport == null) throw new ArgumentException($"Airport {id} was not found.");

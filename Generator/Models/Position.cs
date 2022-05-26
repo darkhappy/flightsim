@@ -12,13 +12,7 @@ namespace Generator.Models
 
     public Position(string position)
     {
-      var pos = Transpose(position);
-      X = pos.Item1;
-      Y = pos.Item2;
-    }
-
-    private Position()
-    {
+      Transpose(position);
     }
 
     public int X { get; set; }
@@ -37,7 +31,7 @@ namespace Generator.Models
 
     public override string ToString()
     {
-      throw new NotImplementedException();
+      return "x : " + X + " y : " + Y;
     }
   }
 }
