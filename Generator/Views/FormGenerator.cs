@@ -74,7 +74,6 @@ namespace Generator
       }
     }
 
-
     /// <summary>
     /// Change enabled option in the form according to the selected airplane <see cref="AirplaneType"/>
     /// </summary>
@@ -103,7 +102,7 @@ namespace Generator
     }
 
     /// <summary>
-    /// Add an airplane to the <see cref="Scenario"/>
+    /// Add an airport to the <see cref="Scenario"/>
     /// </summary>
     /// <param name="sender">Object that trigger the event</param>
     /// <param name="e">The event</param>
@@ -126,8 +125,24 @@ namespace Generator
 
       //Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
       Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(1,1), pTraffic, cTraffic));
+
+      listAirports.Items[listAirports.Items.Count - 1].Selected = true;
     }
 
+    private void listAirports_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if(listAirports.SelectedItems.Count > 0)
+      {
+        listAirplanes.Items.Clear();
+        Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
+      }
+    }
+
+    /// <summary>
+    /// Add a new airplane to the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnAddAirplane_Click(object sender, EventArgs e)
     {
       AirplaneType type;
@@ -186,12 +201,12 @@ namespace Generator
           throw new Exception("Unknown type");
       }
 
-      labError.Text = listAirports.SelectedItems[0].SubItems[0].Text;
-      //labError.Visible = false;
+      labError.Visible = false;
 
-      //listAirplanes.Items.Clear();
-
-      //Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0].ToString(), info);
+      //Update listAirplanes
+      listAirplanes.Items.Clear();
+      Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0].Text, info);
+      listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
     /// <summary>

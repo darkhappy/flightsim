@@ -294,6 +294,7 @@ namespace Generator
       this.listAirports.Size = new System.Drawing.Size(1183, 490);
       this.listAirports.TabIndex = 0;
       this.listAirports.UseCompatibleStateImageBehavior = false;
+      this.listAirports.SelectedIndexChanged += new System.EventHandler(this.listAirports_SelectedIndexChanged);
       // 
       // gbAirplanes
       // 

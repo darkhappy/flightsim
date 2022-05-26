@@ -42,10 +42,15 @@ namespace Generator.Controllers
     /// </summary>
     public static Generator Instance => _instance ??= new Generator();
 
+    public void UpdateAirplanes(string id)
+    {
+      _frmGen.UpdateAirplanes(_scenario.GetAirplanesInfo(id));
+    }
+
     public void AddAirplane(string id, AirplaneInfo info)
     {
       _scenario.AddAirplane(id, info);
-      _frmGen.UpdateAirplanes(_scenario.GetAirplanesInfo(id));
+      UpdateAirplanes(id);
     }
 
     public void EditAirplane(string id, string[] data)
