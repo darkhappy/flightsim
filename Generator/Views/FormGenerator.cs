@@ -5,12 +5,14 @@ using System.Windows.Forms;
 using Generator.Controllers;
 using Generator.Models;
 using Generator.Properties;
+using Generator.Views;
 
 namespace Generator
 {
   public partial class FormGenerator : Form
   {
     private SoundPlayer _player;
+    private FormMap _mapPos;
 
     /// <summary>
     /// Constructor of the form
@@ -239,6 +241,17 @@ namespace Generator
     private void subToolStop_Click(object sender, EventArgs e)
     {
       _player.Stop();
+    }
+
+    private void txbPosition_DoubleClick(object sender, EventArgs e)
+    {
+      _mapPos = new FormMap();
+      var result = _mapPos.ShowDialog();
+      if (result == DialogResult.OK)
+      {
+        string pos = _mapPos.Pos;
+        this.txbPosition.Text = pos;
+      }
     }
   }
 }
