@@ -214,6 +214,7 @@ namespace Generator
       // 
       this.txbPosition.Location = new System.Drawing.Point(894, 102);
       this.txbPosition.Name = "txbPosition";
+      this.txbPosition.ReadOnly = true;
       this.txbPosition.Size = new System.Drawing.Size(212, 20);
       this.txbPosition.TabIndex = 7;
       this.txbPosition.DoubleClick += new System.EventHandler(this.txbPosition_DoubleClick);
