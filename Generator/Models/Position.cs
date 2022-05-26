@@ -31,6 +31,7 @@ namespace Generator.Models
 
     public override string ToString()
     {
+      return "Je suis un string";
       throw new NotImplementedException();
     }
   }

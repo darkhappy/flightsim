@@ -33,10 +33,13 @@ namespace Generator
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGenerator));
       this.gbAirports = new System.Windows.Forms.GroupBox();
-      this.numMTraffic = new System.Windows.Forms.NumericUpDown();
-      this.labMTraffic = new System.Windows.Forms.Label();
+      this.labAirportId = new System.Windows.Forms.Label();
+      this.txbAirportId = new System.Windows.Forms.TextBox();
+      this.gbTraffic = new System.Windows.Forms.GroupBox();
       this.numPTraffic = new System.Windows.Forms.NumericUpDown();
+      this.numCTraffic = new System.Windows.Forms.NumericUpDown();
       this.labPTraffic = new System.Windows.Forms.Label();
+      this.labCTraffic = new System.Windows.Forms.Label();
       this.txbPosition = new System.Windows.Forms.TextBox();
       this.labPosition = new System.Windows.Forms.Label();
       this.btnDeleteAirport = new System.Windows.Forms.Button();
@@ -66,7 +69,7 @@ namespace Generator
       this.btnAddAirplane = new System.Windows.Forms.Button();
       this.labAirplaneId = new System.Windows.Forms.Label();
       this.txbAirplaneId = new System.Windows.Forms.TextBox();
-      this.listPlane = new System.Windows.Forms.ListView();
+      this.listAirplanes = new System.Windows.Forms.ListView();
       this.toolStripDropDownButton1 = new System.Windows.Forms.ToolStripDropDownButton();
       this.toolStrip = new System.Windows.Forms.ToolStrip();
       this.toolFile = new System.Windows.Forms.ToolStripDropDownButton();
@@ -78,12 +81,10 @@ namespace Generator
       this.subToolStart = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolStop = new System.Windows.Forms.ToolStripMenuItem();
       this.labError = new System.Windows.Forms.Label();
-      this.gbTraffic = new System.Windows.Forms.GroupBox();
-      this.labAirportId = new System.Windows.Forms.Label();
-      this.txbAirportId = new System.Windows.Forms.TextBox();
       this.gbAirports.SuspendLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numMTraffic)).BeginInit();
+      this.gbTraffic.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).BeginInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numCTraffic)).BeginInit();
       this.gbAirplanes.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numCapacity)).BeginInit();
@@ -92,7 +93,6 @@ namespace Generator
       ((System.ComponentModel.ISupportInitialize)(this.numDisembarking)).BeginInit();
       ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).BeginInit();
       this.toolStrip.SuspendLayout();
-      this.gbTraffic.SuspendLayout();
       this.SuspendLayout();
       // 
       // gbAirports
@@ -117,39 +117,36 @@ namespace Generator
       this.gbAirports.TabStop = false;
       this.gbAirports.Text = "Airports";
       // 
-      // numMTraffic
+      // labAirportId
       // 
-      this.numMTraffic.Location = new System.Drawing.Point(189, 110);
-      this.numMTraffic.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.numMTraffic.Maximum = new decimal(new int[] {
-            10,
-            0,
-            0,
-            0});
-      this.numMTraffic.Minimum = new decimal(new int[] {
-            1,
-            0,
-            0,
-            0});
-      this.numMTraffic.Name = "numMTraffic";
-      this.numMTraffic.Size = new System.Drawing.Size(235, 26);
-      this.numMTraffic.TabIndex = 11;
-      this.numMTraffic.Value = new decimal(new int[] {
-            5,
-            0,
-            0,
-            0});
+      this.labAirportId.AutoSize = true;
+      this.labAirportId.Location = new System.Drawing.Point(1221, 33);
+      this.labAirportId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labAirportId.Name = "labAirportId";
+      this.labAirportId.Size = new System.Drawing.Size(75, 20);
+      this.labAirportId.TabIndex = 14;
+      this.labAirportId.Text = "Identifier:";
       // 
-      // labMTraffic
+      // txbAirportId
       // 
-      this.labMTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
-      this.labMTraffic.AutoSize = true;
-      this.labMTraffic.Location = new System.Drawing.Point(10, 112);
-      this.labMTraffic.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-      this.labMTraffic.Name = "labMTraffic";
-      this.labMTraffic.Size = new System.Drawing.Size(152, 20);
-      this.labMTraffic.TabIndex = 10;
-      this.labMTraffic.Text = "Merchandise Traffic:";
+      this.txbAirportId.Location = new System.Drawing.Point(1341, 29);
+      this.txbAirportId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.txbAirportId.Name = "txbAirportId";
+      this.txbAirportId.Size = new System.Drawing.Size(316, 26);
+      this.txbAirportId.TabIndex = 13;
+      // 
+      // gbTraffic
+      // 
+      this.gbTraffic.Controls.Add(this.numPTraffic);
+      this.gbTraffic.Controls.Add(this.numCTraffic);
+      this.gbTraffic.Controls.Add(this.labPTraffic);
+      this.gbTraffic.Controls.Add(this.labCTraffic);
+      this.gbTraffic.Location = new System.Drawing.Point(1226, 220);
+      this.gbTraffic.Name = "gbTraffic";
+      this.gbTraffic.Size = new System.Drawing.Size(434, 168);
+      this.gbTraffic.TabIndex = 12;
+      this.gbTraffic.TabStop = false;
+      this.gbTraffic.Text = "Traffic (Min: 1, Max: 10)";
       // 
       // numPTraffic
       // 
@@ -174,6 +171,29 @@ namespace Generator
             0,
             0});
       // 
+      // numCTraffic
+      // 
+      this.numCTraffic.Location = new System.Drawing.Point(189, 110);
+      this.numCTraffic.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numCTraffic.Maximum = new decimal(new int[] {
+            10,
+            0,
+            0,
+            0});
+      this.numCTraffic.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+      this.numCTraffic.Name = "numCTraffic";
+      this.numCTraffic.Size = new System.Drawing.Size(235, 26);
+      this.numCTraffic.TabIndex = 11;
+      this.numCTraffic.Value = new decimal(new int[] {
+            5,
+            0,
+            0,
+            0});
+      // 
       // labPTraffic
       // 
       this.labPTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
@@ -184,6 +204,17 @@ namespace Generator
       this.labPTraffic.Size = new System.Drawing.Size(137, 20);
       this.labPTraffic.TabIndex = 8;
       this.labPTraffic.Text = "Passenger Traffic:";
+      // 
+      // labCTraffic
+      // 
+      this.labCTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
+      this.labCTraffic.AutoSize = true;
+      this.labCTraffic.Location = new System.Drawing.Point(10, 112);
+      this.labCTraffic.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labCTraffic.Name = "labCTraffic";
+      this.labCTraffic.Size = new System.Drawing.Size(104, 20);
+      this.labCTraffic.TabIndex = 10;
+      this.labCTraffic.Text = "Cargo Traffic:";
       // 
       // txbPosition
       // 
@@ -254,9 +285,11 @@ namespace Generator
       // 
       // listAirports
       // 
+      this.listAirports.FullRowSelect = true;
       this.listAirports.HideSelection = false;
       this.listAirports.Location = new System.Drawing.Point(10, 31);
       this.listAirports.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.listAirports.MultiSelect = false;
       this.listAirports.Name = "listAirports";
       this.listAirports.Size = new System.Drawing.Size(1183, 490);
       this.listAirports.TabIndex = 0;
@@ -278,7 +311,7 @@ namespace Generator
       this.gbAirplanes.Controls.Add(this.btnAddAirplane);
       this.gbAirplanes.Controls.Add(this.labAirplaneId);
       this.gbAirplanes.Controls.Add(this.txbAirplaneId);
-      this.gbAirplanes.Controls.Add(this.listPlane);
+      this.gbAirplanes.Controls.Add(this.listAirplanes);
       this.gbAirplanes.Location = new System.Drawing.Point(24, 602);
       this.gbAirplanes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.gbAirplanes.Name = "gbAirplanes";
@@ -522,15 +555,17 @@ namespace Generator
       this.txbAirplaneId.Size = new System.Drawing.Size(316, 26);
       this.txbAirplaneId.TabIndex = 1;
       // 
-      // listPlane
+      // listAirplanes
       // 
-      this.listPlane.HideSelection = false;
-      this.listPlane.Location = new System.Drawing.Point(10, 31);
-      this.listPlane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.listPlane.Name = "listPlane";
-      this.listPlane.Size = new System.Drawing.Size(1183, 490);
-      this.listPlane.TabIndex = 0;
-      this.listPlane.UseCompatibleStateImageBehavior = false;
+      this.listAirplanes.FullRowSelect = true;
+      this.listAirplanes.HideSelection = false;
+      this.listAirplanes.Location = new System.Drawing.Point(10, 31);
+      this.listAirplanes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.listAirplanes.MultiSelect = false;
+      this.listAirplanes.Name = "listAirplanes";
+      this.listAirplanes.Size = new System.Drawing.Size(1183, 490);
+      this.listAirplanes.TabIndex = 0;
+      this.listAirplanes.UseCompatibleStateImageBehavior = false;
       // 
       // toolStripDropDownButton1
       // 
@@ -565,7 +600,7 @@ namespace Generator
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolFile.Name = "toolFile";
-      this.toolFile.Size = new System.Drawing.Size(56, 33);
+      this.toolFile.Size = new System.Drawing.Size(56, 29);
       this.toolFile.Text = "File";
       // 
       // subToolOpen
@@ -601,7 +636,7 @@ namespace Generator
       this.toolMusic.Image = ((System.Drawing.Image)(resources.GetObject("toolMusic.Image")));
       this.toolMusic.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolMusic.Name = "toolMusic";
-      this.toolMusic.Size = new System.Drawing.Size(76, 33);
+      this.toolMusic.Size = new System.Drawing.Size(76, 29);
       this.toolMusic.Text = "Music";
       // 
       // subToolStart
@@ -631,37 +666,6 @@ namespace Generator
       this.labError.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
       this.labError.Visible = false;
       // 
-      // gbTraffic
-      // 
-      this.gbTraffic.Controls.Add(this.numPTraffic);
-      this.gbTraffic.Controls.Add(this.numMTraffic);
-      this.gbTraffic.Controls.Add(this.labPTraffic);
-      this.gbTraffic.Controls.Add(this.labMTraffic);
-      this.gbTraffic.Location = new System.Drawing.Point(1226, 220);
-      this.gbTraffic.Name = "gbTraffic";
-      this.gbTraffic.Size = new System.Drawing.Size(434, 168);
-      this.gbTraffic.TabIndex = 12;
-      this.gbTraffic.TabStop = false;
-      this.gbTraffic.Text = "Traffic (Min: 1, Max: 10)";
-      // 
-      // labAirportId
-      // 
-      this.labAirportId.AutoSize = true;
-      this.labAirportId.Location = new System.Drawing.Point(1221, 33);
-      this.labAirportId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-      this.labAirportId.Name = "labAirportId";
-      this.labAirportId.Size = new System.Drawing.Size(75, 20);
-      this.labAirportId.TabIndex = 14;
-      this.labAirportId.Text = "Identifier:";
-      // 
-      // txbAirportId
-      // 
-      this.txbAirportId.Location = new System.Drawing.Point(1341, 29);
-      this.txbAirportId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.txbAirportId.Name = "txbAirportId";
-      this.txbAirportId.Size = new System.Drawing.Size(316, 26);
-      this.txbAirportId.TabIndex = 13;
-      // 
       // FormGenerator
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -678,8 +682,10 @@ namespace Generator
       this.Load += new System.EventHandler(this.FormGenerator_Load);
       this.gbAirports.ResumeLayout(false);
       this.gbAirports.PerformLayout();
-      ((System.ComponentModel.ISupportInitialize)(this.numMTraffic)).EndInit();
+      this.gbTraffic.ResumeLayout(false);
+      this.gbTraffic.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).EndInit();
+      ((System.ComponentModel.ISupportInitialize)(this.numCTraffic)).EndInit();
       this.gbAirplanes.ResumeLayout(false);
       this.gbAirplanes.PerformLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numSpeed)).EndInit();
@@ -691,8 +697,6 @@ namespace Generator
       ((System.ComponentModel.ISupportInitialize)(this.numEmbarking)).EndInit();
       this.toolStrip.ResumeLayout(false);
       this.toolStrip.PerformLayout();
-      this.gbTraffic.ResumeLayout(false);
-      this.gbTraffic.PerformLayout();
       this.ResumeLayout(false);
       this.PerformLayout();
 
@@ -710,8 +714,8 @@ namespace Generator
     private Label labAiportName;
     private TextBox txbAirportName;
     private ListView listAirports;
-    private NumericUpDown numMTraffic;
-    private Label labMTraffic;
+    private NumericUpDown numCTraffic;
+    private Label labCTraffic;
     private NumericUpDown numPTraffic;
     private GroupBox gbAirplanes;
     private GroupBox gbTimeOptions;
@@ -725,7 +729,7 @@ namespace Generator
     private Button btnAddAirplane;
     private Label labAirplaneId;
     private TextBox txbAirplaneId;
-    private ListView listPlane;
+    private ListView listAirplanes;
     private NumericUpDown numMaintenance;
     private Label labMaintenance;
     private NumericUpDown numDisembarking;

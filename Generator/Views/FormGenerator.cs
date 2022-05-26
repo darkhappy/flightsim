@@ -33,15 +33,15 @@ namespace Generator
       listAirports.Columns.Add("Merchandise Traffic", (int) (listAirports.Width * 0.1632));
 
       //Setup listPlane
-      listPlane.View = View.Details;
-      listPlane.Columns.Add("Id", (int) (listAirports.Width * 0.07));
-      listPlane.Columns.Add("Name", (int) (listAirports.Width * 0.236));
-      listPlane.Columns.Add("Type", (int) (listAirports.Width * 0.20));
-      listPlane.Columns.Add("Speed", (int) (listAirports.Width * 0.09));
-      listPlane.Columns.Add("Capacity", (int) (listAirports.Width * 0.1));
-      listPlane.Columns.Add("Embarking", (int) (listAirports.Width * 0.1));
-      listPlane.Columns.Add("Disembarking", (int) (listAirports.Width * 0.1));
-      listPlane.Columns.Add("Maintenance", (int) (listAirports.Width * 0.1));
+      listAirplanes.View = View.Details;
+      listAirplanes.Columns.Add("Id", (int) (listAirports.Width * 0.07));
+      listAirplanes.Columns.Add("Name", (int) (listAirports.Width * 0.236));
+      listAirplanes.Columns.Add("Type", (int) (listAirports.Width * 0.20));
+      listAirplanes.Columns.Add("Speed", (int) (listAirports.Width * 0.09));
+      listAirplanes.Columns.Add("Capacity", (int) (listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Embarking", (int) (listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Disembarking", (int) (listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Maintenance", (int) (listAirports.Width * 0.1));
 
       //Default selected type
       cmbType.SelectedIndex = 1;
@@ -53,6 +53,24 @@ namespace Generator
       {
         string[] toAdd = {info.Id, info.Name, info.Position.ToString(), info.PassengerTraffic.ToString(), info.CargoTraffic.ToString()};
         listAirports.Items.Add(new ListViewItem(toAdd));
+      }
+    }
+
+    public void UpdateAirports(List<AirportInfo> airports)
+    {
+      foreach (AirportInfo info in airports)
+      {
+        string[] toAdd = { info.Id, info.Name, info.Position.ToString(), info.PassengerTraffic.ToString(), info.CargoTraffic.ToString() };
+        listAirports.Items.Add(new ListViewItem(toAdd));
+      }
+    }
+
+    public void UpdateAirplanes(List<AirplaneInfo> airplanes)
+    {
+      foreach (AirplaneInfo info in airplanes)
+      {
+        string[] toAdd = {info.Id, info.Name, info.Type.ToString(), info.Speed.ToString(), info.MaxCapacity.ToString(), info.EmbarkingTime.ToString(), info.DisembarkingTime.ToString(), info.MaintenanceTime.ToString()};
+        listAirplanes.Items.Add(new ListViewItem(toAdd));
       }
     }
 
@@ -100,12 +118,14 @@ namespace Generator
       if (String.IsNullOrEmpty(numPTraffic.Text)) return;
 
       if (!int.TryParse(numPTraffic.Text, out int pTraffic)) return;
-      if (!double.TryParse(numPTraffic.Text, out double mTraffic)) return;
-
+      if (!double.TryParse(numCTraffic.Text, out double cTraffic)) return;
 
       labError.Visible = false;
-      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
 
+      listAirports.Items.Clear();
+
+      //Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
+      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(1,1), pTraffic, cTraffic));
     }
 
     private void btnAddAirplane_Click(object sender, EventArgs e)
@@ -114,6 +134,11 @@ namespace Generator
       AirplaneInfo info;
 
       labError.Visible = true;
+
+      labError.Text = "Please select an airport";
+
+      if (listAirports.SelectedItems.Count == 0) return;
+
       labError.Text = "Please enter valid data";
 
       if (String.IsNullOrEmpty(txbAirplaneId.Text)) return;
@@ -157,13 +182,16 @@ namespace Generator
         case "Scout":
           info = new AirplaneInfo(txbAirplaneId.Text, txbAirplaneName.Text, type, speed, maintenance);
           break;
+        default:
+          throw new Exception("Unknown type");
       }
 
-      if (listAirports.SelectedItems.Count == 0) return;
-
-      labError.Text = listAirports.SelectedItems[0].SubItems[0].ToString();
+      labError.Text = listAirports.SelectedItems[0].SubItems[0].Text;
       //labError.Visible = false;
-      //Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0],info);
+
+      //listAirplanes.Items.Clear();
+
+      //Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0].ToString(), info);
     }
 
     /// <summary>
