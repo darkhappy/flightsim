@@ -274,7 +274,7 @@ namespace Tests.Generator
     }
 
     [Test]
-    public void Serializor()
+    public void Serializer()
     {
       _scenario.AddAirport(_airportInfo);
 

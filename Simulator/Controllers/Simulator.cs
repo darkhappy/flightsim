@@ -1,6 +1,6 @@
-﻿using Simulator.Views;
-using System;
+﻿using System;
 using System.Windows.Forms;
+using Simulator.Views;
 
 namespace Simulator.Controllers
 
@@ -8,7 +8,7 @@ namespace Simulator.Controllers
   public class Simulator
   {
     private static Simulator _instance;
-    private FormSimulator _frmSim;
+    private readonly FormSimulator _frmSim;
 
     private Simulator()
     {
@@ -21,7 +21,6 @@ namespace Simulator.Controllers
     public static void Main(string[] args)
     {
       new Simulator();
-
     }
 
     public void OnTick(double time)

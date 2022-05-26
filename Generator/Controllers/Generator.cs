@@ -1,32 +1,36 @@
-﻿using Generator.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.Windows.Forms;
+using Generator.Models;
 
 namespace Generator.Controllers
 {
   public class Generator
   {
+    private static Generator _instance;
+    private readonly Scenario _scenario;
     private FormGenerator _frmGen;
     private FormGenerator _frmMap;
-    private static Generator _instance;
-    private Scenario _scenario;
 
     /// <summary>
-    /// Entry point of the application
-    /// </summary>
-    /// <param name="args"></param>
-    public static void Main(string[] args)
-    {
-      Controllers.Generator.Instance.GenerateView();
-    }
-
-    /// <summary>
-    /// Constructor of <see cref="Generator"/>
+    ///   Constructor of <see cref="Generator" />
     /// </summary>
     private Generator()
     {
       _scenario = new Scenario();
+    }
+
+    /// <summary>
+    ///   Singleton getter of <see cref="Generator" />
+    /// </summary>
+    public static Generator Instance => _instance ??= new Generator();
+
+    /// <summary>
+    ///   Entry point of the application
+    /// </summary>
+    /// <param name="args"></param>
+    public static void Main(string[] args)
+    {
+      Instance.GenerateView();
     }
 
 
@@ -36,11 +40,6 @@ namespace Generator.Controllers
       _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
       Application.Run(_frmGen);
     }
-
-    /// <summary>
-    /// Singleton getter of <see cref="Generator"/>
-    /// </summary>
-    public static Generator Instance => _instance ??= new Generator();
 
     public void UpdateAirplanes(string id)
     {
@@ -64,9 +63,9 @@ namespace Generator.Controllers
     }
 
     /// <summary>
-    /// Call the <see cref="Scenario"/> to create a new <see cref="Airplane"/> and update the <see cref="FormGenerator"/>
+    ///   Call the <see cref="Scenario" /> to create a new <see cref="Airplane" /> and update the <see cref="FormGenerator" />
     /// </summary>
-    /// <param name="info"><see cref="AirplaneInfo"/> to create the new <see cref="Airplane"/></param>
+    /// <param name="info"><see cref="AirplaneInfo" /> to create the new <see cref="Airplane" /></param>
     public void AddAirport(AirportInfo info)
     {
       _scenario.AddAirport(info);

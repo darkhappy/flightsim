@@ -1,6 +1,8 @@
-﻿using Generator.Models;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using Generator.Models;
+using Generator.Properties;
 
 namespace Generator.Views
 {
@@ -11,10 +13,12 @@ namespace Generator.Views
       InitializeComponent();
     }
 
+    public string Pos { get; set; }
+
     public void DrawMapPos()
     {
-      Bitmap map = new Bitmap(Properties.Resources.galaxy);
-      Graphics simCanevas = mapPanelPos.CreateGraphics();
+      var map = new Bitmap(Resources.galaxy);
+      var simCanevas = mapPanelPos.CreateGraphics();
       simCanevas.DrawImage(map, 0, 0, 1129, 529);
     }
 
@@ -23,18 +27,16 @@ namespace Generator.Views
       DrawMapPos();
     }
 
-    public string Pos { get; set; }
-
-    private void mapPanelPos_Click(object sender, System.EventArgs e)
+    private void mapPanelPos_Click(object sender, EventArgs e)
     {
-      var props = (MouseEventArgs)e;
-      var image = (Panel)sender;
+      var props = (MouseEventArgs) e;
+      var image = (Panel) sender;
       var x = props.X;
       var y = props.Y;
       var pos = new Position(x, y);
-      this.Pos = pos.ToString();
-      this.DialogResult = DialogResult.OK;
-      this.Close();
+      Pos = pos.ToString();
+      DialogResult = DialogResult.OK;
+      Close();
     }
   }
 }
