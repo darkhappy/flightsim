@@ -12,11 +12,19 @@ namespace Generator
   {
     private SoundPlayer _player;
 
+    /// <summary>
+    /// Constructor of the form
+    /// </summary>
     public FormGenerator()
     {
       InitializeComponent();
     }
 
+    /// <summary>
+    /// First actions when the form is loading
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void FormGenerator_Load(object sender, EventArgs e)
     {
       //Load music
@@ -47,15 +55,10 @@ namespace Generator
       cmbType.SelectedIndex = 1;
     }
 
-    public void UpdateView(List<AirportInfo> airports)
-    {
-      foreach (AirportInfo info in airports)
-      {
-        string[] toAdd = {info.Id, info.Name, info.Position.ToString(), info.PassengerTraffic.ToString(), info.CargoTraffic.ToString()};
-        listAirports.Items.Add(new ListViewItem(toAdd));
-      }
-    }
-
+    /// <summary>
+    /// Show all <see cref="Airport"/>s in the airportsList
+    /// </summary>
+    /// <param name="airports">Airports info comming from <see cref="Scenario"/></param>
     public void UpdateAirports(List<AirportInfo> airports)
     {
       foreach (AirportInfo info in airports)
@@ -65,6 +68,10 @@ namespace Generator
       }
     }
 
+    /// <summary>
+    /// Show all <see cref="Airplane"/>s in the selected <see cref="Airport"/>
+    /// </summary>
+    /// <param name="airplanes">Airplanes info coming from <see cref="Scenario"/></param>
     public void UpdateAirplanes(List<AirplaneInfo> airplanes)
     {
       foreach (AirplaneInfo info in airplanes)
@@ -129,6 +136,11 @@ namespace Generator
       listAirports.Items[listAirports.Items.Count - 1].Selected = true;
     }
 
+    /// <summary>
+    /// Update shown airplanes whenever the listAirports changes
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void listAirports_SelectedIndexChanged(object sender, EventArgs e)
     {
       if(listAirports.SelectedItems.Count > 0)
@@ -148,20 +160,19 @@ namespace Generator
       AirplaneType type;
       AirplaneInfo info;
 
+      //Verify if is valid
       labError.Visible = true;
-
       labError.Text = "Please select an airport";
 
       if (listAirports.SelectedItems.Count == 0) return;
-
       labError.Text = "Please enter valid data";
 
       if (String.IsNullOrEmpty(txbAirplaneId.Text)) return;
       if (String.IsNullOrEmpty(txbAirplaneName.Text)) return;
-
       if (!int.TryParse(numSpeed.Text, out int speed)) return;
       if (!int.TryParse(numMaintenance.Text, out int maintenance)) return;
 
+      //Select matching type
       switch (cmbType.SelectedItem)
       {
         case "Cargo":
@@ -183,6 +194,7 @@ namespace Generator
           throw new Exception("Unknown type");    
       }
 
+      //Create airplane info depending on AirplaneType
       switch (cmbType.SelectedItem)
       {
         case "Cargo":
