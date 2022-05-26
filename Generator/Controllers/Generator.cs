@@ -33,7 +33,7 @@ namespace Generator.Controllers
     public void GenerateView()
     {
       _frmGen = new FormGenerator();
-      _frmGen.UpdateView(_scenario.GetAirportsInfo());
+      _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
       Application.Run(_frmGen);
     }
 
