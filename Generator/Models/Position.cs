@@ -1,7 +1,9 @@
 using System;
+using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
+  [DataContract]
   public class Position
   {
     public Position(int x, int y)
@@ -15,9 +17,9 @@ namespace Generator.Models
       Transpose(position);
     }
 
-    public int X { get; set; }
+    [DataMember] public int X { get; set; }
 
-    public int Y { get; set; }
+    [DataMember] public int Y { get; set; }
 
     public static string Transpose(int x, int y)
     {
