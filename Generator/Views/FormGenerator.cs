@@ -103,7 +103,6 @@ namespace Generator
           numCapacity.Enabled = true;
           numEmbarking.Enabled = true;
           numDisembarking.Enabled = true;
-          numMaintenance.Enabled = true;
           break;
         case "Fight":
         case "Rescue":
@@ -111,7 +110,6 @@ namespace Generator
           numCapacity.Enabled = false;
           numEmbarking.Enabled = false;
           numDisembarking.Enabled = false;
-          numMaintenance.Enabled = false;
           break;
       }
     }
@@ -129,7 +127,6 @@ namespace Generator
       if (string.IsNullOrEmpty(txbAirportId.Text)) return;
       if (string.IsNullOrEmpty(txbAirportName.Text)) return;
       if (string.IsNullOrEmpty(txbPosition.Text)) return;
-      if (string.IsNullOrEmpty(numPTraffic.Text)) return;
 
       if (!int.TryParse(numPTraffic.Text, out var pTraffic)) return;
       if (!double.TryParse(numCTraffic.Text, out var cTraffic)) return;
@@ -156,6 +153,27 @@ namespace Generator
 
       listAirplanes.Items.Clear();
       Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
+
+      txbAirportId.Text = listAirports.SelectedItems[0].SubItems[0].Text;
+      txbAirportName.Text = listAirports.SelectedItems[0].SubItems[1].Text;
+      txbPosition.Text = listAirports.SelectedItems[0].SubItems[2].Text;
+      numPTraffic.Text = listAirports.SelectedItems[0].SubItems[3].Text;
+      numCTraffic.Text = listAirports.SelectedItems[0].SubItems[4].Text;
+    }
+
+    private void listAirplanes_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if (listAirplanes.SelectedItems.Count <= 0) return;
+
+      txbAirplaneId.Text = listAirplanes.SelectedItems[0].SubItems[0].Text;
+      txbAirplaneName.Text = listAirplanes.SelectedItems[0].SubItems[1].Text;
+      cmbType.Text = listAirplanes.SelectedItems[0].SubItems[2].Text;
+
+      numSpeed.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[3].Text);
+      numCapacity.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[4].Text);
+      numEmbarking.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[5].Text);
+      numDisembarking.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[6].Text);
+      numMaintenance.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[7].Text);
     }
 
     /// <summary>

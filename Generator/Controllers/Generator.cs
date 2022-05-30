@@ -69,6 +69,7 @@ namespace Generator.Controllers
     public void AddAirport(AirportInfo info)
     {
       _scenario.AddAirport(info);
+
       _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
     }
 
