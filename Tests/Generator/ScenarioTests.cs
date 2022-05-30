@@ -303,5 +303,18 @@ namespace Tests.Generator
 
       writer.Close();
     }
+
+    [Test]
+    public void Deserializer()
+    {
+      Serializer();
+
+      var reader = new FileStream("test.xml", FileMode.Open);
+      var serializer = new DataContractSerializer(typeof(Scenario));
+
+      Assert.That(() => serializer.ReadObject(reader), Throws.Nothing);
+
+      reader.Close();
+    }
   }
 }

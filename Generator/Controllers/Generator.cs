@@ -1,4 +1,6 @@
 ﻿using System;
+using System.IO;
+using System.Runtime.Serialization;
 using System.Windows.Forms;
 using Generator.Models;
 
@@ -7,9 +9,9 @@ namespace Generator.Controllers
   public class Generator
   {
     private static Generator _instance;
-    private readonly Scenario _scenario;
     private FormGenerator _frmGen;
     private FormGenerator _frmMap;
+    private Scenario _scenario;
 
     /// <summary>
     ///   Constructor of <see cref="Generator" />
@@ -99,12 +101,36 @@ namespace Generator.Controllers
       throw new NotImplementedException();
     }
 
-    public void Export()
+    public void Export(string path)
     {
+      try
+      {
+        var serializer = new DataContractSerializer(typeof(Scenario));
+        using var stream = new FileStream(path, FileMode.Create);
+        serializer.WriteObject(stream, _scenario);
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show(e.Message);
+      }
     }
 
-    public void Import()
+    public void Import(string path)
     {
+      try
+      {
+        var serializer = new DataContractSerializer(typeof(Scenario));
+        using var stream = new FileStream(path, FileMode.Open);
+        _scenario = (Scenario) serializer.ReadObject(stream);
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show(e.Message);
+      }
+
+      var airportInfo = _scenario.GetAirportsInfo();
+
+      _frmGen.UpdateAirports(airportInfo);
     }
   }
 }

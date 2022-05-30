@@ -28,7 +28,7 @@ namespace Generator.Models
 
     [DataMember] public double CargoTraffic { get; set; }
 
-    [DataMember] public List<Airplane> Airplanes { get; }
+    [DataMember] public List<Airplane> Airplanes { get; private set; }
 
     public ExtensionDataObject ExtensionData { get; set; }
 
