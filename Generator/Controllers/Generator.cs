@@ -48,8 +48,15 @@ namespace Generator.Controllers
 
     public void AddAirplane(string id, AirplaneInfo info)
     {
-      _scenario.AddAirplane(id, info);
-      UpdateAirplanes(id);
+      try
+      {
+        _scenario.AddAirplane(id, info);
+        UpdateAirplanes(id);
+      }
+      catch (Exception e)
+      {
+        MessageBox.Show(e.Message);
+      }
     }
 
     public void EditAirplane(string id, string[] data)
@@ -68,8 +75,18 @@ namespace Generator.Controllers
     /// <param name="info"><see cref="AirplaneInfo" /> to create the new <see cref="Airplane" /></param>
     public void AddAirport(AirportInfo info)
     {
-      _scenario.AddAirport(info);
-      _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
+      try
+      {
+        _scenario.AddAirport(info);
+      }
+      catch (ArgumentException e)
+      {
+        MessageBox.Show(e.Message);
+      }
+      finally
+      {
+        _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
+      }
     }
 
     public void EditAirport(string id, string[] data)
