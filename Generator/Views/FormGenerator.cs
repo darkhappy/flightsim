@@ -62,6 +62,8 @@ namespace Generator
     /// <param name="airports">Airports info comming from <see cref="Scenario" /></param>
     public void UpdateAirports(List<AirportInfo> airports)
     {
+      listAirports.Items.Clear();
+
       foreach (var info in airports)
       {
         string[] toAdd =
@@ -78,6 +80,8 @@ namespace Generator
     /// <param name="airplanes">Airplanes info coming from <see cref="Scenario" /></param>
     public void UpdateAirplanes(List<AirplaneInfo> airplanes)
     {
+      listAirplanes.Items.Clear();
+
       foreach (var info in airplanes)
       {
         string[] toAdd =
@@ -123,7 +127,6 @@ namespace Generator
     {
       if (listAirports.SelectedItems.Count <= 0) return;
 
-      listAirplanes.Items.Clear();
       Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
 
       txbAirportId.Text = listAirports.SelectedItems[0].SubItems[0].Text;
@@ -242,12 +245,36 @@ namespace Generator
 
     private void btnDeleteAirport_Click(object sender, EventArgs e)
     {
-      Controllers.Generator.Instance.DeleteAirplane(listAirports.SelectedItems[0].SubItems[0].Text);
+      Controllers.Generator.Instance.DeleteAirport(listAirports.SelectedItems[0].SubItems[0].Text);
+      try { listAirports.Items[0].Selected = true; }
+      catch 
+      {
+        txbAirportId.Text = "";
+        txbAirportName.Text = "";
+        txbPosition.Text = "";
+        numPTraffic.Text = "5";
+        numCTraffic.Text = "5";
+      };
     }
 
     private void btnDeleteAirplane_Click(object sender, EventArgs e)
     {
+      Controllers.Generator.Instance.DeleteAirplane(listAirplanes.SelectedItems[0].SubItems[0].Text);
+      Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
 
+      try { listAirplanes.Items[0].Selected = true; }
+      catch 
+      {
+        txbAirplaneId.Text = "";
+        txbAirplaneName.Text = "";
+        cmbType.Text = "Cargo";
+
+        numSpeed.Value = 900;
+        numCapacity.Value = 15;
+        numEmbarking.Value = 15;
+        numDisembarking.Value = 15;
+        numMaintenance.Value = 15;
+      };
     }
 
     /// <summary>

@@ -69,7 +69,14 @@ namespace Generator.Controllers
 
     public void DeleteAirplane(string id)
     {
-      throw new NotImplementedException();
+      try
+      {
+        _scenario.DeleteAirplane(id);
+      }
+      catch (ArgumentException e)
+      {
+        MessageBox.Show(e.Message);
+      }
     }
 
     /// <summary>
