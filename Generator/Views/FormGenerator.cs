@@ -62,6 +62,8 @@ namespace Generator
     /// <param name="airports">Airports info comming from <see cref="Scenario" /></param>
     public void UpdateAirports(List<AirportInfo> airports)
     {
+      listAirports.Items.Clear();
+
       foreach (var info in airports)
       {
         string[] toAdd =
@@ -78,6 +80,8 @@ namespace Generator
     /// <param name="airplanes">Airplanes info coming from <see cref="Scenario" /></param>
     public void UpdateAirplanes(List<AirplaneInfo> airplanes)
     {
+      listAirplanes.Items.Clear();
+
       foreach (var info in airplanes)
       {
         string[] toAdd =
@@ -103,7 +107,6 @@ namespace Generator
           numCapacity.Enabled = true;
           numEmbarking.Enabled = true;
           numDisembarking.Enabled = true;
-          numMaintenance.Enabled = true;
           break;
         case "Fight":
         case "Rescue":
@@ -111,9 +114,41 @@ namespace Generator
           numCapacity.Enabled = false;
           numEmbarking.Enabled = false;
           numDisembarking.Enabled = false;
-          numMaintenance.Enabled = false;
           break;
       }
+    }
+
+    /// <summary>
+    ///   Update shown airplanes whenever the listAirports changes
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
+    private void listAirports_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if (listAirports.SelectedItems.Count <= 0) return;
+
+      Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
+
+      txbAirportId.Text = listAirports.SelectedItems[0].SubItems[0].Text;
+      txbAirportName.Text = listAirports.SelectedItems[0].SubItems[1].Text;
+      txbPosition.Text = listAirports.SelectedItems[0].SubItems[2].Text;
+      numPTraffic.Text = listAirports.SelectedItems[0].SubItems[3].Text;
+      numCTraffic.Text = listAirports.SelectedItems[0].SubItems[4].Text;
+    }
+
+    private void listAirplanes_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if (listAirplanes.SelectedItems.Count <= 0) return;
+
+      txbAirplaneId.Text = listAirplanes.SelectedItems[0].SubItems[0].Text;
+      txbAirplaneName.Text = listAirplanes.SelectedItems[0].SubItems[1].Text;
+      cmbType.Text = listAirplanes.SelectedItems[0].SubItems[2].Text;
+
+      numSpeed.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[3].Text);
+      numCapacity.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[4].Text);
+      numEmbarking.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[5].Text);
+      numDisembarking.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[6].Text);
+      numMaintenance.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[7].Text);
     }
 
     /// <summary>
@@ -129,7 +164,6 @@ namespace Generator
       if (string.IsNullOrEmpty(txbAirportId.Text)) return;
       if (string.IsNullOrEmpty(txbAirportName.Text)) return;
       if (string.IsNullOrEmpty(txbPosition.Text)) return;
-      if (string.IsNullOrEmpty(numPTraffic.Text)) return;
 
       if (!int.TryParse(numPTraffic.Text, out var pTraffic)) return;
       if (!double.TryParse(numCTraffic.Text, out var cTraffic)) return;
@@ -143,19 +177,6 @@ namespace Generator
         new Position(1, 1), pTraffic, cTraffic));
 
       listAirports.Items[listAirports.Items.Count - 1].Selected = true;
-    }
-
-    /// <summary>
-    ///   Update shown airplanes whenever the listAirports changes
-    /// </summary>
-    /// <param name="sender">Object that trigger the event</param>
-    /// <param name="e">The event</param>
-    private void listAirports_SelectedIndexChanged(object sender, EventArgs e)
-    {
-      if (listAirports.SelectedItems.Count <= 0) return;
-
-      listAirplanes.Items.Clear();
-      Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
     }
 
     /// <summary>
@@ -217,8 +238,43 @@ namespace Generator
 
       //Update listAirplanes
       listAirplanes.Items.Clear();
+
       Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0].Text, info);
       listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
+    }
+
+    private void btnDeleteAirport_Click(object sender, EventArgs e)
+    {
+      Controllers.Generator.Instance.DeleteAirport(listAirports.SelectedItems[0].SubItems[0].Text);
+      try { listAirports.Items[0].Selected = true; }
+      catch 
+      {
+        txbAirportId.Text = "";
+        txbAirportName.Text = "";
+        txbPosition.Text = "";
+        numPTraffic.Text = "5";
+        numCTraffic.Text = "5";
+      };
+    }
+
+    private void btnDeleteAirplane_Click(object sender, EventArgs e)
+    {
+      Controllers.Generator.Instance.DeleteAirplane(listAirplanes.SelectedItems[0].SubItems[0].Text);
+      Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
+
+      try { listAirplanes.Items[0].Selected = true; }
+      catch 
+      {
+        txbAirplaneId.Text = "";
+        txbAirplaneName.Text = "";
+        cmbType.Text = "Cargo";
+
+        numSpeed.Value = 900;
+        numCapacity.Value = 15;
+        numEmbarking.Value = 15;
+        numDisembarking.Value = 15;
+        numMaintenance.Value = 15;
+      };
     }
 
     /// <summary>
