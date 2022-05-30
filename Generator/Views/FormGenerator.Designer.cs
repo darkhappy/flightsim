@@ -246,6 +246,7 @@ namespace Generator
       this.btnDeleteAirport.TabIndex = 5;
       this.btnDeleteAirport.Text = "Delete";
       this.btnDeleteAirport.UseVisualStyleBackColor = true;
+      this.btnDeleteAirport.Click += new System.EventHandler(this.btnDeleteAirport_Click);
       // 
       // btnModifyAirport
       // 
@@ -519,6 +520,7 @@ namespace Generator
       this.btnDeleteAirplane.TabIndex = 5;
       this.btnDeleteAirplane.Text = "Delete";
       this.btnDeleteAirplane.UseVisualStyleBackColor = true;
+      this.btnDeleteAirplane.Click += new System.EventHandler(this.btnDeleteAirplane_Click);
       // 
       // btnModifyAirplane
       // 

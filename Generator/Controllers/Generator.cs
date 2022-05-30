@@ -51,11 +51,14 @@ namespace Generator.Controllers
       try
       {
         _scenario.AddAirplane(id, info);
-        UpdateAirplanes(id);
       }
       catch (Exception e)
       {
         MessageBox.Show(e.Message);
+      }
+      finally
+      {
+        UpdateAirplanes(id);
       }
     }
 
@@ -96,7 +99,18 @@ namespace Generator.Controllers
 
     public void DeleteAirport(string id)
     {
-      throw new NotImplementedException();
+      try
+      {
+        _scenario.DeleteAirport(id);
+      }
+      catch (ArgumentException e)
+      {
+        MessageBox.Show(e.Message);
+      }
+      finally
+      {
+        _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
+      }
     }
 
     public void Export()

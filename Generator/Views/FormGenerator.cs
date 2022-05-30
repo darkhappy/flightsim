@@ -115,34 +115,6 @@ namespace Generator
     }
 
     /// <summary>
-    ///   Add an airport to the <see cref="Scenario" />
-    /// </summary>
-    /// <param name="sender">Object that trigger the event</param>
-    /// <param name="e">The event</param>
-    private void btnAddAirport_Click(object sender, EventArgs e)
-    {
-      labError.Visible = true;
-      labError.Text = "Please enter valid data";
-
-      if (string.IsNullOrEmpty(txbAirportId.Text)) return;
-      if (string.IsNullOrEmpty(txbAirportName.Text)) return;
-      if (string.IsNullOrEmpty(txbPosition.Text)) return;
-
-      if (!int.TryParse(numPTraffic.Text, out var pTraffic)) return;
-      if (!double.TryParse(numCTraffic.Text, out var cTraffic)) return;
-
-      labError.Visible = false;
-
-      listAirports.Items.Clear();
-
-      //Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
-      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text,
-        new Position(1, 1), pTraffic, cTraffic));
-
-      listAirports.Items[listAirports.Items.Count - 1].Selected = true;
-    }
-
-    /// <summary>
     ///   Update shown airplanes whenever the listAirports changes
     /// </summary>
     /// <param name="sender">Object that trigger the event</param>
@@ -174,6 +146,34 @@ namespace Generator
       numEmbarking.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[5].Text);
       numDisembarking.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[6].Text);
       numMaintenance.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[7].Text);
+    }
+
+    /// <summary>
+    ///   Add an airport to the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
+    private void btnAddAirport_Click(object sender, EventArgs e)
+    {
+      labError.Visible = true;
+      labError.Text = "Please enter valid data";
+
+      if (string.IsNullOrEmpty(txbAirportId.Text)) return;
+      if (string.IsNullOrEmpty(txbAirportName.Text)) return;
+      if (string.IsNullOrEmpty(txbPosition.Text)) return;
+
+      if (!int.TryParse(numPTraffic.Text, out var pTraffic)) return;
+      if (!double.TryParse(numCTraffic.Text, out var cTraffic)) return;
+
+      labError.Visible = false;
+
+      listAirports.Items.Clear();
+
+      //Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
+      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text,
+        new Position(1, 1), pTraffic, cTraffic));
+
+      listAirports.Items[listAirports.Items.Count - 1].Selected = true;
     }
 
     /// <summary>
@@ -235,8 +235,19 @@ namespace Generator
 
       //Update listAirplanes
       listAirplanes.Items.Clear();
+
       Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0].Text, info);
       listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
+    }
+
+    private void btnDeleteAirport_Click(object sender, EventArgs e)
+    {
+      Controllers.Generator.Instance.DeleteAirplane(listAirports.SelectedItems[0].SubItems[0].Text);
+    }
+
+    private void btnDeleteAirplane_Click(object sender, EventArgs e)
+    {
+
     }
 
     /// <summary>
