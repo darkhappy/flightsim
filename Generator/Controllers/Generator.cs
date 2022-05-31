@@ -124,29 +124,37 @@ namespace Generator.Controllers
 
     public void Export(string path)
     {
+      var serializer = new DataContractSerializer(typeof(Scenario));
+      using var stream = new FileStream(path, FileMode.Create);
       try
       {
-        var serializer = new DataContractSerializer(typeof(Scenario));
-        using var stream = new FileStream(path, FileMode.Create);
         serializer.WriteObject(stream, _scenario);
       }
       catch (Exception e)
       {
         MessageBox.Show(e.Message);
       }
+      finally
+      {
+        stream.Close();
+      }
     }
 
     public void Import(string path)
     {
+      var serializer = new DataContractSerializer(typeof(Scenario));
+      using var stream = new FileStream(path, FileMode.Open);
       try
       {
-        var serializer = new DataContractSerializer(typeof(Scenario));
-        using var stream = new FileStream(path, FileMode.Open);
         _scenario = (Scenario) serializer.ReadObject(stream);
       }
       catch (Exception e)
       {
         MessageBox.Show(e.Message);
+      }
+      finally
+      {
+        stream.Close();
       }
 
       var airportInfo = _scenario.GetAirportsInfo();
