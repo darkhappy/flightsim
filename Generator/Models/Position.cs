@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
-  [DataContract]
+  [DataContract(Namespace = "")]
   public class Position
   {
     public Position(int x, int y)

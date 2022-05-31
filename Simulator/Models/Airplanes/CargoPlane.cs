@@ -1,9 +1,12 @@
+using System.Runtime.Serialization;
+
 namespace Simulator.Models.Airplanes
 {
-  public class MerchandisePlane : TransportPlane
+  [DataContract(Namespace = "")]
+  public class CargoPlane : TransportPlane
   {
-    public MerchandisePlane(string id, string name, int speed, int maintenanceTime, Airport origin,
-                            double maxCapacity, int embarkingTime, int disembarkingTime) : base(id, name,
+    public CargoPlane(string id, string name, int speed, int maintenanceTime, Airport origin,
+                      double maxCapacity, int embarkingTime, int disembarkingTime) : base(id, name,
       speed, maintenanceTime, origin, maxCapacity, embarkingTime, disembarkingTime)
     {
     }

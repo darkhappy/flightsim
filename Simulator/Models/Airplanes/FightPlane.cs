@@ -1,8 +1,10 @@
 using System;
+using System.Runtime.Serialization;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
 {
+  [DataContract(Namespace = "")]
   public class FightPlane : Airplane
   {
     public FightPlane(string id, string name, int speed, int maintenanceTime, Airport origin) : base(

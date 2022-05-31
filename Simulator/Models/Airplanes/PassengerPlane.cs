@@ -1,5 +1,8 @@
+using System.Runtime.Serialization;
+
 namespace Simulator.Models.Airplanes
 {
+  [DataContract(Namespace = "")]
   public class PassengerPlane : TransportPlane
   {
     public PassengerPlane(string id, string name, int speed, int maintenanceTime, Airport origin,

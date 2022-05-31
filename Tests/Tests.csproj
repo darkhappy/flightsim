@@ -12,6 +12,7 @@
         <AssemblyName>Tests</AssemblyName>
         <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
+        <LangVersion>8</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <PlatformTarget>AnyCPU</PlatformTarget>
@@ -48,6 +49,7 @@
         <Compile Include="Generator\PositionTests.cs"/>
         <Compile Include="Generator\ScenarioTests.cs"/>
         <Compile Include="Simulator\AirplaneTests.cs"/>
+        <Compile Include="Simulator\ScenarioTests.cs"/>
         <Compile Include="Simulator\StateTests.cs"/>
         <Compile Include="Tests.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>

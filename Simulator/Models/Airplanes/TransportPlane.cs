@@ -1,8 +1,10 @@
 using System;
+using System.Runtime.Serialization;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
 {
+  [DataContract(Namespace = "")]
   public abstract class TransportPlane : Airplane
   {
     protected TransportPlane(string id, string name, int speed, int maintenanceTime, Airport origin,
@@ -14,9 +16,9 @@ namespace Simulator.Models.Airplanes
       DisembarkingTime = disembarkingTime;
     }
 
-    public double MaxCapacity { get; set; }
-    public int EmbarkingTime { get; set; }
-    public int DisembarkingTime { get; set; }
+    [DataMember] public double MaxCapacity { get; set; }
+    [DataMember] public int EmbarkingTime { get; set; }
+    [DataMember] public int DisembarkingTime { get; set; }
 
     public override void ChangeState()
     {

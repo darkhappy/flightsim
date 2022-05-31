@@ -1,18 +1,30 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models
 {
-  public class Scenario
+  [DataContract(Namespace = "")]
+  public class Scenario : IExtensibleDataObject
   {
     private static Scenario _instance;
-    private List<Airport> _airports;
-    private List<Task> _tasks;
-    private List<Task> _unassignedTasks;
+
+    public Scenario()
+    {
+      Airports = new List<Airport>();
+      Tasks = new List<Task>();
+      UnassignedTasks = new List<Task>();
+    }
+
+    [DataMember] public List<Airport> Airports { get; private set; }
+    public List<Task> Tasks { get; }
+    public List<Task> UnassignedTasks { get; }
 
     public static Scenario Instance => _instance ?? (_instance = new Scenario());
+
+    public ExtensionDataObject ExtensionData { get; set; } = null!;
 
     public void GenerateTasks()
     {

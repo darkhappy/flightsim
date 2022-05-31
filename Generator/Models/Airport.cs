@@ -5,7 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
-  [DataContract]
+  [DataContract(Namespace = "")]
   public class Airport : IExtensibleDataObject
   {
     public Airport(AirportInfo data)
@@ -30,7 +30,7 @@ namespace Generator.Models
 
     [DataMember] public List<Airplane> Airplanes { get; private set; }
 
-    public ExtensionDataObject ExtensionData { get; set; }
+    public ExtensionDataObject ExtensionData { get; set; } = null!;
 
     public Airplane? FindAirplane(string id)
     {

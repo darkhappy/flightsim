@@ -8,7 +8,7 @@ namespace Generator.Models
   /// <summary>
   ///   Abstract class representing an airplane in the simulation.
   /// </summary>
-  [DataContract]
+  [DataContract(Namespace = "")]
   [KnownType("GetDerivedTypes")]
   public abstract class Airplane : IExtensibleDataObject
   {

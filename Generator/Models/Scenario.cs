@@ -5,6 +5,7 @@ using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
+  [DataContract(Namespace = "")]
   public class Scenario : IExtensibleDataObject
   {
     public Scenario()
@@ -12,7 +13,7 @@ namespace Generator.Models
       Airports = new List<Airport>();
     }
 
-    [DataMember] public List<Airport> Airports { get; }
+    [DataMember] public List<Airport> Airports { get; private set; }
 
     public ExtensionDataObject ExtensionData { get; set; } = null!;
 

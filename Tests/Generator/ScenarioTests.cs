@@ -312,7 +312,9 @@ namespace Tests.Generator
       var reader = new FileStream("test.xml", FileMode.Open);
       var serializer = new DataContractSerializer(typeof(Scenario));
 
-      Assert.That(() => serializer.ReadObject(reader), Throws.Nothing);
+      _scenario = (Scenario) serializer.ReadObject(reader);
+
+      Assert.That(_scenario.Airports.Count, Is.EqualTo(2));
 
       reader.Close();
     }

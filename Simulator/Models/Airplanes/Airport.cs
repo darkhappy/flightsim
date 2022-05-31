@@ -1,10 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
 {
-  public class Airport
+  [DataContract(Namespace = "")]
+  public class Airport : IExtensibleDataObject
   {
     private List<TaskTransport> _clients;
 
@@ -19,12 +21,14 @@ namespace Simulator.Models.Airplanes
       CargoTraffic = cargoTraffic;
     }
 
-    public string Id { get; set; }
-    public string Name { get; set; }
-    public Position Position { get; set; }
-    public int PassengerTraffic { get; set; }
-    public double CargoTraffic { get; set; }
-    public List<Airplane> Airplanes { get; }
+    [DataMember] public string Id { get; private set; }
+    [DataMember] public string Name { get; private set; }
+    [DataMember] public Position Position { get; private set; }
+    [DataMember] public int PassengerTraffic { get; private set; }
+    [DataMember] public double CargoTraffic { get; private set; }
+    [DataMember] public List<Airplane> Airplanes { get; private set; }
+
+    public ExtensionDataObject ExtensionData { get; set; } = null!;
 
     public void Action(double time)
     {

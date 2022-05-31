@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
-  [DataContract]
+  [DataContract(Namespace = "")]
   public abstract class TransportPlane : Airplane
   {
     protected TransportPlane(AirplaneInfo info) : base(info)
