@@ -21,7 +21,7 @@ namespace Simulator.Models.Airplanes
       State = new StandbyState();
     }
 
-    public IState State { get; }
+    public IState State { get; private set; }
 
     [DataMember] public string Id { get; private set; }
 
@@ -34,6 +34,12 @@ namespace Simulator.Models.Airplanes
     public Airport Origin { get; set; }
 
     public abstract Colour Colour { get; }
+
+    [OnDeserialized]
+    private void OnDeserialized(StreamingContext context)
+    {
+      State = new StandbyState();
+    }
 
     public void Action(double time)
     {

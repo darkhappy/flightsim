@@ -8,18 +8,18 @@ namespace Simulator.Models.Airplanes
   [DataContract(Namespace = "")]
   public class Airport : IExtensibleDataObject
   {
-    private List<TaskTransport> _clients;
-
     public Airport(string id, string name, Position position, int passengerTraffic, double cargoTraffic)
     {
       Id = id;
       Name = name;
       Position = position;
       Airplanes = new List<Airplane>();
-      _clients = new List<TaskTransport>();
+      Clients = new List<TaskTransport>();
       PassengerTraffic = passengerTraffic;
       CargoTraffic = cargoTraffic;
     }
+
+    public List<TaskTransport> Clients { get; private set; }
 
     [DataMember] public string Id { get; private set; }
     [DataMember] public string Name { get; private set; }
@@ -29,6 +29,13 @@ namespace Simulator.Models.Airplanes
     [DataMember] public List<Airplane> Airplanes { get; private set; }
 
     public ExtensionDataObject ExtensionData { get; set; } = null!;
+
+    [OnDeserialized]
+    public void OnDeserialized(StreamingContext context)
+    {
+      Clients = new List<TaskTransport>();
+      foreach (var airplane in Airplanes) airplane.Origin = this;
+    }
 
     public void Action(double time)
     {

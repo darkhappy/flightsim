@@ -19,12 +19,19 @@ namespace Simulator.Models
     }
 
     [DataMember] public List<Airport> Airports { get; private set; }
-    public List<Task> Tasks { get; }
-    public List<Task> UnassignedTasks { get; }
+    public List<Task> Tasks { get; private set; }
+    public List<Task> UnassignedTasks { get; private set; }
 
     public static Scenario Instance => _instance ?? (_instance = new Scenario());
 
     public ExtensionDataObject ExtensionData { get; set; } = null!;
+
+    [OnDeserialized]
+    private void OnDeserialized(StreamingContext context)
+    {
+      Tasks = new List<Task>();
+      UnassignedTasks = new List<Task>();
+    }
 
     public void GenerateTasks()
     {
