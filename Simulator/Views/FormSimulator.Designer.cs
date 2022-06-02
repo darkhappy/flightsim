@@ -36,20 +36,20 @@ namespace Simulator.Views
       this.subToolNew = new System.Windows.Forms.ToolStripMenuItem();
       this.mapPanel = new System.Windows.Forms.Panel();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.grpAirport = new System.Windows.Forms.GroupBox();
-      this.grpClients = new System.Windows.Forms.GroupBox();
-      this.grpTasks = new System.Windows.Forms.GroupBox();
       this.grpPanes = new System.Windows.Forms.GroupBox();
-      this.listAirport = new System.Windows.Forms.ListBox();
-      this.lstClients = new System.Windows.Forms.ListBox();
-      this.lstTasks = new System.Windows.Forms.ListBox();
       this.lstPlanes = new System.Windows.Forms.ListBox();
+      this.grpTasks = new System.Windows.Forms.GroupBox();
+      this.lstTasks = new System.Windows.Forms.ListBox();
+      this.grpClients = new System.Windows.Forms.GroupBox();
+      this.lstClients = new System.Windows.Forms.ListBox();
+      this.grpAirport = new System.Windows.Forms.GroupBox();
+      this.listAirport = new System.Windows.Forms.ListBox();
       this.toolStrip.SuspendLayout();
       this.groupBox1.SuspendLayout();
-      this.grpAirport.SuspendLayout();
-      this.grpClients.SuspendLayout();
-      this.grpTasks.SuspendLayout();
       this.grpPanes.SuspendLayout();
+      this.grpTasks.SuspendLayout();
+      this.grpClients.SuspendLayout();
+      this.grpAirport.SuspendLayout();
       this.SuspendLayout();
       // 
       // toolStrip
@@ -77,13 +77,13 @@ namespace Simulator.Views
       // subToolOpen
       // 
       this.subToolOpen.Name = "subToolOpen";
-      this.subToolOpen.Size = new System.Drawing.Size(180, 22);
+      this.subToolOpen.Size = new System.Drawing.Size(156, 22);
       this.subToolOpen.Text = "Load a scenario";
       // 
       // subToolNew
       // 
       this.subToolNew.Name = "subToolNew";
-      this.subToolNew.Size = new System.Drawing.Size(180, 22);
+      this.subToolNew.Size = new System.Drawing.Size(156, 22);
       this.subToolNew.Text = "Pause";
       this.subToolNew.Click += new System.EventHandler(this.subToolNew_Click);
       // 
@@ -108,25 +108,23 @@ namespace Simulator.Views
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Elements of the simulation";
       // 
-      // grpAirport
+      // grpPanes
       // 
-      this.grpAirport.Controls.Add(this.listAirport);
-      this.grpAirport.Location = new System.Drawing.Point(6, 13);
-      this.grpAirport.Name = "grpAirport";
-      this.grpAirport.Size = new System.Drawing.Size(198, 155);
-      this.grpAirport.TabIndex = 0;
-      this.grpAirport.TabStop = false;
-      this.grpAirport.Text = "Airports";
+      this.grpPanes.Controls.Add(this.lstPlanes);
+      this.grpPanes.Location = new System.Drawing.Point(832, 13);
+      this.grpPanes.Name = "grpPanes";
+      this.grpPanes.Size = new System.Drawing.Size(291, 155);
+      this.grpPanes.TabIndex = 3;
+      this.grpPanes.TabStop = false;
+      this.grpPanes.Text = "Planes";
       // 
-      // grpClients
+      // lstPlanes
       // 
-      this.grpClients.Controls.Add(this.lstClients);
-      this.grpClients.Location = new System.Drawing.Point(210, 13);
-      this.grpClients.Name = "grpClients";
-      this.grpClients.Size = new System.Drawing.Size(305, 155);
-      this.grpClients.TabIndex = 1;
-      this.grpClients.TabStop = false;
-      this.grpClients.Text = "Clients";
+      this.lstPlanes.FormattingEnabled = true;
+      this.lstPlanes.Location = new System.Drawing.Point(6, 16);
+      this.lstPlanes.Name = "lstPlanes";
+      this.lstPlanes.Size = new System.Drawing.Size(279, 134);
+      this.lstPlanes.TabIndex = 3;
       // 
       // grpTasks
       // 
@@ -138,23 +136,23 @@ namespace Simulator.Views
       this.grpTasks.TabStop = false;
       this.grpTasks.Text = "Tasks";
       // 
-      // grpPanes
+      // lstTasks
       // 
-      this.grpPanes.Controls.Add(this.lstPlanes);
-      this.grpPanes.Location = new System.Drawing.Point(832, 13);
-      this.grpPanes.Name = "grpPanes";
-      this.grpPanes.Size = new System.Drawing.Size(291, 155);
-      this.grpPanes.TabIndex = 3;
-      this.grpPanes.TabStop = false;
-      this.grpPanes.Text = "Planes";
+      this.lstTasks.FormattingEnabled = true;
+      this.lstTasks.Location = new System.Drawing.Point(5, 17);
+      this.lstTasks.Name = "lstTasks";
+      this.lstTasks.Size = new System.Drawing.Size(295, 134);
+      this.lstTasks.TabIndex = 2;
       // 
-      // listAirport
+      // grpClients
       // 
-      this.listAirport.FormattingEnabled = true;
-      this.listAirport.Location = new System.Drawing.Point(3, 16);
-      this.listAirport.Name = "listAirport";
-      this.listAirport.Size = new System.Drawing.Size(192, 134);
-      this.listAirport.TabIndex = 0;
+      this.grpClients.Controls.Add(this.lstClients);
+      this.grpClients.Location = new System.Drawing.Point(210, 13);
+      this.grpClients.Name = "grpClients";
+      this.grpClients.Size = new System.Drawing.Size(305, 155);
+      this.grpClients.TabIndex = 1;
+      this.grpClients.TabStop = false;
+      this.grpClients.Text = "Clients";
       // 
       // lstClients
       // 
@@ -164,21 +162,23 @@ namespace Simulator.Views
       this.lstClients.Size = new System.Drawing.Size(295, 134);
       this.lstClients.TabIndex = 1;
       // 
-      // lstTasks
+      // grpAirport
       // 
-      this.lstTasks.FormattingEnabled = true;
-      this.lstTasks.Location = new System.Drawing.Point(5, 17);
-      this.lstTasks.Name = "lstTasks";
-      this.lstTasks.Size = new System.Drawing.Size(295, 134);
-      this.lstTasks.TabIndex = 2;
+      this.grpAirport.Controls.Add(this.listAirport);
+      this.grpAirport.Location = new System.Drawing.Point(6, 13);
+      this.grpAirport.Name = "grpAirport";
+      this.grpAirport.Size = new System.Drawing.Size(198, 155);
+      this.grpAirport.TabIndex = 0;
+      this.grpAirport.TabStop = false;
+      this.grpAirport.Text = "Airports";
       // 
-      // lstPlanes
+      // listAirport
       // 
-      this.lstPlanes.FormattingEnabled = true;
-      this.lstPlanes.Location = new System.Drawing.Point(6, 16);
-      this.lstPlanes.Name = "lstPlanes";
-      this.lstPlanes.Size = new System.Drawing.Size(279, 134);
-      this.lstPlanes.TabIndex = 3;
+      this.listAirport.FormattingEnabled = true;
+      this.listAirport.Location = new System.Drawing.Point(3, 16);
+      this.listAirport.Name = "listAirport";
+      this.listAirport.Size = new System.Drawing.Size(192, 134);
+      this.listAirport.TabIndex = 0;
       // 
       // FormSimulator
       // 
@@ -190,13 +190,14 @@ namespace Simulator.Views
       this.Controls.Add(this.toolStrip);
       this.Name = "FormSimulator";
       this.Text = "FormSimulator";
+      this.Load += new System.EventHandler(this.FormSimulator_Load);
       this.toolStrip.ResumeLayout(false);
       this.toolStrip.PerformLayout();
       this.groupBox1.ResumeLayout(false);
-      this.grpAirport.ResumeLayout(false);
-      this.grpClients.ResumeLayout(false);
-      this.grpTasks.ResumeLayout(false);
       this.grpPanes.ResumeLayout(false);
+      this.grpTasks.ResumeLayout(false);
+      this.grpClients.ResumeLayout(false);
+      this.grpAirport.ResumeLayout(false);
       this.ResumeLayout(false);
       this.PerformLayout();
 

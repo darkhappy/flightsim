@@ -26,10 +26,22 @@ namespace Simulator.Controllers
     {
       new Simulator();
     }
+    public void Initialize(string path)
+    {
+      Import(path);
+      SetAirplanesPositions();
+      UpdateForm();
+    }
+
+    public void SetAirplanesPositions()
+    {
+      
+    }
 
     public void OnTick(double time)
     {
-      throw new NotImplementedException();
+      // TODO:  
+      UpdateForm();
     }
 
     public void Import(string path)
@@ -48,8 +60,11 @@ namespace Simulator.Controllers
       {
         stream.Close();
       }
+    }
+    // TODO: update form
+    public void UpdateForm()
+    {
 
-      // TODO: update form
     }
   }
 }
