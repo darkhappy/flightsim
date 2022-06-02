@@ -45,7 +45,18 @@ namespace Simulator.Models
 
     public void HandleTick(double time)
     {
-      throw new NotImplementedException();
+      AssingUnassignedTasks();
+    }
+
+    private void AssingUnassignedTasks()
+    {
+      foreach (Task task in UnassignedTasks)
+      {
+        foreach (Airport airport in Airports)
+        {
+          airport.AssignTask(task);
+        }
+      }
     }
 
     public void RemoveTask(Task task)

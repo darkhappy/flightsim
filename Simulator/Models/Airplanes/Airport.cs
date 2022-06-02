@@ -44,6 +44,15 @@ namespace Simulator.Models.Airplanes
 
     public bool AssignTask(Task task)
     {
+      /*
+      foreach (Airplane airplane in Airplanes)
+      {
+        if (airplane.State.ToString() == "StandBy")
+        {
+
+        }
+      }
+      */
       throw new NotImplementedException();
     }
   }
