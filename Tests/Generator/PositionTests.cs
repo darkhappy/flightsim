@@ -16,7 +16,7 @@ namespace Tests.Generator
     [TestCase(0, 300, "90° 0’ S, 180° 0’ W")]
     [TestCase(400, 300, "90° 0’ S, 180° 0’ E")]
     [TestCase(200, 150, "0° 0’ N, 0° 0’ W")]
-    [TestCase(200, 45, "0° 0’ N, 0° 0’ W")]
+    [TestCase(400, 298, "88° 47’ S, 180° 0’ E")]
     public void ConvertingAPositionToAString(int posX, int posY, string expected)
     {
       // Act
