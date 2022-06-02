@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
 using System.Windows.Forms;
+using Simulator.Models;
 using Simulator.Properties;
 
 namespace Simulator.Views
@@ -20,6 +22,14 @@ namespace Simulator.Views
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
       _player.PlayLooping();
+    }
+
+    public string Path()
+    {
+      OpenFileDialog xmlFilePath = new OpenFileDialog();
+      string filePath;
+      var result = xmlFilePath.ShowDialog();
+      return (result != DialogResult.OK) ?  "" : xmlFilePath.FileName;
     }
 
     private void toolStripComboBox1_Click(object sender, EventArgs e)
@@ -52,6 +62,26 @@ namespace Simulator.Views
       simCanevas.DrawImage(airport, x - 40, y - 40, 80, 80);
       simCanevas.DrawImage(planeImg, x - 25, y - 25, 50, 50);
 
+    }
+
+    public void DrawAirport(Position position)
+    {
+      var simCanevas = mapPanel.CreateGraphics();
+      Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
+      var rand = new Random();
+      int ind = rand.Next(airports.Length);
+      var airport = new Bitmap(airports[ind]);
+      simCanevas.DrawImage(airport, position.X - 40, position.Y - 40, 80, 80);
+    }
+
+    public void DrawAirplane(string type, Position position, double angle)
+    {
+      var simCanevas = mapPanel.CreateGraphics();
+      Image[] airports = { Resources.x_wing, Resources.Coruscant, Resources.hoth };
+      var rand = new Random();
+      int ind = rand.Next(airports.Length);
+      var airport = new Bitmap(airports[ind]);
+      simCanevas.DrawImage(airport, position.X - 40, position.Y - 40, 80, 80);
     }
 
     public Image RotateImage(Image img, float rotationAngle)
