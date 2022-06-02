@@ -26,6 +26,11 @@ namespace Simulator.Models
 
     public ExtensionDataObject ExtensionData { get; set; } = null!;
 
+    public Airport GetFromPosition(Position position)
+    {
+      return Airports.Find(a => a.Position.Equals(position));
+    }
+
     [OnDeserialized]
     private void OnDeserialized(StreamingContext context)
     {

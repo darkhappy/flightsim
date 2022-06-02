@@ -1,10 +1,11 @@
 using System;
+using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
   public class FightingFlight : FlyingState
   {
-    public FightingFlight(int speed) : base(speed)
+    public FightingFlight(int speed, Task task) : base(speed, task)
     {
     }
 

@@ -9,9 +9,10 @@ namespace Simulator.Models.States
     protected Position Current;
     protected Position Destination;
 
-    protected FlyingState(int speed)
+    protected FlyingState(int speed, Task task)
     {
       Speed = speed;
+      Task = task;
     }
 
     public void Action(double time)

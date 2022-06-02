@@ -1,4 +1,5 @@
 using System;
+using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
@@ -6,7 +7,7 @@ namespace Simulator.Models.States
   {
     private bool _circling;
 
-    public ScoutFlight(int speed) : base(speed)
+    public ScoutFlight(int speed, Task task) : base(speed, task)
     {
       _circling = false;
     }
