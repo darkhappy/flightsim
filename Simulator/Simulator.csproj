@@ -107,6 +107,7 @@
     <Content Include="Resources\Coruscant.png" />
     <Content Include="Resources\galaxy.jpg" />
     <Content Include="Resources\hoth.png" />
+    <Content Include="TestScenario.xml"/>
     <None Include="Resources\star-wars-theme-song.wav" />
     <None Include="Resources\x_wing.png" />
     <None Include="Resources\tie_fighter.png" />

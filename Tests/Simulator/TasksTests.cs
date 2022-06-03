@@ -16,6 +16,13 @@ namespace Tests.Simulator
       _scenario.Airports.Add(_airport);
     }
 
+    [TearDown]
+    public void TearDown()
+    {
+      _scenario.Airports.Clear();
+      _scenario.Tasks.Clear();
+    }
+
     private Scenario _scenario;
     private Airport _airport;
 

@@ -123,5 +123,10 @@ namespace Simulator.Models
     {
       throw new NotImplementedException();
     }
+
+    public List<string> GetAirplanesFromAirport()
+    {
+      throw new NotImplementedException();
+    }
   }
 }
