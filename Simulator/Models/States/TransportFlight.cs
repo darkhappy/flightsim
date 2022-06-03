@@ -13,5 +13,9 @@ namespace Simulator.Models.States
     {
       throw new NotImplementedException();
     }
+    public override string ToString()
+    {
+      return "Transporting";
+    }
   }
 }

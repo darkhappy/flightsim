@@ -16,17 +16,26 @@ namespace Simulator.Views
       InitializeComponent();
     }
 
+    /// <summary>
+    /// Initalizes everything needed to see at first when FormSimulator loads
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void FormSimulator_Load(object sender, EventArgs e)
     {
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
-
-      listAirports.DataSource = airports;
-      listAirports.DisplayMember = "Name";
-      listAirports.ValueMember = "Id";
-
-      //Setup listPlane
-      var airplanes = Controllers.Simulator.Instance.AirplanesFromAirportId(listAirports.ValueMember);
+      listAirports.View = View.Details;
+      listAirports.Columns.Add("Id", (int)(listAirports.Width * 0.25));
+      listAirports.Columns.Add("Name", (int)(listAirports.Width * 0.75));
+      foreach (var airport in airports)
+      {
+        string[] toAdd = { airport.Id, airport.Name };
+        listAirports.Items.Add(new ListViewItem(toAdd));
+      }
+      //Setup listAirplanes
+      listAirplanes.View = View.Details;
+      listAirplanes.Columns.Add("Airplanes", (int)(listAirplanes.Width));
 
       //Load music
       /*
@@ -34,6 +43,19 @@ namespace Simulator.Views
       _player.Stream = Resources.star_wars_theme_song;
       _player.PlayLooping();
       */
+    }
+
+    private void listAirports_SelectedIndexChanged(object sender, EventArgs e)
+    {
+      if (listAirports.SelectedItems.Count == 0 || listAirports.SelectedItems.Count > 1)
+        return;
+      listAirplanes.Items.Clear();
+      var airportId = listAirports.SelectedItems[0].SubItems[0].Text;
+      var airplanes = Controllers.Simulator.Instance.AirplanesFromAirportId(airportId);
+      foreach (var airplane in airplanes)
+      {
+        listAirplanes.Items.Add(new ListViewItem(airplane));
+      }
     }
 
     public string Path()
@@ -70,7 +92,7 @@ namespace Simulator.Views
       foreach (var position in airportPositions)
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
-        var airport = new Bitmap(airports[ind%2]);
+        var airport = new Bitmap(airports[ind%3]);
         simCanevas.DrawImage(airport, position.X, position.Y, 80, 80);
 
         ind++;

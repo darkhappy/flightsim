@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -57,6 +58,16 @@ namespace Simulator.Models.Airplanes
       }
 
       Clients.Add(task);
+    }
+
+    public List<string> GetToStringOfPlanes()
+    {
+      var list = new List<string>();
+      foreach (var airplane in Airplanes)
+      {
+        list.Add(airplane.ToString());
+      }
+      return list;
     }
   }
 }
