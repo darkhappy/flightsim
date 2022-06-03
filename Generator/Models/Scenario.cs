@@ -17,7 +17,7 @@ namespace Generator.Models
 
     public ExtensionDataObject ExtensionData { get; set; } = null!;
 
-    private Airport? GetAirportWithPlane(string airplaneCode)
+    public Airport? GetAirportWithPlane(string airplaneCode)
     {
       return Airports.FirstOrDefault(a => a.HasPlane(airplaneCode));
     }
@@ -46,7 +46,7 @@ namespace Generator.Models
     public void EditAirplane(string id, AirplaneInfo info)
     {
       var airport = GetAirportWithPlane(id);
-      if (airport == null) throw new ArgumentException($"Airplane {id} was not found.");
+      if (airport == null) throw new ArgumentException($"Airport {id} was not found.");
 
       airport.EditAirplane(id, info);
     }

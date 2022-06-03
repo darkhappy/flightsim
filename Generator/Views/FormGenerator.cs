@@ -35,22 +35,22 @@ namespace Generator
 
       //Setup listAirports
       listAirports.View = View.Details;
-      listAirports.Columns.Add("Id", (int) (listAirports.Width * 0.07));
-      listAirports.Columns.Add("Name", (int) (listAirports.Width * 0.30));
-      listAirports.Columns.Add("Position", (int) (listAirports.Width * 0.30));
-      listAirports.Columns.Add("Passenger Traffic", (int) (listAirports.Width * 0.1632));
-      listAirports.Columns.Add("Merchandise Traffic", (int) (listAirports.Width * 0.1632));
+      listAirports.Columns.Add("Id", (int)(listAirports.Width * 0.07));
+      listAirports.Columns.Add("Name", (int)(listAirports.Width * 0.30));
+      listAirports.Columns.Add("Position", (int)(listAirports.Width * 0.30));
+      listAirports.Columns.Add("Passenger Traffic", (int)(listAirports.Width * 0.1632));
+      listAirports.Columns.Add("Merchandise Traffic", (int)(listAirports.Width * 0.1632));
 
       //Setup listPlane
       listAirplanes.View = View.Details;
-      listAirplanes.Columns.Add("Id", (int) (listAirports.Width * 0.07));
-      listAirplanes.Columns.Add("Name", (int) (listAirports.Width * 0.236));
-      listAirplanes.Columns.Add("Type", (int) (listAirports.Width * 0.20));
-      listAirplanes.Columns.Add("Speed", (int) (listAirports.Width * 0.09));
-      listAirplanes.Columns.Add("Capacity", (int) (listAirports.Width * 0.1));
-      listAirplanes.Columns.Add("Embarking", (int) (listAirports.Width * 0.1));
-      listAirplanes.Columns.Add("Disembarking", (int) (listAirports.Width * 0.1));
-      listAirplanes.Columns.Add("Maintenance", (int) (listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Id", (int)(listAirports.Width * 0.07));
+      listAirplanes.Columns.Add("Name", (int)(listAirports.Width * 0.236));
+      listAirplanes.Columns.Add("Type", (int)(listAirports.Width * 0.20));
+      listAirplanes.Columns.Add("Speed", (int)(listAirports.Width * 0.09));
+      listAirplanes.Columns.Add("Capacity", (int)(listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Embarking", (int)(listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Disembarking", (int)(listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Maintenance", (int)(listAirports.Width * 0.1));
 
       //Default selected type
       cmbType.SelectedIndex = 1;
@@ -105,7 +105,9 @@ namespace Generator
         case "Cargo":
         case "Passenger":
           numCapacity.Enabled = true;
+          numCapacity.Value = 15;
           numEmbarking.Enabled = true;
+          numCapacity.Value = 15;
           numDisembarking.Enabled = true;
           break;
         case "Fight":
@@ -151,6 +153,62 @@ namespace Generator
       numMaintenance.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[7].Text);
     }
 
+    private bool IsAirplaneValid()
+    {
+      labError.Visible = true;
+
+      labError.Text = "Please select an airport";
+      if (listAirports.SelectedItems.Count == 0) return false;
+      labError.Text = "Please enter valid data";
+
+      if (string.IsNullOrEmpty(txbAirplaneId.Text)) return false;
+      if (string.IsNullOrEmpty(txbAirplaneName.Text)) return false;
+      if (!int.TryParse(numSpeed.Text, out var speed)) return false;
+      if (!int.TryParse(numMaintenance.Text, out var maintenance)) return false;
+
+      return true;
+    }
+
+    private AirplaneType GetAirplaneType(string type)
+    {
+      return type switch
+      {
+        "Cargo" => AirplaneType.Cargo,
+        "Passenger" => AirplaneType.Passenger,
+        "Fight" => AirplaneType.Fight,
+        "Rescue" => AirplaneType.Rescue,
+        "Scout" => AirplaneType.Scout,
+        _ => throw new ArgumentException("Unknown type"),
+      };
+    }
+
+    private AirplaneInfo GetAirplaneInfo(AirplaneType type)
+    {
+      //Convert data
+      int.TryParse(numSpeed.Text, out var speed);
+      int.TryParse(numMaintenance.Text, out var maintenance);
+
+      //Create airplane info depending on AirplaneType
+      switch (type)
+      {
+        case AirplaneType.Cargo:
+        case AirplaneType.Passenger:
+          {
+            if (!int.TryParse(numCapacity.Text, out var capacity)) throw new ArgumentException("Invalid data");
+            if (!int.TryParse(numEmbarking.Text, out var embarking)) throw new ArgumentException("Invalid data");
+            if (!int.TryParse(numDisembarking.Text, out var disembarking)) throw new ArgumentException("Invalid data");
+            return new TransportInfo(txbAirplaneId.Text, txbAirplaneName.Text, type, speed, maintenance, capacity,
+              embarking, disembarking);
+          }
+        case AirplaneType.Fight:
+        case AirplaneType.Rescue:
+        case AirplaneType.Scout:
+          return new AirplaneInfo(txbAirplaneId.Text, txbAirplaneName.Text, type, speed, maintenance);
+        default:
+          throw new ArgumentException("Unknown type");
+      }
+    }
+
     /// <summary>
     ///   Add an airport to the <see cref="Scenario" />
     /// </summary>
@@ -172,9 +230,7 @@ namespace Generator
 
       listAirports.Items.Clear();
 
-      //Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(txbPosition.Text), pTraffic, mTraffic));
-      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text,
-        new Position(1, 1), pTraffic, cTraffic));
+      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(1, 1), pTraffic, cTraffic));
 
       listAirports.Items[listAirports.Items.Count - 1].Selected = true;
     }
@@ -190,63 +246,38 @@ namespace Generator
       AirplaneInfo info;
 
       //Verify if is valid
-      labError.Visible = true;
-
-      labError.Text = "Please select an airport";
-      if (listAirports.SelectedItems.Count == 0) return;
-
-      labError.Text = "Please enter valid data";
-      if (string.IsNullOrEmpty(txbAirplaneId.Text)) return;
-      if (string.IsNullOrEmpty(txbAirplaneName.Text)) return;
-      if (!int.TryParse(numSpeed.Text, out var speed)) return;
-      if (!int.TryParse(numMaintenance.Text, out var maintenance)) return;
-
-      //Select matching type
-      type = cmbType.SelectedItem switch
+      if (!IsAirplaneValid()) return;
+    
+      //Get airplane type
+      try { type = GetAirplaneType(cmbType.SelectedItem.ToString()); }
+      catch
       {
-        "Cargo" => AirplaneType.Cargo,
-        "Passenger" => AirplaneType.Passenger,
-        "Fight" => AirplaneType.Fight,
-        "Rescue" => AirplaneType.Rescue,
-        "Scout" => AirplaneType.Scout,
-        _ => throw new ArgumentException("Unknown type")
-      };
+        labError.Text = "Please enter valid data";
+        return;
+      }
 
-      //Create airplane info depending on AirplaneType
-      switch (type)
+      //Get airplane info
+      try { info = GetAirplaneInfo(type); }
+      catch
       {
-        case AirplaneType.Cargo:
-        case AirplaneType.Passenger:
-        {
-          if (!int.TryParse(numCapacity.Text, out var capacity)) return;
-          if (!int.TryParse(numEmbarking.Text, out var embarking)) return;
-          if (!int.TryParse(numDisembarking.Text, out var disembarking)) return;
-          info = new TransportInfo(txbAirplaneId.Text, txbAirplaneName.Text, type, speed, maintenance, capacity,
-            embarking, disembarking);
-          break;
-        }
-        case AirplaneType.Fight:
-        case AirplaneType.Rescue:
-        case AirplaneType.Scout:
-          info = new AirplaneInfo(txbAirplaneId.Text, txbAirplaneName.Text, type, speed, maintenance);
-          break;
-        default:
-          throw new ArgumentException("Unknown type");
+        labError.Text = "Please enter valid data";
+        return;
       }
 
       labError.Visible = false;
 
       //Update listAirplanes
       listAirplanes.Items.Clear();
-
       Controllers.Generator.Instance.AddAirplane(listAirports.SelectedItems[0].SubItems[0].Text, info);
       listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
     private void btnDeleteAirport_Click(object sender, EventArgs e)
     {
+      int selected = listAirports.SelectedIndices[0];
+
       Controllers.Generator.Instance.DeleteAirport(listAirports.SelectedItems[0].SubItems[0].Text);
-      try { listAirports.Items[0].Selected = true; }
+      try { listAirports.Items[selected-1].Selected = true; }
       catch 
       {
         txbAirportId.Text = "";
@@ -259,10 +290,12 @@ namespace Generator
 
     private void btnDeleteAirplane_Click(object sender, EventArgs e)
     {
+      int selected = listAirplanes.SelectedIndices[0];
+
       Controllers.Generator.Instance.DeleteAirplane(listAirplanes.SelectedItems[0].SubItems[0].Text);
       Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
 
-      try { listAirplanes.Items[0].Selected = true; }
+      try { listAirplanes.Items[selected-1].Selected = true; }
       catch 
       {
         txbAirplaneId.Text = "";
@@ -275,6 +308,63 @@ namespace Generator
         numDisembarking.Value = 15;
         numMaintenance.Value = 15;
       };
+    }
+
+    private void btnEditAirport_Click(object sender, EventArgs e)
+    {
+      int selected = listAirports.SelectedIndices[0];
+
+      labError.Visible = true;
+      labError.Text = "Please enter valid data";
+
+      if (string.IsNullOrEmpty(txbAirportId.Text)) return;
+      if (string.IsNullOrEmpty(txbAirportName.Text)) return;
+      if (string.IsNullOrEmpty(txbPosition.Text)) return;
+      if (!int.TryParse(numPTraffic.Text, out var pTraffic)) return;
+      if (!double.TryParse(numCTraffic.Text, out var cTraffic)) return;
+
+      labError.Visible = false;
+
+      AirportInfo info = new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(1, 1), pTraffic, cTraffic);
+      Controllers.Generator.Instance.EditAirport(listAirports.SelectedItems[0].SubItems[0].Text, info);
+
+      listAirports.Items[selected].Selected = true;
+    }
+
+    private void btnEditAirplane_Click(object sender, EventArgs e)
+    {
+      int selected = listAirplanes.SelectedIndices[0];
+
+      AirplaneType oldType = GetAirplaneType(listAirplanes.SelectedItems[0].SubItems[2].Text);
+      AirplaneType newType;
+      AirplaneInfo info;
+
+      labError.Visible = true;
+
+      //Verify if is valid
+      if (!IsAirplaneValid()) return;
+      try 
+      {
+        newType = GetAirplaneType(cmbType.SelectedItem.ToString());
+        info = GetAirplaneInfo(newType); 
+      }
+      catch
+      {
+        labError.Text = "Please enter valid data";
+        return;
+      }
+
+      labError.Visible = false;
+
+      string airplaneId = listAirplanes.SelectedItems[0].SubItems[0].Text;
+      string airportId = listAirports.SelectedItems[0].SubItems[0].Text;
+
+      Controllers.Generator.Instance.EditAirplane(airportId, airplaneId, info);
+
+      if (oldType == newType)
+        listAirplanes.Items[selected].Selected = true;
+      else
+        listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
     /// <summary>
@@ -297,14 +387,16 @@ namespace Generator
       _player.Stop();
     }
 
-    private void txbPosition_DoubleClick(object sender, EventArgs e)
+
+    private void txbPosition_Click(object sender, EventArgs e)
     {
       _mapPos = new FormMap();
       var result = _mapPos.ShowDialog();
       if (result != DialogResult.OK) return;
 
       var pos = _mapPos.Pos;
-      txbPosition.Text = pos;
+
+      txbPosition.Text = Position.Transpose(pos.X, pos.Y);
     }
   }
 }

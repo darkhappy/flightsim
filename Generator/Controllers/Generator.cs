@@ -64,9 +64,20 @@ namespace Generator.Controllers
       }
     }
 
-    public void EditAirplane(string id, string[] data)
+    public void EditAirplane(string airportId, string airplaneId, AirplaneInfo info)
     {
-      throw new NotImplementedException();
+      try
+      {
+        _scenario.EditAirplane(airplaneId, info);
+      }
+      catch (ArgumentException e)
+      {
+        MessageBox.Show(e.Message);
+      }
+      finally
+      {
+        UpdateAirplanes(airportId);
+      }
     }
 
     public void DeleteAirplane(string id)
@@ -101,9 +112,20 @@ namespace Generator.Controllers
       }
     }
 
-    public void EditAirport(string id, string[] data)
+    public void EditAirport(string id, AirportInfo info)
     {
-      throw new NotImplementedException();
+      try
+      {
+        _scenario.EditAirport(id, info);
+      }
+      catch (ArgumentException e)
+      {
+        MessageBox.Show(e.Message);
+      }
+      finally
+      {
+        _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
+      }
     }
 
     public void DeleteAirport(string id)
