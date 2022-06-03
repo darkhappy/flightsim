@@ -18,10 +18,27 @@ namespace Simulator.Views
 
     private void FormSimulator_Load(object sender, EventArgs e)
     {
+      //Setup listAirports
+      foreach(airport in Controllers.Simulator)
+      listAirport;
+
+      //Setup listPlane
+      listAirplanes.View = View.Details;
+      listAirplanes.Columns.Add("Id", (int)(listAirport.Width * 0.07));
+      listAirplanes.Columns.Add("Name", (int)(listAirport.Width * 0.236));
+      listAirplanes.Columns.Add("Type", (int)(listAirport.Width * 0.20));
+      listAirplanes.Columns.Add("Speed", (int)(listAirport.Width * 0.09));
+      listAirplanes.Columns.Add("Capacity", (int)(listAirport.Width * 0.1));
+      listAirplanes.Columns.Add("Embarking", (int)(listAirport.Width * 0.1));
+      listAirplanes.Columns.Add("Disembarking", (int)(listAirport.Width * 0.1));
+      listAirplanes.Columns.Add("Maintenance", (int)(listAirport.Width * 0.1));
+
       //Load music
+      /*
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
       _player.PlayLooping();
+      */
     }
 
     public string Path()
@@ -50,37 +67,26 @@ namespace Simulator.Views
       var simCanevas = mapPanel.CreateGraphics();
       simCanevas.DrawImage(map, 0, 0, 1129, 529);
 
-      int aireportDim = 80;
-      int aireplaneDim = 50;
+      List<Position> airportPositions = Controllers.Simulator.Instance.AirportPositions();
 
-      int x = 385;
-      int y = 165;
+      int ind = 0;
 
-      Image planeImg = RotateImage(Resources.x_wing, 45);
+      //Draw all airports :
+      foreach (var position in airportPositions)
+      {
+        Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
+        var airport = new Bitmap(airports[ind%2]);
+        simCanevas.DrawImage(airport, position.X, position.Y, 80, 80);
 
-      var airport = new Bitmap(Resources.hoth);
-      simCanevas.DrawImage(airport, x - 40, y - 40, 80, 80);
-      simCanevas.DrawImage(planeImg, x - 25, y - 25, 50, 50);
-
-    }
-
-    public void DrawAirport(Position position)
-    {
-      var simCanevas = mapPanel.CreateGraphics();
-      Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
-      var rand = new Random();
-      int ind = rand.Next(airports.Length);
-      var airport = new Bitmap(airports[ind]);
-      simCanevas.DrawImage(airport, position.X - 40, position.Y - 40, 80, 80);
+        ind++;
+      }
     }
 
     public void DrawAirplane(string type, Position position, double angle)
     {
       var simCanevas = mapPanel.CreateGraphics();
       Image[] airports = { Resources.x_wing, Resources.Coruscant, Resources.hoth };
-      var rand = new Random();
-      int ind = rand.Next(airports.Length);
-      var airport = new Bitmap(airports[ind]);
+      var airport = new Bitmap(airports[0]);
       simCanevas.DrawImage(airport, position.X - 40, position.Y - 40, 80, 80);
     }
 
