@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using Generator.Models;
 using NUnit.Framework;
+using Simulator.Controllers;
 
 namespace Tests.Generator
 {
@@ -317,6 +320,188 @@ namespace Tests.Generator
       Assert.That(_scenario.Airports.Count, Is.EqualTo(2));
 
       reader.Close();
+    }
+
+
+    private string RandomName()
+    {
+      var list = new List<string>
+      {
+        "X-Wing",
+        "Y-Wing",
+        "A-Wing",
+        "B-Wing",
+        "TIE Fighter",
+        "TIE Interceptor",
+        "TIE Bomber",
+        "TIE Advanced",
+        "TIE Defender",
+        "TIE Phantom",
+        "TIE Silencer",
+        "TIE Defender",
+        "Imperial Starfighter",
+        "TIE/SF Fighter",
+        "TIE/IN Interceptor",
+        "TIE/LN Bomber",
+        "TIE/VN Silencer",
+        "TIE/VN Phantom",
+        "TIE/VN Defender",
+        "Imperial Shuttle",
+        "Imperial Star Destroyer"
+      };
+
+      return list[new Random().Next(0, list.Count)];
+    }
+
+    private string RandomCodename()
+    {
+      // Create codenames for ships
+      // They just need to be very cool and unique
+      // A codename is "the <blank>", or "the <blank> of <blank>"
+      var list = new List<string>
+      {
+        "the Menace",
+        "the Destroyer",
+        "the Nemesis",
+        "the Predator",
+        "the Agile",
+        "the Swift",
+        "the Silent",
+        "the Silent One",
+        "the Rogue",
+        "the Ghost",
+        "the Giant",
+        "the Avenger",
+        "the Invincible",
+        "the Mighty",
+        "the Mighty One",
+        "the Brave",
+        "the Bandit",
+        "the Pirate",
+        "the Corsair",
+        "the Crusader",
+        "the Dark",
+        "the Dread"
+      };
+
+      return list[new Random().Next(0, list.Count)];
+    }
+
+    private List<string> RandomAirportName()
+    {
+      // Create names for airports
+      // They are star wars locations
+      // Starbases are also allowed (such as the death star)
+      // Duplicate names are not allowed
+      return new List<string>
+      {
+        "Alderaan",
+        "Bespin",
+        "Coruscant",
+        "Dagobah",
+        "Endor",
+        "Geonosis",
+        "Hoth",
+        "Kamino",
+        "Kashyyyk",
+        "Mustafar",
+        "Naboo",
+        "Polis Massa",
+        "Ryloth",
+        "Tatooine",
+        "Yavin IV"
+      };
+    }
+
+    private AirplaneType RandomShipType()
+    {
+      var list = new List<AirplaneType>
+      {
+        AirplaneType.Fight,
+        AirplaneType.Rescue,
+        AirplaneType.Scout
+      };
+
+      return list[new Random().Next(0, list.Count)];
+    }
+
+    private AirplaneType RandomCargoType()
+    {
+      var list = new List<AirplaneType>
+      {
+        AirplaneType.Cargo,
+        AirplaneType.Passenger
+      };
+
+      return list[new Random().Next(0, list.Count)];
+    }
+
+    [Test]
+    public void GenerateAnExtremelyBigButRandomScenario()
+    {
+      var airportList = RandomAirportName();
+      // For each airport, create a random number of ships
+      // Ship ID must be unique
+      // Ship name is from RandomName + RandomCodename
+
+      foreach (var airport in airportList)
+      {
+        // ID of an airport is the first three letters
+        // of the airport name, in all caps
+        var id = airport.Substring(0, 3).ToUpper();
+        var randomX = new Random().Next(Constants.MapWidth);
+        var randomY = new Random().Next(Constants.MapHeight);
+        var randomPassengerTraffic = new Random().Next(Constants.MaxPassengersPerHour);
+        var randomCargoTraffic = new Random().Next(Constants.MaxCargoPerHour);
+        var info = new AirportInfo(id, airport, new Position(randomX, randomY), randomPassengerTraffic,
+          randomCargoTraffic);
+
+        var randomAirplaneCount = new Random().Next(12, 28);
+        var randomTransportCount = new Random().Next(4, 12);
+
+        _scenario.AddAirport(info);
+
+        for (var i = 0; i < randomAirplaneCount; i++)
+        {
+          var randomName = RandomName();
+          var randomCodename = RandomCodename();
+          var randomShipId = $"{id}-{i}";
+          var randomShipName = $"{randomName} {randomCodename}";
+
+          var type = RandomShipType();
+          var randomSpeed = new Random().Next(10, 50);
+          var randomMaintenance = new Random().Next(4, 20);
+
+          var randomShip = new AirplaneInfo(randomShipId, randomShipName, type, randomSpeed, randomMaintenance);
+          _scenario.AddAirplane(id, randomShip);
+        }
+
+        for (var i = 0; i < randomTransportCount; i++)
+        {
+          var randomName = RandomName();
+          var randomCodename = RandomCodename();
+          var randomShipId = $"{id}-T{i}";
+          var randomShipName = $"{randomName} {randomCodename}";
+
+          var type = RandomCargoType();
+          var randomSpeed = new Random().Next(10, 50);
+          var randomMaintenance = new Random().Next(4, 20);
+          var randomCapacity = new Random().NextDouble() * 100 + 20;
+          var randomEmbarkingTime = new Random().Next(1, 10);
+          var randomDisembarkingTime = new Random().Next(1, 10);
+
+          var randomShip = new TransportInfo(randomShipId, randomShipName, type, randomSpeed, randomMaintenance,
+            randomCapacity, randomEmbarkingTime, randomDisembarkingTime);
+          _scenario.AddAirplane(id, randomShip);
+        }
+      }
+
+      // Serialize
+      var writer = new FileStream("verybig.xml", FileMode.Create);
+      var serializer = new DataContractSerializer(typeof(Scenario));
+
+      serializer.WriteObject(writer, _scenario);
+      writer.Close();
     }
   }
 }
