@@ -33,6 +33,7 @@ namespace Generator
     {
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormGenerator));
       this.gbAirports = new System.Windows.Forms.GroupBox();
+      this.labHelpPosition = new System.Windows.Forms.Label();
       this.labAirportId = new System.Windows.Forms.Label();
       this.txbAirportId = new System.Windows.Forms.TextBox();
       this.gbTraffic = new System.Windows.Forms.GroupBox();
@@ -81,7 +82,7 @@ namespace Generator
       this.subToolStart = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolStop = new System.Windows.Forms.ToolStripMenuItem();
       this.labError = new System.Windows.Forms.Label();
-      this.labHelpPosition = new System.Windows.Forms.Label();
+      this.subToolSaveAs = new System.Windows.Forms.ToolStripMenuItem();
       this.gbAirports.SuspendLayout();
       this.gbTraffic.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).BeginInit();
@@ -118,6 +119,16 @@ namespace Generator
       this.gbAirports.TabIndex = 0;
       this.gbAirports.TabStop = false;
       this.gbAirports.Text = "Airports";
+      // 
+      // labHelpPosition
+      // 
+      this.labHelpPosition.AutoSize = true;
+      this.labHelpPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labHelpPosition.Location = new System.Drawing.Point(1336, 135);
+      this.labHelpPosition.Name = "labHelpPosition";
+      this.labHelpPosition.Size = new System.Drawing.Size(193, 17);
+      this.labHelpPosition.TabIndex = 15;
+      this.labHelpPosition.Text = "*Click to select a new position";
       // 
       // labAirportId
       // 
@@ -596,7 +607,7 @@ namespace Generator
       this.toolStrip.Location = new System.Drawing.Point(0, 0);
       this.toolStrip.Name = "toolStrip";
       this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-      this.toolStrip.Size = new System.Drawing.Size(1730, 38);
+      this.toolStrip.Size = new System.Drawing.Size(1730, 34);
       this.toolStrip.TabIndex = 13;
       this.toolStrip.Text = "toolStrip1";
       // 
@@ -607,6 +618,7 @@ namespace Generator
             this.subToolOpen,
             this.subToolNew,
             this.subToolSave,
+            this.subToolSaveAs,
             this.subToolDelete});
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
@@ -617,26 +629,30 @@ namespace Generator
       // subToolOpen
       // 
       this.subToolOpen.Name = "subToolOpen";
-      this.subToolOpen.Size = new System.Drawing.Size(242, 34);
-      this.subToolOpen.Text = "Open Scenario...";
+      this.subToolOpen.Size = new System.Drawing.Size(270, 34);
+      this.subToolOpen.Text = "Open...";
+      this.subToolOpen.Click += new System.EventHandler(this.subToolOpen_Click);
       // 
       // subToolNew
       // 
       this.subToolNew.Name = "subToolNew";
-      this.subToolNew.Size = new System.Drawing.Size(242, 34);
-      this.subToolNew.Text = "New Scenario...";
+      this.subToolNew.Size = new System.Drawing.Size(270, 34);
+      this.subToolNew.Text = "New...";
+      this.subToolNew.Click += new System.EventHandler(this.subToolNew_Click);
       // 
       // subToolSave
       // 
       this.subToolSave.Name = "subToolSave";
-      this.subToolSave.Size = new System.Drawing.Size(242, 34);
-      this.subToolSave.Text = "Save Scenario";
+      this.subToolSave.Size = new System.Drawing.Size(270, 34);
+      this.subToolSave.Text = "Save";
+      this.subToolSave.Click += new System.EventHandler(this.subToolSave_Click);
       // 
       // subToolDelete
       // 
       this.subToolDelete.Name = "subToolDelete";
-      this.subToolDelete.Size = new System.Drawing.Size(242, 34);
-      this.subToolDelete.Text = "Delete Scenario";
+      this.subToolDelete.Size = new System.Drawing.Size(270, 34);
+      this.subToolDelete.Text = "Delete";
+      this.subToolDelete.Click += new System.EventHandler(this.subToolDelete_Click);
       // 
       // toolMusic
       // 
@@ -653,14 +669,14 @@ namespace Generator
       // subToolStart
       // 
       this.subToolStart.Name = "subToolStart";
-      this.subToolStart.Size = new System.Drawing.Size(151, 34);
+      this.subToolStart.Size = new System.Drawing.Size(270, 34);
       this.subToolStart.Text = "Start";
       this.subToolStart.Click += new System.EventHandler(this.subToolStart_Click);
       // 
       // subToolStop
       // 
       this.subToolStop.Name = "subToolStop";
-      this.subToolStop.Size = new System.Drawing.Size(151, 34);
+      this.subToolStop.Size = new System.Drawing.Size(270, 34);
       this.subToolStop.Text = "Stop";
       this.subToolStop.Click += new System.EventHandler(this.subToolStop_Click);
       // 
@@ -677,15 +693,12 @@ namespace Generator
       this.labError.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
       this.labError.Visible = false;
       // 
-      // labHelpPosition
+      // subToolSaveAs
       // 
-      this.labHelpPosition.AutoSize = true;
-      this.labHelpPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.labHelpPosition.Location = new System.Drawing.Point(1336, 135);
-      this.labHelpPosition.Name = "labHelpPosition";
-      this.labHelpPosition.Size = new System.Drawing.Size(193, 17);
-      this.labHelpPosition.TabIndex = 15;
-      this.labHelpPosition.Text = "*Click to select a new position";
+      this.subToolSaveAs.Name = "subToolSaveAs";
+      this.subToolSaveAs.Size = new System.Drawing.Size(270, 34);
+      this.subToolSaveAs.Text = "Save as...";
+      this.subToolSaveAs.Click += new System.EventHandler(this.subToolSaveAs_Click);
       // 
       // FormGenerator
       // 
@@ -775,5 +788,6 @@ namespace Generator
     private Label labAirportId;
     private TextBox txbAirportId;
     private Label labHelpPosition;
+    private ToolStripMenuItem subToolSaveAs;
   }
 }
