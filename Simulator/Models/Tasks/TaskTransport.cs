@@ -5,17 +5,25 @@ namespace Simulator.Models.Tasks
 {
   public abstract class TaskTransport : Task
   {
-    protected TaskTransport(Position position) : base(position)
-    {
-      Destination = Scenario.Instance.GetFromPosition(position);
-    }
+    private double _amount;
 
     protected TaskTransport(Airport destination) : base(destination.Position)
     {
       Destination = destination;
     }
 
-    public double Amount { get; set; }
+    public double Amount
+    {
+      get => _amount;
+      set
+      {
+        if (value <= 0)
+          throw new ArgumentOutOfRangeException(nameof(value), @"Amount must be greater than 0");
+
+        value = Math.Round(value, 2, MidpointRounding.AwayFromZero);
+        _amount = value;
+      }
+    }
 
     public Airport Destination { get; }
 

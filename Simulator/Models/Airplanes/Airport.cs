@@ -20,7 +20,7 @@ namespace Simulator.Models.Airplanes
       CargoTraffic = cargoTraffic;
     }
 
-    private List<TaskTransport> Clients { get; set; }
+    public List<TaskTransport> Clients { get; set; }
 
     [DataMember] public string Id { get; private set; }
     [DataMember] public string Name { get; private set; }
@@ -48,7 +48,7 @@ namespace Simulator.Models.Airplanes
       return Airplanes.Any(airplane => airplane.AssignTask(task));
     }
 
-    public void AddTask(TaskTransport task)
+    public void AddClient(TaskTransport task)
     {
       var taskToMerge = Clients.FirstOrDefault(t => t.Destination == task.Destination);
       if (taskToMerge != null)

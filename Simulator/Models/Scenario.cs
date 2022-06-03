@@ -43,11 +43,11 @@ namespace Simulator.Models
 
     public void GenerateTasks()
     {
-      var randFights = new Random().Next(1, Controllers.Simulator.MaxFightsPerHour);
-      var randScouts = new Random().Next(1, Controllers.Simulator.MaxScoutsPerHour);
-      var randRescues = new Random().Next(1, Controllers.Simulator.MaxRescuePerHour);
-      var randCargos = new Random().Next(1, Controllers.Simulator.MaxCargoPerHour);
-      var randPassengers = new Random().Next(1, Controllers.Simulator.MaxPassengersPerHour);
+      var randFights = new Random().Next(1, Constants.MaxFightsPerHour);
+      var randScouts = new Random().Next(1, Constants.MaxScoutsPerHour);
+      var randRescues = new Random().Next(1, Constants.MaxRescuePerHour);
+      var randCargos = new Random().Next(1, Constants.MaxCargoPerHour);
+      var randPassengers = new Random().Next(1, Constants.MaxPassengersPerHour);
 
       for (var i = 0; i < randFights; i++)
       {
@@ -76,7 +76,7 @@ namespace Simulator.Models
 
         var task = TaskFactory.Instance.CreateCargoTask(destination);
         Tasks.Add(task);
-        origin.AddTask(task);
+        origin.AddClient(task);
       }
 
       for (var i = 0; i < randPassengers; i++)
@@ -85,7 +85,7 @@ namespace Simulator.Models
 
         var task = TaskFactory.Instance.CreatePassengerTask(destination);
         Tasks.Add(task);
-        origin.AddTask(task);
+        origin.AddClient(task);
       }
     }
 
@@ -141,6 +141,11 @@ namespace Simulator.Models
     }
 
     public List<Airport> GetNearestAirports(Position position)
+    {
+      throw new NotImplementedException();
+    }
+
+    public List<string> GetAirplanesFromAirport()
     {
       throw new NotImplementedException();
     }

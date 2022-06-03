@@ -1,3 +1,4 @@
+using System;
 using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.Tasks
@@ -6,10 +7,7 @@ namespace Simulator.Models.Tasks
   {
     public ClientPassenger(Airport airport) : base(airport)
     {
-    }
-
-    public ClientPassenger(Position position) : base(position)
-    {
+      Amount = Math.Round(new Random().NextDouble() * airport.PassengerTraffic * 5);
     }
   }
 }

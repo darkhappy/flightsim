@@ -13,7 +13,7 @@ namespace Generator.Views
       InitializeComponent();
     }
 
-    public string Pos { get; set; }
+    public Position Pos { get; set; }
 
     public void DrawMapPos()
     {
@@ -33,8 +33,7 @@ namespace Generator.Views
       var image = (Panel) sender;
       var x = props.X;
       var y = props.Y;
-      var pos = new Position(x, y);
-      Pos = pos.ToString();
+      Pos = new Position(x, y);
       DialogResult = DialogResult.OK;
       Close();
     }

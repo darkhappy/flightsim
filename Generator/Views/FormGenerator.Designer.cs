@@ -43,7 +43,7 @@ namespace Generator
       this.txbPosition = new System.Windows.Forms.TextBox();
       this.labPosition = new System.Windows.Forms.Label();
       this.btnDeleteAirport = new System.Windows.Forms.Button();
-      this.btnModifyAirport = new System.Windows.Forms.Button();
+      this.btnEditAirport = new System.Windows.Forms.Button();
       this.btnAddAirport = new System.Windows.Forms.Button();
       this.labAiportName = new System.Windows.Forms.Label();
       this.txbAirportName = new System.Windows.Forms.TextBox();
@@ -65,7 +65,7 @@ namespace Generator
       this.txbAirplaneName = new System.Windows.Forms.TextBox();
       this.labNameAirport = new System.Windows.Forms.Label();
       this.btnDeleteAirplane = new System.Windows.Forms.Button();
-      this.btnModifyAirplane = new System.Windows.Forms.Button();
+      this.btnEditAirplane = new System.Windows.Forms.Button();
       this.btnAddAirplane = new System.Windows.Forms.Button();
       this.labAirplaneId = new System.Windows.Forms.Label();
       this.txbAirplaneId = new System.Windows.Forms.TextBox();
@@ -81,6 +81,7 @@ namespace Generator
       this.subToolStart = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolStop = new System.Windows.Forms.ToolStripMenuItem();
       this.labError = new System.Windows.Forms.Label();
+      this.labHelpPosition = new System.Windows.Forms.Label();
       this.gbAirports.SuspendLayout();
       this.gbTraffic.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).BeginInit();
@@ -97,13 +98,14 @@ namespace Generator
       // 
       // gbAirports
       // 
+      this.gbAirports.Controls.Add(this.labHelpPosition);
       this.gbAirports.Controls.Add(this.labAirportId);
       this.gbAirports.Controls.Add(this.txbAirportId);
       this.gbAirports.Controls.Add(this.gbTraffic);
       this.gbAirports.Controls.Add(this.txbPosition);
       this.gbAirports.Controls.Add(this.labPosition);
       this.gbAirports.Controls.Add(this.btnDeleteAirport);
-      this.gbAirports.Controls.Add(this.btnModifyAirport);
+      this.gbAirports.Controls.Add(this.btnEditAirport);
       this.gbAirports.Controls.Add(this.btnAddAirport);
       this.gbAirports.Controls.Add(this.labAiportName);
       this.gbAirports.Controls.Add(this.txbAirportName);
@@ -133,7 +135,7 @@ namespace Generator
       this.txbAirportId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.txbAirportId.Name = "txbAirportId";
       this.txbAirportId.Size = new System.Drawing.Size(316, 26);
-      this.txbAirportId.TabIndex = 13;
+      this.txbAirportId.TabIndex = 1;
       // 
       // gbTraffic
       // 
@@ -144,7 +146,7 @@ namespace Generator
       this.gbTraffic.Location = new System.Drawing.Point(1226, 220);
       this.gbTraffic.Name = "gbTraffic";
       this.gbTraffic.Size = new System.Drawing.Size(434, 168);
-      this.gbTraffic.TabIndex = 12;
+      this.gbTraffic.TabIndex = 4;
       this.gbTraffic.TabStop = false;
       this.gbTraffic.Text = "Traffic (Min: 1, Max: 10)";
       // 
@@ -164,7 +166,7 @@ namespace Generator
             0});
       this.numPTraffic.Name = "numPTraffic";
       this.numPTraffic.Size = new System.Drawing.Size(236, 26);
-      this.numPTraffic.TabIndex = 9;
+      this.numPTraffic.TabIndex = 1;
       this.numPTraffic.Value = new decimal(new int[] {
             5,
             0,
@@ -187,7 +189,7 @@ namespace Generator
             0});
       this.numCTraffic.Name = "numCTraffic";
       this.numCTraffic.Size = new System.Drawing.Size(236, 26);
-      this.numCTraffic.TabIndex = 11;
+      this.numCTraffic.TabIndex = 2;
       this.numCTraffic.Value = new decimal(new int[] {
             5,
             0,
@@ -223,9 +225,8 @@ namespace Generator
       this.txbPosition.Name = "txbPosition";
       this.txbPosition.ReadOnly = true;
       this.txbPosition.Size = new System.Drawing.Size(316, 26);
-      this.txbPosition.TabIndex = 7;
-      this.txbPosition.Text = "s";
-      this.txbPosition.DoubleClick += new System.EventHandler(this.txbPosition_DoubleClick);
+      this.txbPosition.TabIndex = 3;
+      this.txbPosition.Click += new System.EventHandler(this.txbPosition_Click);
       // 
       // labPosition
       // 
@@ -243,20 +244,21 @@ namespace Generator
       this.btnDeleteAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.btnDeleteAirport.Name = "btnDeleteAirport";
       this.btnDeleteAirport.Size = new System.Drawing.Size(146, 35);
-      this.btnDeleteAirport.TabIndex = 5;
+      this.btnDeleteAirport.TabIndex = 7;
       this.btnDeleteAirport.Text = "Delete";
       this.btnDeleteAirport.UseVisualStyleBackColor = true;
       this.btnDeleteAirport.Click += new System.EventHandler(this.btnDeleteAirport_Click);
       // 
-      // btnModifyAirport
+      // btnEditAirport
       // 
-      this.btnModifyAirport.Location = new System.Drawing.Point(1359, 488);
-      this.btnModifyAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.btnModifyAirport.Name = "btnModifyAirport";
-      this.btnModifyAirport.Size = new System.Drawing.Size(146, 35);
-      this.btnModifyAirport.TabIndex = 4;
-      this.btnModifyAirport.Text = "Modify";
-      this.btnModifyAirport.UseVisualStyleBackColor = true;
+      this.btnEditAirport.Location = new System.Drawing.Point(1359, 488);
+      this.btnEditAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnEditAirport.Name = "btnEditAirport";
+      this.btnEditAirport.Size = new System.Drawing.Size(146, 35);
+      this.btnEditAirport.TabIndex = 6;
+      this.btnEditAirport.Text = "Edit";
+      this.btnEditAirport.UseVisualStyleBackColor = true;
+      this.btnEditAirport.Click += new System.EventHandler(this.btnEditAirport_Click);
       // 
       // btnAddAirport
       // 
@@ -264,7 +266,7 @@ namespace Generator
       this.btnAddAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.btnAddAirport.Name = "btnAddAirport";
       this.btnAddAirport.Size = new System.Drawing.Size(146, 35);
-      this.btnAddAirport.TabIndex = 3;
+      this.btnAddAirport.TabIndex = 5;
       this.btnAddAirport.Text = "Add";
       this.btnAddAirport.UseVisualStyleBackColor = true;
       this.btnAddAirport.Click += new System.EventHandler(this.btnAddAirport_Click);
@@ -285,7 +287,7 @@ namespace Generator
       this.txbAirportName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.txbAirportName.Name = "txbAirportName";
       this.txbAirportName.Size = new System.Drawing.Size(316, 26);
-      this.txbAirportName.TabIndex = 1;
+      this.txbAirportName.TabIndex = 2;
       // 
       // listAirports
       // 
@@ -312,7 +314,7 @@ namespace Generator
       this.gbAirplanes.Controls.Add(this.txbAirplaneName);
       this.gbAirplanes.Controls.Add(this.labNameAirport);
       this.gbAirplanes.Controls.Add(this.btnDeleteAirplane);
-      this.gbAirplanes.Controls.Add(this.btnModifyAirplane);
+      this.gbAirplanes.Controls.Add(this.btnEditAirplane);
       this.gbAirplanes.Controls.Add(this.btnAddAirplane);
       this.gbAirplanes.Controls.Add(this.labAirplaneId);
       this.gbAirplanes.Controls.Add(this.txbAirplaneId);
@@ -322,7 +324,7 @@ namespace Generator
       this.gbAirplanes.Name = "gbAirplanes";
       this.gbAirplanes.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.gbAirplanes.Size = new System.Drawing.Size(1678, 532);
-      this.gbAirplanes.TabIndex = 12;
+      this.gbAirplanes.TabIndex = 2;
       this.gbAirplanes.TabStop = false;
       this.gbAirplanes.Text = "Airplanes";
       // 
@@ -337,7 +339,8 @@ namespace Generator
             0});
       this.numSpeed.Name = "numSpeed";
       this.numSpeed.Size = new System.Drawing.Size(92, 26);
-      this.numSpeed.TabIndex = 16;
+      this.numSpeed.TabIndex = 4;
+      this.numSpeed.UseWaitCursor = true;
       this.numSpeed.Value = new decimal(new int[] {
             900,
             0,
@@ -361,7 +364,7 @@ namespace Generator
       this.numCapacity.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numCapacity.Name = "numCapacity";
       this.numCapacity.Size = new System.Drawing.Size(92, 26);
-      this.numCapacity.TabIndex = 14;
+      this.numCapacity.TabIndex = 5;
       this.numCapacity.Value = new decimal(new int[] {
             15,
             0,
@@ -381,7 +384,7 @@ namespace Generator
       this.gbTimeOptions.Name = "gbTimeOptions";
       this.gbTimeOptions.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.gbTimeOptions.Size = new System.Drawing.Size(434, 205);
-      this.gbTimeOptions.TabIndex = 13;
+      this.gbTimeOptions.TabIndex = 6;
       this.gbTimeOptions.TabStop = false;
       this.gbTimeOptions.Text = "Time (Minutes)";
       // 
@@ -391,7 +394,7 @@ namespace Generator
       this.numMaintenance.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numMaintenance.Name = "numMaintenance";
       this.numMaintenance.Size = new System.Drawing.Size(236, 26);
-      this.numMaintenance.TabIndex = 9;
+      this.numMaintenance.TabIndex = 3;
       this.numMaintenance.Value = new decimal(new int[] {
             15,
             0,
@@ -414,7 +417,7 @@ namespace Generator
       this.numDisembarking.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.numDisembarking.Name = "numDisembarking";
       this.numDisembarking.Size = new System.Drawing.Size(236, 26);
-      this.numDisembarking.TabIndex = 3;
+      this.numDisembarking.TabIndex = 2;
       this.numDisembarking.Value = new decimal(new int[] {
             15,
             0,
@@ -468,7 +471,7 @@ namespace Generator
       this.cmbType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.cmbType.Name = "cmbType";
       this.cmbType.Size = new System.Drawing.Size(316, 28);
-      this.cmbType.TabIndex = 12;
+      this.cmbType.TabIndex = 3;
       this.cmbType.SelectedIndexChanged += new System.EventHandler(this.cmbType_SelectedIndexChanged);
       // 
       // labCapacity
@@ -499,7 +502,7 @@ namespace Generator
       this.txbAirplaneName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.txbAirplaneName.Name = "txbAirplaneName";
       this.txbAirplaneName.Size = new System.Drawing.Size(316, 26);
-      this.txbAirplaneName.TabIndex = 7;
+      this.txbAirplaneName.TabIndex = 2;
       // 
       // labNameAirport
       // 
@@ -517,20 +520,21 @@ namespace Generator
       this.btnDeleteAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.btnDeleteAirplane.Name = "btnDeleteAirplane";
       this.btnDeleteAirplane.Size = new System.Drawing.Size(146, 35);
-      this.btnDeleteAirplane.TabIndex = 5;
+      this.btnDeleteAirplane.TabIndex = 9;
       this.btnDeleteAirplane.Text = "Delete";
       this.btnDeleteAirplane.UseVisualStyleBackColor = true;
       this.btnDeleteAirplane.Click += new System.EventHandler(this.btnDeleteAirplane_Click);
       // 
-      // btnModifyAirplane
+      // btnEditAirplane
       // 
-      this.btnModifyAirplane.Location = new System.Drawing.Point(1359, 488);
-      this.btnModifyAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.btnModifyAirplane.Name = "btnModifyAirplane";
-      this.btnModifyAirplane.Size = new System.Drawing.Size(146, 35);
-      this.btnModifyAirplane.TabIndex = 4;
-      this.btnModifyAirplane.Text = "Modify";
-      this.btnModifyAirplane.UseVisualStyleBackColor = true;
+      this.btnEditAirplane.Location = new System.Drawing.Point(1359, 488);
+      this.btnEditAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnEditAirplane.Name = "btnEditAirplane";
+      this.btnEditAirplane.Size = new System.Drawing.Size(146, 35);
+      this.btnEditAirplane.TabIndex = 8;
+      this.btnEditAirplane.Text = "Edit";
+      this.btnEditAirplane.UseVisualStyleBackColor = true;
+      this.btnEditAirplane.Click += new System.EventHandler(this.btnEditAirplane_Click);
       // 
       // btnAddAirplane
       // 
@@ -538,7 +542,7 @@ namespace Generator
       this.btnAddAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.btnAddAirplane.Name = "btnAddAirplane";
       this.btnAddAirplane.Size = new System.Drawing.Size(146, 35);
-      this.btnAddAirplane.TabIndex = 3;
+      this.btnAddAirplane.TabIndex = 7;
       this.btnAddAirplane.Text = "Add";
       this.btnAddAirplane.UseVisualStyleBackColor = true;
       this.btnAddAirplane.Click += new System.EventHandler(this.btnAddAirplane_Click);
@@ -607,7 +611,7 @@ namespace Generator
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolFile.Name = "toolFile";
-      this.toolFile.Size = new System.Drawing.Size(56, 33);
+      this.toolFile.Size = new System.Drawing.Size(56, 29);
       this.toolFile.Text = "File";
       // 
       // subToolOpen
@@ -643,7 +647,7 @@ namespace Generator
       this.toolMusic.Image = ((System.Drawing.Image)(resources.GetObject("toolMusic.Image")));
       this.toolMusic.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolMusic.Name = "toolMusic";
-      this.toolMusic.Size = new System.Drawing.Size(76, 33);
+      this.toolMusic.Size = new System.Drawing.Size(76, 29);
       this.toolMusic.Text = "Music";
       // 
       // subToolStart
@@ -672,6 +676,16 @@ namespace Generator
       this.labError.Text = "Error: This is an invisible error, please change text to fit your need";
       this.labError.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
       this.labError.Visible = false;
+      // 
+      // labHelpPosition
+      // 
+      this.labHelpPosition.AutoSize = true;
+      this.labHelpPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+      this.labHelpPosition.Location = new System.Drawing.Point(1336, 135);
+      this.labHelpPosition.Name = "labHelpPosition";
+      this.labHelpPosition.Size = new System.Drawing.Size(193, 17);
+      this.labHelpPosition.TabIndex = 15;
+      this.labHelpPosition.Text = "*Click to select a new position";
       // 
       // FormGenerator
       // 
@@ -716,7 +730,7 @@ namespace Generator
     private TextBox txbPosition;
     private Label labPosition;
     private Button btnDeleteAirport;
-    private Button btnModifyAirport;
+    private Button btnEditAirport;
     private Button btnAddAirport;
     private Label labAiportName;
     private TextBox txbAirportName;
@@ -732,7 +746,7 @@ namespace Generator
     private TextBox txbAirplaneName;
     private Label labNameAirport;
     private Button btnDeleteAirplane;
-    private Button btnModifyAirplane;
+    private Button btnEditAirplane;
     private Button btnAddAirplane;
     private Label labAirplaneId;
     private TextBox txbAirplaneId;
@@ -760,5 +774,6 @@ namespace Generator
     private GroupBox gbTraffic;
     private Label labAirportId;
     private TextBox txbAirportId;
+    private Label labHelpPosition;
   }
 }

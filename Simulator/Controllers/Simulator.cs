@@ -13,15 +13,6 @@ namespace Simulator.Controllers
 {
   public class Simulator
   {
-    public const int MapHeight = 650;
-    public const int MapWidth = 1500;
-
-    public const int MaxFightsPerHour = 3;
-    public const int MaxPassengersPerHour = 10;
-    public const int MaxCargoPerHour = 10;
-    public const int MaxRescuePerHour = 4;
-    public const int MaxScoutsPerHour = 2;
-
     private static Simulator _instance;
     private readonly FormSimulator _frmSim;
     private Scenario _scenario;
