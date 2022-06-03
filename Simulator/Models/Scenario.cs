@@ -75,7 +75,7 @@ namespace Simulator.Models
 
         var task = TaskFactory.Instance.CreateCargoTask(destination);
         Tasks.Add(task);
-        origin.AddTask(task);
+        origin.AddClient(task);
       }
 
       for (var i = 0; i < randPassengers; i++)
@@ -84,7 +84,7 @@ namespace Simulator.Models
 
         var task = TaskFactory.Instance.CreatePassengerTask(destination);
         Tasks.Add(task);
-        origin.AddTask(task);
+        origin.AddClient(task);
       }
     }
 

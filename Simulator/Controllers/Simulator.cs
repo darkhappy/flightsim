@@ -22,6 +22,9 @@ namespace Simulator.Controllers
     public const int MaxRescuePerHour = 4;
     public const int MaxScoutsPerHour = 2;
 
+    public const double MaxCargo = 400;
+    public const double MaxPassengers = 100;
+
     private static Simulator _instance;
     private readonly FormSimulator _frmSim;
     private Scenario _scenario;
@@ -89,6 +92,7 @@ namespace Simulator.Controllers
       {
         list.Add(new ObjectInfo(airport.Id, airport.Name));
       }
+
       return list;
     }
 
@@ -99,7 +103,7 @@ namespace Simulator.Controllers
     {
       List<string> list = new List<string>();
       var airports = _scenario.Airports;
-      
+
       foreach (var airport in airports)
       {
         if (id == airport.Id)
@@ -109,8 +113,9 @@ namespace Simulator.Controllers
           {
             list.Add(airplane.ToString());
           }
-        } 
+        }
       }
+
       return list;
     }
 

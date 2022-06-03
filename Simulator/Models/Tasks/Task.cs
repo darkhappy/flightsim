@@ -1,5 +1,3 @@
-using System;
-
 namespace Simulator.Models.Tasks
 {
   public abstract class Task
@@ -14,11 +12,6 @@ namespace Simulator.Models.Tasks
     public virtual void HandleEvent()
     {
       Scenario.Instance.RemoveTask(this);
-    }
-
-    public override string ToString()
-    {
-      throw new NotImplementedException();
     }
   }
 }

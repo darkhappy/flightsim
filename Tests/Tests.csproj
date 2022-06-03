@@ -51,6 +51,7 @@
         <Compile Include="Simulator\AirplaneTests.cs"/>
         <Compile Include="Simulator\ScenarioTests.cs"/>
         <Compile Include="Simulator\StateTests.cs"/>
+        <Compile Include="Simulator\TasksTests.cs"/>
         <Compile Include="Tests.cs"/>
         <Compile Include="Properties\AssemblyInfo.cs"/>
     </ItemGroup>

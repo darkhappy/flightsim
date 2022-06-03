@@ -1,5 +1,3 @@
-using System;
-using System.Linq;
 using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.Tasks
@@ -10,32 +8,19 @@ namespace Simulator.Models.Tasks
 
     public static TaskFactory Instance => _instance ??= new TaskFactory();
 
-    private static Position GetRandomPosition()
-    {
-      var random = new Random();
-      var x = random.Next(0, Controllers.Simulator.MapWidth);
-      var y = random.Next(0, Controllers.Simulator.MapHeight);
-      var position = new Position(x, y);
-
-      // Verify if there is a task in the position
-      while (Scenario.Instance.Tasks.Any(task => task.Position.Equals(position))) return GetRandomPosition();
-
-      return position;
-    }
-
     public TaskFight CreateFightTask()
     {
-      return new TaskFight(GetRandomPosition());
+      return new TaskFight(Position.GetRandomPosition());
     }
 
     public TaskRescue CreateRescueTask()
     {
-      return new TaskRescue(GetRandomPosition());
+      return new TaskRescue(Position.GetRandomPosition());
     }
 
     public TaskScout CreateScoutTask()
     {
-      return new TaskScout(GetRandomPosition());
+      return new TaskScout(Position.GetRandomPosition());
     }
 
     public ClientPassenger CreatePassengerTask(Airport airport)

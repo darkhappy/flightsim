@@ -1,3 +1,4 @@
+using System;
 using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.Tasks
@@ -6,10 +7,7 @@ namespace Simulator.Models.Tasks
   {
     public ClientCargo(Airport airport) : base(airport)
     {
-    }
-
-    public ClientCargo(Position position) : base(position)
-    {
+      Amount = new Random().NextDouble() * airport.CargoTraffic * 5;
     }
   }
 }

@@ -16,6 +16,16 @@ namespace Simulator.Models
 
     [DataMember] public int Y { get; set; }
 
+    public static Position GetRandomPosition()
+    {
+      var random = new Random();
+      var x = random.Next(0, Controllers.Simulator.MapWidth);
+      var y = random.Next(0, Controllers.Simulator.MapHeight);
+      var position = new Position(x, y);
+
+      return position;
+    }
+
     public static string Transpose(int x, int y)
     {
       const int width = Controllers.Simulator.MapWidth;
