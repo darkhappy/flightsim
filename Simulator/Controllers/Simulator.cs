@@ -83,13 +83,7 @@ namespace Simulator.Controllers
     /// </summary>
     public List<ObjectInfo> Airports()
     {
-      List<ObjectInfo> list = new List<ObjectInfo>();
-      var airports = _scenario.Airports;
-      foreach (var airport in airports)
-      {
-        list.Add(new ObjectInfo(airport.Id, airport.Name));
-      }
-      return list;
+      return _scenario.GetAirportsObjectInfo();
     }
 
     /// <summary>
@@ -97,7 +91,7 @@ namespace Simulator.Controllers
     /// </summary>
     public List<string> AirplanesFromAirportId(string id)
     {
-      return _scenario.GetAirplanesFromAirport();
+      return _scenario.GetAirplanesFromAirport(id);
     }
 
     /// <summary>

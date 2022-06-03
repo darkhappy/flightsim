@@ -20,13 +20,17 @@ namespace Simulator.Views
     {
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
-
-      listAirports.DataSource = airports;
-      listAirports.DisplayMember = "Name";
-      listAirports.ValueMember = "Id";
+      listAirports.View = View.Details;
+      listAirports.Columns.Add("Id", (int)(listAirports.Width * 0.25));
+      listAirports.Columns.Add("Name", (int)(listAirports.Width * 0.75));
+      foreach (var airport in airports)
+      {
+        string[] toAdd = {airport.Id, airport.Name};
+        listAirports.Items.Add(new ListViewItem(toAdd));
+      }
 
       //Setup listPlane
-      var airplanes = Controllers.Simulator.Instance.AirplanesFromAirportId(listAirports.ValueMember);
+      //var airplanes = Controllers.Simulator.Instance.AirplanesFromAirportId(listAirports.Columns.);
 
       //Load music
       /*

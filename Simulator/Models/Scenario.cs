@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Generator.Models;
 using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
@@ -95,6 +96,27 @@ namespace Simulator.Models
       while (airport2.Equals(airport1)) airport2 = Airports[new Random().Next(0, Airports.Count)];
 
       return new Tuple<Airport, Airport>(airport1, airport2);
+    }
+
+    private Airport? GetAirport(string airportCode)
+    {
+      return Airports.FirstOrDefault(a => a.Id == airportCode);
+    }
+
+    public List<string> GetAirplanesFromAirport(string id)
+    {
+      var airport = GetAirport(id);
+      return airport.GetToStringOfPlanes();
+    }
+
+    public List<ObjectInfo> GetAirportsObjectInfo()
+    {
+      var list = new List<ObjectInfo>();
+      foreach (var airport in Airports)
+      {
+        list.Add(new ObjectInfo(airport.Id, airport.Name));
+      }
+      return list;
     }
 
     public void HandleTick(double time)
