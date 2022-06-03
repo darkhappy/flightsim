@@ -456,8 +456,8 @@ namespace Tests.Generator
         var info = new AirportInfo(id, airport, new Position(randomX, randomY), randomPassengerTraffic,
           randomCargoTraffic);
 
-        var randomAirplaneCount = new Random().Next(12, 28);
-        var randomTransportCount = new Random().Next(4, 12);
+        var randomAirplaneCount = new Random().Next(40, 60);
+        var randomTransportCount = new Random().Next(20, 30);
 
         _scenario.AddAirport(info);
 
