@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
@@ -22,13 +23,14 @@ namespace Simulator.Models
     public List<Task> Tasks { get; private set; }
     public List<Task> UnassignedTasks { get; private set; }
 
-    public static Scenario Instance => _instance ?? (_instance = new Scenario());
+    public static Scenario Instance => _instance ??= new Scenario();
 
     public ExtensionDataObject ExtensionData { get; set; } = null!;
 
     public Airport GetFromPosition(Position position)
     {
-      return Airports.Find(a => a.Position.Equals(position));
+      var airport = Airports.FirstOrDefault(a => a.Position.Equals(position));
+      return airport;
     }
 
     [OnDeserialized]
@@ -40,19 +42,71 @@ namespace Simulator.Models
 
     public void GenerateTasks()
     {
-      throw new NotImplementedException();
+      var randFights = new Random().Next(1, Controllers.Simulator.MaxFightsPerHour);
+      var randScouts = new Random().Next(1, Controllers.Simulator.MaxScoutsPerHour);
+      var randRescues = new Random().Next(1, Controllers.Simulator.MaxRescuePerHour);
+      var randCargos = new Random().Next(1, Controllers.Simulator.MaxCargoPerHour);
+      var randPassengers = new Random().Next(1, Controllers.Simulator.MaxPassengersPerHour);
+
+      for (var i = 0; i < randFights; i++)
+      {
+        var task = TaskFactory.Instance.CreateFightTask();
+        Tasks.Add(task);
+        UnassignedTasks.Add(task);
+      }
+
+      for (var i = 0; i < randScouts; i++)
+      {
+        var task = TaskFactory.Instance.CreateScoutTask();
+        Tasks.Add(task);
+        UnassignedTasks.Add(task);
+      }
+
+      for (var i = 0; i < randRescues; i++)
+      {
+        var task = TaskFactory.Instance.CreateRescueTask();
+        Tasks.Add(task);
+        UnassignedTasks.Add(task);
+      }
+
+      for (var i = 0; i < randCargos; i++)
+      {
+        var (origin, destination) = GetTwoUniqueAirports();
+
+        var task = TaskFactory.Instance.CreateCargoTask(destination);
+        Tasks.Add(task);
+        origin.AddTask(task);
+      }
+
+      for (var i = 0; i < randPassengers; i++)
+      {
+        var (origin, destination) = GetTwoUniqueAirports();
+
+        var task = TaskFactory.Instance.CreatePassengerTask(destination);
+        Tasks.Add(task);
+        origin.AddTask(task);
+      }
+    }
+
+    private Tuple<Airport, Airport> GetTwoUniqueAirports()
+    {
+      var airport1 = Airports[new Random().Next(0, Airports.Count)];
+      var airport2 = Airports[new Random().Next(0, Airports.Count)];
+      while (airport2.Equals(airport1)) airport2 = Airports[new Random().Next(0, Airports.Count)];
+
+      return new Tuple<Airport, Airport>(airport1, airport2);
     }
 
     public void HandleTick(double time)
     {
-      AssingUnassignedTasks();
+      AssignUnassignedTasks();
     }
 
-    private void AssingUnassignedTasks()
+    private void AssignUnassignedTasks()
     {
-      foreach (Task task in UnassignedTasks)
+      foreach (var task in UnassignedTasks)
       {
-        foreach (Airport airport in Airports)
+        foreach (var airport in Airports)
         {
           airport.AssignTask(task);
         }
@@ -61,7 +115,7 @@ namespace Simulator.Models
 
     public void RemoveTask(Task task)
     {
-      throw new NotImplementedException();
+      Tasks.Remove(task);
     }
 
     public List<Airport> GetNearestAirports(Position position)

@@ -6,9 +6,6 @@ namespace Tests.Generator
   [TestFixture]
   public class PositionTests
   {
-    private const int width = 400;
-    private const int height = 300;
-
     [Test]
     [TestCase(0, 0, "90° 0’ N, 180° 0’ W")]
     [TestCase(400, 0, "90° 0’ N, 180° 0’ E")]
