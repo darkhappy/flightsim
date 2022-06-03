@@ -84,7 +84,7 @@
             <PassengerTraffic>55</PassengerTraffic>
             <Position>
                 <X>287</X>
-                <Y>1336</Y>
+                <Y>612</Y>
             </Position>
         </Airport>
         <Airport>
@@ -180,7 +180,7 @@
             <PassengerTraffic>73</PassengerTraffic>
             <Position>
                 <X>423</X>
-                <Y>1444</Y>
+                <Y>215</Y>
             </Position>
         </Airport>
         <Airport>
@@ -263,8 +263,8 @@
             <Name>Airport 2</Name>
             <PassengerTraffic>35</PassengerTraffic>
             <Position>
-                <X>301</X>
-                <Y>679</Y>
+                <X>1080</X>
+                <Y>523</Y>
             </Position>
         </Airport>
         <Airport>
@@ -429,7 +429,7 @@
             <PassengerTraffic>7</PassengerTraffic>
             <Position>
                 <X>212</X>
-                <Y>1351</Y>
+                <Y>80</Y>
             </Position>
         </Airport>
         <Airport>
@@ -530,7 +530,7 @@
             <Name>Airport 5</Name>
             <PassengerTraffic>38</PassengerTraffic>
             <Position>
-                <X>310</X>
+                <X>90</X>
                 <Y>406</Y>
             </Position>
         </Airport>
@@ -602,7 +602,7 @@
             <Name>Airport 6</Name>
             <PassengerTraffic>57</PassengerTraffic>
             <Position>
-                <X>398</X>
+                <X>978</X>
                 <Y>64</Y>
             </Position>
         </Airport>

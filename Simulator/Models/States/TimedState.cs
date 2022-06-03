@@ -13,5 +13,9 @@ namespace Simulator.Models.States
     {
       _duration -= time;
     }
+    public override string ToString()
+    {
+      return "Timed";
+    }
   }
 }

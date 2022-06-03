@@ -10,5 +10,10 @@ namespace Simulator.Models.States
     }
 
     public Task Task { get; }
+
+    public override string ToString()
+    {
+      return "Timed with task";
+    }
   }
 }
