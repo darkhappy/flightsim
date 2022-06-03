@@ -7,5 +7,9 @@ namespace Simulator.Models.States
     public EmbarkState(double time, Task task) : base(time, task)
     {
     }
+    public override string ToString()
+    {
+      return "Embarking";
+    }
   }
 }

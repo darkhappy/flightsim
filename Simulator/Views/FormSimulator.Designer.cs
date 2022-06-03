@@ -39,11 +39,11 @@ namespace Simulator.Views
       this.grpTasks = new System.Windows.Forms.GroupBox();
       this.lstTasks = new System.Windows.Forms.ListBox();
       this.grpPanes = new System.Windows.Forms.GroupBox();
-      this.lstAirplanes = new System.Windows.Forms.ListBox();
       this.grpClients = new System.Windows.Forms.GroupBox();
       this.lstClients = new System.Windows.Forms.ListBox();
       this.grpAirport = new System.Windows.Forms.GroupBox();
       this.listAirports = new System.Windows.Forms.ListView();
+      this.listAirplanes = new System.Windows.Forms.ListView();
       this.toolStrip.SuspendLayout();
       this.groupBox1.SuspendLayout();
       this.grpTasks.SuspendLayout();
@@ -122,28 +122,20 @@ namespace Simulator.Views
       // lstTasks
       // 
       this.lstTasks.FormattingEnabled = true;
-      this.lstTasks.Location = new System.Drawing.Point(6, 12);
+      this.lstTasks.Location = new System.Drawing.Point(6, 13);
       this.lstTasks.Name = "lstTasks";
       this.lstTasks.Size = new System.Drawing.Size(295, 134);
       this.lstTasks.TabIndex = 2;
       // 
       // grpPanes
       // 
-      this.grpPanes.Controls.Add(this.lstAirplanes);
+      this.grpPanes.Controls.Add(this.listAirplanes);
       this.grpPanes.Location = new System.Drawing.Point(522, 14);
       this.grpPanes.Name = "grpPanes";
       this.grpPanes.Size = new System.Drawing.Size(291, 155);
       this.grpPanes.TabIndex = 3;
       this.grpPanes.TabStop = false;
       this.grpPanes.Text = "Planes";
-      // 
-      // lstAirplanes
-      // 
-      this.lstAirplanes.FormattingEnabled = true;
-      this.lstAirplanes.Location = new System.Drawing.Point(7, 13);
-      this.lstAirplanes.Name = "lstAirplanes";
-      this.lstAirplanes.Size = new System.Drawing.Size(279, 134);
-      this.lstAirplanes.TabIndex = 3;
       // 
       // grpClients
       // 
@@ -181,6 +173,16 @@ namespace Simulator.Views
       this.listAirports.Size = new System.Drawing.Size(186, 134);
       this.listAirports.TabIndex = 0;
       this.listAirports.UseCompatibleStateImageBehavior = false;
+      this.listAirports.SelectedIndexChanged += new System.EventHandler(this.listAirports_SelectedIndexChanged);
+      // 
+      // listAirplanes
+      // 
+      this.listAirplanes.HideSelection = false;
+      this.listAirplanes.Location = new System.Drawing.Point(6, 14);
+      this.listAirplanes.Name = "listAirplanes";
+      this.listAirplanes.Size = new System.Drawing.Size(279, 134);
+      this.listAirplanes.TabIndex = 1;
+      this.listAirplanes.UseCompatibleStateImageBehavior = false;
       // 
       // FormSimulator
       // 
@@ -219,7 +221,7 @@ namespace Simulator.Views
     private System.Windows.Forms.GroupBox grpClients;
     private System.Windows.Forms.ListBox lstClients;
     private System.Windows.Forms.GroupBox grpAirport;
-    private System.Windows.Forms.ListBox lstAirplanes;
     private System.Windows.Forms.ListView listAirports;
+    private System.Windows.Forms.ListView listAirplanes;
   }
 }

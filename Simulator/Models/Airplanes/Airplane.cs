@@ -59,7 +59,7 @@ namespace Simulator.Models.Airplanes
 
     public override string ToString()
     {
-      return "Airplane : " + Name + ", State : The State"; //+ State.ToString();
+      return "Airplane : " + Name + ", State : " + State.ToString();
       //TODO : make all tostrings for each states.
     }
   }

@@ -44,5 +44,9 @@ namespace Simulator.Models.States
     }
 
     protected abstract void OnArrived(double time);
+    public override string ToString()
+    {
+      return "Flying";
+    }
   }
 }
