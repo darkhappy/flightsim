@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
@@ -96,21 +97,7 @@ namespace Simulator.Controllers
     /// </summary>
     public List<string> AirplanesFromAirportId(string id)
     {
-      List<string> list = new List<string>();
-      var airports = _scenario.Airports;
-      
-      foreach (var airport in airports)
-      {
-        if (id == airport.Id)
-        {
-          var airplanes = airport.Airplanes;
-          foreach (var airplane in airplanes)
-          {
-            list.Add(airplane.ToString());
-          }
-        } 
-      }
-      return list;
+      return _scenario.GetAirplanesFromAirport();
     }
 
     /// <summary>
