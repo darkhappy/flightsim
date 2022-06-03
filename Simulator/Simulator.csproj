@@ -57,6 +57,7 @@
     <Compile Include="Models\Airplanes\ScoutPlane.cs" />
     <Compile Include="Models\Airplanes\TransportPlane.cs" />
     <Compile Include="Models\Colour.cs" />
+    <Compile Include="Models\ObjectInfo.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\Scenario.cs" />
     <Compile Include="Models\States\DisembarkState.cs" />

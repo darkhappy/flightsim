@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using Generator.Models;
 using Simulator.Models;
 using Simulator.Views;
 
@@ -80,9 +81,37 @@ namespace Simulator.Controllers
     /// <summary>
     /// Takes all airports from the scenario airports list and places them on the map.
     /// </summary>
-    public List<string> AirportNames()
+    public List<ObjectInfo> Airports()
     {
-      return _scenario.Airports.Select(airport => airport.Name).ToList();
+      List<ObjectInfo> list = new List<ObjectInfo>();
+      var airports = _scenario.Airports;
+      foreach (var airport in airports)
+      {
+        list.Add(new ObjectInfo(airport.Id, airport.Name));
+      }
+      return list;
+    }
+
+    /// <summary>
+    /// Takes all airports from the scenario airports list and places them on the map.
+    /// </summary>
+    public List<string> AirplanesFromAirportId(string id)
+    {
+      List<string> list = new List<string>();
+      var airports = _scenario.Airports;
+      
+      foreach (var airport in airports)
+      {
+        if (id == airport.Id)
+        {
+          var airplanes = airport.Airplanes;
+          foreach (var airplane in airplanes)
+          {
+            list.Add(airplane.ToString());
+          }
+        } 
+      }
+      return list;
     }
 
     /// <summary>

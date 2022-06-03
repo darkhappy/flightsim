@@ -19,19 +19,14 @@ namespace Simulator.Views
     private void FormSimulator_Load(object sender, EventArgs e)
     {
       //Setup listAirports
-      foreach(airport in Controllers.Simulator)
-      listAirport;
+      var airports = Controllers.Simulator.Instance.Airports();
+
+      listAirports.DataSource = airports;
+      listAirports.DisplayMember = "Name";
+      listAirports.ValueMember = "Id";
 
       //Setup listPlane
-      listAirplanes.View = View.Details;
-      listAirplanes.Columns.Add("Id", (int)(listAirport.Width * 0.07));
-      listAirplanes.Columns.Add("Name", (int)(listAirport.Width * 0.236));
-      listAirplanes.Columns.Add("Type", (int)(listAirport.Width * 0.20));
-      listAirplanes.Columns.Add("Speed", (int)(listAirport.Width * 0.09));
-      listAirplanes.Columns.Add("Capacity", (int)(listAirport.Width * 0.1));
-      listAirplanes.Columns.Add("Embarking", (int)(listAirport.Width * 0.1));
-      listAirplanes.Columns.Add("Disembarking", (int)(listAirport.Width * 0.1));
-      listAirplanes.Columns.Add("Maintenance", (int)(listAirport.Width * 0.1));
+      var airplanes = Controllers.Simulator.Instance.AirplanesFromAirportId(listAirports.ValueMember);
 
       //Load music
       /*
@@ -65,7 +60,7 @@ namespace Simulator.Views
     {
       var map = new Bitmap(Resources.galaxy);
       var simCanevas = mapPanel.CreateGraphics();
-      simCanevas.DrawImage(map, 0, 0, 1129, 529);
+      simCanevas.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
 
       List<Position> airportPositions = Controllers.Simulator.Instance.AirportPositions();
 
