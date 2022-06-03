@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
@@ -13,6 +12,8 @@ namespace Simulator.Controllers
 {
   public class Simulator
   {
+    public const int MapHeight = 650;
+    public const int MapWidth = 1500;
     private static Simulator _instance;
     private readonly FormSimulator _frmSim;
     private Scenario _scenario;
