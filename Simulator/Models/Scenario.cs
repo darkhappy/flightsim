@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
+using Simulator.Controllers;
 using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
@@ -42,11 +43,11 @@ namespace Simulator.Models
 
     public void GenerateTasks()
     {
-      var randFights = new Random().Next(1, Controllers.Simulator.MaxFightsPerHour);
-      var randScouts = new Random().Next(1, Controllers.Simulator.MaxScoutsPerHour);
-      var randRescues = new Random().Next(1, Controllers.Simulator.MaxRescuePerHour);
-      var randCargos = new Random().Next(1, Controllers.Simulator.MaxCargoPerHour);
-      var randPassengers = new Random().Next(1, Controllers.Simulator.MaxPassengersPerHour);
+      var randFights = new Random().Next(1, Constants.MaxFightsPerHour);
+      var randScouts = new Random().Next(1, Constants.MaxScoutsPerHour);
+      var randRescues = new Random().Next(1, Constants.MaxRescuePerHour);
+      var randCargos = new Random().Next(1, Constants.MaxCargoPerHour);
+      var randPassengers = new Random().Next(1, Constants.MaxPassengersPerHour);
 
       for (var i = 0; i < randFights; i++)
       {

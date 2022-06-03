@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\Constants.cs"/>
     <Compile Include="Controllers\Simulator.cs" />
     <Compile Include="Models\Airplanes\Airplane.cs" />
     <Compile Include="Models\Airplanes\Airport.cs" />

@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.Serialization;
+using Simulator.Controllers;
 
 namespace Simulator.Models
 {
@@ -19,8 +20,8 @@ namespace Simulator.Models
     public static Position GetRandomPosition()
     {
       var random = new Random();
-      var x = random.Next(0, Controllers.Simulator.MapWidth);
-      var y = random.Next(0, Controllers.Simulator.MapHeight);
+      var x = random.Next(0, Constants.MapWidth);
+      var y = random.Next(0, Constants.MapHeight);
       var position = new Position(x, y);
 
       return position;
@@ -28,8 +29,8 @@ namespace Simulator.Models
 
     public static string Transpose(int x, int y)
     {
-      const int width = Controllers.Simulator.MapWidth;
-      const int height = Controllers.Simulator.MapHeight;
+      const int width = Constants.MapWidth;
+      const int height = Constants.MapHeight;
       const int middleX = width / 2;
       const int middleY = height / 2;
 
