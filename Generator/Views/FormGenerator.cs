@@ -12,6 +12,7 @@ namespace Generator
   {
     private FormMap _mapPos;
     private SoundPlayer _player;
+    private string currentPath;
 
     /// <summary>
     ///   Constructor of the form
@@ -107,15 +108,19 @@ namespace Generator
           numCapacity.Enabled = true;
           numCapacity.Value = 15;
           numEmbarking.Enabled = true;
-          numCapacity.Value = 15;
+          numEmbarking.Value = 15;
           numDisembarking.Enabled = true;
+          numDisembarking.Value = 15;
           break;
         case "Fight":
         case "Rescue":
         case "Scout":
           numCapacity.Enabled = false;
+          numCapacity.Value = 0;
           numEmbarking.Enabled = false;
+          numEmbarking.Value = 0;
           numDisembarking.Enabled = false;
+          numDisembarking.Value = 0;
           break;
       }
     }
@@ -367,6 +372,17 @@ namespace Generator
         listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
+    private void txbPosition_Click(object sender, EventArgs e)
+    {
+      _mapPos = new FormMap();
+      var result = _mapPos.ShowDialog();
+      if (result != DialogResult.OK) return;
+
+      var pos = _mapPos.Pos;
+
+      txbPosition.Text = Position.Transpose(pos.X, pos.Y);
+    }
+
     /// <summary>
     ///   Can start the music
     /// </summary>
@@ -387,16 +403,84 @@ namespace Generator
       _player.Stop();
     }
 
-
-    private void txbPosition_Click(object sender, EventArgs e)
+    private void subToolOpen_Click(object sender, EventArgs e)
     {
-      _mapPos = new FormMap();
-      var result = _mapPos.ShowDialog();
-      if (result != DialogResult.OK) return;
+      string path = OpenPath();
 
-      var pos = _mapPos.Pos;
+      if (path == "")
+      {
+        return;
+      }
 
-      txbPosition.Text = Position.Transpose(pos.X, pos.Y);
+      Controllers.Generator.Instance.Import(path);
+      currentPath = path;
+      this.Text = "Scenario Generator - " + currentPath;
+
+      if (listAirports.Items.Count > 0)
+        listAirports.Items[0].Selected = true;
+    }
+
+    private void subToolNew_Click(object sender, EventArgs e)
+    {
+      string path = SavePath();
+
+      if (path == "")
+      {
+        return;
+      }
+
+      Controllers.Generator.Instance.Import(path);
+      currentPath = path;
+      this.Text = "Scenario Generator - " + currentPath;
+
+      if (listAirports.Items.Count > 0)
+        listAirports.Items[0].Selected = true;
+    }
+
+    private void subToolSave_Click(object sender, EventArgs e)
+    {
+      Controllers.Generator.Instance.Export(currentPath);
+    }
+
+    private void subToolSaveAs_Click(object sender, EventArgs e)
+    {
+      string path = SavePath();
+
+      if (path == "")
+      {
+        MessageBox.Show("Choose a valid XML file");
+        return;
+      }
+
+      Controllers.Generator.Instance.Export(path);
+      currentPath = path;
+      this.Text = "Scenario Generator - " + currentPath;
+
+      if (listAirports.Items.Count > 0)
+        listAirports.Items[0].Selected = true;
+    }
+
+    private void subToolDelete_Click(object sender, EventArgs e)
+    {
+
+    }
+
+    public string OpenPath()
+    {
+      OpenFileDialog xmlFilePath = new OpenFileDialog();
+      xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
+      string filePath;
+      var result = xmlFilePath.ShowDialog();
+      return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
+    }
+
+    public string SavePath()
+    {
+      SaveFileDialog xmlFilePath = new SaveFileDialog();
+      xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
+      string filePath;
+      var result = xmlFilePath.ShowDialog();
+      return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
     }
   }
 }

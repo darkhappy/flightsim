@@ -32,6 +32,7 @@ namespace Generator.Controllers
     ///   Entry point of the application
     /// </summary>
     /// <param name="args"></param>
+    [STAThread]
     public static void Main(string[] args)
     {
       Instance.GenerateView();

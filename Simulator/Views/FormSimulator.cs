@@ -61,6 +61,7 @@ namespace Simulator.Views
     public string Path()
     {
       OpenFileDialog xmlFilePath = new OpenFileDialog();
+      xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
       string filePath;
       var result = xmlFilePath.ShowDialog();
       return (result != DialogResult.OK) ?  "" : xmlFilePath.FileName;
