@@ -405,11 +405,10 @@ namespace Generator
 
     private void subToolOpen_Click(object sender, EventArgs e)
     {
-      string path = Path();
+      string path = OpenPath();
 
       if (path == "")
       {
-        MessageBox.Show("Choose a valid XML file");
         return;
       }
 
@@ -423,11 +422,10 @@ namespace Generator
 
     private void subToolNew_Click(object sender, EventArgs e)
     {
-      string path = Path();
+      string path = SavePath();
 
       if (path == "")
       {
-        MessageBox.Show("Choose a valid XML file");
         return;
       }
 
@@ -446,7 +444,7 @@ namespace Generator
 
     private void subToolSaveAs_Click(object sender, EventArgs e)
     {
-      string path = Path();
+      string path = SavePath();
 
       if (path == "")
       {
@@ -467,9 +465,18 @@ namespace Generator
 
     }
 
-    public string Path()
+    public string OpenPath()
     {
       OpenFileDialog xmlFilePath = new OpenFileDialog();
+      xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
+      string filePath;
+      var result = xmlFilePath.ShowDialog();
+      return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
+    }
+
+    public string SavePath()
+    {
+      SaveFileDialog xmlFilePath = new SaveFileDialog();
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
       string filePath;
       var result = xmlFilePath.ShowDialog();
