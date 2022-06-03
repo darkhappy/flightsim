@@ -76,23 +76,16 @@ namespace Simulator.Controllers
     }
 
     /// <summary>
-    /// If the airplanes are moving on the map, it places them a the right places. 
+    /// Takes all airports from the scenario airports list and places them on the map.
     /// </summary>
-    /// <param name="airport"></param>
-    public void SetAirplanesPositions(Airport airport)
+    public List<string> AirportNames()
     {
-      foreach (var airplane in airport.Airplanes)
+      List<string> names = new List<string>();
+      foreach (var airport in _scenario.Airports)
       {
-        //if(airplane.State != StandBy) somthing like that
-        //then
-        /*
-        Position origin = airport.Position;
-        Position target = _scenario... pitagore calculations to get angle of image from 90
-        */
-        double angle = 0;
-
-        _frmSim.DrawAirplane(airplane.Name, airport.Position, angle);
+        names.Add(airport.Name);
       }
+      return names;
     }
 
     /// <summary>

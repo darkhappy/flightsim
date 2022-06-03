@@ -18,7 +18,21 @@ namespace Simulator.Views
 
     private void FormSimulator_Load(object sender, EventArgs e)
     {
-      //Draw the map with airports
+      //Setup listAirports
+      foreach(airport in Controllers.Simulator)
+      listAirport;
+
+      //Setup listPlane
+      listAirplanes.View = View.Details;
+      listAirplanes.Columns.Add("Id", (int)(listAirport.Width * 0.07));
+      listAirplanes.Columns.Add("Name", (int)(listAirport.Width * 0.236));
+      listAirplanes.Columns.Add("Type", (int)(listAirport.Width * 0.20));
+      listAirplanes.Columns.Add("Speed", (int)(listAirport.Width * 0.09));
+      listAirplanes.Columns.Add("Capacity", (int)(listAirport.Width * 0.1));
+      listAirplanes.Columns.Add("Embarking", (int)(listAirport.Width * 0.1));
+      listAirplanes.Columns.Add("Disembarking", (int)(listAirport.Width * 0.1));
+      listAirplanes.Columns.Add("Maintenance", (int)(listAirport.Width * 0.1));
+
       //Load music
       /*
       _player = new SoundPlayer();

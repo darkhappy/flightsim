@@ -54,11 +54,12 @@ namespace Simulator.Views
       // 
       // toolStrip
       // 
+      this.toolStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
       this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolFile});
       this.toolStrip.Location = new System.Drawing.Point(0, 0);
       this.toolStrip.Name = "toolStrip";
-      this.toolStrip.Size = new System.Drawing.Size(1153, 25);
+      this.toolStrip.Size = new System.Drawing.Size(1144, 25);
       this.toolStrip.TabIndex = 14;
       this.toolStrip.Text = "toolStrip1";
       // 
@@ -91,7 +92,7 @@ namespace Simulator.Views
       // 
       this.mapPanel.Location = new System.Drawing.Point(11, 206);
       this.mapPanel.Name = "mapPanel";
-      this.mapPanel.Size = new System.Drawing.Size(1129, 529);
+      this.mapPanel.Size = new System.Drawing.Size(1500, 650);
       this.mapPanel.TabIndex = 15;
       this.mapPanel.Paint += new System.Windows.Forms.PaintEventHandler(this.mapPanel_Paint);
       // 
@@ -184,7 +185,7 @@ namespace Simulator.Views
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1153, 747);
+      this.ClientSize = new System.Drawing.Size(1144, 696);
       this.Controls.Add(this.groupBox1);
       this.Controls.Add(this.mapPanel);
       this.Controls.Add(this.toolStrip);
