@@ -18,7 +18,16 @@ namespace Simulator.Views
 
     private void FormSimulator_Load(object sender, EventArgs e)
     {
-      //Draw the map with airports
+      //Setup listAirports
+      var airports = Controllers.Simulator.Instance.Airports();
+
+      listAirports.DataSource = airports;
+      listAirports.DisplayMember = "Name";
+      listAirports.ValueMember = "Id";
+
+      //Setup listPlane
+      var airplanes = Controllers.Simulator.Instance.AirplanesFromAirportId(listAirports.ValueMember);
+
       //Load music
       /*
       _player = new SoundPlayer();
@@ -51,7 +60,7 @@ namespace Simulator.Views
     {
       var map = new Bitmap(Resources.galaxy);
       var simCanevas = mapPanel.CreateGraphics();
-      simCanevas.DrawImage(map, 0, 0, 1129, 529);
+      simCanevas.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
 
       List<Position> airportPositions = Controllers.Simulator.Instance.AirportPositions();
 

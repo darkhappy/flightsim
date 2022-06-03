@@ -8,9 +8,10 @@ namespace Generator.Controllers
 {
   public class Generator
   {
+    public const int MapHeight = 650;
+    public const int MapWidth = 1500;
     private static Generator _instance;
-    private FormGenerator _frmGen;
-    private FormGenerator _frmMap;
+    private readonly FormGenerator _frmGen;
     private Scenario _scenario;
 
     /// <summary>
@@ -19,6 +20,7 @@ namespace Generator.Controllers
     private Generator()
     {
       _scenario = new Scenario();
+      _frmGen = new FormGenerator();
     }
 
     /// <summary>
@@ -35,10 +37,8 @@ namespace Generator.Controllers
       Instance.GenerateView();
     }
 
-
-    public void GenerateView()
+    private void GenerateView()
     {
-      _frmGen = new FormGenerator();
       _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
       Application.Run(_frmGen);
     }

@@ -12,24 +12,16 @@ namespace Generator.Models
       Y = y;
     }
 
-    public Position(string position)
-    {
-      Transpose(position);
-    }
-
     [DataMember] public int X { get; set; }
 
     [DataMember] public int Y { get; set; }
 
     public static string Transpose(int x, int y)
     {
-      // Width and height of the map
-      // TODO: bind this to the map size
-      var width = 400;
-      var height = 300;
-
-      var middleX = width / 2;
-      var middleY = height / 2;
+      const int width = Controllers.Generator.MapWidth;
+      const int height = Controllers.Generator.MapHeight;
+      const int middleX = width / 2;
+      const int middleY = height / 2;
 
       var latitude = y <= middleY ? "N" : "S";
       var longitude = x <= middleX ? "W" : "E";
@@ -42,11 +34,6 @@ namespace Generator.Models
 
       return
         $"{(int) latitudeDegrees}° {latitudeMinutes}’ {latitude}, {(int) longitudeDegrees}° {longitudeMinutes}’ {longitude}";
-    }
-
-    public static Tuple<int, int> Transpose(string position)
-    {
-      throw new NotImplementedException();
     }
 
     public override string ToString()

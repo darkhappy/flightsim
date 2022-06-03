@@ -10,25 +10,30 @@ namespace Simulator.Models.Tasks
       Destination = Scenario.Instance.GetFromPosition(position);
     }
 
+    protected TaskTransport(Airport destination) : base(destination.Position)
+    {
+      Destination = destination;
+    }
+
     public double Amount { get; set; }
 
     public Airport Destination { get; }
 
-    public TaskTransport Merge(TaskTransport task1, TaskTransport task2)
+    public TaskTransport Merge(TaskTransport other)
     {
       // Check if both tasks are the same type
-      if (task1.GetType() != task2.GetType()) throw new ArgumentException("Tasks are not the same type");
+      if (GetType() != other.GetType()) throw new ArgumentException("Tasks are not the same type");
 
       // Check if both tasks have the same destination
-      if (task1.Destination != task2.Destination) throw new ArgumentException("Tasks have different destinations");
+      if (Destination != other.Destination) throw new ArgumentException("Tasks have different destinations");
 
       // Add the amount of both tasks
-      task1.Amount += task2.Amount;
+      Amount += other.Amount;
 
       // Remove the second task
-      Scenario.Instance.RemoveTask(task2);
+      Scenario.Instance.RemoveTask(other);
 
-      return task1;
+      return this;
     }
   }
 }

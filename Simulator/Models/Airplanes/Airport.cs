@@ -1,5 +1,5 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 using Simulator.Models.Tasks;
 
@@ -19,7 +19,7 @@ namespace Simulator.Models.Airplanes
       CargoTraffic = cargoTraffic;
     }
 
-    public List<TaskTransport> Clients { get; private set; }
+    private List<TaskTransport> Clients { get; set; }
 
     [DataMember] public string Id { get; private set; }
     [DataMember] public string Name { get; private set; }
@@ -39,21 +39,24 @@ namespace Simulator.Models.Airplanes
 
     public void Action(double time)
     {
-      throw new NotImplementedException();
+      foreach (var airplane in Airplanes) airplane.Action(time);
     }
 
     public bool AssignTask(Task task)
     {
-      /*
-      foreach (Airplane airplane in Airplanes)
-      {
-        if (airplane.State.ToString() == "StandBy")
-        {
+      return Airplanes.Any(airplane => airplane.AssignTask(task));
+    }
 
-        }
+    public void AddTask(TaskTransport task)
+    {
+      var taskToMerge = Clients.FirstOrDefault(t => t.Destination == task.Destination);
+      if (taskToMerge != null)
+      {
+        task = task.Merge(taskToMerge);
+        Clients.Remove(taskToMerge);
       }
-      */
-      throw new NotImplementedException();
+
+      Clients.Add(task);
     }
   }
 }

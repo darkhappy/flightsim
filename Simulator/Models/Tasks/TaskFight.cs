@@ -6,11 +6,15 @@ namespace Simulator.Models.Tasks
   {
     public TaskFight(Position position) : base(position)
     {
+      Health = new Random().Next(1, 6);
     }
+
+    public int Health { get; private set; }
 
     public override void HandleEvent()
     {
-      throw new NotImplementedException();
+      Health--;
+      if (Health <= 0) base.HandleEvent();
     }
   }
 }

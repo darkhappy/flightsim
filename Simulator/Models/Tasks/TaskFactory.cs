@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.Tasks
 {
@@ -6,11 +8,19 @@ namespace Simulator.Models.Tasks
   {
     private static TaskFactory _instance;
 
-    public static TaskFactory Instance => _instance ?? (_instance = new TaskFactory());
+    public static TaskFactory Instance => _instance ??= new TaskFactory();
 
-    private Position GetRandomPosition()
+    private static Position GetRandomPosition()
     {
-      throw new NotImplementedException();
+      var random = new Random();
+      var x = random.Next(0, Controllers.Simulator.MapWidth);
+      var y = random.Next(0, Controllers.Simulator.MapHeight);
+      var position = new Position(x, y);
+
+      // Verify if there is a task in the position
+      while (Scenario.Instance.Tasks.Any(task => task.Position.Equals(position))) return GetRandomPosition();
+
+      return position;
     }
 
     public TaskFight CreateFightTask()
@@ -28,14 +38,14 @@ namespace Simulator.Models.Tasks
       return new TaskScout(GetRandomPosition());
     }
 
-    public ClientPassenger CreatePassengerTask()
+    public ClientPassenger CreatePassengerTask(Airport airport)
     {
-      return new ClientPassenger(GetRandomPosition());
+      return new ClientPassenger(airport);
     }
 
-    public ClientMerchandise CreateMerchandiseTask()
+    public ClientCargo CreateCargoTask(Airport airport)
     {
-      return new ClientMerchandise(GetRandomPosition());
+      return new ClientCargo(airport);
     }
   }
 }

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
+using Generator.Models;
 using Simulator.Models;
-using Simulator.Models.Airplanes;
 using Simulator.Views;
 
 namespace Simulator.Controllers
@@ -12,6 +13,15 @@ namespace Simulator.Controllers
 {
   public class Simulator
   {
+    public const int MapHeight = 650;
+    public const int MapWidth = 1500;
+
+    public const int MaxFightsPerHour = 3;
+    public const int MaxPassengersPerHour = 10;
+    public const int MaxCargoPerHour = 10;
+    public const int MaxRescuePerHour = 4;
+    public const int MaxScoutsPerHour = 2;
+
     private static Simulator _instance;
     private readonly FormSimulator _frmSim;
     private Scenario _scenario;
@@ -23,7 +33,6 @@ namespace Simulator.Controllers
     {
       _scenario = new Scenario();
       _frmSim = new FormSimulator();
-
     }
 
     /// <summary>
@@ -55,7 +64,6 @@ namespace Simulator.Controllers
       SetAirportPositions();
     }
     */
-
     private void GenerateView()
     {
       Import(_frmSim.Path());
@@ -67,32 +75,29 @@ namespace Simulator.Controllers
     /// </summary>
     public List<Position> AirportPositions()
     {
-      List<Position> positions = new List<Position>();
-      foreach (var airport in _scenario.Airports)
-      {
-        positions.Add(airport.Position);
-      }
-      return positions;
+      return _scenario.Airports.Select(airport => airport.Position).ToList();
     }
 
     /// <summary>
-    /// If the airplanes are moving on the map, it places them a the right places. 
+    /// Takes all airports from the scenario airports list and places them on the map.
     /// </summary>
-    /// <param name="airport"></param>
-    public void SetAirplanesPositions(Airport airport)
+    public List<ObjectInfo> Airports()
     {
-      foreach (var airplane in airport.Airplanes)
+      List<ObjectInfo> list = new List<ObjectInfo>();
+      var airports = _scenario.Airports;
+      foreach (var airport in airports)
       {
-        //if(airplane.State != StandBy) somthing like that
-        //then
-        /*
-        Position origin = airport.Position;
-        Position target = _scenario... pitagore calculations to get angle of image from 90
-        */
-        double angle = 0;
-
-        _frmSim.DrawAirplane(airplane.Name, airport.Position, angle);
+        list.Add(new ObjectInfo(airport.Id, airport.Name));
       }
+      return list;
+    }
+
+    /// <summary>
+    /// Takes all airports from the scenario airports list and places them on the map.
+    /// </summary>
+    public List<string> AirplanesFromAirportId(string id)
+    {
+      return _scenario.GetAirplanesFromAirport();
     }
 
     /// <summary>

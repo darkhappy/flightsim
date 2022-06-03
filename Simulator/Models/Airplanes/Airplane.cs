@@ -56,5 +56,10 @@ namespace Simulator.Models.Airplanes
     {
       return Assembly.GetExecutingAssembly().GetTypes().Where(_ => _.IsSubclassOf(typeof(Airplane))).ToArray();
     }
+
+    public override string ToString()
+    {
+      return "Avion : " + Name + ", ";
+    }
   }
 }
