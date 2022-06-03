@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
 using Simulator.Models;
-using Simulator.Models.Airplanes;
 using Simulator.Views;
 
 namespace Simulator.Controllers
@@ -13,6 +14,13 @@ namespace Simulator.Controllers
   {
     public const int MapHeight = 650;
     public const int MapWidth = 1500;
+
+    public const int MaxFightsPerHour = 3;
+    public const int MaxPassengersPerHour = 10;
+    public const int MaxCargoPerHour = 10;
+    public const int MaxRescuePerHour = 4;
+    public const int MaxScoutsPerHour = 2;
+
     private static Simulator _instance;
     private readonly FormSimulator _frmSim;
     private Scenario _scenario;
@@ -24,7 +32,6 @@ namespace Simulator.Controllers
     {
       _scenario = new Scenario();
       _frmSim = new FormSimulator();
-
     }
 
     /// <summary>
@@ -56,7 +63,6 @@ namespace Simulator.Controllers
       SetAirportPositions();
     }
     */
-
     private void GenerateView()
     {
       Import(_frmSim.Path());
@@ -68,12 +74,7 @@ namespace Simulator.Controllers
     /// </summary>
     public List<Position> AirportPositions()
     {
-      List<Position> positions = new List<Position>();
-      foreach (var airport in _scenario.Airports)
-      {
-        positions.Add(airport.Position);
-      }
-      return positions;
+      return _scenario.Airports.Select(airport => airport.Position).ToList();
     }
 
     /// <summary>
@@ -81,12 +82,7 @@ namespace Simulator.Controllers
     /// </summary>
     public List<string> AirportNames()
     {
-      List<string> names = new List<string>();
-      foreach (var airport in _scenario.Airports)
-      {
-        names.Add(airport.Name);
-      }
-      return names;
+      return _scenario.Airports.Select(airport => airport.Name).ToList();
     }
 
     /// <summary>
