@@ -18,6 +18,7 @@ namespace Simulator.Models.States
       }
       else
       {
+        Task.HandleEvent();
         Destination = Plane.OriginPosition;
         Action(overlap);
       }

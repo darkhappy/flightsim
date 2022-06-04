@@ -2,7 +2,7 @@ using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.States
 {
-  public abstract class TimedState : IPlaneState
+  public abstract class TimedState : PlaneState
   {
     protected TimedState(Airplane plane)
     {
@@ -10,9 +10,12 @@ namespace Simulator.Models.States
     }
 
     protected double TimeLeft { get; set; }
-    public Airplane Plane { get; }
 
-    public abstract void Action(double time);
+    public override void Action(double time)
+    {
+      TimeLeft -= time;
+      if (TimeLeft <= 0) OnArrived(TimeLeft * -1);
+    }
 
     public override string ToString()
     {

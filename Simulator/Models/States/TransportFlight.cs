@@ -12,7 +12,7 @@ namespace Simulator.Models.States
 
     protected override void OnArrived(double overlap)
     {
-      Plane.State = new DisembarkState((TransportPlane) Plane, Task, overlap);
+      Plane.State = new DisembarkState((TransportPlane) Plane, (TaskTransport) Task, overlap);
     }
 
     public override string ToString()

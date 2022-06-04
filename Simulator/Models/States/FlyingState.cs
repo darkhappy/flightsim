@@ -4,7 +4,7 @@ using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
-  public abstract class FlyingState : IPlaneState, ITaskState
+  public abstract class FlyingState : PlaneState, ITaskState
   {
     protected FlyingState(Airplane plane, Task task)
     {
@@ -16,9 +16,8 @@ namespace Simulator.Models.States
     public Position Current { get; set; }
 
     public Position Destination { get; set; }
-    public Airplane Plane { get; }
 
-    public virtual void Action(double time)
+    public override void Action(double time)
     {
       var (position, timeLeft) = CalculateDistance();
       Current = position;
@@ -45,8 +44,6 @@ namespace Simulator.Models.States
       // TODO: Calculate the overlap remaining in case we arrive before the tick is over
       throw new NotImplementedException();
     }
-
-    protected abstract void OnArrived(double overlap);
 
     public abstract override string ToString();
   }

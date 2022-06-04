@@ -2,22 +2,23 @@ using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.States
 {
-  public class MaintenanceState : IState
+  public sealed class MaintenanceState : TimedState
   {
-    private readonly Airplane _plane;
-    private double _timeLeft;
-
-    public MaintenanceState(Airplane plane, double overlap)
+    public MaintenanceState(Airplane plane, double overlap) : base(plane)
     {
-      _plane = plane;
-      _timeLeft = plane.MaintenanceTime;
+      TimeLeft = plane.MaintenanceTime;
       Action(overlap);
     }
 
-    public void Action(double time)
+    public override void Action(double time)
     {
-      _timeLeft -= time;
-      if (_timeLeft <= 0) _plane.State = new StandbyState();
+      TimeLeft -= time;
+      if (TimeLeft <= 0) OnArrived(TimeLeft * -1);
+    }
+
+    protected override void OnArrived(double overlap)
+    {
+      Plane.State = new StandbyState();
     }
 
     public override string ToString()
