@@ -2,11 +2,10 @@ using System;
 using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.Tasks
-{
+{ 
   public abstract class TaskTransport : Task
   {
     private double _amount;
-
     protected TaskTransport(Airport destination) : base(destination.Position)
     {
       Destination = destination;

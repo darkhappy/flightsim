@@ -16,5 +16,9 @@ namespace Simulator.Models.Tasks
       Health--;
       if (Health <= 0) base.HandleEvent();
     }
+    public override string ToString()
+    {
+      return "Rebels began a fight at " + Position.ToString();
+    }
   }
 }

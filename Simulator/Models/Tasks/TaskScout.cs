@@ -5,5 +5,10 @@ namespace Simulator.Models.Tasks
     public TaskScout(Position position) : base(position)
     {
     }
+
+    public override string ToString()
+    {
+      return "Scout at position : " + Position.ToString();
+    }
   }
 }

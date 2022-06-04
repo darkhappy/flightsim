@@ -42,22 +42,12 @@ namespace Simulator.Controllers
     }
 
     /// <summary>
-    /// This metyhode intializes the simulation before the first Tick.
-    /// It imports the selected scenario and places all elements in the right place
+    /// 
     /// </summary>
-    /// <param name="path">
-    /// This is the path to the serialized .xml scenario file.
-    /// </param>
-    /*
-    public void Initialize(string path)
-    {
-      Import(path);
-      SetAirportPositions();
-    }
-    */
     private void GenerateView()
     {
       Import(_frmSim.Path());
+      OnTick(0);
       Application.Run(_frmSim);
     }
 
@@ -86,21 +76,42 @@ namespace Simulator.Controllers
     }
 
     /// <summary>
-    /// It makes alle the actions to be made in a given time from the scenario.
+    /// Returns the list of clients.
+    /// </summary>
+    /// <returns>
+    /// List of clients.
+    /// </returns>
+    public List<string> Clients()
+    {
+      return _scenario.GetClients();
+    }
+
+    /// <summary>
+    /// It makes all the actions to be made in a given time from the scenario.
     /// </summary>
     /// <param name="time">
     /// Time given in wich the scenario gets updated
     /// </param>
     public void OnTick(double time)
     {
-      /*
       if (CanGenerate())
       {
-        //generate new tasks
+      
       }
-      */
-      UpdateEvents();
+      //UpdateEvents();
       _scenario.HandleTick(time);
+    }
+
+    /// <summary>
+    /// Returns true if Scenario can generate tasks.
+    /// </summary>
+    /// <returns>
+    /// A bool.
+    /// </returns>
+    private bool CanGenerate()
+    {
+      //if time ok
+      return true;
     }
 
     /// <summary>

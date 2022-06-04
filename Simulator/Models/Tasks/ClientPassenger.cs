@@ -7,7 +7,8 @@ namespace Simulator.Models.Tasks
   {
     public ClientPassenger(Airport airport) : base(airport)
     {
-      Amount = Math.Round(new Random().NextDouble() * airport.PassengerTraffic * 5);
+      Amount = (Math.Round(new Random().NextDouble() * airport.PassengerTraffic + 1)) * 5;
     }
+    public override string ToString() => Amount + " passengers to destination : " + Destination.Name;
   }
 }

@@ -27,7 +27,7 @@ namespace Simulator.Views
       var airports = Controllers.Simulator.Instance.Airports();
       listAirports.View = View.Details;
       listAirports.Columns.Add("Id", (int)(listAirports.Width * 0.25));
-      listAirports.Columns.Add("Name", (int)(listAirports.Width * 0.75));
+      listAirports.Columns.Add("Name", (int)(listAirports.Width * 0.63));
       foreach (var airport in airports)
       {
         string[] toAdd = { airport.Id, airport.Name };
@@ -35,7 +35,16 @@ namespace Simulator.Views
       }
       //Setup listAirplanes
       listAirplanes.View = View.Details;
-      listAirplanes.Columns.Add("Airplanes", (int)(listAirplanes.Width));
+      listAirplanes.Columns.Add("Airplanes", (int)(listAirplanes.Width * 0.96));
+
+      //Setup first clients
+      var clients = Controllers.Simulator.Instance.Clients();
+      listClients.View = View.Details;
+      listClients.Columns.Add("Clients", (int)(listAirplanes.Width * 0.96));
+      foreach (var client in clients)
+      {
+        listClients.Items.Add(new ListViewItem(client));
+      }
 
       //Load music
       /*
@@ -45,6 +54,16 @@ namespace Simulator.Views
       */
     }
 
+    private void UpdateClients()
+    {
+
+    }
+
+    /// <summary>
+    /// Each time an airport is selected in the List of airport, Airplanes are updated.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void listAirports_SelectedIndexChanged(object sender, EventArgs e)
     {
       if (listAirports.SelectedItems.Count == 0 || listAirports.SelectedItems.Count > 1)
@@ -58,6 +77,12 @@ namespace Simulator.Views
       }
     }
 
+    /// <summary>
+    /// Opens a form from wich the user selects a .xml file.
+    /// </summary>
+    /// <returns>
+    /// string as the path to the file.
+    /// </returns>
     public string Path()
     {
       OpenFileDialog xmlFilePath = new OpenFileDialog();
@@ -79,6 +104,9 @@ namespace Simulator.Views
     {
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public void DrawMap()
     {
       var map = new Bitmap(Resources.galaxy);
@@ -100,14 +128,16 @@ namespace Simulator.Views
       }
     }
 
-    public void DrawAirplane(string type, Position position, double angle)
-    {
-      var simCanevas = mapPanel.CreateGraphics();
-      Image[] airports = { Resources.x_wing, Resources.Coruscant, Resources.hoth };
-      var airport = new Bitmap(airports[0]);
-      simCanevas.DrawImage(airport, position.X - 40, position.Y - 40, 80, 80);
-    }
-
+    /// <summary>
+    /// Rotates the image with a given angle.
+    /// </summary>
+    /// <param name="img">
+    /// Image to be rotated.
+    /// </param>
+    /// <param name="rotationAngle">
+    /// Angle for the rotation.
+    /// </param>
+    /// <returns></returns>
     public Image RotateImage(Image img, float rotationAngle)
     {
       //create an empty Bitmap image
@@ -134,6 +164,11 @@ namespace Simulator.Views
       return bmp;
     }
 
+    /// <summary>
+    /// Method that refresh the form every periode of time.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void mapPanel_Paint(object sender, PaintEventArgs e)
     {
       DrawMap();
