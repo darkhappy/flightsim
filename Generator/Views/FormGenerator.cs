@@ -12,7 +12,7 @@ namespace Generator
   {
     private FormMap _mapPos;
     private SoundPlayer _player;
-    private string currentPath;
+    private string currentPath = "";
 
     /// <summary>
     ///   Constructor of the form
@@ -55,6 +55,10 @@ namespace Generator
 
       //Default selected type
       cmbType.SelectedIndex = 1;
+      gbAirplanes.Enabled = false; 
+      gbAirports.Enabled = false;
+
+      EnableGroups(false);
     }
 
     /// <summary>
@@ -285,11 +289,7 @@ namespace Generator
       try { listAirports.Items[selected-1].Selected = true; }
       catch 
       {
-        txbAirportId.Text = "";
-        txbAirportName.Text = "";
-        txbPosition.Text = "";
-        numPTraffic.Text = "5";
-        numCTraffic.Text = "5";
+        ResetAirportInfo();
       };
     }
 
@@ -303,15 +303,7 @@ namespace Generator
       try { listAirplanes.Items[selected-1].Selected = true; }
       catch 
       {
-        txbAirplaneId.Text = "";
-        txbAirplaneName.Text = "";
-        cmbType.Text = "Cargo";
-
-        numSpeed.Value = 900;
-        numCapacity.Value = 15;
-        numEmbarking.Value = 15;
-        numDisembarking.Value = 15;
-        numMaintenance.Value = 15;
+        ResetAirplaneInfo();
       };
     }
 
@@ -405,12 +397,22 @@ namespace Generator
 
     private void subToolOpen_Click(object sender, EventArgs e)
     {
+      if (currentPath != "")
+      {
+        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
+        if (dialogResult == DialogResult.Yes)
+        {
+          Controllers.Generator.Instance.Export(currentPath);
+        }
+        else if (dialogResult == DialogResult.Cancel)
+        {
+          return;
+        }
+      }
+
       string path = OpenPath();
 
-      if (path == "")
-      {
-        return;
-      }
+      if (path == "") return;     
 
       Controllers.Generator.Instance.Import(path);
       currentPath = path;
@@ -418,37 +420,63 @@ namespace Generator
 
       if (listAirports.Items.Count > 0)
         listAirports.Items[0].Selected = true;
+
+      EnableGroups(true);
     }
 
     private void subToolNew_Click(object sender, EventArgs e)
     {
-      string path = SavePath();
-
-      if (path == "")
+      if (currentPath != "")
       {
-        return;
+        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
+        if (dialogResult == DialogResult.Yes)
+        {
+          Controllers.Generator.Instance.Export(currentPath);
+        }
+        else if (dialogResult == DialogResult.Cancel)
+        {
+          return;
+        }
       }
 
+      string path = SavePath();
+
+      if (path == "") return;
+      
       Controllers.Generator.Instance.Import(path);
       currentPath = path;
       this.Text = "Scenario Generator - " + currentPath;
 
       if (listAirports.Items.Count > 0)
         listAirports.Items[0].Selected = true;
+
+      EnableGroups(true);
     }
 
     private void subToolSave_Click(object sender, EventArgs e)
     {
+      if (currentPath == "")
+      {
+        MessageBox.Show("No scenario to save", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
       Controllers.Generator.Instance.Export(currentPath);
     }
 
     private void subToolSaveAs_Click(object sender, EventArgs e)
     {
+      if (currentPath == "")
+      {
+        MessageBox.Show("No scenario to save", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
       string path = SavePath();
 
       if (path == "")
       {
-        MessageBox.Show("Choose a valid XML file");
+        MessageBox.Show("Choose a valid XML file", "XML Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         return;
       }
 
@@ -460,17 +488,42 @@ namespace Generator
         listAirports.Items[0].Selected = true;
     }
 
-    private void subToolDelete_Click(object sender, EventArgs e)
+    private void subToolClose_Click(object sender, EventArgs e)
     {
+      if (currentPath == "")
+      {
+        MessageBox.Show("No scenario to close", "Warning" , MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
 
+      DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+      if (dialogResult == DialogResult.Yes)
+      {
+        Controllers.Generator.Instance.Export(currentPath);
+      }
+      else if (dialogResult == DialogResult.Cancel)
+      {
+        return;
+      }
+
+      //Reset View
+      listAirports.Items.Clear();
+      listAirplanes.Items.Clear();
+      ResetAirplaneInfo();
+      ResetAirportInfo();
+
+      this.Text = "Scenario Generator";
+      currentPath = "";
+
+      EnableGroups(false);
     }
 
     public string OpenPath()
     {
       OpenFileDialog xmlFilePath = new OpenFileDialog();
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
-      string filePath;
       var result = xmlFilePath.ShowDialog();
+
       return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
     }
 
@@ -478,9 +531,37 @@ namespace Generator
     {
       SaveFileDialog xmlFilePath = new SaveFileDialog();
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
-      string filePath;
       var result = xmlFilePath.ShowDialog();
+
       return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
+    }
+
+    private void EnableGroups(bool enabled)
+    {
+      gbAirplanes.Enabled = enabled;
+      gbAirports.Enabled = enabled;
+    }
+
+    private void ResetAirportInfo()
+    {
+      txbAirportId.Text = "";
+      txbAirportName.Text = "";
+      txbPosition.Text = "";
+      numPTraffic.Text = "5";
+      numCTraffic.Text = "5";
+    }
+
+    private void ResetAirplaneInfo()
+    {
+      txbAirplaneId.Text = "";
+      txbAirplaneName.Text = "";
+      cmbType.Text = "Cargo";
+
+      numSpeed.Value = 900;
+      numCapacity.Value = 15;
+      numEmbarking.Value = 15;
+      numDisembarking.Value = 15;
+      numMaintenance.Value = 15;
     }
   }
 }

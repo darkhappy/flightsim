@@ -77,12 +77,12 @@ namespace Generator
       this.subToolOpen = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolNew = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolSave = new System.Windows.Forms.ToolStripMenuItem();
-      this.subToolDelete = new System.Windows.Forms.ToolStripMenuItem();
+      this.subToolSaveAs = new System.Windows.Forms.ToolStripMenuItem();
+      this.subToolClose = new System.Windows.Forms.ToolStripMenuItem();
       this.toolMusic = new System.Windows.Forms.ToolStripDropDownButton();
       this.subToolStart = new System.Windows.Forms.ToolStripMenuItem();
       this.subToolStop = new System.Windows.Forms.ToolStripMenuItem();
       this.labError = new System.Windows.Forms.Label();
-      this.subToolSaveAs = new System.Windows.Forms.ToolStripMenuItem();
       this.gbAirports.SuspendLayout();
       this.gbTraffic.SuspendLayout();
       ((System.ComponentModel.ISupportInitialize)(this.numPTraffic)).BeginInit();
@@ -111,11 +111,9 @@ namespace Generator
       this.gbAirports.Controls.Add(this.labAiportName);
       this.gbAirports.Controls.Add(this.txbAirportName);
       this.gbAirports.Controls.Add(this.listAirports);
-      this.gbAirports.Location = new System.Drawing.Point(24, 45);
-      this.gbAirports.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.gbAirports.Location = new System.Drawing.Point(16, 29);
       this.gbAirports.Name = "gbAirports";
-      this.gbAirports.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.gbAirports.Size = new System.Drawing.Size(1678, 532);
+      this.gbAirports.Size = new System.Drawing.Size(1119, 346);
       this.gbAirports.TabIndex = 0;
       this.gbAirports.TabStop = false;
       this.gbAirports.Text = "Airports";
@@ -124,28 +122,27 @@ namespace Generator
       // 
       this.labHelpPosition.AutoSize = true;
       this.labHelpPosition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-      this.labHelpPosition.Location = new System.Drawing.Point(1336, 135);
+      this.labHelpPosition.Location = new System.Drawing.Point(891, 88);
+      this.labHelpPosition.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
       this.labHelpPosition.Name = "labHelpPosition";
-      this.labHelpPosition.Size = new System.Drawing.Size(193, 17);
+      this.labHelpPosition.Size = new System.Drawing.Size(145, 13);
       this.labHelpPosition.TabIndex = 15;
       this.labHelpPosition.Text = "*Click to select a new position";
       // 
       // labAirportId
       // 
       this.labAirportId.AutoSize = true;
-      this.labAirportId.Location = new System.Drawing.Point(1221, 32);
-      this.labAirportId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labAirportId.Location = new System.Drawing.Point(814, 21);
       this.labAirportId.Name = "labAirportId";
-      this.labAirportId.Size = new System.Drawing.Size(75, 20);
+      this.labAirportId.Size = new System.Drawing.Size(50, 13);
       this.labAirportId.TabIndex = 14;
       this.labAirportId.Text = "Identifier:";
       // 
       // txbAirportId
       // 
-      this.txbAirportId.Location = new System.Drawing.Point(1341, 29);
-      this.txbAirportId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.txbAirportId.Location = new System.Drawing.Point(894, 19);
       this.txbAirportId.Name = "txbAirportId";
-      this.txbAirportId.Size = new System.Drawing.Size(316, 26);
+      this.txbAirportId.Size = new System.Drawing.Size(212, 20);
       this.txbAirportId.TabIndex = 1;
       // 
       // gbTraffic
@@ -154,17 +151,18 @@ namespace Generator
       this.gbTraffic.Controls.Add(this.numCTraffic);
       this.gbTraffic.Controls.Add(this.labPTraffic);
       this.gbTraffic.Controls.Add(this.labCTraffic);
-      this.gbTraffic.Location = new System.Drawing.Point(1226, 220);
+      this.gbTraffic.Location = new System.Drawing.Point(817, 143);
+      this.gbTraffic.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
       this.gbTraffic.Name = "gbTraffic";
-      this.gbTraffic.Size = new System.Drawing.Size(434, 168);
+      this.gbTraffic.Padding = new System.Windows.Forms.Padding(2, 2, 2, 2);
+      this.gbTraffic.Size = new System.Drawing.Size(289, 109);
       this.gbTraffic.TabIndex = 4;
       this.gbTraffic.TabStop = false;
       this.gbTraffic.Text = "Traffic (Min: 1, Max: 10)";
       // 
       // numPTraffic
       // 
-      this.numPTraffic.Location = new System.Drawing.Point(189, 55);
-      this.numPTraffic.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numPTraffic.Location = new System.Drawing.Point(126, 36);
       this.numPTraffic.Maximum = new decimal(new int[] {
             10,
             0,
@@ -176,7 +174,7 @@ namespace Generator
             0,
             0});
       this.numPTraffic.Name = "numPTraffic";
-      this.numPTraffic.Size = new System.Drawing.Size(236, 26);
+      this.numPTraffic.Size = new System.Drawing.Size(157, 20);
       this.numPTraffic.TabIndex = 1;
       this.numPTraffic.Value = new decimal(new int[] {
             5,
@@ -186,8 +184,7 @@ namespace Generator
       // 
       // numCTraffic
       // 
-      this.numCTraffic.Location = new System.Drawing.Point(189, 109);
-      this.numCTraffic.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numCTraffic.Location = new System.Drawing.Point(126, 71);
       this.numCTraffic.Maximum = new decimal(new int[] {
             10,
             0,
@@ -199,7 +196,7 @@ namespace Generator
             0,
             0});
       this.numCTraffic.Name = "numCTraffic";
-      this.numCTraffic.Size = new System.Drawing.Size(236, 26);
+      this.numCTraffic.Size = new System.Drawing.Size(157, 20);
       this.numCTraffic.TabIndex = 2;
       this.numCTraffic.Value = new decimal(new int[] {
             5,
@@ -211,10 +208,9 @@ namespace Generator
       // 
       this.labPTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
       this.labPTraffic.AutoSize = true;
-      this.labPTraffic.Location = new System.Drawing.Point(10, 55);
-      this.labPTraffic.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labPTraffic.Location = new System.Drawing.Point(7, 36);
       this.labPTraffic.Name = "labPTraffic";
-      this.labPTraffic.Size = new System.Drawing.Size(137, 20);
+      this.labPTraffic.Size = new System.Drawing.Size(93, 13);
       this.labPTraffic.TabIndex = 8;
       this.labPTraffic.Text = "Passenger Traffic:";
       // 
@@ -222,39 +218,35 @@ namespace Generator
       // 
       this.labCTraffic.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
       this.labCTraffic.AutoSize = true;
-      this.labCTraffic.Location = new System.Drawing.Point(10, 112);
-      this.labCTraffic.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labCTraffic.Location = new System.Drawing.Point(7, 73);
       this.labCTraffic.Name = "labCTraffic";
-      this.labCTraffic.Size = new System.Drawing.Size(104, 20);
+      this.labCTraffic.Size = new System.Drawing.Size(71, 13);
       this.labCTraffic.TabIndex = 10;
       this.labCTraffic.Text = "Cargo Traffic:";
       // 
       // txbPosition
       // 
-      this.txbPosition.Location = new System.Drawing.Point(1341, 157);
-      this.txbPosition.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.txbPosition.Location = new System.Drawing.Point(894, 102);
       this.txbPosition.Name = "txbPosition";
       this.txbPosition.ReadOnly = true;
-      this.txbPosition.Size = new System.Drawing.Size(316, 26);
+      this.txbPosition.Size = new System.Drawing.Size(212, 20);
       this.txbPosition.TabIndex = 3;
       this.txbPosition.Click += new System.EventHandler(this.txbPosition_Click);
       // 
       // labPosition
       // 
       this.labPosition.AutoSize = true;
-      this.labPosition.Location = new System.Drawing.Point(1221, 157);
-      this.labPosition.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labPosition.Location = new System.Drawing.Point(814, 102);
       this.labPosition.Name = "labPosition";
-      this.labPosition.Size = new System.Drawing.Size(69, 20);
+      this.labPosition.Size = new System.Drawing.Size(47, 13);
       this.labPosition.TabIndex = 6;
       this.labPosition.Text = "Position:";
       // 
       // btnDeleteAirport
       // 
-      this.btnDeleteAirport.Location = new System.Drawing.Point(1514, 488);
-      this.btnDeleteAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnDeleteAirport.Location = new System.Drawing.Point(1009, 317);
       this.btnDeleteAirport.Name = "btnDeleteAirport";
-      this.btnDeleteAirport.Size = new System.Drawing.Size(146, 35);
+      this.btnDeleteAirport.Size = new System.Drawing.Size(97, 23);
       this.btnDeleteAirport.TabIndex = 7;
       this.btnDeleteAirport.Text = "Delete";
       this.btnDeleteAirport.UseVisualStyleBackColor = true;
@@ -262,10 +254,9 @@ namespace Generator
       // 
       // btnEditAirport
       // 
-      this.btnEditAirport.Location = new System.Drawing.Point(1359, 488);
-      this.btnEditAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnEditAirport.Location = new System.Drawing.Point(906, 317);
       this.btnEditAirport.Name = "btnEditAirport";
-      this.btnEditAirport.Size = new System.Drawing.Size(146, 35);
+      this.btnEditAirport.Size = new System.Drawing.Size(97, 23);
       this.btnEditAirport.TabIndex = 6;
       this.btnEditAirport.Text = "Edit";
       this.btnEditAirport.UseVisualStyleBackColor = true;
@@ -273,10 +264,9 @@ namespace Generator
       // 
       // btnAddAirport
       // 
-      this.btnAddAirport.Location = new System.Drawing.Point(1204, 488);
-      this.btnAddAirport.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnAddAirport.Location = new System.Drawing.Point(803, 317);
       this.btnAddAirport.Name = "btnAddAirport";
-      this.btnAddAirport.Size = new System.Drawing.Size(146, 35);
+      this.btnAddAirport.Size = new System.Drawing.Size(97, 23);
       this.btnAddAirport.TabIndex = 5;
       this.btnAddAirport.Text = "Add";
       this.btnAddAirport.UseVisualStyleBackColor = true;
@@ -285,30 +275,27 @@ namespace Generator
       // labAiportName
       // 
       this.labAiportName.AutoSize = true;
-      this.labAiportName.Location = new System.Drawing.Point(1221, 92);
-      this.labAiportName.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labAiportName.Location = new System.Drawing.Point(814, 60);
       this.labAiportName.Name = "labAiportName";
-      this.labAiportName.Size = new System.Drawing.Size(55, 20);
+      this.labAiportName.Size = new System.Drawing.Size(38, 13);
       this.labAiportName.TabIndex = 2;
       this.labAiportName.Text = "Name:";
       // 
       // txbAirportName
       // 
-      this.txbAirportName.Location = new System.Drawing.Point(1341, 88);
-      this.txbAirportName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.txbAirportName.Location = new System.Drawing.Point(894, 57);
       this.txbAirportName.Name = "txbAirportName";
-      this.txbAirportName.Size = new System.Drawing.Size(316, 26);
+      this.txbAirportName.Size = new System.Drawing.Size(212, 20);
       this.txbAirportName.TabIndex = 2;
       // 
       // listAirports
       // 
       this.listAirports.FullRowSelect = true;
       this.listAirports.HideSelection = false;
-      this.listAirports.Location = new System.Drawing.Point(10, 31);
-      this.listAirports.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.listAirports.Location = new System.Drawing.Point(7, 20);
       this.listAirports.MultiSelect = false;
       this.listAirports.Name = "listAirports";
-      this.listAirports.Size = new System.Drawing.Size(1183, 490);
+      this.listAirports.Size = new System.Drawing.Size(790, 320);
       this.listAirports.TabIndex = 0;
       this.listAirports.UseCompatibleStateImageBehavior = false;
       this.listAirports.SelectedIndexChanged += new System.EventHandler(this.listAirports_SelectedIndexChanged);
@@ -330,26 +317,23 @@ namespace Generator
       this.gbAirplanes.Controls.Add(this.labAirplaneId);
       this.gbAirplanes.Controls.Add(this.txbAirplaneId);
       this.gbAirplanes.Controls.Add(this.listAirplanes);
-      this.gbAirplanes.Location = new System.Drawing.Point(24, 602);
-      this.gbAirplanes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.gbAirplanes.Location = new System.Drawing.Point(16, 391);
       this.gbAirplanes.Name = "gbAirplanes";
-      this.gbAirplanes.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.gbAirplanes.Size = new System.Drawing.Size(1678, 532);
+      this.gbAirplanes.Size = new System.Drawing.Size(1119, 346);
       this.gbAirplanes.TabIndex = 2;
       this.gbAirplanes.TabStop = false;
       this.gbAirplanes.Text = "Airplanes";
       // 
       // numSpeed
       // 
-      this.numSpeed.Location = new System.Drawing.Point(1341, 215);
-      this.numSpeed.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numSpeed.Location = new System.Drawing.Point(894, 140);
       this.numSpeed.Maximum = new decimal(new int[] {
             2000,
             0,
             0,
             0});
       this.numSpeed.Name = "numSpeed";
-      this.numSpeed.Size = new System.Drawing.Size(92, 26);
+      this.numSpeed.Size = new System.Drawing.Size(61, 20);
       this.numSpeed.TabIndex = 4;
       this.numSpeed.UseWaitCursor = true;
       this.numSpeed.Value = new decimal(new int[] {
@@ -362,19 +346,17 @@ namespace Generator
       // 
       this.labSpeed.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
       this.labSpeed.AutoSize = true;
-      this.labSpeed.Location = new System.Drawing.Point(1221, 215);
-      this.labSpeed.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labSpeed.Location = new System.Drawing.Point(814, 140);
       this.labSpeed.Name = "labSpeed";
-      this.labSpeed.Size = new System.Drawing.Size(108, 20);
+      this.labSpeed.Size = new System.Drawing.Size(75, 13);
       this.labSpeed.TabIndex = 15;
       this.labSpeed.Text = "Speed (km/h):";
       // 
       // numCapacity
       // 
-      this.numCapacity.Location = new System.Drawing.Point(1558, 215);
-      this.numCapacity.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numCapacity.Location = new System.Drawing.Point(1039, 140);
       this.numCapacity.Name = "numCapacity";
-      this.numCapacity.Size = new System.Drawing.Size(92, 26);
+      this.numCapacity.Size = new System.Drawing.Size(61, 20);
       this.numCapacity.TabIndex = 5;
       this.numCapacity.Value = new decimal(new int[] {
             15,
@@ -390,21 +372,18 @@ namespace Generator
       this.gbTimeOptions.Controls.Add(this.label1);
       this.gbTimeOptions.Controls.Add(this.numEmbarking);
       this.gbTimeOptions.Controls.Add(this.labEmbarking);
-      this.gbTimeOptions.Location = new System.Drawing.Point(1226, 274);
-      this.gbTimeOptions.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.gbTimeOptions.Location = new System.Drawing.Point(817, 178);
       this.gbTimeOptions.Name = "gbTimeOptions";
-      this.gbTimeOptions.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-      this.gbTimeOptions.Size = new System.Drawing.Size(434, 205);
+      this.gbTimeOptions.Size = new System.Drawing.Size(289, 133);
       this.gbTimeOptions.TabIndex = 6;
       this.gbTimeOptions.TabStop = false;
       this.gbTimeOptions.Text = "Time (Minutes)";
       // 
       // numMaintenance
       // 
-      this.numMaintenance.Location = new System.Drawing.Point(188, 151);
-      this.numMaintenance.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numMaintenance.Location = new System.Drawing.Point(125, 98);
       this.numMaintenance.Name = "numMaintenance";
-      this.numMaintenance.Size = new System.Drawing.Size(236, 26);
+      this.numMaintenance.Size = new System.Drawing.Size(157, 20);
       this.numMaintenance.TabIndex = 3;
       this.numMaintenance.Value = new decimal(new int[] {
             15,
@@ -415,19 +394,17 @@ namespace Generator
       // labMaintenance
       // 
       this.labMaintenance.AutoSize = true;
-      this.labMaintenance.Location = new System.Drawing.Point(9, 154);
-      this.labMaintenance.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labMaintenance.Location = new System.Drawing.Point(6, 100);
       this.labMaintenance.Name = "labMaintenance";
-      this.labMaintenance.Size = new System.Drawing.Size(105, 20);
+      this.labMaintenance.Size = new System.Drawing.Size(72, 13);
       this.labMaintenance.TabIndex = 8;
       this.labMaintenance.Text = "Maintenance:";
       // 
       // numDisembarking
       // 
-      this.numDisembarking.Location = new System.Drawing.Point(189, 100);
-      this.numDisembarking.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numDisembarking.Location = new System.Drawing.Point(126, 65);
       this.numDisembarking.Name = "numDisembarking";
-      this.numDisembarking.Size = new System.Drawing.Size(236, 26);
+      this.numDisembarking.Size = new System.Drawing.Size(157, 20);
       this.numDisembarking.TabIndex = 2;
       this.numDisembarking.Value = new decimal(new int[] {
             15,
@@ -438,19 +415,17 @@ namespace Generator
       // label1
       // 
       this.label1.AutoSize = true;
-      this.label1.Location = new System.Drawing.Point(8, 103);
-      this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.label1.Location = new System.Drawing.Point(5, 67);
       this.label1.Name = "label1";
-      this.label1.Size = new System.Drawing.Size(110, 20);
+      this.label1.Size = new System.Drawing.Size(74, 13);
       this.label1.TabIndex = 2;
       this.label1.Text = "Disembarking:";
       // 
       // numEmbarking
       // 
-      this.numEmbarking.Location = new System.Drawing.Point(188, 49);
-      this.numEmbarking.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.numEmbarking.Location = new System.Drawing.Point(125, 32);
       this.numEmbarking.Name = "numEmbarking";
-      this.numEmbarking.Size = new System.Drawing.Size(236, 26);
+      this.numEmbarking.Size = new System.Drawing.Size(157, 20);
       this.numEmbarking.TabIndex = 1;
       this.numEmbarking.Value = new decimal(new int[] {
             15,
@@ -461,10 +436,9 @@ namespace Generator
       // labEmbarking
       // 
       this.labEmbarking.AutoSize = true;
-      this.labEmbarking.Location = new System.Drawing.Point(9, 52);
-      this.labEmbarking.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labEmbarking.Location = new System.Drawing.Point(6, 34);
       this.labEmbarking.Name = "labEmbarking";
-      this.labEmbarking.Size = new System.Drawing.Size(89, 20);
+      this.labEmbarking.Size = new System.Drawing.Size(60, 13);
       this.labEmbarking.TabIndex = 0;
       this.labEmbarking.Text = "Embarking:";
       // 
@@ -478,10 +452,9 @@ namespace Generator
             "Fight",
             "Rescue",
             "Scout"});
-      this.cmbType.Location = new System.Drawing.Point(1341, 154);
-      this.cmbType.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.cmbType.Location = new System.Drawing.Point(894, 100);
       this.cmbType.Name = "cmbType";
-      this.cmbType.Size = new System.Drawing.Size(316, 28);
+      this.cmbType.Size = new System.Drawing.Size(212, 21);
       this.cmbType.TabIndex = 3;
       this.cmbType.SelectedIndexChanged += new System.EventHandler(this.cmbType_SelectedIndexChanged);
       // 
@@ -489,10 +462,9 @@ namespace Generator
       // 
       this.labCapacity.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
       this.labCapacity.AutoSize = true;
-      this.labCapacity.Location = new System.Drawing.Point(1448, 215);
-      this.labCapacity.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labCapacity.Location = new System.Drawing.Point(965, 140);
       this.labCapacity.Name = "labCapacity";
-      this.labCapacity.Size = new System.Drawing.Size(107, 20);
+      this.labCapacity.Size = new System.Drawing.Size(74, 13);
       this.labCapacity.TabIndex = 10;
       this.labCapacity.Text = "Max Capacity:";
       // 
@@ -500,37 +472,33 @@ namespace Generator
       // 
       this.labType.AccessibleRole = System.Windows.Forms.AccessibleRole.WhiteSpace;
       this.labType.AutoSize = true;
-      this.labType.Location = new System.Drawing.Point(1221, 154);
-      this.labType.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labType.Location = new System.Drawing.Point(814, 100);
       this.labType.Name = "labType";
-      this.labType.Size = new System.Drawing.Size(47, 20);
+      this.labType.Size = new System.Drawing.Size(34, 13);
       this.labType.TabIndex = 8;
       this.labType.Text = "Type:";
       // 
       // txbAirplaneName
       // 
-      this.txbAirplaneName.Location = new System.Drawing.Point(1341, 97);
-      this.txbAirplaneName.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.txbAirplaneName.Location = new System.Drawing.Point(894, 63);
       this.txbAirplaneName.Name = "txbAirplaneName";
-      this.txbAirplaneName.Size = new System.Drawing.Size(316, 26);
+      this.txbAirplaneName.Size = new System.Drawing.Size(212, 20);
       this.txbAirplaneName.TabIndex = 2;
       // 
       // labNameAirport
       // 
       this.labNameAirport.AutoSize = true;
-      this.labNameAirport.Location = new System.Drawing.Point(1221, 97);
-      this.labNameAirport.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labNameAirport.Location = new System.Drawing.Point(814, 63);
       this.labNameAirport.Name = "labNameAirport";
-      this.labNameAirport.Size = new System.Drawing.Size(55, 20);
+      this.labNameAirport.Size = new System.Drawing.Size(38, 13);
       this.labNameAirport.TabIndex = 6;
       this.labNameAirport.Text = "Name:";
       // 
       // btnDeleteAirplane
       // 
-      this.btnDeleteAirplane.Location = new System.Drawing.Point(1514, 488);
-      this.btnDeleteAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnDeleteAirplane.Location = new System.Drawing.Point(1009, 317);
       this.btnDeleteAirplane.Name = "btnDeleteAirplane";
-      this.btnDeleteAirplane.Size = new System.Drawing.Size(146, 35);
+      this.btnDeleteAirplane.Size = new System.Drawing.Size(97, 23);
       this.btnDeleteAirplane.TabIndex = 9;
       this.btnDeleteAirplane.Text = "Delete";
       this.btnDeleteAirplane.UseVisualStyleBackColor = true;
@@ -538,10 +506,9 @@ namespace Generator
       // 
       // btnEditAirplane
       // 
-      this.btnEditAirplane.Location = new System.Drawing.Point(1359, 488);
-      this.btnEditAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnEditAirplane.Location = new System.Drawing.Point(906, 317);
       this.btnEditAirplane.Name = "btnEditAirplane";
-      this.btnEditAirplane.Size = new System.Drawing.Size(146, 35);
+      this.btnEditAirplane.Size = new System.Drawing.Size(97, 23);
       this.btnEditAirplane.TabIndex = 8;
       this.btnEditAirplane.Text = "Edit";
       this.btnEditAirplane.UseVisualStyleBackColor = true;
@@ -549,10 +516,9 @@ namespace Generator
       // 
       // btnAddAirplane
       // 
-      this.btnAddAirplane.Location = new System.Drawing.Point(1204, 488);
-      this.btnAddAirplane.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.btnAddAirplane.Location = new System.Drawing.Point(803, 317);
       this.btnAddAirplane.Name = "btnAddAirplane";
-      this.btnAddAirplane.Size = new System.Drawing.Size(146, 35);
+      this.btnAddAirplane.Size = new System.Drawing.Size(97, 23);
       this.btnAddAirplane.TabIndex = 7;
       this.btnAddAirplane.Text = "Add";
       this.btnAddAirplane.UseVisualStyleBackColor = true;
@@ -561,30 +527,27 @@ namespace Generator
       // labAirplaneId
       // 
       this.labAirplaneId.AutoSize = true;
-      this.labAirplaneId.Location = new System.Drawing.Point(1221, 46);
-      this.labAirplaneId.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+      this.labAirplaneId.Location = new System.Drawing.Point(814, 30);
       this.labAirplaneId.Name = "labAirplaneId";
-      this.labAirplaneId.Size = new System.Drawing.Size(75, 20);
+      this.labAirplaneId.Size = new System.Drawing.Size(50, 13);
       this.labAirplaneId.TabIndex = 2;
       this.labAirplaneId.Text = "Identifier:";
       // 
       // txbAirplaneId
       // 
-      this.txbAirplaneId.Location = new System.Drawing.Point(1341, 42);
-      this.txbAirplaneId.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.txbAirplaneId.Location = new System.Drawing.Point(894, 27);
       this.txbAirplaneId.Name = "txbAirplaneId";
-      this.txbAirplaneId.Size = new System.Drawing.Size(316, 26);
+      this.txbAirplaneId.Size = new System.Drawing.Size(212, 20);
       this.txbAirplaneId.TabIndex = 1;
       // 
       // listAirplanes
       // 
       this.listAirplanes.FullRowSelect = true;
       this.listAirplanes.HideSelection = false;
-      this.listAirplanes.Location = new System.Drawing.Point(10, 31);
-      this.listAirplanes.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+      this.listAirplanes.Location = new System.Drawing.Point(7, 20);
       this.listAirplanes.MultiSelect = false;
       this.listAirplanes.Name = "listAirplanes";
-      this.listAirplanes.Size = new System.Drawing.Size(1183, 490);
+      this.listAirplanes.Size = new System.Drawing.Size(790, 320);
       this.listAirplanes.TabIndex = 0;
       this.listAirplanes.UseCompatibleStateImageBehavior = false;
       this.listAirplanes.SelectedIndexChanged += new System.EventHandler(this.listAirplanes_SelectedIndexChanged);
@@ -606,8 +569,8 @@ namespace Generator
             this.toolMusic});
       this.toolStrip.Location = new System.Drawing.Point(0, 0);
       this.toolStrip.Name = "toolStrip";
-      this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 3, 0);
-      this.toolStrip.Size = new System.Drawing.Size(1730, 34);
+      this.toolStrip.Padding = new System.Windows.Forms.Padding(0, 0, 2, 0);
+      this.toolStrip.Size = new System.Drawing.Size(1153, 25);
       this.toolStrip.TabIndex = 13;
       this.toolStrip.Text = "toolStrip1";
       // 
@@ -619,40 +582,47 @@ namespace Generator
             this.subToolNew,
             this.subToolSave,
             this.subToolSaveAs,
-            this.subToolDelete});
+            this.subToolClose});
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolFile.Name = "toolFile";
-      this.toolFile.Size = new System.Drawing.Size(56, 29);
+      this.toolFile.Size = new System.Drawing.Size(38, 22);
       this.toolFile.Text = "File";
       // 
       // subToolOpen
       // 
       this.subToolOpen.Name = "subToolOpen";
-      this.subToolOpen.Size = new System.Drawing.Size(270, 34);
+      this.subToolOpen.Size = new System.Drawing.Size(180, 22);
       this.subToolOpen.Text = "Open...";
       this.subToolOpen.Click += new System.EventHandler(this.subToolOpen_Click);
       // 
       // subToolNew
       // 
       this.subToolNew.Name = "subToolNew";
-      this.subToolNew.Size = new System.Drawing.Size(270, 34);
+      this.subToolNew.Size = new System.Drawing.Size(180, 22);
       this.subToolNew.Text = "New...";
       this.subToolNew.Click += new System.EventHandler(this.subToolNew_Click);
       // 
       // subToolSave
       // 
       this.subToolSave.Name = "subToolSave";
-      this.subToolSave.Size = new System.Drawing.Size(270, 34);
+      this.subToolSave.Size = new System.Drawing.Size(180, 22);
       this.subToolSave.Text = "Save";
       this.subToolSave.Click += new System.EventHandler(this.subToolSave_Click);
       // 
-      // subToolDelete
+      // subToolSaveAs
       // 
-      this.subToolDelete.Name = "subToolDelete";
-      this.subToolDelete.Size = new System.Drawing.Size(270, 34);
-      this.subToolDelete.Text = "Delete";
-      this.subToolDelete.Click += new System.EventHandler(this.subToolDelete_Click);
+      this.subToolSaveAs.Name = "subToolSaveAs";
+      this.subToolSaveAs.Size = new System.Drawing.Size(180, 22);
+      this.subToolSaveAs.Text = "Save as...";
+      this.subToolSaveAs.Click += new System.EventHandler(this.subToolSaveAs_Click);
+      // 
+      // subToolClose
+      // 
+      this.subToolClose.Name = "subToolClose";
+      this.subToolClose.Size = new System.Drawing.Size(180, 22);
+      this.subToolClose.Text = "Close";
+      this.subToolClose.Click += new System.EventHandler(this.subToolClose_Click);
       // 
       // toolMusic
       // 
@@ -663,20 +633,20 @@ namespace Generator
       this.toolMusic.Image = ((System.Drawing.Image)(resources.GetObject("toolMusic.Image")));
       this.toolMusic.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolMusic.Name = "toolMusic";
-      this.toolMusic.Size = new System.Drawing.Size(76, 29);
+      this.toolMusic.Size = new System.Drawing.Size(52, 22);
       this.toolMusic.Text = "Music";
       // 
       // subToolStart
       // 
       this.subToolStart.Name = "subToolStart";
-      this.subToolStart.Size = new System.Drawing.Size(270, 34);
+      this.subToolStart.Size = new System.Drawing.Size(98, 22);
       this.subToolStart.Text = "Start";
       this.subToolStart.Click += new System.EventHandler(this.subToolStart_Click);
       // 
       // subToolStop
       // 
       this.subToolStop.Name = "subToolStop";
-      this.subToolStop.Size = new System.Drawing.Size(270, 34);
+      this.subToolStop.Size = new System.Drawing.Size(98, 22);
       this.subToolStop.Text = "Stop";
       this.subToolStop.Click += new System.EventHandler(this.subToolStop_Click);
       // 
@@ -685,31 +655,24 @@ namespace Generator
       this.labError.Anchor = System.Windows.Forms.AnchorStyles.Right;
       this.labError.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
       this.labError.ForeColor = System.Drawing.Color.Red;
-      this.labError.Location = new System.Drawing.Point(24, 1138);
+      this.labError.Location = new System.Drawing.Point(16, 740);
+      this.labError.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
       this.labError.Name = "labError";
-      this.labError.Size = new System.Drawing.Size(1678, 31);
+      this.labError.Size = new System.Drawing.Size(1119, 20);
       this.labError.TabIndex = 12;
       this.labError.Text = "Error: This is an invisible error, please change text to fit your need";
       this.labError.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
       this.labError.Visible = false;
       // 
-      // subToolSaveAs
-      // 
-      this.subToolSaveAs.Name = "subToolSaveAs";
-      this.subToolSaveAs.Size = new System.Drawing.Size(270, 34);
-      this.subToolSaveAs.Text = "Save as...";
-      this.subToolSaveAs.Click += new System.EventHandler(this.subToolSaveAs_Click);
-      // 
       // FormGenerator
       // 
-      this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
+      this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(1730, 1178);
+      this.ClientSize = new System.Drawing.Size(1153, 766);
       this.Controls.Add(this.labError);
       this.Controls.Add(this.toolStrip);
       this.Controls.Add(this.gbAirplanes);
       this.Controls.Add(this.gbAirports);
-      this.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
       this.Name = "FormGenerator";
       this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
       this.Text = "Scenario Generator";
@@ -779,7 +742,7 @@ namespace Generator
     private ToolStripMenuItem subToolOpen;
     private ToolStripMenuItem subToolNew;
     private ToolStripMenuItem subToolSave;
-    private ToolStripMenuItem subToolDelete;
+    private ToolStripMenuItem subToolClose;
     private ToolStripDropDownButton toolMusic;
     private ToolStripMenuItem subToolStart;
     private ToolStripMenuItem subToolStop;
