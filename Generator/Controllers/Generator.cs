@@ -49,11 +49,11 @@ namespace Generator.Controllers
       _frmGen.UpdateAirplanes(_scenario.GetAirplanesInfo(id));
     }
 
-    public void AddAirplane(string id, AirplaneInfo info)
+    public void AddAirplane(string Airportid, AirplaneInfo info)
     {
       try
       {
-        _scenario.AddAirplane(id, info);
+        _scenario.AddAirplane(Airportid, info);
       }
       catch (Exception e)
       {
@@ -61,7 +61,7 @@ namespace Generator.Controllers
       }
       finally
       {
-        UpdateAirplanes(id);
+        UpdateAirplanes(Airportid);
       }
     }
 

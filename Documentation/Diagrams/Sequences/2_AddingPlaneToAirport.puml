@@ -3,54 +3,69 @@ title Adding a plane into an airport
 
 actor User
 
-User -> FormGenerator ++: AddAirplane(object sender, system.EventAr0gs e)
-FormGenerator -> Generator ++: AddAirplane(string id, string[] data)
+User -> FormGenerator ++: btnAddAirplane_Click(object sender, EventArgs e)
 
-'Do we need to check if the same airplane already exists ?
-Generator -> Scenario ++: AiplaneExists(string name)
+' Get all airplaine Info
+FormGenerator -> FormGenerator ++: IsAirplaneValid()
+return true
+FormGenerator -> FormGenerator ++: GetAirplaneType(string type)
+return AirplaneType
+FormGenerator -> FormGenerator ++: GetAirplaneInfo(AirplaneType type)
+FormGenerator -> AirplaneInfo ++: new AirplaneInfo(string id, string name, AirplaneType type, int speed, int maintenanceTime)
+return AirplaneInfo
+return AirplaneInfo
 
-loop For each airport 
-    Scenario -> Airport ++: AirplaneExists(string name)
+'Create airplane
+FormGenerator -> Generator ++: AddAiplane(string airportId, AirplaneInfo info)
+Generator -> Scenario ++: AddAirplane(string airportId, AirplaneInfo info)
 
-    loop For each airplane 
-        Airport -> Airplane ++: SameName(string name)
-        return False
-    end
-
-    return False
+'If airplane exists
+Scenario -> Scenario ++: HasAirplane(string airplaneId)
+Scenario -> Scenario ++: GetAirportWithPlane(string airplaneCode)
+group For each airport 
+    Scenario -> Airport ++: HasPlane(string airplaneCode)
+    return false
 end
+return null
+return false
 
-return False
+'Add airplane to airport
+Scenario -> Scenario ++: GetAirport(string airportCode)
+return Airport
 
-'Add a new airplane to the model
-
-Generator -> Scenario ++: AddAirplane(string id, string[] data)
-Scenario -> Airport ++: AddAirplane(string[] data)
-Airport -> AirplaneFactory ++: CreateAirplane(string[] data)
-AirplaneFactory -> Airplane ++: new Airplane()
-Airplane -> Position ++: new Position(string longitude, string latitude)
-return Position
+Scenario -> Airport ++: AddAirplane(AirplaneInfo data)
+Airport -> AirplaneFactory ++: CreateAirplane(AirplaneInfo data)
+AirplaneFactory -> Airplane ++: new Airplane(AirplaneInfo data)
+return Airplane
 return Airplane
 return
 return
+
+' Update airplanes 
+Generator -> Generator ++: UpdateAirplanes(string airportId)
+
+'Get all airplanes
+Generator -> Scenario ++: GetAirplanesInfo(string airportId)
+Scenario ->  Scenario ++: GetAirport(string airportCode)
+return Airport
+
+Scenario -> Airport ++: GetAirplanesInfo()
+Airport -> Airplane ++: ToAirplaneInfo()
+group For each airplanes in the airport
+    Airplane -> AirplaneInfo ++: new AirplaneInfo(string id, string name, AirplaneType type, int speed, int maintenanceTime)
+    return AirplaneInfo
+end
+return List<AirplaneInfo>
+return List<AirplaneInfo>
+return List<AirplaneInfo>
+
+'Update View
+Generator -> FormGenerator ++: UpdateAirplanes(List<AirplaneInfo> airplanes)
+return
+return
 return
 
-'Get the scenario's string serialized form
-Generator -> Scenario ++: ToString()
-Scenario -> Airport ++: ToString()
-Airport -> Airplane ++: ToString()
-return string
-return string
-return string
-
-'Update the form
-Generator -> FormGenerator ++: UpdateView(string[] data, string id = null)
-FormGenerator -> FormGenerator ++: SelectAirport(string id)
-return
-FormGenerator -> FormGenerator ++: SelectAirplane(string id)
-return
-return
-
+FormGenerator -> FormGenerator ++: listAirplanes_SelectedIndexChanged(object sender, EventArgs e)
 return
 return
 
