@@ -11,6 +11,7 @@ namespace Simulator.Views
   public partial class FormSimulator : Form
   {
     private SoundPlayer _player;
+    private int _ticks = 0;
     public FormSimulator()
     {
       InitializeComponent();
@@ -45,6 +46,11 @@ namespace Simulator.Views
       {
         listClients.Items.Add(new ListViewItem(client));
       }
+
+      //Setup timer
+      timer.Enabled = true;
+      timer.Interval = 1000;
+      
 
       //Load music
       /*
@@ -172,6 +178,17 @@ namespace Simulator.Views
     private void mapPanel_Paint(object sender, PaintEventArgs e)
     {
       DrawMap();
+    }
+
+    private void timer_Tick(object sender, EventArgs e)
+    {
+      timerText.Text = DateTime.MinValue.AddSeconds(15 * _ticks).TimeOfDay.ToString();
+      ++_ticks;
+    }
+
+    private void speedUpDown_ValueChanged(object sender, EventArgs e)
+    {
+      timer.Interval = (int)(1000 / (int)speedUpDown.Value);
     }
   }
 }

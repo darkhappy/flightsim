@@ -98,7 +98,7 @@ namespace Simulator.Controllers
       {
       
       }
-      //UpdateEvents();
+      UpdateEvents();
       _scenario.HandleTick(time);
     }
 
@@ -110,17 +110,17 @@ namespace Simulator.Controllers
     /// </returns>
     private bool CanGenerate()
     {
-      //if time ok
+      //if time is 0 or made 1hour
       return true;
     }
 
     /// <summary>
-    /// 
+    /// Mke updates to all events
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
     private void UpdateEvents()
     {
-      throw new NotImplementedException();
+      
     }
 
     /// <summary>
