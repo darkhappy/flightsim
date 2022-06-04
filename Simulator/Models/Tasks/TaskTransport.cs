@@ -2,10 +2,11 @@ using System;
 using Simulator.Models.Airplanes;
 
 namespace Simulator.Models.Tasks
-{ 
+{
   public abstract class TaskTransport : Task
   {
     private double _amount;
+
     protected TaskTransport(Airport destination) : base(destination.Position)
     {
       Destination = destination;
@@ -26,21 +27,19 @@ namespace Simulator.Models.Tasks
 
     public Airport Destination { get; }
 
-    public TaskTransport Merge(TaskTransport other)
+    public void Merge(TaskTransport other)
     {
       // Check if both tasks are the same type
-      if (GetType() != other.GetType()) throw new ArgumentException("Tasks are not the same type");
+      if (GetType() != other.GetType()) return;
 
       // Check if both tasks have the same destination
-      if (Destination != other.Destination) throw new ArgumentException("Tasks have different destinations");
+      if (Destination != other.Destination) return;
 
       // Add the amount of both tasks
       Amount += other.Amount;
 
       // Remove the second task
       Scenario.Instance.RemoveTask(other);
-
-      return this;
     }
   }
 }

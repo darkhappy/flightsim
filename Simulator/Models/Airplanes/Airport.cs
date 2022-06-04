@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -53,7 +52,7 @@ namespace Simulator.Models.Airplanes
       var taskToMerge = Clients.FirstOrDefault(t => t.Destination == task.Destination);
       if (taskToMerge != null)
       {
-        task = task.Merge(taskToMerge);
+        task.Merge(taskToMerge);
         Clients.Remove(taskToMerge);
       }
 
@@ -67,6 +66,7 @@ namespace Simulator.Models.Airplanes
       {
         list.Add(airplane.ToString());
       }
+
       return list;
     }
   }

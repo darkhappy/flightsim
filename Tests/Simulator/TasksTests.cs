@@ -35,9 +35,9 @@ namespace Tests.Simulator
       clientOne.Amount = 40;
       clientTwo.Amount = 20;
 
-      var result = clientOne.Merge(clientTwo);
+      clientOne.Merge(clientTwo);
 
-      Assert.That(result.Amount, Is.EqualTo(60));
+      Assert.That(clientOne.Amount, Is.EqualTo(60));
     }
 
     [Test]
@@ -46,9 +46,9 @@ namespace Tests.Simulator
       var clientOne = TaskFactory.Instance.CreatePassengerTask(_airport);
       var clientTwo = TaskFactory.Instance.CreatePassengerTask(_airport);
 
-      var result = clientOne.Merge(clientTwo);
+      clientOne.Merge(clientTwo);
 
-      Assert.That(result.Destination, Is.EqualTo(_airport));
+      Assert.That(clientOne.Destination, Is.EqualTo(_airport));
     }
 
     [Test]
@@ -58,12 +58,12 @@ namespace Tests.Simulator
       var clientOne = TaskFactory.Instance.CreatePassengerTask(_airport);
       var clientTwo = TaskFactory.Instance.CreatePassengerTask(otherAirport);
 
-      void MergeClients()
-      {
-        clientOne.Merge(clientTwo);
-      }
+      _scenario.Tasks.Add(clientOne);
+      _scenario.Tasks.Add(clientTwo);
 
-      Assert.That(MergeClients, Throws.ArgumentException);
+      clientOne.Merge(clientTwo);
+
+      Assert.That(Scenario.Instance.Tasks.Count, Is.EqualTo(2));
     }
 
     [Test]
@@ -91,6 +91,21 @@ namespace Tests.Simulator
       _airport.AddClient(clientTwo);
 
       Assert.That(_scenario.Tasks.Count, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void CannotMergeClientPassengerAndClientTransport()
+    {
+      var clientOne = TaskFactory.Instance.CreatePassengerTask(_airport);
+      var clientTwo = TaskFactory.Instance.CreateCargoTask(_airport);
+
+      _scenario.Tasks.Add(clientOne);
+      _scenario.Tasks.Add(clientTwo);
+
+      _airport.AddClient(clientOne);
+      _airport.AddClient(clientTwo);
+
+      Assert.That(_scenario.Tasks.Count, Is.EqualTo(2));
     }
 
     [Test]
