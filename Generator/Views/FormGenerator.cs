@@ -12,7 +12,7 @@ namespace Generator
   {
     private FormMap _mapPos;
     private SoundPlayer _player;
-    private string currentPath;
+    private string currentPath = "";
 
     /// <summary>
     ///   Constructor of the form
@@ -55,6 +55,10 @@ namespace Generator
 
       //Default selected type
       cmbType.SelectedIndex = 1;
+      gbAirplanes.Enabled = false; 
+      gbAirports.Enabled = false;
+
+      EnableGroups(false);
     }
 
     /// <summary>
@@ -126,7 +130,7 @@ namespace Generator
     }
 
     /// <summary>
-    ///   Update shown airplanes whenever the listAirports changes
+    ///   Update shown airports whenever the listAirports changes
     /// </summary>
     /// <param name="sender">Object that trigger the event</param>
     /// <param name="e">The event</param>
@@ -143,6 +147,11 @@ namespace Generator
       numCTraffic.Text = listAirports.SelectedItems[0].SubItems[4].Text;
     }
 
+    /// <summary>
+    ///   Update shown airplanes whenever the listAirports changes
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void listAirplanes_SelectedIndexChanged(object sender, EventArgs e)
     {
       if (listAirplanes.SelectedItems.Count <= 0) return;
@@ -158,6 +167,10 @@ namespace Generator
       numMaintenance.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[7].Text);
     }
 
+    /// <summary>
+    ///   Check if all airplane data are valid
+    /// </summary>
+    /// <returns>Whether airplane info are valid</returns>
     private bool IsAirplaneValid()
     {
       labError.Visible = true;
@@ -174,6 +187,12 @@ namespace Generator
       return true;
     }
 
+    /// <summary>
+    ///   Convert the string enter in the form into an <see cref="AirplaneType"/>
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns>The <see cref="AirplaneType"/></returns>
+    /// <exception cref="ArgumentException">Unknown <see cref="AirplaneType"/></exception>
     private AirplaneType GetAirplaneType(string type)
     {
       return type switch
@@ -187,6 +206,12 @@ namespace Generator
       };
     }
 
+    /// <summary>
+    ///   Convert all airport info into either a <see cref="TransportInfo"/> or a <see cref="AirplaneInfo"/>
+    /// </summary>
+    /// <param name="type">The <see cref="AirplaneType"/> entered in the form</param>
+    /// <returns> The airplane info entered in the form</returns>
+    /// <exception cref="ArgumentException">Unknown <see cref="AirplaneType"/></exception>
     private AirplaneInfo GetAirplaneInfo(AirplaneType type)
     {
       //Convert data
@@ -241,7 +266,7 @@ namespace Generator
     }
 
     /// <summary>
-    ///   Add a new airplane to the <see cref="Scenario" />
+    ///   Add a new <see cref="Airplane"/> to the <see cref="Scenario" />
     /// </summary>
     /// <param name="sender">Object that trigger the event</param>
     /// <param name="e">The event</param>
@@ -277,46 +302,87 @@ namespace Generator
       listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
+    /// <summary>
+    ///   Delete the selected <see cref="Airport"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnDeleteAirport_Click(object sender, EventArgs e)
     {
+      if (listAirports.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select an airport to delete it";
+        return;
+      }
+
       int selected = listAirports.SelectedIndices[0];
 
       Controllers.Generator.Instance.DeleteAirport(listAirports.SelectedItems[0].SubItems[0].Text);
-      try { listAirports.Items[selected-1].Selected = true; }
+      try 
+      { 
+        if(selected == 0)
+          listAirports.Items[selected].Selected = true;
+        else
+          listAirports.Items[selected-1].Selected = true; 
+      }
       catch 
       {
-        txbAirportId.Text = "";
-        txbAirportName.Text = "";
-        txbPosition.Text = "";
-        numPTraffic.Text = "5";
-        numCTraffic.Text = "5";
+        ResetAirportInfo();
+        listAirplanes.Items.Clear();
       };
+
+      labError.Visible = false;
     }
 
+    /// <summary>
+    ///   Delete the selected <see cref="Airplane"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnDeleteAirplane_Click(object sender, EventArgs e)
     {
+      if (listAirplanes.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select a plane to delete it";
+        return;
+      }
+
       int selected = listAirplanes.SelectedIndices[0];
 
       Controllers.Generator.Instance.DeleteAirplane(listAirplanes.SelectedItems[0].SubItems[0].Text);
       Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
 
-      try { listAirplanes.Items[selected-1].Selected = true; }
+      try 
+      { 
+        if (selected == 0)
+          listAirplanes.Items[selected].Selected = true;
+        else
+          listAirplanes.Items[selected - 1].Selected = true;
+      }
       catch 
       {
-        txbAirplaneId.Text = "";
-        txbAirplaneName.Text = "";
-        cmbType.Text = "Cargo";
-
-        numSpeed.Value = 900;
-        numCapacity.Value = 15;
-        numEmbarking.Value = 15;
-        numDisembarking.Value = 15;
-        numMaintenance.Value = 15;
+        ResetAirplaneInfo();
       };
+
+      labError.Visible = false;
     }
 
+    /// <summary>
+    ///   Edit the selected <see cref="Airport"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnEditAirport_Click(object sender, EventArgs e)
     {
+      if (listAirplanes.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select an airport to edit it";
+        return;
+      }
+
       int selected = listAirports.SelectedIndices[0];
 
       labError.Visible = true;
@@ -336,8 +402,20 @@ namespace Generator
       listAirports.Items[selected].Selected = true;
     }
 
+    /// <summary>
+    ///   Edit the selected <see cref="Airplane"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnEditAirplane_Click(object sender, EventArgs e)
     {
+      if (listAirplanes.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select a plane to edit it";
+        return;
+      }
+
       int selected = listAirplanes.SelectedIndices[0];
 
       AirplaneType oldType = GetAirplaneType(listAirplanes.SelectedItems[0].SubItems[2].Text);
@@ -372,6 +450,11 @@ namespace Generator
         listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
+    /// <summary>
+    ///   Open the <see cref="FormMap"/> to obtain the <see cref="Airport"/> positon
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void txbPosition_Click(object sender, EventArgs e)
     {
       _mapPos = new FormMap();
@@ -403,14 +486,29 @@ namespace Generator
       _player.Stop();
     }
 
+    /// <summary>
+    ///   Can open a <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolOpen_Click(object sender, EventArgs e)
     {
+      if (currentPath != "")
+      {
+        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
+        if (dialogResult == DialogResult.Yes)
+        {
+          Controllers.Generator.Instance.Export(currentPath);
+        }
+        else if (dialogResult == DialogResult.Cancel)
+        {
+          return;
+        }
+      }
+
       string path = OpenPath();
 
-      if (path == "")
-      {
-        return;
-      }
+      if (path == "") return;     
 
       Controllers.Generator.Instance.Import(path);
       currentPath = path;
@@ -418,37 +516,78 @@ namespace Generator
 
       if (listAirports.Items.Count > 0)
         listAirports.Items[0].Selected = true;
+
+      EnableGroups(true);
     }
 
+    /// <summary>
+    ///   Can create a new <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolNew_Click(object sender, EventArgs e)
     {
-      string path = SavePath();
-
-      if (path == "")
+      if (currentPath != "")
       {
-        return;
+        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
+        if (dialogResult == DialogResult.Yes)
+        {
+          Controllers.Generator.Instance.Export(currentPath);
+        }
+        else if (dialogResult == DialogResult.Cancel)
+        {
+          return;
+        }
       }
 
+      string path = SavePath();
+
+      if (path == "") return;
+      
       Controllers.Generator.Instance.Import(path);
       currentPath = path;
       this.Text = "Scenario Generator - " + currentPath;
 
       if (listAirports.Items.Count > 0)
         listAirports.Items[0].Selected = true;
+
+      EnableGroups(true);
     }
 
+    /// <summary>
+    ///   Can save the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolSave_Click(object sender, EventArgs e)
     {
+      if (currentPath == "")
+      {
+        MessageBox.Show("No scenario to save", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
       Controllers.Generator.Instance.Export(currentPath);
     }
 
+    /// <summary>
+    ///   Can save at specific location and rename the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolSaveAs_Click(object sender, EventArgs e)
     {
+      if (currentPath == "")
+      {
+        MessageBox.Show("No scenario to save", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
       string path = SavePath();
 
       if (path == "")
       {
-        MessageBox.Show("Choose a valid XML file");
+        MessageBox.Show("Choose a valid XML file", "XML Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
         return;
       }
 
@@ -460,27 +599,103 @@ namespace Generator
         listAirports.Items[0].Selected = true;
     }
 
-    private void subToolDelete_Click(object sender, EventArgs e)
+    /// <summary>
+    ///   Can close the current <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
+    private void subToolClose_Click(object sender, EventArgs e)
     {
+      if (currentPath == "")
+      {
+        MessageBox.Show("No scenario to close", "Warning" , MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
 
+      DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+      if (dialogResult == DialogResult.Yes)
+      {
+        Controllers.Generator.Instance.Export(currentPath);
+      }
+      else if (dialogResult == DialogResult.Cancel)
+      {
+        return;
+      }
+
+      //Reset View
+      listAirports.Items.Clear();
+      listAirplanes.Items.Clear();
+      ResetAirplaneInfo();
+      ResetAirportInfo();
+
+      this.Text = "Scenario Generator";
+      currentPath = "";
+
+      EnableGroups(false);
     }
 
+    /// <summary>
+    ///   Will give the path of the <see cref="Scenario"/> that will be opened
+    /// </summary>
+    /// <returns>The path of the <see cref="Scenario"/></returns>
     public string OpenPath()
     {
       OpenFileDialog xmlFilePath = new OpenFileDialog();
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
-      string filePath;
       var result = xmlFilePath.ShowDialog();
+
       return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
     }
 
+    /// <summary>
+    ///   Will give the path of the <see cref="Scenario"/> that will be saved
+    /// </summary>
+    /// <returns>The path of the <see cref="Scenario"/></returns>
     public string SavePath()
     {
       SaveFileDialog xmlFilePath = new SaveFileDialog();
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
-      string filePath;
       var result = xmlFilePath.ShowDialog();
+
       return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
+    }
+
+    /// <summary>
+    /// Will enable or disable all the <see cref="FormGenerator"/> elements
+    /// </summary>
+    /// <param name="enabled">Whether the groups are enabled or not</param>
+    private void EnableGroups(bool enabled)
+    {
+      gbAirplanes.Enabled = enabled;
+      gbAirports.Enabled = enabled;
+    }
+
+    /// <summary>
+    /// Will reset all <see cref="Airport"/> info in the <see cref="FormGenerator"/> fields
+    /// </summary>
+    private void ResetAirportInfo()
+    {
+      txbAirportId.Text = "";
+      txbAirportName.Text = "";
+      txbPosition.Text = "";
+      numPTraffic.Text = "5";
+      numCTraffic.Text = "5";
+    }
+
+    /// <summary>
+    /// Will reset all <see cref="Airplane"/> info in the <see cref="FormGenerator"/> fields
+    /// </summary>
+    private void ResetAirplaneInfo()
+    {
+      txbAirplaneId.Text = "";
+      txbAirplaneName.Text = "";
+      cmbType.Text = "Cargo";
+
+      numSpeed.Value = 900;
+      numCapacity.Value = 15;
+      numEmbarking.Value = 15;
+      numDisembarking.Value = 15;
+      numMaintenance.Value = 15;
     }
   }
 }

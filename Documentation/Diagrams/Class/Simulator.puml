@@ -107,7 +107,11 @@ package Models {
             + Action(double time): double
         }
         
-        abstract class FlyingState implements ITaskState {
+        abstract class StateWithPlane implements IState {
+            - _plane: Airplane
+        }
+        
+        abstract class FlyingState extends StateWithPlane implements ITaskState {
             - _current: Position
             - _destination: Position
             - CalculateDistance(Position current, Position destination): Position
@@ -122,7 +126,7 @@ package Models {
             # Task : Task
         }
         
-        abstract TimedState implements IState {
+        abstract TimedState extends StateWithPlane{
             - _time : double
             + Action(double time): double
         }

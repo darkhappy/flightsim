@@ -1,12 +1,22 @@
+using System;
+using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
-  public class EmbarkState : TimedStateWithTask
+  public sealed class EmbarkState : TimedStateWithTask
   {
-    public EmbarkState(double time, Task task) : base(time, task)
+    public EmbarkState(TransportPlane plane, Task task, double overlap) : base(plane, task)
     {
+      TimeLeft = plane.EmbarkingTime;
+      Action(overlap);
     }
+
+    public override void Action(double time)
+    {
+      throw new NotImplementedException();
+    }
+
     public override string ToString()
     {
       return "Embarking";

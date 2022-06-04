@@ -1,18 +1,19 @@
+using Simulator.Models.Airplanes;
+
 namespace Simulator.Models.States
 {
-  public abstract class TimedState : IState
+  public abstract class TimedState : IPlaneState
   {
-    private double _duration;
-
-    protected TimedState(double duration)
+    protected TimedState(Airplane plane)
     {
-      _duration = duration;
+      Plane = plane;
     }
 
-    public void Action(double time)
-    {
-      _duration -= time;
-    }
+    protected double TimeLeft { get; set; }
+    public Airplane Plane { get; }
+
+    public abstract void Action(double time);
+
     public override string ToString()
     {
       return "Timed";
