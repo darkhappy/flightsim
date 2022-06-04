@@ -283,32 +283,70 @@ namespace Generator
 
     private void btnDeleteAirport_Click(object sender, EventArgs e)
     {
+      if (listAirports.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select an airport to delete it";
+        return;
+      }
+
       int selected = listAirports.SelectedIndices[0];
 
       Controllers.Generator.Instance.DeleteAirport(listAirports.SelectedItems[0].SubItems[0].Text);
-      try { listAirports.Items[selected-1].Selected = true; }
+      try 
+      { 
+        if(selected == 0)
+          listAirports.Items[selected].Selected = true;
+        else
+          listAirports.Items[selected-1].Selected = true; 
+      }
       catch 
       {
         ResetAirportInfo();
+        listAirplanes.Items.Clear();
       };
+
+      labError.Visible = false;
     }
 
     private void btnDeleteAirplane_Click(object sender, EventArgs e)
     {
+      if (listAirplanes.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select a plane to delete it";
+        return;
+      }
+
       int selected = listAirplanes.SelectedIndices[0];
 
       Controllers.Generator.Instance.DeleteAirplane(listAirplanes.SelectedItems[0].SubItems[0].Text);
       Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
 
-      try { listAirplanes.Items[selected-1].Selected = true; }
+      try 
+      { 
+        if (selected == 0)
+          listAirplanes.Items[selected].Selected = true;
+        else
+          listAirplanes.Items[selected - 1].Selected = true;
+      }
       catch 
       {
         ResetAirplaneInfo();
       };
+
+      labError.Visible = false;
     }
 
     private void btnEditAirport_Click(object sender, EventArgs e)
     {
+      if (listAirplanes.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select an airport to edit it";
+        return;
+      }
+
       int selected = listAirports.SelectedIndices[0];
 
       labError.Visible = true;
@@ -330,6 +368,13 @@ namespace Generator
 
     private void btnEditAirplane_Click(object sender, EventArgs e)
     {
+      if (listAirplanes.SelectedIndices.Count == 0)
+      {
+        labError.Visible = true;
+        labError.Text = "Please select a plane to edit it";
+        return;
+      }
+
       int selected = listAirplanes.SelectedIndices[0];
 
       AirplaneType oldType = GetAirplaneType(listAirplanes.SelectedItems[0].SubItems[2].Text);
