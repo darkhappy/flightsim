@@ -34,19 +34,21 @@ namespace Simulator.Views
       this.menueSim = new System.Windows.Forms.ToolStrip();
       this.toolFile = new System.Windows.Forms.ToolStripDropDownButton();
       this.subToolOpen = new System.Windows.Forms.ToolStripMenuItem();
-      this.subToolNew = new System.Windows.Forms.ToolStripMenuItem();
+      this.pauseSim = new System.Windows.Forms.ToolStripMenuItem();
+      this.startSim = new System.Windows.Forms.ToolStripMenuItem();
       this.mapPanel = new System.Windows.Forms.Panel();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
-      this.timerText = new System.Windows.Forms.TextBox();
       this.grpPanes = new System.Windows.Forms.GroupBox();
       this.listAirplanes = new System.Windows.Forms.ListView();
       this.grpClients = new System.Windows.Forms.GroupBox();
       this.listClients = new System.Windows.Forms.ListView();
       this.grpAirport = new System.Windows.Forms.GroupBox();
       this.listAirports = new System.Windows.Forms.ListView();
+      this.timerText = new System.Windows.Forms.TextBox();
       this.timer = new System.Windows.Forms.Timer(this.components);
       this.speedUpDown = new System.Windows.Forms.NumericUpDown();
       this.speedLbl = new System.Windows.Forms.Label();
+      this.checkMute = new System.Windows.Forms.CheckBox();
       this.menueSim.SuspendLayout();
       this.groupBox1.SuspendLayout();
       this.grpPanes.SuspendLayout();
@@ -71,7 +73,8 @@ namespace Simulator.Views
       this.toolFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.toolFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.subToolOpen,
-            this.subToolNew});
+            this.pauseSim,
+            this.startSim});
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
       this.toolFile.ImageTransparentColor = System.Drawing.Color.Magenta;
       this.toolFile.Name = "toolFile";
@@ -84,12 +87,19 @@ namespace Simulator.Views
       this.subToolOpen.Size = new System.Drawing.Size(156, 22);
       this.subToolOpen.Text = "Load a scenario";
       // 
-      // subToolNew
+      // pauseSim
       // 
-      this.subToolNew.Name = "subToolNew";
-      this.subToolNew.Size = new System.Drawing.Size(156, 22);
-      this.subToolNew.Text = "Pause";
-      this.subToolNew.Click += new System.EventHandler(this.subToolNew_Click);
+      this.pauseSim.Name = "pauseSim";
+      this.pauseSim.Size = new System.Drawing.Size(156, 22);
+      this.pauseSim.Text = "Pause";
+      this.pauseSim.Click += new System.EventHandler(this.pauseSim_Click);
+      // 
+      // startSim
+      // 
+      this.startSim.Name = "startSim";
+      this.startSim.Size = new System.Drawing.Size(156, 22);
+      this.startSim.Text = "Start";
+      this.startSim.Click += new System.EventHandler(this.startSim_Click);
       // 
       // mapPanel
       // 
@@ -110,14 +120,6 @@ namespace Simulator.Views
       this.groupBox1.TabIndex = 16;
       this.groupBox1.TabStop = false;
       this.groupBox1.Text = "Elements of the simulation";
-      // 
-      // timerText
-      // 
-      this.timerText.Location = new System.Drawing.Point(988, 12);
-      this.timerText.Name = "timerText";
-      this.timerText.ReadOnly = true;
-      this.timerText.Size = new System.Drawing.Size(144, 20);
-      this.timerText.TabIndex = 4;
       // 
       // grpPanes
       // 
@@ -177,6 +179,14 @@ namespace Simulator.Views
       this.listAirports.UseCompatibleStateImageBehavior = false;
       this.listAirports.SelectedIndexChanged += new System.EventHandler(this.listAirports_SelectedIndexChanged);
       // 
+      // timerText
+      // 
+      this.timerText.Location = new System.Drawing.Point(988, 12);
+      this.timerText.Name = "timerText";
+      this.timerText.ReadOnly = true;
+      this.timerText.Size = new System.Drawing.Size(144, 20);
+      this.timerText.TabIndex = 4;
+      // 
       // timer
       // 
       this.timer.Interval = 15000;
@@ -210,11 +220,23 @@ namespace Simulator.Views
       this.speedLbl.TabIndex = 17;
       this.speedLbl.Text = "Time span speed";
       // 
+      // checkMute
+      // 
+      this.checkMute.AutoSize = true;
+      this.checkMute.Location = new System.Drawing.Point(91, 5);
+      this.checkMute.Name = "checkMute";
+      this.checkMute.Size = new System.Drawing.Size(80, 17);
+      this.checkMute.TabIndex = 18;
+      this.checkMute.Text = "Mute music";
+      this.checkMute.UseVisualStyleBackColor = true;
+      this.checkMute.CheckedChanged += new System.EventHandler(this.checkMute_CheckedChanged);
+      // 
       // FormSimulator
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1144, 846);
+      this.Controls.Add(this.checkMute);
       this.Controls.Add(this.speedLbl);
       this.Controls.Add(this.speedUpDown);
       this.Controls.Add(this.timerText);
@@ -241,7 +263,7 @@ namespace Simulator.Views
     private System.Windows.Forms.ToolStrip menueSim;
     private System.Windows.Forms.ToolStripDropDownButton toolFile;
     private System.Windows.Forms.ToolStripMenuItem subToolOpen;
-    private System.Windows.Forms.ToolStripMenuItem subToolNew;
+    private System.Windows.Forms.ToolStripMenuItem pauseSim;
     private System.Windows.Forms.Panel mapPanel;
     private System.Windows.Forms.GroupBox groupBox1;
     private System.Windows.Forms.GroupBox grpPanes;
@@ -254,5 +276,7 @@ namespace Simulator.Views
     private System.Windows.Forms.TextBox timerText;
     private System.Windows.Forms.NumericUpDown speedUpDown;
     private System.Windows.Forms.Label speedLbl;
+    private System.Windows.Forms.ToolStripMenuItem startSim;
+    private System.Windows.Forms.CheckBox checkMute;
   }
 }
