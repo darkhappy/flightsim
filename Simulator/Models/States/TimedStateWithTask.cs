@@ -1,10 +1,11 @@
+using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
   public abstract class TimedStateWithTask : TimedState, ITaskState
   {
-    protected TimedStateWithTask(double time, Task task) : base(time)
+    protected TimedStateWithTask(Airplane plane, Task task) : base(plane)
     {
       Task = task;
     }

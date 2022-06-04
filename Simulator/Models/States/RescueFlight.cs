@@ -1,21 +1,31 @@
-using System;
+using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
-  public class RescueFlight : FlyingState
+  public sealed class RescueFlight : FlyingState
   {
-    public RescueFlight(int speed, Task task) : base(speed, task)
+    public RescueFlight(Airplane plane, Task task, double overlap) : base(plane, task)
     {
+      Action(overlap);
     }
 
-    protected override void OnArrived(double time)
+    protected override void OnArrived(double overlap)
     {
-      throw new NotImplementedException();
+      if (Destination == Plane.OriginPosition)
+      {
+        Plane.State = new MaintenanceState(Plane, overlap);
+      }
+      else
+      {
+        Destination = Plane.OriginPosition;
+        Action(overlap);
+      }
     }
+
     public override string ToString()
     {
-      return "Rescuing";
+      return Destination == Plane.OriginPosition ? "Returning to base" : Task.ToString();
     }
   }
 }

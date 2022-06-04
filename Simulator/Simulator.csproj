@@ -68,6 +68,7 @@
     <Compile Include="Models\States\IState.cs" />
     <Compile Include="Models\States\ITaskState.cs" />
     <Compile Include="Models\States\MaintenanceState.cs" />
+    <Compile Include="Models\States\IPlaneState.cs"/>
     <Compile Include="Models\States\RescueFlight.cs" />
     <Compile Include="Models\States\ScoutFlight.cs" />
     <Compile Include="Models\States\StandbyState.cs" />

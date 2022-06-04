@@ -1,18 +1,21 @@
 using System;
+using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
-  public class FightingFlight : FlyingState
+  public sealed class FightingFlight : FlyingState
   {
-    public FightingFlight(int speed, Task task) : base(speed, task)
+    public FightingFlight(Airplane plane, Task task, double overlap) : base(plane, task)
     {
+      Action(overlap);
     }
 
-    protected override void OnArrived(double time)
+    protected override void OnArrived(double overlap)
     {
       throw new NotImplementedException();
     }
+
     public override string ToString()
     {
       return "Flying to fight";

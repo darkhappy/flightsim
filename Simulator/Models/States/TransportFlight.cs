@@ -1,18 +1,20 @@
-using System;
+using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
-  public class TransportFlight : FlyingState
+  public sealed class TransportFlight : FlyingState
   {
-    public TransportFlight(int speed, Task task) : base(speed, task)
+    public TransportFlight(Airplane plane, Task task, double overlap) : base(plane, task)
     {
+      Action(overlap);
     }
 
-    protected override void OnArrived(double time)
+    protected override void OnArrived(double overlap)
     {
-      throw new NotImplementedException();
+      Plane.State = new DisembarkState((TransportPlane) Plane, Task, overlap);
     }
+
     public override string ToString()
     {
       return "Transporting";
