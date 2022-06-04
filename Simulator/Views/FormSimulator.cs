@@ -11,13 +11,14 @@ namespace Simulator.Views
   public partial class FormSimulator : Form
   {
     private SoundPlayer _player;
+    private int _ticks = 0;
     public FormSimulator()
     {
       InitializeComponent();
     }
 
     /// <summary>
-    /// Initalizes everything needed to see at first when FormSimulator loads
+    /// Initalizes everything needed to see at first when FormSimulator loads.
     /// </summary>
     /// <param name="sender"></param>
     /// <param name="e"></param>
@@ -46,14 +47,18 @@ namespace Simulator.Views
         listClients.Items.Add(new ListViewItem(client));
       }
 
+      //Setup timer
+      timer.Enabled = true;
+      timer.Interval = 1000;
+      
+
       //Load music
-      /*
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
       _player.PlayLooping();
-      */
     }
 
+    //not sure of it
     private void UpdateClients()
     {
 
@@ -81,7 +86,7 @@ namespace Simulator.Views
     /// Opens a form from wich the user selects a .xml file.
     /// </summary>
     /// <returns>
-    /// string as the path to the file.
+    /// A string as the path to the file.
     /// </returns>
     public string Path()
     {
@@ -105,7 +110,7 @@ namespace Simulator.Views
     }
 
     /// <summary>
-    /// 
+    /// Draws the map as it is with all airports events and airplanes
     /// </summary>
     public void DrawMap()
     {
@@ -122,7 +127,7 @@ namespace Simulator.Views
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
         var airport = new Bitmap(airports[ind%3]);
-        simCanevas.DrawImage(airport, position.X, position.Y, 80, 80);
+        simCanevas.DrawImage(airport, position.X, position.Y, 40, 40);
 
         ind++;
       }
@@ -172,6 +177,31 @@ namespace Simulator.Views
     private void mapPanel_Paint(object sender, PaintEventArgs e)
     {
       DrawMap();
+    }
+
+    /// <summary>
+    /// Actions made at each tick of the control timer.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void timer_Tick(object sender, EventArgs e)
+    {
+      timerText.Text = DateTime.MinValue.AddSeconds(15 * _ticks).TimeOfDay.ToString();
+      ++_ticks;
+
+      //OnTick
+      //Controllers.Simulator.Instance.OnTick(((double)_ticks) * 15000);
+
+    }
+
+    /// <summary>
+    /// Called when the buttons up or down of the speedUpDown control is clicked.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
+    private void speedUpDown_ValueChanged(object sender, EventArgs e)
+    {
+      timer.Interval = (int)(1000 / (int)speedUpDown.Value);
     }
   }
 }
