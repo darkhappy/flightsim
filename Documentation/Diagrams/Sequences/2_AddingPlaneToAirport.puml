@@ -1,0 +1,57 @@
+@startuml Adding plane to airport
+title Adding a plane into an airport
+
+actor User
+
+User -> FormGenerator ++: AddAirplane(object sender, system.EventAr0gs e)
+FormGenerator -> Generator ++: AddAirplane(string id, string[] data)
+
+'Do we need to check if the same airplane already exists ?
+Generator -> Scenario ++: AiplaneExists(string name)
+
+loop For each airport 
+    Scenario -> Airport ++: AirplaneExists(string name)
+
+    loop For each airplane 
+        Airport -> Airplane ++: SameName(string name)
+        return False
+    end
+
+    return False
+end
+
+return False
+
+'Add a new airplane to the model
+
+Generator -> Scenario ++: AddAirplane(string id, string[] data)
+Scenario -> Airport ++: AddAirplane(string[] data)
+Airport -> AirplaneFactory ++: CreateAirplane(string[] data)
+AirplaneFactory -> Airplane ++: new Airplane()
+Airplane -> Position ++: new Position(string longitude, string latitude)
+return Position
+return Airplane
+return
+return
+return
+
+'Get the scenario's string serialized form
+Generator -> Scenario ++: ToString()
+Scenario -> Airport ++: ToString()
+Airport -> Airplane ++: ToString()
+return string
+return string
+return string
+
+'Update the form
+Generator -> FormGenerator ++: UpdateView(string[] data, string id = null)
+FormGenerator -> FormGenerator ++: SelectAirport(string id)
+return
+FormGenerator -> FormGenerator ++: SelectAirplane(string id)
+return
+return
+
+return
+return
+
+@enduml
