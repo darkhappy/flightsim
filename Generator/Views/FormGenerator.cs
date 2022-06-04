@@ -130,7 +130,7 @@ namespace Generator
     }
 
     /// <summary>
-    ///   Update shown airplanes whenever the listAirports changes
+    ///   Update shown airports whenever the listAirports changes
     /// </summary>
     /// <param name="sender">Object that trigger the event</param>
     /// <param name="e">The event</param>
@@ -147,6 +147,11 @@ namespace Generator
       numCTraffic.Text = listAirports.SelectedItems[0].SubItems[4].Text;
     }
 
+    /// <summary>
+    ///   Update shown airplanes whenever the listAirports changes
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void listAirplanes_SelectedIndexChanged(object sender, EventArgs e)
     {
       if (listAirplanes.SelectedItems.Count <= 0) return;
@@ -162,6 +167,10 @@ namespace Generator
       numMaintenance.Value = Int32.Parse(listAirplanes.SelectedItems[0].SubItems[7].Text);
     }
 
+    /// <summary>
+    ///   Check if all airplane data are valid
+    /// </summary>
+    /// <returns>Whether airplane info are valid</returns>
     private bool IsAirplaneValid()
     {
       labError.Visible = true;
@@ -178,6 +187,12 @@ namespace Generator
       return true;
     }
 
+    /// <summary>
+    ///   Convert the string enter in the form into an <see cref="AirplaneType"/>
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns>The <see cref="AirplaneType"/></returns>
+    /// <exception cref="ArgumentException">Unknown <see cref="AirplaneType"/></exception>
     private AirplaneType GetAirplaneType(string type)
     {
       return type switch
@@ -191,6 +206,12 @@ namespace Generator
       };
     }
 
+    /// <summary>
+    ///   Convert all airport info into either a <see cref="TransportInfo"/> or a <see cref="AirplaneInfo"/>
+    /// </summary>
+    /// <param name="type">The <see cref="AirplaneType"/> entered in the form</param>
+    /// <returns> The airplane info entered in the form</returns>
+    /// <exception cref="ArgumentException">Unknown <see cref="AirplaneType"/></exception>
     private AirplaneInfo GetAirplaneInfo(AirplaneType type)
     {
       //Convert data
@@ -245,7 +266,7 @@ namespace Generator
     }
 
     /// <summary>
-    ///   Add a new airplane to the <see cref="Scenario" />
+    ///   Add a new <see cref="Airplane"/> to the <see cref="Scenario" />
     /// </summary>
     /// <param name="sender">Object that trigger the event</param>
     /// <param name="e">The event</param>
@@ -281,6 +302,11 @@ namespace Generator
       listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
+    /// <summary>
+    ///   Delete the selected <see cref="Airport"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnDeleteAirport_Click(object sender, EventArgs e)
     {
       if (listAirports.SelectedIndices.Count == 0)
@@ -309,6 +335,11 @@ namespace Generator
       labError.Visible = false;
     }
 
+    /// <summary>
+    ///   Delete the selected <see cref="Airplane"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnDeleteAirplane_Click(object sender, EventArgs e)
     {
       if (listAirplanes.SelectedIndices.Count == 0)
@@ -338,6 +369,11 @@ namespace Generator
       labError.Visible = false;
     }
 
+    /// <summary>
+    ///   Edit the selected <see cref="Airport"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnEditAirport_Click(object sender, EventArgs e)
     {
       if (listAirplanes.SelectedIndices.Count == 0)
@@ -366,6 +402,11 @@ namespace Generator
       listAirports.Items[selected].Selected = true;
     }
 
+    /// <summary>
+    ///   Edit the selected <see cref="Airplane"/> of the <see cref="Scenario" />
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void btnEditAirplane_Click(object sender, EventArgs e)
     {
       if (listAirplanes.SelectedIndices.Count == 0)
@@ -409,6 +450,11 @@ namespace Generator
         listAirplanes.Items[listAirplanes.Items.Count - 1].Selected = true;
     }
 
+    /// <summary>
+    ///   Open the <see cref="FormMap"/> to obtain the <see cref="Airport"/> positon
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void txbPosition_Click(object sender, EventArgs e)
     {
       _mapPos = new FormMap();
@@ -440,6 +486,11 @@ namespace Generator
       _player.Stop();
     }
 
+    /// <summary>
+    ///   Can open a <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolOpen_Click(object sender, EventArgs e)
     {
       if (currentPath != "")
@@ -469,6 +520,11 @@ namespace Generator
       EnableGroups(true);
     }
 
+    /// <summary>
+    ///   Can create a new <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolNew_Click(object sender, EventArgs e)
     {
       if (currentPath != "")
@@ -498,6 +554,11 @@ namespace Generator
       EnableGroups(true);
     }
 
+    /// <summary>
+    ///   Can save the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolSave_Click(object sender, EventArgs e)
     {
       if (currentPath == "")
@@ -509,6 +570,11 @@ namespace Generator
       Controllers.Generator.Instance.Export(currentPath);
     }
 
+    /// <summary>
+    ///   Can save at specific location and rename the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolSaveAs_Click(object sender, EventArgs e)
     {
       if (currentPath == "")
@@ -533,6 +599,11 @@ namespace Generator
         listAirports.Items[0].Selected = true;
     }
 
+    /// <summary>
+    ///   Can close the current <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void subToolClose_Click(object sender, EventArgs e)
     {
       if (currentPath == "")
@@ -563,6 +634,10 @@ namespace Generator
       EnableGroups(false);
     }
 
+    /// <summary>
+    ///   Will give the path of the <see cref="Scenario"/> that will be opened
+    /// </summary>
+    /// <returns>The path of the <see cref="Scenario"/></returns>
     public string OpenPath()
     {
       OpenFileDialog xmlFilePath = new OpenFileDialog();
@@ -572,6 +647,10 @@ namespace Generator
       return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
     }
 
+    /// <summary>
+    ///   Will give the path of the <see cref="Scenario"/> that will be saved
+    /// </summary>
+    /// <returns>The path of the <see cref="Scenario"/></returns>
     public string SavePath()
     {
       SaveFileDialog xmlFilePath = new SaveFileDialog();
@@ -581,12 +660,19 @@ namespace Generator
       return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
     }
 
+    /// <summary>
+    /// Will enable or disable all the <see cref="FormGenerator"/> elements
+    /// </summary>
+    /// <param name="enabled">Whether the groups are enabled or not</param>
     private void EnableGroups(bool enabled)
     {
       gbAirplanes.Enabled = enabled;
       gbAirports.Enabled = enabled;
     }
 
+    /// <summary>
+    /// Will reset all <see cref="Airport"/> info in the <see cref="FormGenerator"/> fields
+    /// </summary>
     private void ResetAirportInfo()
     {
       txbAirportId.Text = "";
@@ -596,6 +682,9 @@ namespace Generator
       numCTraffic.Text = "5";
     }
 
+    /// <summary>
+    /// Will reset all <see cref="Airplane"/> info in the <see cref="FormGenerator"/> fields
+    /// </summary>
     private void ResetAirplaneInfo()
     {
       txbAirplaneId.Text = "";
