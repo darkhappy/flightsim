@@ -8,13 +8,23 @@ namespace Generator.Views
 {
   public partial class FormMap : Form
   {
+    /// <summary>
+    ///   Constructor of the form
+    /// </summary>
     public FormMap()
     {
       InitializeComponent();
     }
 
+
+    /// <summary>
+    /// Getter and setter of the position
+    /// </summary>
     public Position Pos { get; set; }
 
+    /// <summary>
+    /// Draw the map
+    /// </summary>
     public void DrawMapPos()
     {
       var map = new Bitmap(Resources.galaxy);
@@ -22,11 +32,21 @@ namespace Generator.Views
       simCanevas.DrawImage(map, 0, 0, 1129, 529);
     }
 
+    /// <summary>
+    ///   Can trigger the drawing of the map
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void mapPanelPos_Paint(object sender, PaintEventArgs e)
     {
       DrawMapPos();
     }
 
+    /// <summary>
+    /// Convert the pixel clicked intot position
+    /// </summary>
+    /// <param name="sender">Object that trigger the event</param>
+    /// <param name="e">The event</param>
     private void mapPanelPos_Click(object sender, EventArgs e)
     {
       var props = (MouseEventArgs) e;
