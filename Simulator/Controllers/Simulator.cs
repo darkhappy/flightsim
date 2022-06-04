@@ -46,9 +46,14 @@ namespace Simulator.Controllers
     /// </summary>
     private void GenerateView()
     {
-      Import(_frmSim.Path());
+      var path = _frmSim.Path();
+      if (path == "")
+        return;
+
+      Import(path);
       OnTick(0);
       Application.Run(_frmSim);
+
     }
 
     /// <summary>
@@ -92,13 +97,13 @@ namespace Simulator.Controllers
     /// <param name="time">
     /// Time given in wich the scenario gets updated
     /// </param>
-    public void OnTick(double time)
+    public void OnTick(int time)
     {
-      if (CanGenerate())
+      if (CanGenerate(time))
       {
-      
+        //_scenario.GenerateTasks();
       }
-      UpdateEvents();
+      //UpdateEvents();
       _scenario.HandleTick(time);
     }
 
@@ -108,14 +113,13 @@ namespace Simulator.Controllers
     /// <returns>
     /// A bool.
     /// </returns>
-    private bool CanGenerate()
+    private bool CanGenerate(int time)
     {
-      //if time is 0 or made 1hour
-      return true;
+      return !(time % 60 == 0);
     }
 
     /// <summary>
-    /// Mke updates to all events
+    /// Make updates to all events
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
     private void UpdateEvents()

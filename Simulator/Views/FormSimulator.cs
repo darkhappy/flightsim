@@ -51,11 +51,11 @@ namespace Simulator.Views
       timer.Enabled = true;
       timer.Interval = 1000;
       
-
       //Load music
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
       _player.PlayLooping();
+      
     }
 
     //not sure of it
@@ -92,16 +92,12 @@ namespace Simulator.Views
     {
       OpenFileDialog xmlFilePath = new OpenFileDialog();
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
-      string filePath;
+      xmlFilePath.Title = "Choose a scenario";
       var result = xmlFilePath.ShowDialog();
       return (result != DialogResult.OK) ?  "" : xmlFilePath.FileName;
     }
 
     private void toolStripComboBox1_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void subToolNew_Click(object sender, EventArgs e)
     {
     }
 
@@ -190,7 +186,7 @@ namespace Simulator.Views
       ++_ticks;
 
       //OnTick
-      //Controllers.Simulator.Instance.OnTick(((double)_ticks) * 15000);
+      Controllers.Simulator.Instance.OnTick(_ticks * 15);
 
     }
 
@@ -202,6 +198,24 @@ namespace Simulator.Views
     private void speedUpDown_ValueChanged(object sender, EventArgs e)
     {
       timer.Interval = (int)(1000 / (int)speedUpDown.Value);
+    }
+
+    private void rdBtnMute_CheckedChanged(object sender, EventArgs e)
+    {
+      if (rdBtnMute.Checked)
+        _player.Stop();
+      else
+        _player.PlayLooping();
+    }
+
+    private void pauseSim_Click(object sender, EventArgs e)
+    {
+      timer.Enabled = false;
+    }
+
+    private void startSim_Click(object sender, EventArgs e)
+    {
+      timer.Enabled = true;
     }
   }
 }

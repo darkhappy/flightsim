@@ -154,9 +154,10 @@ namespace Simulator.Models
       return list;
     }
 
+
+
     public void HandleTick(double time)
     {
-      GenerateTasks();
       //AssignUnassignedTasks();
     }
 
