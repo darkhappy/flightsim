@@ -35,6 +35,7 @@ namespace Simulator.Views
       this.toolFile = new System.Windows.Forms.ToolStripDropDownButton();
       this.subToolOpen = new System.Windows.Forms.ToolStripMenuItem();
       this.pauseSim = new System.Windows.Forms.ToolStripMenuItem();
+      this.startSim = new System.Windows.Forms.ToolStripMenuItem();
       this.mapPanel = new System.Windows.Forms.Panel();
       this.groupBox1 = new System.Windows.Forms.GroupBox();
       this.grpPanes = new System.Windows.Forms.GroupBox();
@@ -47,8 +48,7 @@ namespace Simulator.Views
       this.timer = new System.Windows.Forms.Timer(this.components);
       this.speedUpDown = new System.Windows.Forms.NumericUpDown();
       this.speedLbl = new System.Windows.Forms.Label();
-      this.rdBtnMute = new System.Windows.Forms.RadioButton();
-      this.startSim = new System.Windows.Forms.ToolStripMenuItem();
+      this.checkMute = new System.Windows.Forms.CheckBox();
       this.menueSim.SuspendLayout();
       this.groupBox1.SuspendLayout();
       this.grpPanes.SuspendLayout();
@@ -84,15 +84,22 @@ namespace Simulator.Views
       // subToolOpen
       // 
       this.subToolOpen.Name = "subToolOpen";
-      this.subToolOpen.Size = new System.Drawing.Size(180, 22);
+      this.subToolOpen.Size = new System.Drawing.Size(156, 22);
       this.subToolOpen.Text = "Load a scenario";
       // 
       // pauseSim
       // 
       this.pauseSim.Name = "pauseSim";
-      this.pauseSim.Size = new System.Drawing.Size(180, 22);
+      this.pauseSim.Size = new System.Drawing.Size(156, 22);
       this.pauseSim.Text = "Pause";
       this.pauseSim.Click += new System.EventHandler(this.pauseSim_Click);
+      // 
+      // startSim
+      // 
+      this.startSim.Name = "startSim";
+      this.startSim.Size = new System.Drawing.Size(156, 22);
+      this.startSim.Text = "Start";
+      this.startSim.Click += new System.EventHandler(this.startSim_Click);
       // 
       // mapPanel
       // 
@@ -213,32 +220,23 @@ namespace Simulator.Views
       this.speedLbl.TabIndex = 17;
       this.speedLbl.Text = "Time span speed";
       // 
-      // rdBtnMute
+      // checkMute
       // 
-      this.rdBtnMute.AutoSize = true;
-      this.rdBtnMute.Location = new System.Drawing.Point(89, 5);
-      this.rdBtnMute.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
-      this.rdBtnMute.Name = "rdBtnMute";
-      this.rdBtnMute.Size = new System.Drawing.Size(91, 17);
-      this.rdBtnMute.TabIndex = 18;
-      this.rdBtnMute.TabStop = true;
-      this.rdBtnMute.Text = "Mute musique";
-      this.rdBtnMute.UseVisualStyleBackColor = true;
-      this.rdBtnMute.CheckedChanged += new System.EventHandler(this.rdBtnMute_CheckedChanged);
-      // 
-      // startSim
-      // 
-      this.startSim.Name = "startSim";
-      this.startSim.Size = new System.Drawing.Size(180, 22);
-      this.startSim.Text = "Start";
-      this.startSim.Click += new System.EventHandler(this.startSim_Click);
+      this.checkMute.AutoSize = true;
+      this.checkMute.Location = new System.Drawing.Point(91, 5);
+      this.checkMute.Name = "checkMute";
+      this.checkMute.Size = new System.Drawing.Size(80, 17);
+      this.checkMute.TabIndex = 18;
+      this.checkMute.Text = "Mute music";
+      this.checkMute.UseVisualStyleBackColor = true;
+      this.checkMute.CheckedChanged += new System.EventHandler(this.checkMute_CheckedChanged);
       // 
       // FormSimulator
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
       this.ClientSize = new System.Drawing.Size(1144, 846);
-      this.Controls.Add(this.rdBtnMute);
+      this.Controls.Add(this.checkMute);
       this.Controls.Add(this.speedLbl);
       this.Controls.Add(this.speedUpDown);
       this.Controls.Add(this.timerText);
@@ -278,7 +276,7 @@ namespace Simulator.Views
     private System.Windows.Forms.TextBox timerText;
     private System.Windows.Forms.NumericUpDown speedUpDown;
     private System.Windows.Forms.Label speedLbl;
-    private System.Windows.Forms.RadioButton rdBtnMute;
     private System.Windows.Forms.ToolStripMenuItem startSim;
+    private System.Windows.Forms.CheckBox checkMute;
   }
 }

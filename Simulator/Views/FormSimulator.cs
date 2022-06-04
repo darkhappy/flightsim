@@ -200,14 +200,6 @@ namespace Simulator.Views
       timer.Interval = (int)(1000 / (int)speedUpDown.Value);
     }
 
-    private void rdBtnMute_CheckedChanged(object sender, EventArgs e)
-    {
-      if (rdBtnMute.Checked)
-        _player.Stop();
-      else
-        _player.PlayLooping();
-    }
-
     private void pauseSim_Click(object sender, EventArgs e)
     {
       timer.Enabled = false;
@@ -216,6 +208,14 @@ namespace Simulator.Views
     private void startSim_Click(object sender, EventArgs e)
     {
       timer.Enabled = true;
+    }
+
+    private void checkMute_CheckedChanged(object sender, EventArgs e)
+    {
+      if (checkMute.Checked)
+        _player.Stop();
+      else
+        _player.PlayLooping();
     }
   }
 }
