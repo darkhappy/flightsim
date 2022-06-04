@@ -49,7 +49,7 @@ namespace Simulator.Models
 
     public override string ToString()
     {
-      return "x : " + X + " y : " + Y;
+      return Transpose(X, Y);
     }
   }
 }

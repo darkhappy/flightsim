@@ -42,6 +42,9 @@ namespace Simulator.Models
       UnassignedTasks = new List<Task>();
     }
 
+    /// <summary>
+    /// Generates tasks when called.
+    /// </summary>
     public void GenerateTasks()
     {
       var randFights = new Random().Next(1, Constants.MaxFightsPerHour);
@@ -90,6 +93,28 @@ namespace Simulator.Models
       }
     }
 
+    /// <summary>
+    /// Method that returns a list of all clients as a descriptive string.
+    /// </summary>
+    /// <returns>
+    /// A list of all clients as a descriptive string.
+    /// </returns>
+    internal List<string> GetClients()
+    {
+      var list = new List<string>();
+      foreach (var task in Tasks)
+      {
+        list.Add(task.ToString());
+      }
+      return list;
+    }
+
+    /// <summary>
+    /// Method that returns two different airports.
+    /// </summary>
+    /// <returns>
+    /// Returns a Tuple of two airports.
+    /// </returns>
     private Tuple<Airport, Airport> GetTwoUniqueAirports()
     {
       var airport1 = Airports[new Random().Next(0, Airports.Count)];
@@ -99,6 +124,15 @@ namespace Simulator.Models
       return new Tuple<Airport, Airport>(airport1, airport2);
     }
 
+    /// <summary>
+    /// Mothod to get an airport that has the given unique code.
+    /// </summary>
+    /// <param name="airportCode">
+    /// Unique code of an airport.
+    /// </param>
+    /// <returns>
+    /// An airport.
+    /// </returns>
     private Airport? GetAirport(string airportCode)
     {
       return Airports.FirstOrDefault(a => a.Id == airportCode);
@@ -122,7 +156,8 @@ namespace Simulator.Models
 
     public void HandleTick(double time)
     {
-      AssignUnassignedTasks();
+      GenerateTasks();
+      //AssignUnassignedTasks();
     }
 
     private void AssignUnassignedTasks()
@@ -142,11 +177,6 @@ namespace Simulator.Models
     }
 
     public List<Airport> GetNearestAirports(Position position)
-    {
-      throw new NotImplementedException();
-    }
-
-    public List<string> GetAirplanesFromAirport()
     {
       throw new NotImplementedException();
     }
