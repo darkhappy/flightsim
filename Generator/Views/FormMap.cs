@@ -16,7 +16,6 @@ namespace Generator.Views
       InitializeComponent();
     }
 
-
     /// <summary>
     /// Getter and setter of the position
     /// </summary>

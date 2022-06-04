@@ -69,11 +69,19 @@ namespace Generator.Models
       MaintenanceTime = info.MaintenanceTime;
     }
 
+    /// <summary>
+    ///   Represents the information of the <see cref="Airplane"/>
+    /// </summary>
+    /// <returns>The <see cref="AirplaneInfo"/> of the <see cref="Airplane"/></returns>
     public virtual AirplaneInfo ToAirplaneInfo()
     {
       return new AirplaneInfo(Id, Name, Type, Speed, MaintenanceTime);
     }
 
+    /// <summary>
+    ///   Represents all the possible <see cref="AirplaneType"/>
+    /// </summary>
+    /// <returns>All the <see cref="AirplaneType"/></returns>
     private static Type[] GetDerivedTypes()
     {
       return Assembly.GetExecutingAssembly().GetTypes().Where(_ => _.IsSubclassOf(typeof(Airplane))).ToArray();
