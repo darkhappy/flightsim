@@ -52,7 +52,7 @@ namespace Simulator.Models.Airplanes
     {
       return (from airplane in Airplanes
               where !airplane.Position.Hidden
-              select new Tuple<string, TaskType, Position, Position, Position>(airplane.Name, airplane.Type, airplane.Position,
+              select new Tuple<string, TaskType, Position, Position, Position>(airplane.Id, airplane.Type, airplane.Position,
                 airplane.OriginPosition, airplane.Destination)).ToList();
     }
 
