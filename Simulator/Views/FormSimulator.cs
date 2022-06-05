@@ -24,6 +24,8 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void FormSimulator_Load(object sender, EventArgs e)
     {
+      DoubleBuffered = true;
+
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
       listAirports.View = View.Details;
@@ -39,13 +41,9 @@ namespace Simulator.Views
       listAirplanes.Columns.Add("Airplanes", (int)(listAirplanes.Width * 0.96));
 
       //Setup first clients
-      var clients = Controllers.Simulator.Instance.Clients();
       listClients.View = View.Details;
       listClients.Columns.Add("Clients", (int)(listAirplanes.Width * 0.96));
-      foreach (var client in clients)
-      {
-        listClients.Items.Add(new ListViewItem(client));
-      }
+      UpdateClients();
 
       //Setup timer
       timer.Enabled = true;
@@ -55,13 +53,22 @@ namespace Simulator.Views
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
       _player.PlayLooping();
-      
+
+
+      checkMute.Checked = true;
     }
 
-    //not sure of it
-    private void UpdateClients()
+    /// <summary>
+    /// 
+    /// </summary>
+    public void UpdateClients()
     {
-
+      listClients.Items.Clear();
+      var clients = Controllers.Simulator.Instance.Clients();
+      foreach (var client in clients)
+      {
+        listClients.Items.Add(new ListViewItem(client));
+      }
     }
 
     /// <summary>
@@ -97,14 +104,6 @@ namespace Simulator.Views
       return (result != DialogResult.OK) ?  "" : xmlFilePath.FileName;
     }
 
-    private void toolStripComboBox1_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-    }
-
     /// <summary>
     /// Draws the map as it is with all airports events and airplanes
     /// </summary>
@@ -129,10 +128,15 @@ namespace Simulator.Views
       }
     }
 
-    internal void DrawEvents(Tuple<TaskType, Position> task)
-    {
-      
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="task"></param>
+    /// <exception cref="ArgumentException"></exception>
+    internal void DrawEvent(Tuple<TaskType, Position> task)
+    {  
       Bitmap image = task.Item1 switch
+
       {
         TaskType.Fight => new Bitmap(Resources.Rebel_Logo),
         TaskType.Rescue => new Bitmap(Resources.antenna_red),
@@ -143,6 +147,50 @@ namespace Simulator.Views
       var simCanevas = mapPanel.CreateGraphics();
 
       simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 35, 35);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="actual"></param>
+    /// <param name="origin"></param>
+    /// <param name="target"></param>
+    /// <exception cref="ArgumentException"></exception>
+    internal void DrawAirplane(TaskType type, Position actual, Position origin, Position target)
+    {
+      //Draw airplane
+      Bitmap image = type switch
+      {
+        TaskType.Passenger => new Bitmap(Resources.m_flacon),
+        TaskType.Cargo => new Bitmap(Resources.m_flacon),
+        TaskType.Fight => new Bitmap(Resources.x_wing),
+        TaskType.Rescue => new Bitmap(Resources.m_flacon),
+        TaskType.Scout => new Bitmap(Resources.tie_fighter),
+        _ => throw new ArgumentException($"TaskType { type } was not found.")
+      };
+
+      var simCanevas = mapPanel.CreateGraphics();
+      simCanevas.DrawImage(image, actual.X, actual.Y, 25, 25);
+
+      //Draw trajectory
+
+      // Create pen.
+      Pen blackPen = type switch
+      {
+        TaskType.Passenger => new Pen(Color.Green, 3),
+        TaskType.Cargo => new Pen(Color.Blue, 3),
+        TaskType.Fight => new Pen(Color.Yellow, 3),
+        TaskType.Rescue => new Pen(Color.Red, 3),
+        TaskType.Scout => new Pen(Color.Gray, 3),
+        _ => throw new ArgumentException($"TaskType { type } was not found.")
+      };
+
+      // Create points that define line.
+      PointF pointOrigin = new PointF(origin.X, origin.Y);
+      PointF pointTarget = new PointF(target.X, target.Y);
+
+      simCanevas.DrawLine(blackPen, pointOrigin, pointTarget);
     }
 
     /// <summary>
@@ -188,7 +236,7 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void mapPanel_Paint(object sender, PaintEventArgs e)
     {
-      DrawMap();
+      //DrawMap();
     }
 
     /// <summary>
@@ -203,6 +251,7 @@ namespace Simulator.Views
 
       //OnTick
       Controllers.Simulator.Instance.OnTick(_ticks * 15);
+      UpdateClients();
 
     }
 

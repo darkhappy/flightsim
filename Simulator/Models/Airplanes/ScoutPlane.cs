@@ -14,6 +14,8 @@ namespace Simulator.Models.Airplanes
 
     public override Colour Colour => Colour.Gray;
 
+    public override TaskType Type => TaskType.Scout;
+
     protected override bool CanDoTask(Task task)
     {
       if (task.GetType() != typeof(TaskScout)) return false;

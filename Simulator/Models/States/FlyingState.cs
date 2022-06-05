@@ -15,7 +15,7 @@ namespace Simulator.Models.States
       _current = plane.OriginPosition;
     }
 
-    public Position Destination { get; set; }
+    public virtual Position Destination { get; set; }
 
     public override Position Current => _current;
 
