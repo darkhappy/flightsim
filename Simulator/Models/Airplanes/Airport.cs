@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.Serialization;
@@ -45,6 +46,20 @@ namespace Simulator.Models.Airplanes
 
         airplane.Action(time);
       }
+    }
+
+    public List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    {
+      var flyingAirplane = new List<Tuple<TaskType, Position, Position, Position>>();
+
+      foreach (var airplane in Airplanes)
+      {
+        if (airplane.Position == new Position(-1, -1)) continue;
+
+        flyingAirplane.Add(new Tuple<TaskType, Position, Position, Position>(airplane.Type, airplane.Position, airplane.OriginPosition, airplane.Destination));
+      }
+
+      return flyingAirplane;
     }
 
     public bool AssignTask(Task task)

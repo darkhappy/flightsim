@@ -112,6 +112,21 @@ namespace Simulator.Models
       return events;
     }
 
+    internal List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    {
+      List<Tuple<TaskType, Position, Position, Position>> airplanes = new List<Tuple<TaskType, Position, Position, Position>>();
+
+      foreach (Airport airport in Airports)
+      {
+        foreach (var elem in airport.GetFlyingAirplanes())
+        {
+          airplanes.Add(elem);
+        }
+      }
+
+      return airplanes;
+    }
+
     /// <summary>
     /// Method that returns two different airports.
     /// </summary>
@@ -154,11 +169,10 @@ namespace Simulator.Models
 
     public void HandleTick(double time)
     {
-      Controllers.Simulator.Instance.UpdateEvents(GetEvents());
       AssignUnassignedTasks();
 
       foreach (var airport in Airports)
-        airport.Action(time * 0.01);
+        airport.Action(time * 0.001);
     }
 
     private void AssignUnassignedTasks()
