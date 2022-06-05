@@ -130,9 +130,8 @@ namespace Simulator.Views
         name.AutoSize = true;
         name.Location = new Point(position.Item2.X, position.Item2.Y);
         name.Text = position.Item1;
-        simCanevas.DrawImage(airport, position.Item2.X, position.Item2.Y, 45, 45);
 
-        simCanevas.DrawImage(airport, position.X - (int)(width / 2), (position.Y) - (int)(height/2), height, width);
+        simCanevas.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height/2), height, width);
         
         ind++;
       }
