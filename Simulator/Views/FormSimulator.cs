@@ -188,9 +188,9 @@ namespace Simulator.Views
       };
 
       //Rotate Image
-      int x = target.X - origin.X;
-      int y = target.Y - origin.X;
-      float angle = (float)(270 + Math.Acos((double)x/y));
+      int o = target.X - origin.X;
+      int a = target.Y - origin.X;
+      float angle = (float)(270 + Math.Acos((double)o/a));
       image = RotateImage(image, angle);
 
       var simCanevas = mapPanel.CreateGraphics();
