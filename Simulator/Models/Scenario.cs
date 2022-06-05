@@ -157,11 +157,9 @@ namespace Simulator.Models
       Tasks.Remove(task);
     }
 
-    public Airport GetNearestAirport(Position position)
+    public List<Airport> GetNearestAirports(Position position)
     {
-      var airportDistance = Airports.Select(airport => position.DistanceTo(airport.Position)).ToList();
-      var minIndex = airportDistance.IndexOf(airportDistance.Min());
-      return Airports[minIndex];
+      return Airports.OrderBy(airport => airport.Position.DistanceTo(position)).ToList();
     }
   }
 }

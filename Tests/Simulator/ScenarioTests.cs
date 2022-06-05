@@ -124,7 +124,7 @@ namespace Tests.Simulator
       reader.Close();
 
       var position = new Position(x, y);
-      var airport = _scenario.GetNearestAirport(position);
+      var airport = _scenario.GetNearestAirports(position)[0];
 
       Assert.That(airport.Id, Is.EqualTo(id));
     }
