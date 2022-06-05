@@ -5,9 +5,8 @@ namespace Simulator.Models.States
 {
   public sealed class FightingFlight : FlyingState
   {
-    public FightingFlight(Airplane plane, Task task, double overlap) : base(plane, task)
+    public FightingFlight(Airplane plane, Task task) : base(plane, task)
     {
-      Action(overlap);
     }
 
     protected override void OnArrived(double overlap)
@@ -18,7 +17,8 @@ namespace Simulator.Models.States
       }
       else if (Task.IsCompleted)
       {
-        Plane.State = new MaintenanceState(Plane, overlap);
+        Plane.State = new MaintenanceState(Plane);
+        Plane.Action(overlap);
       }
       else
       {

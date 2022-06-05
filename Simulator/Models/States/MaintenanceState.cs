@@ -4,10 +4,9 @@ namespace Simulator.Models.States
 {
   public sealed class MaintenanceState : TimedState
   {
-    public MaintenanceState(Airplane plane, double overlap) : base(plane)
+    public MaintenanceState(Airplane plane) : base(plane)
     {
       TimeLeft = plane.MaintenanceTime;
-      Action(overlap);
     }
 
     protected override void OnArrived(double overlap)

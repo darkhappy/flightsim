@@ -7,15 +7,15 @@ namespace Simulator.Models.States
   {
     private new TransportPlane Plane;
 
-    public EmbarkState(TransportPlane plane, TaskTransport task, double overlap) : base(plane, task)
+    public EmbarkState(TransportPlane plane, TaskTransport task) : base(plane, task)
     {
       TimeLeft = plane.EmbarkingTime * task.Amount;
-      Action(overlap);
     }
 
     protected override void OnArrived(double overlap)
     {
-      Plane.State = new TransportFlight(Plane, (TaskTransport) Task, overlap);
+      Plane.State = new TransportFlight(Plane, (TaskTransport) Task);
+      Plane.Action(overlap);
     }
 
     public override string ToString()

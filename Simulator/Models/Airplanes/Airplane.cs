@@ -50,11 +50,12 @@ namespace Simulator.Models.Airplanes
       State.Action(time);
     }
 
-    public abstract void ChangeState();
+    public bool AssignTask(Task task)
+    {
+      return State.GetType() == typeof(StandbyState) && CanDoTask(task);
+    }
 
-    public abstract void ChangeState(Task task);
-
-    public abstract bool AssignTask(Task task);
+    protected abstract bool CanDoTask(Task task);
 
     private static Type[] GetDerivedTypes()
     {

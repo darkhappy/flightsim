@@ -1,4 +1,6 @@
 using System.Runtime.Serialization;
+using Simulator.Models.States;
+using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
 {
@@ -12,5 +14,13 @@ namespace Simulator.Models.Airplanes
     }
 
     public override Colour Colour => Colour.Green;
+
+    protected override bool CanDoTask(Task task)
+    {
+      if (task.GetType() != typeof(ClientPassenger)) return false;
+      State = new EmbarkState(this, (TaskTransport) task);
+
+      return true;
+    }
   }
 }

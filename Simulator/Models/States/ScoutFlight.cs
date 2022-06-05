@@ -8,10 +8,9 @@ namespace Simulator.Models.States
   {
     private bool _circling;
 
-    public ScoutFlight(Airplane plane, Task task, double overlap) : base(plane, task)
+    public ScoutFlight(Airplane plane, Task task) : base(plane, task)
     {
       _circling = false;
-      Action(overlap);
     }
 
     private Position calculateInCircle(int radius, Position center)
@@ -33,7 +32,10 @@ namespace Simulator.Models.States
       if (Destination == Task.Position)
         HeadBack(overlap);
       else
-        Plane.State = new MaintenanceState(Plane, overlap);
+      {
+        Plane.State = new MaintenanceState(Plane);
+        Plane.Action(overlap);
+      }
     }
 
     public override string ToString()

@@ -1,5 +1,5 @@
-using System;
 using System.Runtime.Serialization;
+using Simulator.Models.States;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
@@ -14,19 +14,12 @@ namespace Simulator.Models.Airplanes
 
     public override Colour Colour => Colour.Red;
 
-    public override void ChangeState()
+    protected override bool CanDoTask(Task task)
     {
-      throw new NotImplementedException();
-    }
+      if (task.GetType() != typeof(TaskRescue)) return false;
+      State = new RescueFlight(this, task);
 
-    public override void ChangeState(Task task)
-    {
-      throw new NotImplementedException();
-    }
-
-    public override bool AssignTask(Task task)
-    {
-      throw new NotImplementedException();
+      return true;
     }
   }
 }

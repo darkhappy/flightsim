@@ -5,15 +5,15 @@ namespace Simulator.Models.States
 {
   public sealed class DisembarkState : TimedStateWithTask
   {
-    public DisembarkState(TransportPlane plane, TaskTransport task, double overlap) : base(plane, task)
+    public DisembarkState(TransportPlane plane, TaskTransport task) : base(plane, task)
     {
       TimeLeft = plane.DisembarkingTime * task.Amount;
-      Action(overlap);
     }
 
     protected override void OnArrived(double overlap)
     {
-      Plane.State = new MaintenanceState(Plane, overlap);
+      Plane.State = new MaintenanceState(Plane);
+      Plane.Action(overlap);
     }
 
     public override string ToString()

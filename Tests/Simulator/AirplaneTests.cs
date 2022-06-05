@@ -12,26 +12,12 @@ namespace Tests.Simulator
     [SetUp]
     public void Setup()
     {
-      _firstAirport = new Airport("DS-01", "Death Star", new Position(50, 50), 100, 100);
-      _secondAirport = new Airport("COR", "Coruscant", new Position(0, 0), 1000, 1000);
+      _firstAirport = new Airport("DS-01", "Death Star", new Position(0, 0), 100, 100);
+      _secondAirport = new Airport("COR", "Coruscant", new Position(100, 0), 1000, 1000);
     }
 
     private Airport _firstAirport;
     private Airport _secondAirport;
-
-    [Test]
-    public void PlaneIsInAirport()
-    {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
-      Assert.That(_firstAirport.Airplanes, Contains.Item(plane));
-    }
-
-    [Test]
-    public void PlaneIsNotInAirport()
-    {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
-      Assert.That(_secondAirport.Airplanes, Contains.Item(plane));
-    }
 
     [Test]
     public void CanAssignToFighter()
@@ -40,6 +26,15 @@ namespace Tests.Simulator
       var fight = new TaskFight(new Position(100, 100));
 
       Assert.That(plane.AssignTask(fight), Is.True);
+    }
+
+    [Test]
+    public void CannotAssignFightToScout()
+    {
+      var plane = new ScoutPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var fight = new TaskFight(new Position(100, 100));
+
+      Assert.That(plane.AssignTask(fight), Is.False);
     }
 
     [Test]
@@ -54,36 +49,36 @@ namespace Tests.Simulator
     }
 
     [Test]
-    public void SwitchingFromIdleToFight()
+    public void SwitchingFromIdleToScout()
     {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
-      var fight = new TaskFight(new Position(100, 100));
-      plane.AssignTask(fight);
+      var plane = new ScoutPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var scout = new TaskScout(new Position(100, 0));
+      plane.AssignTask(scout);
 
-      Assert.That(plane.State, Is.TypeOf<FightingFlight>());
+      Assert.That(plane.State, Is.TypeOf<ScoutFlight>());
     }
 
     [Test]
-    public void SwitchingFromFightToMaintenance()
+    public void SwitchingFromScoutToMaintenance()
     {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
-      var fight = new TaskFight(new Position(100, 100));
-      plane.AssignTask(fight);
+      var plane = new ScoutPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var scout = new TaskScout(new Position(100, 0));
+      plane.AssignTask(scout);
+      plane.Action(2);
 
-      plane.ChangeState();
       Assert.That(plane.State, Is.TypeOf<MaintenanceState>());
     }
 
     [Test]
     public void SwitchingFromMaintenanceToIdle()
     {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
-      var fight = new TaskFight(new Position(100, 100));
-      plane.AssignTask(fight);
+      var plane = new ScoutPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var scout = new TaskScout(new Position(100, 0));
+      plane.AssignTask(scout);
+      plane.Action(2);
+      plane.Action(2);
 
-      plane.ChangeState();
-      plane.ChangeState();
-      Assert.That(plane.State, Is.TypeOf<MaintenanceState>());
+      Assert.That(plane.State, Is.TypeOf<StandbyState>());
     }
   }
 }

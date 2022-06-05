@@ -1,6 +1,4 @@
-using System;
 using System.Runtime.Serialization;
-using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
 {
@@ -19,20 +17,5 @@ namespace Simulator.Models.Airplanes
     [DataMember] public double MaxCapacity { get; set; }
     [DataMember] public int EmbarkingTime { get; set; }
     [DataMember] public int DisembarkingTime { get; set; }
-
-    public override void ChangeState()
-    {
-      throw new NotImplementedException();
-    }
-
-    public override void ChangeState(Task task)
-    {
-      throw new NotImplementedException();
-    }
-
-    public override bool AssignTask(Task task)
-    {
-      throw new NotImplementedException();
-    }
   }
 }

@@ -1,4 +1,3 @@
-using System;
 using NUnit.Framework;
 using Simulator.Models;
 using Simulator.Models.Airplanes;
@@ -21,12 +20,11 @@ namespace Tests.Simulator
     [Test]
     public void SwitchingWhenFinishedTimeState()
     {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
-      var task = new TaskFight(new Position(420, 420));
+      var plane = new ScoutPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var task = new TaskScout(new Position(100, 0));
 
       plane.AssignTask(task);
-      plane.ChangeState();
-      plane.Action(2);
+      plane.Action(4);
 
       Assert.That(plane.State, Is.TypeOf<StandbyState>());
     }
@@ -46,7 +44,7 @@ namespace Tests.Simulator
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       var task = new TaskFight(new Position(400, 0));
 
-      var state = new FightingFlight(plane, task, 0);
+      var state = new FightingFlight(plane, task);
 
       var result = state.CalculateDistance(4).Item1;
       var expectedPosition = new Position(400, 0);
@@ -60,25 +58,12 @@ namespace Tests.Simulator
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       var task = new TaskFight(new Position(400, 0));
 
-      var state = new FightingFlight(plane, task, 0);
+      var state = new FightingFlight(plane, task);
 
       var resultOverlap = state.CalculateDistance(6).Item2;
       var expectedOverlap = 2;
 
       Assert.That(resultOverlap, Is.EqualTo(expectedOverlap));
-    }
-
-    [Test]
-    public void OverlapWhenPlaneIsNotMoving()
-    {
-      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
-      var task = new TaskFight(new Position(400, 400));
-
-      var state = new FightingFlight(plane, task, 0);
-
-      var shit = state.CalculateDistance(90);
-
-      Console.Write("lol");
     }
   }
 }

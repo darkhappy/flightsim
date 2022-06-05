@@ -102,13 +102,7 @@ namespace Simulator.Models
     /// </returns>
     internal List<string> GetClients()
     {
-      var list = new List<string>();
-      foreach (var task in Tasks)
-      {
-        list.Add(task.ToString());
-      }
-
-      return list;
+      return Tasks.Select(task => task.ToString()).ToList();
     }
 
     /// <summary>
@@ -160,7 +154,8 @@ namespace Simulator.Models
 
     public void HandleTick(double time)
     {
-      //AssignUnassignedTasks();
+      GenerateTasks();
+      AssignUnassignedTasks();
     }
 
     private void AssignUnassignedTasks()
@@ -169,7 +164,11 @@ namespace Simulator.Models
       {
         foreach (var airport in Airports)
         {
-          airport.AssignTask(task);
+          if (airport.AssignTask(task)) ;
+          {
+            UnassignedTasks.Remove(task);
+            break;
+          }
         }
       }
     }

@@ -5,16 +5,16 @@ namespace Simulator.Models.States
 {
   public sealed class RescueFlight : FlyingState
   {
-    public RescueFlight(Airplane plane, Task task, double overlap) : base(plane, task)
+    public RescueFlight(Airplane plane, Task task) : base(plane, task)
     {
-      Action(overlap);
     }
 
     protected override void OnArrived(double overlap)
     {
       if (Destination == Plane.OriginPosition)
       {
-        Plane.State = new MaintenanceState(Plane, overlap);
+        Plane.State = new MaintenanceState(Plane);
+        Plane.Action(overlap);
       }
       else
       {
