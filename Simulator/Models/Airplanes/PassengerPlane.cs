@@ -19,8 +19,7 @@ namespace Simulator.Models.Airplanes
 
     protected override bool CanDoTask(Task task)
     {
-      if (task.GetType() != typeof(ClientPassenger)) return false;
-
+      if (task.Type == Type) return false;
       LoadCargo((TaskTransport) task);
 
       return true;

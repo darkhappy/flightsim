@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.Serialization;
 
 namespace Generator.Models
@@ -54,6 +56,29 @@ namespace Generator.Models
 
       return
         $"{(int) latitudeDegrees}° {latitudeMinutes}’ {latitude}, {(int) longitudeDegrees}° {longitudeMinutes}’ {longitude}";
+    }
+
+    public static Position StringToPosition(string value)
+    {
+      const int width = Controllers.Generator.MapWidth;
+      const int height = Controllers.Generator.MapHeight;
+      const int middleX = width / 2;
+      const int middleY = height / 2;
+
+      string[] array = value.Split(' ', '°', '’', ',');
+      List<string> values = array.ToList();
+      values.RemoveAll(s => string.IsNullOrWhiteSpace(s));
+
+      var latitudeDegrees = int.Parse(values[0]);
+      var longitudeDegrees = int.Parse(values[3]);
+
+      var latitudeMinutes = int.Parse(values[1]); 
+      var longitudeMinutes = int.Parse(values[4]);
+
+      var x = (longitudeDegrees * middleX) / 180 + middleX;
+      var y = (latitudeDegrees * middleY) / 90 + middleY;
+
+      return new Position(x, y);
     }
 
     /// <summary>

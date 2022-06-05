@@ -260,7 +260,7 @@ namespace Generator
 
       listAirports.Items.Clear();
 
-      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(1, 1), pTraffic, cTraffic));
+      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, Position.StringToPosition(txbPosition.Text), pTraffic, cTraffic));
 
       listAirports.Items[listAirports.Items.Count - 1].Selected = true;
     }
@@ -464,6 +464,7 @@ namespace Generator
       var pos = _mapPos.Pos;
 
       txbPosition.Text = Position.Transpose(pos.X, pos.Y);
+      Position.StringToPosition(txbPosition.Text);
     }
 
     /// <summary>

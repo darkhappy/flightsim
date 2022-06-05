@@ -101,13 +101,10 @@ namespace Simulator.Models
 
     public List<Tuple<TaskType, Position>> GetEvents()
     {
-      List<Tuple<TaskType, Position>> events = new List<Tuple<TaskType, Position>>();
-
-      foreach (Task task in Tasks)
-      {
-        if (task.Type == TaskType.Passenger || task.Type == TaskType.Cargo) continue;
-        events.Add(new Tuple<TaskType, Position>(task.Type, task.Position));
-      }
+      return (from task in Tasks
+              where !task.IsTransportTask
+              select new Tuple<TaskType, Position>(task.Type, task.Position)).ToList();
+    }
 
       return events;
     }

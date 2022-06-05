@@ -15,10 +15,9 @@ namespace Simulator.Models.Airplanes
     public override Colour Colour => Colour.Yellow;
     public override TaskType Type => TaskType.Fight;
 
-
     protected override bool CanDoTask(Task task)
     {
-      if (task.GetType() != typeof(TaskFight)) return false;
+      if (task.Type == Type) return false;
       State = new FightingFlight(this, task);
 
       return true;

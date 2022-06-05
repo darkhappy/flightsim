@@ -110,6 +110,9 @@ namespace Simulator.Views
     /// </summary>
     public void DrawMap()
     {
+      int height = 45;
+      int width = 45;
+
       var map = new Bitmap(Resources.galaxy);
       var simCanevas = mapPanel.CreateGraphics();
       simCanevas.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
@@ -129,6 +132,8 @@ namespace Simulator.Views
         name.Text = position.Item1;
         simCanevas.DrawImage(airport, position.Item2.X, position.Item2.Y, 45, 45);
 
+        simCanevas.DrawImage(airport, position.X - (int)(width / 2), (position.Y) - (int)(height/2), height, width);
+        
         ind++;
       }
     }
@@ -139,9 +144,11 @@ namespace Simulator.Views
     /// <param name="task"></param>
     /// <exception cref="ArgumentException"></exception>
     internal void DrawEvent(Tuple<TaskType, Position> task)
-    {  
-      Bitmap image = task.Item1 switch
+    {
+      int height = 35;
+      int width = 35;
 
+      Bitmap image = task.Item1 switch
       {
         TaskType.Fight => new Bitmap(Resources.Rebel_Logo),
         TaskType.Rescue => new Bitmap(Resources.antenna_red),
@@ -151,7 +158,7 @@ namespace Simulator.Views
 
       var simCanevas = mapPanel.CreateGraphics();
 
-      simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 35, 35);
+      simCanevas.DrawImage(image, task.Item2.X - (int)(width / 2), task.Item2.Y - (int)(height / 2), height, width);
     }
 
     /// <summary>
@@ -164,6 +171,9 @@ namespace Simulator.Views
     /// <exception cref="ArgumentException"></exception>
     internal void DrawAirplane(TaskType type, Position actual, Position origin, Position target)
     {
+      int height = 25;
+      int width = 25;
+
       //Draw airplane
       Bitmap image = type switch
       {
@@ -176,7 +186,7 @@ namespace Simulator.Views
       };
 
       var simCanevas = mapPanel.CreateGraphics();
-      simCanevas.DrawImage(image, actual.X, actual.Y, 25, 25);
+      simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
       //Draw trajectory
 

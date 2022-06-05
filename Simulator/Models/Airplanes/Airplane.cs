@@ -31,7 +31,7 @@ namespace Simulator.Models.Airplanes
 
     [DataMember] public int MaintenanceTime { get; private set; }
 
-    public abstract TaskType Type { get;}
+    public abstract TaskType Type { get; }
 
 
     public Airport Origin { get; set; }
@@ -43,7 +43,6 @@ namespace Simulator.Models.Airplanes
     public Position Position => State.Current;
 
     public Position Destination => State.Destination;
-
 
     [OnDeserialized]
     private void OnDeserialized(StreamingContext context)

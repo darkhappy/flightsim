@@ -50,16 +50,10 @@ namespace Simulator.Models.Airplanes
 
     public List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
-      var flyingAirplane = new List<Tuple<TaskType, Position, Position, Position>>();
-
-      foreach (var airplane in Airplanes)
-      {
-        if (airplane.Position == new Position(-1, -1)) continue;
-
-        flyingAirplane.Add(new Tuple<TaskType, Position, Position, Position>(airplane.Type, airplane.Position, airplane.OriginPosition, airplane.Destination));
-      }
-
-      return flyingAirplane;
+      return (from airplane in Airplanes
+              where !airplane.Position.Hidden
+              select new Tuple<TaskType, Position, Position, Position>(airplane.Type, airplane.Position,
+                airplane.OriginPosition, airplane.Destination)).ToList();
     }
 
     public bool AssignTask(Task task)
@@ -82,13 +76,7 @@ namespace Simulator.Models.Airplanes
 
     public List<string> GetToStringOfPlanes()
     {
-      var list = new List<string>();
-      foreach (var airplane in Airplanes)
-      {
-        list.Add(airplane.ToString());
-      }
-
-      return list;
+      return Airplanes.Select(airplane => airplane.ToString()).ToList();
     }
 
     public void SplitClient(TaskTransport client, double remainder)
