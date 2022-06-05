@@ -109,6 +109,9 @@ namespace Simulator.Views
     /// </summary>
     public void DrawMap()
     {
+      int height = 45;
+      int width = 45;
+
       var map = new Bitmap(Resources.galaxy);
       var simCanevas = mapPanel.CreateGraphics();
       simCanevas.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
@@ -122,7 +125,10 @@ namespace Simulator.Views
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
         var airport = new Bitmap(airports[ind%3]);
-        simCanevas.DrawImage(airport, position.X, position.Y, 45, 45);
+
+        //simCanevas.DrawImage(airport, position.X - (int)(width / 2), (position.Y) - (int)(height/2), height, width);
+        
+        simCanevas.DrawImage(airport, position.X, (position.Y), height, width);
 
         ind++;
       }
