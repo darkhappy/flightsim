@@ -145,6 +145,11 @@ namespace Generator.Controllers
       }
     }
 
+    public bool CanSerialize()
+    {
+      return _scenario.Airports.Count > 1 ? true : false;
+    }
+
     public void Export(string path)
     {
       var serializer = new DataContractSerializer(typeof(Scenario));

@@ -498,6 +498,11 @@ namespace Generator
         DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
         if (dialogResult == DialogResult.Yes)
         {
+          if (!Controllers.Generator.Instance.CanSerialize())
+          {
+            MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+          }
           Controllers.Generator.Instance.Export(currentPath);
         }
         else if (dialogResult == DialogResult.Cancel)
@@ -553,6 +558,12 @@ namespace Generator
         return;
       }
 
+      if (!Controllers.Generator.Instance.CanSerialize())
+      {
+        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
       Controllers.Generator.Instance.Export(currentPath);
     }
 
@@ -566,6 +577,12 @@ namespace Generator
       if (currentPath == "")
       {
         MessageBox.Show("No scenario to save", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
+      if (!Controllers.Generator.Instance.CanSerialize())
+      {
+        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
       }
 
@@ -596,6 +613,11 @@ namespace Generator
       DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
       if (dialogResult == DialogResult.Yes)
       {
+        if (!Controllers.Generator.Instance.CanSerialize())
+        {
+          MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          return;
+        }
         Controllers.Generator.Instance.Export(currentPath);
       }
       else if (dialogResult == DialogResult.Cancel)
