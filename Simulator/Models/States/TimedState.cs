@@ -9,6 +9,8 @@ namespace Simulator.Models.States
       Plane = plane;
     }
 
+    public override Position Current => new Position(-1, -1);
+
     protected double TimeLeft { get; set; }
 
     public override void Action(double time)

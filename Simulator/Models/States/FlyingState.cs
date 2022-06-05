@@ -6,22 +6,24 @@ namespace Simulator.Models.States
 {
   public abstract class FlyingState : PlaneState, ITaskState
   {
+    private Position _current;
+
     protected FlyingState(Airplane plane, Task task)
     {
       Task = task;
       Destination = task.Position;
       Plane = plane;
-      Current = Plane.OriginPosition;
+      _current = Plane.OriginPosition;
     }
 
-    public Position Current { get; set; }
-
     public Position Destination { get; set; }
+
+    public override Position Current => _current;
 
     public override void Action(double time)
     {
       var (position, overlap) = CalculateDistance(time);
-      Current = position;
+      _current = position;
 
       if (Current.Equals(Destination)) OnArrived(overlap);
     }

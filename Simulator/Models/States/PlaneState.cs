@@ -8,6 +8,8 @@ namespace Simulator.Models.States
 
     public abstract void Action(double time);
 
+    public abstract Position Current { get; }
+
     protected abstract void OnArrived(double overlap);
   }
 }

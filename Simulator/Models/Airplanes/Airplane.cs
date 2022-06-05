@@ -37,6 +37,8 @@ namespace Simulator.Models.Airplanes
 
     public Position OriginPosition => Origin.Position;
 
+    public Position Position => State.Current;
+
     [OnDeserialized]
     private void OnDeserialized(StreamingContext context)
     {

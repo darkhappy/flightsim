@@ -6,6 +6,8 @@ namespace Simulator.Models.States
     {
     }
 
+    public Position Current => new Position(-1, -1);
+
     public override string ToString()
     {
       return "Stand by";
