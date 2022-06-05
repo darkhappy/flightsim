@@ -152,7 +152,6 @@ namespace Simulator.Models
       return Airports.Select(airport => new ObjectInfo(airport.Id, airport.Name)).ToList();
     }
 
-
     public void HandleTick(double time)
     {
       GenerateTasks();
