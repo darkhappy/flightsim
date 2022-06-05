@@ -13,9 +13,11 @@ namespace Tests.Simulator
     public void Setup()
     {
       _firstAirport = new Airport("DS-01", "Death Star", new Position(0, 0), 100, 100);
+      _secondAirport = new Airport("DS-01", "Death Star", new Position(400, 400), 100, 100);
     }
 
     private Airport _firstAirport;
+    private Airport _secondAirport;
 
     [Test]
     public void SwitchingWhenFinishedTimeState()
@@ -39,7 +41,7 @@ namespace Tests.Simulator
     }
 
     [Test]
-    public void MovingPlane()
+    public void MovingPlaneRight()
     {
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
       var task = new TaskFight(new Position(400, 0));
@@ -51,6 +53,59 @@ namespace Tests.Simulator
 
       Assert.That(result, Is.EqualTo(expectedPosition));
     }
+
+    [Test]
+    public void MovingPlaneLeft()
+    {
+      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _secondAirport);
+      var task = new TaskFight(new Position(0, 400));
+
+      var state = new FightingFlight(plane, task);
+
+      var result = state.CalculateDistance(4).Item1;
+      Assert.That(result, Is.EqualTo(new Position(0, 400)));
+    }
+
+    [Test]
+    public void TaskOnAirport()
+    {
+      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var task = new TaskFight(new Position(0, 0));
+
+      var state = new FightingFlight(plane, task);
+
+      var result = state.CalculateDistance(4).Item2;
+      Assert.That(result, Is.EqualTo(4));
+    }
+
+    [Test]
+    public void MovingPlaneUp()
+    {
+      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _secondAirport);
+      var task = new TaskFight(new Position(400, 0));
+
+      var state = new FightingFlight(plane, task);
+
+      var result = state.CalculateDistance(4).Item1;
+      var expectedPosition = new Position(400, 0);
+
+      Assert.That(result, Is.EqualTo(expectedPosition));
+    }
+
+    [Test]
+    public void MovingPlaneDown()
+    {
+      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var task = new TaskFight(new Position(0, 400));
+
+      var state = new FightingFlight(plane, task);
+
+      var result = state.CalculateDistance(4).Item1;
+      var expectedPosition = new Position(0, 400);
+
+      Assert.That(result, Is.EqualTo(expectedPosition));
+    }
+
 
     [Test]
     public void PlaneHasPositionOutOfBoundsWhenStandby()

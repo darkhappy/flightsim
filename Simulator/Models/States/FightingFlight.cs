@@ -22,10 +22,11 @@ namespace Simulator.Models.States
       }
       else
       {
-        Destination = Task.Position;
+        SetDestination(Task.Position);
         Action(overlap);
       }
     }
+
 
     public override string ToString()
     {
