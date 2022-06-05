@@ -236,7 +236,7 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void mapPanel_Paint(object sender, PaintEventArgs e)
     {
-      DrawMap();
+      //DrawMap();
     }
 
     /// <summary>
