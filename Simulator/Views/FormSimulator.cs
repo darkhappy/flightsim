@@ -43,7 +43,6 @@ namespace Simulator.Views
       //Setup first clients
       listClients.View = View.Details;
       listClients.Columns.Add("Clients", (int)(listAirplanes.Width * 0.96));
-      UpdateClients();
 
       //Setup timer
       timer.Enabled = true;
@@ -61,10 +60,10 @@ namespace Simulator.Views
     /// <summary>
     /// 
     /// </summary>
-    public void UpdateClients()
+    public void UpdateClients(string id)
     {
       listClients.Items.Clear();
-      var clients = Controllers.Simulator.Instance.Clients();
+      var clients = Controllers.Simulator.Instance.Clients(id);
       foreach (var client in clients)
       {
         listClients.Items.Add(new ListViewItem(client));
@@ -87,6 +86,8 @@ namespace Simulator.Views
       {
         listAirplanes.Items.Add(new ListViewItem(airplane));
       }
+      UpdateClients(airportId);
+
     }
 
     /// <summary>
@@ -116,7 +117,7 @@ namespace Simulator.Views
       var simCanevas = mapPanel.CreateGraphics();
       simCanevas.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
 
-      List<Position> airportPositions = Controllers.Simulator.Instance.AirportPositions();
+      var airportPositions = Controllers.Simulator.Instance.AirportPositions();
 
       int ind = 0;
 
@@ -125,8 +126,15 @@ namespace Simulator.Views
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
         var airport = new Bitmap(airports[ind%3]);
+        string drawString = position.Item1;
+        Font drawFont = new Font("Arial", 12);
+        SolidBrush drawBrush = new SolidBrush(Color.White);
+        float x = 150.0F;
+        float y = 50.0F;
+        StringFormat drawFormat = new StringFormat();
+        simCanevas.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height/2), position.Item2.Y + (int)(height / 2), drawFormat);
 
-        simCanevas.DrawImage(airport, position.X - (int)(width / 2), (position.Y) - (int)(height/2), height, width);
+        simCanevas.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height/2), height, width);
         
         ind++;
       }
@@ -163,7 +171,7 @@ namespace Simulator.Views
     /// <param name="origin"></param>
     /// <param name="target"></param>
     /// <exception cref="ArgumentException"></exception>
-    internal void DrawAirplane(TaskType type, Position actual, Position origin, Position target)
+    public void DrawAirplane(string id, TaskType type, Position actual, Position origin, Position target)
     {
       int height = 25;
       int width = 25;
@@ -200,6 +208,16 @@ namespace Simulator.Views
       PointF pointTarget = new PointF(target.X, target.Y);
 
       simCanevas.DrawLine(blackPen, pointOrigin, pointTarget);
+
+      //Draw id
+      string drawString = id;
+      Font drawFont = new Font("Arial", 12);
+      SolidBrush drawBrush = new SolidBrush(Color.White);
+      float x = 150.0F;
+      float y = 50.0F;
+      StringFormat drawFormat = new StringFormat();
+      simCanevas.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y, drawFormat);
+
     }
 
     /// <summary>
@@ -260,7 +278,6 @@ namespace Simulator.Views
 
       //OnTick
       Controllers.Simulator.Instance.OnTick(_ticks * 15);
-      UpdateClients();
 
     }
 

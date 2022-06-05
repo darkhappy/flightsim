@@ -59,9 +59,14 @@ namespace Simulator.Controllers
     /// <summary>
     /// Takes all airports from the scenario airports list and places them on the map.
     /// </summary>
-    public List<Position> AirportPositions()
+    public List<Tuple<string, Position>> AirportPositions()
     {
-      return _scenario.Airports.Select(airport => airport.Position).ToList();
+      var list = new List<Tuple<string, Position>>();
+      foreach (var airport in _scenario.Airports)
+      {
+        list.Add(new Tuple<string, Position>(airport.Name, airport.Position));
+      }
+     return list;
     }
 
     /// <summary>
@@ -86,9 +91,9 @@ namespace Simulator.Controllers
     /// <returns>
     /// List of clients.
     /// </returns>
-    public List<string> Clients()
+    public List<string> Clients(string id)
     {
-      return _scenario.GetClients();
+      return _scenario.GetClients(id);
     }
 
     /// <summary>
@@ -120,7 +125,7 @@ namespace Simulator.Controllers
     /// </returns>
     private bool CanGenerate(int time)
     {
-      return time % 60 * 60 == 0;
+      return time % 3600 == 0;
     }
 
     /// <summary>
@@ -135,11 +140,11 @@ namespace Simulator.Controllers
       }
     }
 
-    public void UpdateAirplanes(List<Tuple<TaskType, Position, Position, Position>> airplanes)
+    public void UpdateAirplanes(List<Tuple<string, TaskType, Position, Position, Position>> airplanes)
     {
       foreach(var airplane in airplanes)
       {
-        _frmSim.DrawAirplane(airplane.Item1, airplane.Item2, airplane.Item3, airplane.Item4);
+        _frmSim.DrawAirplane(airplane.Item1, airplane.Item2, airplane.Item3, airplane.Item4, airplane.Item5);
       }
     }
 

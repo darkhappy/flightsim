@@ -94,9 +94,9 @@ namespace Simulator.Models
     /// <returns>
     /// A list of all clients as a descriptive string.
     /// </returns>
-    public List<string> GetClients()
+    public List<string> GetClients(string id)
     {
-      return Tasks.Select(task => task.ToString()).ToList();
+      return GetAirport(id).GetClients();
     }
 
     public List<Tuple<TaskType, Position>> GetEvents()
@@ -104,11 +104,22 @@ namespace Simulator.Models
       return (from task in Tasks
               where !task.IsTransportTask
               select new Tuple<TaskType, Position>(task.Type, task.Position)).ToList();
+    
     }
 
-    public List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    public List<Tuple<string, TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
-      return Airports.SelectMany(airport => airport.GetFlyingAirplanes()).ToList();
+      List<Tuple<string, TaskType, Position, Position, Position>> airplanes = new List<Tuple<string, TaskType, Position, Position, Position>>();
+
+      foreach (Airport airport in Airports)
+      {
+        foreach (var elem in airport.GetFlyingAirplanes())
+        {
+          airplanes.Add(elem);
+        }
+      }
+
+      return airplanes;
     }
 
     /// <summary>
