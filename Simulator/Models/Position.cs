@@ -82,5 +82,13 @@ namespace Simulator.Models
     {
       return Transpose(X, Y);
     }
+
+    public double DistanceTo(Position target)
+    {
+      var distanceX = target.X - X;
+      var distanceY = target.Y - Y;
+
+      return Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2));
+    }
   }
 }

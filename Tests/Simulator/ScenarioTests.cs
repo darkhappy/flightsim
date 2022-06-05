@@ -110,5 +110,23 @@ namespace Tests.Simulator
 
       reader.Close();
     }
+
+    [Test]
+    [TestCase(100, 100, "CRS")]
+    [TestCase(500, 450, "DS")]
+    public void FindNearestAirport(int x, int y, string id)
+    {
+      var reader = new FileStream("test.xml", FileMode.Open);
+      var serializer = new DataContractSerializer(typeof(Scenario));
+
+      _scenario = (Scenario) serializer.ReadObject(reader);
+
+      reader.Close();
+
+      var position = new Position(x, y);
+      var airport = _scenario.GetNearestAirport(position);
+
+      Assert.That(airport.Id, Is.EqualTo(id));
+    }
   }
 }
