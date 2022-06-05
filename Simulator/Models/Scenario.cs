@@ -94,37 +94,21 @@ namespace Simulator.Models
     /// <returns>
     /// A list of all clients as a descriptive string.
     /// </returns>
-    internal List<string> GetClients()
+    public List<string> GetClients()
     {
       return Tasks.Select(task => task.ToString()).ToList();
     }
 
-    internal List<Tuple<TaskType, Position>> GetEvents()
+    public List<Tuple<TaskType, Position>> GetEvents()
     {
-      List<Tuple<TaskType, Position>> events = new List<Tuple<TaskType, Position>>();
-
-      foreach (Task task in Tasks)
-      {
-        if (task.Type == TaskType.Passenger || task.Type == TaskType.Cargo) continue;
-        events.Add(new Tuple<TaskType, Position>(task.Type, task.Position));
-      }
-
-      return events;
+      return (from task in Tasks
+              where !task.IsTransportTask
+              select new Tuple<TaskType, Position>(task.Type, task.Position)).ToList();
     }
 
-    internal List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    public List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
-      List<Tuple<TaskType, Position, Position, Position>> airplanes = new List<Tuple<TaskType, Position, Position, Position>>();
-
-      foreach (Airport airport in Airports)
-      {
-        foreach (var elem in airport.GetFlyingAirplanes())
-        {
-          airplanes.Add(elem);
-        }
-      }
-
-      return airplanes;
+      return Airports.SelectMany(airport => airport.GetFlyingAirplanes()).ToList();
     }
 
     /// <summary>
