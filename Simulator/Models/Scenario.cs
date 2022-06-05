@@ -12,7 +12,7 @@ namespace Simulator.Models
   [DataContract(Namespace = "")]
   public class Scenario : IExtensibleDataObject
   {
-    private static Scenario _instance;
+    private static Scenario? _instance;
 
     public Scenario()
     {
@@ -28,12 +28,6 @@ namespace Simulator.Models
     public static Scenario Instance => _instance ??= new Scenario();
 
     public ExtensionDataObject ExtensionData { get; set; } = null!;
-
-    public Airport GetFromPosition(Position position)
-    {
-      var airport = Airports.FirstOrDefault(a => a.Position.Equals(position));
-      return airport;
-    }
 
     [OnDeserialized]
     private void OnDeserialized(StreamingContext context)
@@ -137,18 +131,12 @@ namespace Simulator.Models
     public List<string> GetAirplanesFromAirport(string id)
     {
       var airport = GetAirport(id);
-      return airport.GetToStringOfPlanes();
+      return airport == null ? new List<string>() : airport.GetToStringOfPlanes();
     }
 
     public List<ObjectInfo> GetAirportsObjectInfo()
     {
-      var list = new List<ObjectInfo>();
-      foreach (var airport in Airports)
-      {
-        list.Add(new ObjectInfo(airport.Id, airport.Name));
-      }
-
-      return list;
+      return Airports.Select(airport => new ObjectInfo(airport.Id, airport.Name)).ToList();
     }
 
 
@@ -160,17 +148,8 @@ namespace Simulator.Models
 
     private void AssignUnassignedTasks()
     {
-      foreach (var task in UnassignedTasks)
-      {
-        foreach (var airport in Airports)
-        {
-          if (airport.AssignTask(task)) ;
-          {
-            UnassignedTasks.Remove(task);
-            break;
-          }
-        }
-      }
+      foreach (var task in UnassignedTasks.Where(task => Airports.Any(airport => airport.AssignTask(task))))
+        UnassignedTasks.Remove(task);
     }
 
     public void RemoveTask(Task task)
