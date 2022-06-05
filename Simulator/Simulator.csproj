@@ -48,7 +48,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-      <Compile Include="Controllers\Constants.cs"/>
+    <Compile Include="Controllers\Constants.cs" />
     <Compile Include="Controllers\Simulator.cs" />
     <Compile Include="Models\Airplanes\Airplane.cs" />
     <Compile Include="Models\Airplanes\Airport.cs" />
@@ -58,6 +58,7 @@
     <Compile Include="Models\Airplanes\RescuePlane.cs" />
     <Compile Include="Models\Airplanes\ScoutPlane.cs" />
     <Compile Include="Models\Airplanes\TransportPlane.cs" />
+    <Compile Include="Models\TaskType.cs" />
     <Compile Include="Models\Colour.cs" />
     <Compile Include="Models\ObjectInfo.cs" />
     <Compile Include="Models\Position.cs" />
@@ -69,7 +70,7 @@
     <Compile Include="Models\States\IState.cs" />
     <Compile Include="Models\States\ITaskState.cs" />
     <Compile Include="Models\States\MaintenanceState.cs" />
-      <Compile Include="Models\States\PlaneState.cs"/>
+    <Compile Include="Models\States\PlaneState.cs" />
     <Compile Include="Models\States\RescueFlight.cs" />
     <Compile Include="Models\States\ScoutFlight.cs" />
     <Compile Include="Models\States\StandbyState.cs" />
@@ -94,38 +95,39 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Views\FormChoosePath.Designer.cs">
-        <DependentUpon>FormChoosePath.cs</DependentUpon>
+      <DependentUpon>FormChoosePath.cs</DependentUpon>
     </Compile>
-      <Compile Include="Views\FormSimulator.cs">
-          <SubType>Form</SubType>
-      </Compile>
-      <Compile Include="Views\FormSimulator.Designer.cs">
-          <DependentUpon>FormSimulator.cs</DependentUpon>
-      </Compile>
+    <Compile Include="Views\FormSimulator.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Views\FormSimulator.Designer.cs">
+      <DependentUpon>FormSimulator.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
-    <ItemGroup/>
-    <ItemGroup>
-        <Content Include="Resources\Corellia.png"/>
-        <Content Include="Resources\Coruscant.png"/>
-        <Content Include="Resources\galaxy.jpg"/>
-        <Content Include="Resources\hoth.png"/>
-        <Content Include="TestScenario.xml"/>
-        <Content Include="HugeScenario.xml"/>
-        <None Include="Resources\star-wars-theme-song.wav"/>
-        <None Include="Resources\x_wing.png"/>
-        <None Include="Resources\tie_fighter.png"/>
-        <None Include="Resources\m_flacon.png"/>
-    </ItemGroup>
-    <ItemGroup>
-        <EmbeddedResource Include="Properties\Resources.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <EmbeddedResource Include="Views\FormChoosePath.resx">
-            <DependentUpon>FormChoosePath.cs</DependentUpon>
-        </EmbeddedResource>
-        <EmbeddedResource Include="Views\FormSimulator.resx">
-            <DependentUpon>FormSimulator.cs</DependentUpon>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="Resources\Corellia.png" />
+    <Content Include="Resources\Coruscant.png" />
+    <Content Include="Resources\galaxy.jpg" />
+    <Content Include="Resources\hoth.png" />
+    <None Include="Resources\Rebel_Logo.png" />
+    <Content Include="TestScenario.xml" />
+    <Content Include="HugeScenario.xml" />
+    <None Include="Resources\star-wars-theme-song.wav" />
+    <None Include="Resources\x_wing.png" />
+    <None Include="Resources\tie_fighter.png" />
+    <None Include="Resources\m_flacon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FormChoosePath.resx">
+      <DependentUpon>FormChoosePath.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Views\FormSimulator.resx">
+      <DependentUpon>FormSimulator.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

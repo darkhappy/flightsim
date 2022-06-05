@@ -11,6 +11,8 @@ namespace Simulator.Models.Tasks
 
     public int Health { get; private set; }
 
+    public override TaskType Type => TaskType.Fight;
+
     public override void HandleEvent()
     {
       Health--;

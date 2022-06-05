@@ -129,6 +129,14 @@ namespace Simulator.Views
       }
     }
 
+    internal void DrawEvents(Tuple<TaskType, Position> task)
+    {
+      var image = new Bitmap(Resources.Rebel_Logo);
+      var simCanevas = mapPanel.CreateGraphics();
+
+      simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 40, 40);
+    }
+
     /// <summary>
     /// Rotates the image with a given angle.
     /// </summary>

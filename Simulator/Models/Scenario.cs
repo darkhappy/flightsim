@@ -99,6 +99,19 @@ namespace Simulator.Models
       return Tasks.Select(task => task.ToString()).ToList();
     }
 
+    internal List<Tuple<TaskType,Position>> GetEvents()
+    {
+      List <Tuple<TaskType,Position>> events = new List <Tuple<TaskType,Position>> ();
+
+      foreach (Task task in Tasks)
+      {
+        if (task.Type == TaskType.Passenger || task.Type == TaskType.Cargo) continue;
+        events.Add(new Tuple<TaskType, Position>(task.Type, task.Position));
+      }
+
+      return events;
+    }
+
     /// <summary>
     /// Method that returns two different airports.
     /// </summary>
@@ -143,13 +156,26 @@ namespace Simulator.Models
     public void HandleTick(double time)
     {
       GenerateTasks();
+      Controllers.Simulator.Instance.UpdateEvents(GetEvents());
       AssignUnassignedTasks();
+
+      foreach (var airport in Airports)
+        airport.Action(time * 0.01);
     }
 
     private void AssignUnassignedTasks()
     {
-      foreach (var task in UnassignedTasks.Where(task => Airports.Any(airport => airport.AssignTask(task))))
-        UnassignedTasks.Remove(task);
+      for (int i = UnassignedTasks.Count - 1; i >= 0; i--)
+      {
+        foreach (Airport airport in GetNearestAirports(UnassignedTasks[i].Position))
+        {
+          if (airport.AssignTask(UnassignedTasks[i]))
+          {
+            UnassignedTasks.RemoveAt(i);
+            break;
+          }
+        }
+      }
     }
 
     public void RemoveTask(Task task)
