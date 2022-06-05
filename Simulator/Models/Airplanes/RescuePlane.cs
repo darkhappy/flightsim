@@ -18,7 +18,7 @@ namespace Simulator.Models.Airplanes
 
     protected override bool CanDoTask(Task task)
     {
-      if (task.Type == Type) return false;
+      if (task.Type != Type) return false;
       State = new RescueFlight(this, task);
 
       return true;
