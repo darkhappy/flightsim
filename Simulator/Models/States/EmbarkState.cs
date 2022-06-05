@@ -9,6 +9,7 @@ namespace Simulator.Models.States
 
     public EmbarkState(TransportPlane plane, TaskTransport task) : base(plane, task)
     {
+      Plane = plane;
       TimeLeft = plane.EmbarkingTime * task.Amount;
     }
 
