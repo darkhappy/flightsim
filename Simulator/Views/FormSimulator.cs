@@ -175,24 +175,9 @@ namespace Simulator.Views
     {
       int height = 25;
       int width = 25;
-
-      //Draw airplane
-      Bitmap image = type switch
-      {
-        TaskType.Passenger => new Bitmap(Resources.m_flacon),
-        TaskType.Cargo => new Bitmap(Resources.m_flacon),
-        TaskType.Fight => new Bitmap(Resources.x_wing),
-        TaskType.Rescue => new Bitmap(Resources.m_flacon),
-        TaskType.Scout => new Bitmap(Resources.tie_fighter),
-        _ => throw new ArgumentException($"TaskType { type } was not found.")
-      };
-
       var simCanevas = mapPanel.CreateGraphics();
-      simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
       //Draw trajectory
-
-      // Create pen.
       Pen blackPen = type switch
       {
         TaskType.Passenger => new Pen(Color.Green, 3),
@@ -208,6 +193,19 @@ namespace Simulator.Views
       PointF pointTarget = new PointF(target.X, target.Y);
 
       simCanevas.DrawLine(blackPen, pointOrigin, pointTarget);
+
+      //Draw airplane
+      Bitmap image = type switch
+      {
+        TaskType.Passenger => new Bitmap(Resources.m_flacon),
+        TaskType.Cargo => new Bitmap(Resources.m_flacon),
+        TaskType.Fight => new Bitmap(Resources.x_wing),
+        TaskType.Rescue => new Bitmap(Resources.m_flacon),
+        TaskType.Scout => new Bitmap(Resources.tie_fighter),
+        _ => throw new ArgumentException($"TaskType { type } was not found.")
+      };
+   
+      simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
       //Draw id
       string drawString = id;
