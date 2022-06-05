@@ -123,7 +123,7 @@ namespace Simulator.Views
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
         var airport = new Bitmap(airports[ind%3]);
-        simCanevas.DrawImage(airport, position.X, position.Y, 40, 40);
+        simCanevas.DrawImage(airport, position.X, position.Y, 45, 45);
 
         ind++;
       }
@@ -135,14 +135,14 @@ namespace Simulator.Views
       Bitmap image = task.Item1 switch
       {
         TaskType.Fight => new Bitmap(Resources.Rebel_Logo),
-        TaskType.Rescue => new Bitmap(Resources.Rebel_Logo),
-        TaskType.Scout => new Bitmap(Resources.Rebel_Logo),
+        TaskType.Rescue => new Bitmap(Resources.antenna_red),
+        TaskType.Scout => new Bitmap(Resources.alert),
         _ => throw new ArgumentException($"TaskType { task.Item1 } was not found.")
       };
 
       var simCanevas = mapPanel.CreateGraphics();
 
-      simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 40, 40);
+      simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 35, 35);
     }
 
     /// <summary>
