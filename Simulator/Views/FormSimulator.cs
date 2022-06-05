@@ -126,10 +126,13 @@ namespace Simulator.Views
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
         var airport = new Bitmap(airports[ind%3]);
-        var name = new Label();
-        name.AutoSize = true;
-        name.Location = new Point(position.Item2.X, position.Item2.Y);
-        name.Text = position.Item1;
+        string drawString = position.Item1;
+        Font drawFont = new Font("Arial", 12);
+        SolidBrush drawBrush = new SolidBrush(Color.White);
+        float x = 150.0F;
+        float y = 50.0F;
+        StringFormat drawFormat = new StringFormat();
+        simCanevas.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height/2), position.Item2.Y + (int)(height / 2), drawFormat);
 
         simCanevas.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height/2), height, width);
         
@@ -168,7 +171,7 @@ namespace Simulator.Views
     /// <param name="origin"></param>
     /// <param name="target"></param>
     /// <exception cref="ArgumentException"></exception>
-    internal void DrawAirplane(TaskType type, Position actual, Position origin, Position target)
+    public void DrawAirplane(string id, TaskType type, Position actual, Position origin, Position target)
     {
       int height = 25;
       int width = 25;
@@ -205,6 +208,16 @@ namespace Simulator.Views
       PointF pointTarget = new PointF(target.X, target.Y);
 
       simCanevas.DrawLine(blackPen, pointOrigin, pointTarget);
+
+      //Draw id
+      string drawString = id;
+      Font drawFont = new Font("Arial", 12);
+      SolidBrush drawBrush = new SolidBrush(Color.White);
+      float x = 150.0F;
+      float y = 50.0F;
+      StringFormat drawFormat = new StringFormat();
+      simCanevas.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y, drawFormat);
+
     }
 
     /// <summary>

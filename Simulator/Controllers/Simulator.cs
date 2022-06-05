@@ -140,11 +140,11 @@ namespace Simulator.Controllers
       }
     }
 
-    public void UpdateAirplanes(List<Tuple<TaskType, Position, Position, Position>> airplanes)
+    public void UpdateAirplanes(List<Tuple<string, TaskType, Position, Position, Position>> airplanes)
     {
       foreach(var airplane in airplanes)
       {
-        _frmSim.DrawAirplane(airplane.Item1, airplane.Item2, airplane.Item3, airplane.Item4);
+        _frmSim.DrawAirplane(airplane.Item1, airplane.Item2, airplane.Item3, airplane.Item4, airplane.Item5);
       }
     }
 

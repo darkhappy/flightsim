@@ -104,14 +104,12 @@ namespace Simulator.Models
       return (from task in Tasks
               where !task.IsTransportTask
               select new Tuple<TaskType, Position>(task.Type, task.Position)).ToList();
+    
     }
 
-      return events;
-    }
-
-    public List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    public List<Tuple<string, TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
-      List<Tuple<TaskType, Position, Position, Position>> airplanes = new List<Tuple<TaskType, Position, Position, Position>>();
+      List<Tuple<string, TaskType, Position, Position, Position>> airplanes = new List<Tuple<string, TaskType, Position, Position, Position>>();
 
       foreach (Airport airport in Airports)
       {
