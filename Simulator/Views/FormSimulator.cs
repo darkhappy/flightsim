@@ -104,14 +104,6 @@ namespace Simulator.Views
       return (result != DialogResult.OK) ?  "" : xmlFilePath.FileName;
     }
 
-    private void toolStripComboBox1_Click(object sender, EventArgs e)
-    {
-    }
-
-    private void listBox1_SelectedIndexChanged(object sender, EventArgs e)
-    {
-    }
-
     /// <summary>
     /// Draws the map as it is with all airports events and airplanes
     /// </summary>
@@ -136,6 +128,11 @@ namespace Simulator.Views
       }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="task"></param>
+    /// <exception cref="ArgumentException"></exception>
     internal void DrawEvent(Tuple<TaskType, Position> task)
     {  
       Bitmap image = task.Item1 switch
@@ -152,16 +149,24 @@ namespace Simulator.Views
       simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 35, 35);
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="type"></param>
+    /// <param name="actual"></param>
+    /// <param name="origin"></param>
+    /// <param name="target"></param>
+    /// <exception cref="ArgumentException"></exception>
     internal void DrawAirplane(TaskType type, Position actual, Position origin, Position target)
     {
       //Draw airplane
       Bitmap image = type switch
       {
-        TaskType.Passenger => new Bitmap(Resources.tie_fighter),
-        TaskType.Cargo => new Bitmap(Resources.x_wing),
-        TaskType.Fight => new Bitmap(Resources.m_flacon),
-        TaskType.Rescue => new Bitmap(Resources.Coruscant),
-        TaskType.Scout => new Bitmap(Resources.Corellia),
+        TaskType.Passenger => new Bitmap(Resources.m_flacon),
+        TaskType.Cargo => new Bitmap(Resources.m_flacon),
+        TaskType.Fight => new Bitmap(Resources.x_wing),
+        TaskType.Rescue => new Bitmap(Resources.m_flacon),
+        TaskType.Scout => new Bitmap(Resources.tie_fighter),
         _ => throw new ArgumentException($"TaskType { type } was not found.")
       };
 

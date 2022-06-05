@@ -106,8 +106,6 @@ namespace Simulator.Controllers
       //Make all actions 
       _scenario.HandleTick(time);
 
-      //Draw actions results
-      _frmSim.DrawMap();
       UpdateEvents(_scenario.GetEvents());
       UpdateAirplanes(_scenario.GetFlyingAirplanes());
     }
