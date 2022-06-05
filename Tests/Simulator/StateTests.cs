@@ -53,6 +53,25 @@ namespace Tests.Simulator
     }
 
     [Test]
+    public void PlaneHasPositionOutOfBoundsWhenStandby()
+    {
+      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+
+      Assert.That(plane.Position, Is.EqualTo(new Position(-1, -1)));
+    }
+
+    [Test]
+    public void PlaneHasOriginPositionWhenPutOnState()
+    {
+      var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);
+      var task = new TaskFight(new Position(400, 0));
+
+      plane.AssignTask(task);
+
+      Assert.That(plane.Position, Is.EqualTo(new Position(0, 0)));
+    }
+
+    [Test]
     public void Overlap()
     {
       var plane = new FightPlane("T-01", "Tie Fighter", 100, 2, _firstAirport);

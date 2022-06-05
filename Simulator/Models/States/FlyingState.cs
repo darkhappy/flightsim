@@ -8,12 +8,11 @@ namespace Simulator.Models.States
   {
     private Position _current;
 
-    protected FlyingState(Airplane plane, Task task)
+    protected FlyingState(Airplane plane, Task task) : base(plane)
     {
       Task = task;
       Destination = task.Position;
-      Plane = plane;
-      _current = Plane.OriginPosition;
+      _current = plane.OriginPosition;
     }
 
     public Position Destination { get; set; }

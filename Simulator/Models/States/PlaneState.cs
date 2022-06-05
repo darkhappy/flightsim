@@ -4,6 +4,11 @@ namespace Simulator.Models.States
 {
   public abstract class PlaneState : IState
   {
+    protected PlaneState(Airplane plane)
+    {
+      Plane = plane;
+    }
+
     protected Airplane Plane { get; set; }
 
     public abstract void Action(double time);

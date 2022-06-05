@@ -4,9 +4,8 @@ namespace Simulator.Models.States
 {
   public abstract class TimedState : PlaneState
   {
-    protected TimedState(Airplane plane)
+    protected TimedState(Airplane plane) : base(plane)
     {
-      Plane = plane;
     }
 
     public override Position Current => new Position(-1, -1);
