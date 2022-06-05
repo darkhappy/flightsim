@@ -19,6 +19,8 @@ namespace Simulator.Models
 
     [DataMember] public int Y { get; set; }
 
+    public bool Hidden => Equals(new Position(-1, -1));
+
     protected bool Equals(Position other)
     {
       return X == other.X && Y == other.Y;
@@ -55,7 +57,7 @@ namespace Simulator.Models
       var x = _random.Next(0, Constants.MapWidth);
       var y = _random.Next(0, Constants.MapHeight);
       var position = new Position(x, y);
-      
+
       return position;
     }
 

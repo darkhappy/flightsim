@@ -12,6 +12,8 @@ namespace Simulator.Models.Tasks
       Destination = destination;
     }
 
+    public override bool IsTransportTask => true;
+
     public double Amount
     {
       get => _amount;
