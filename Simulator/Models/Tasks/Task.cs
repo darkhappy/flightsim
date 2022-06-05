@@ -11,6 +11,8 @@ namespace Simulator.Models.Tasks
     public Position Position { get; }
     public bool IsCompleted { get; private set; }
 
+    public abstract TaskType Type { get;}
+
     public virtual void HandleEvent()
     {
       IsCompleted = true;

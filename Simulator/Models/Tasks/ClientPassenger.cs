@@ -10,6 +10,8 @@ namespace Simulator.Models.Tasks
       Amount = Math.Round(new Random().NextDouble() * airport.PassengerTraffic + 1) * 5;
     }
 
+    public override TaskType Type => TaskType.Passenger;
+
     public override string ToString() => Amount + " passengers to destination : " + Destination.Name;
   }
 }
