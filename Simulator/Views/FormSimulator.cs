@@ -43,7 +43,6 @@ namespace Simulator.Views
       //Setup first clients
       listClients.View = View.Details;
       listClients.Columns.Add("Clients", (int)(listAirplanes.Width * 0.96));
-      UpdateClients();
 
       //Setup timer
       timer.Enabled = true;
@@ -61,10 +60,10 @@ namespace Simulator.Views
     /// <summary>
     /// 
     /// </summary>
-    public void UpdateClients()
+    public void UpdateClients(string id)
     {
       listClients.Items.Clear();
-      var clients = Controllers.Simulator.Instance.Clients();
+      var clients = Controllers.Simulator.Instance.Clients(id);
       foreach (var client in clients)
       {
         listClients.Items.Add(new ListViewItem(client));
@@ -87,6 +86,8 @@ namespace Simulator.Views
       {
         listAirplanes.Items.Add(new ListViewItem(airplane));
       }
+      UpdateClients(airportId);
+
     }
 
     /// <summary>
@@ -113,7 +114,7 @@ namespace Simulator.Views
       var simCanevas = mapPanel.CreateGraphics();
       simCanevas.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
 
-      List<Position> airportPositions = Controllers.Simulator.Instance.AirportPositions();
+      var airportPositions = Controllers.Simulator.Instance.AirportPositions();
 
       int ind = 0;
 
@@ -122,7 +123,11 @@ namespace Simulator.Views
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
         var airport = new Bitmap(airports[ind%3]);
-        simCanevas.DrawImage(airport, position.X, position.Y, 45, 45);
+        var name = new Label();
+        name.AutoSize = true;
+        name.Location = new Point(position.Item2.X, position.Item2.Y);
+        name.Text = position.Item1;
+        simCanevas.DrawImage(airport, position.Item2.X, position.Item2.Y, 45, 45);
 
         ind++;
       }
@@ -236,7 +241,7 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void mapPanel_Paint(object sender, PaintEventArgs e)
     {
-      DrawMap();
+      //DrawMap();
     }
 
     /// <summary>
@@ -251,7 +256,6 @@ namespace Simulator.Views
 
       //OnTick
       Controllers.Simulator.Instance.OnTick(_ticks * 15);
-      UpdateClients();
 
     }
 

@@ -94,12 +94,12 @@ namespace Simulator.Models
     /// <returns>
     /// A list of all clients as a descriptive string.
     /// </returns>
-    internal List<string> GetClients()
+    public List<string> GetClients(string id)
     {
-      return Tasks.Select(task => task.ToString()).ToList();
+      return GetAirport(id).GetClients();
     }
 
-    internal List<Tuple<TaskType, Position>> GetEvents()
+    public List<Tuple<TaskType, Position>> GetEvents()
     {
       List<Tuple<TaskType, Position>> events = new List<Tuple<TaskType, Position>>();
 
@@ -112,7 +112,7 @@ namespace Simulator.Models
       return events;
     }
 
-    internal List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    public List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
       List<Tuple<TaskType, Position, Position, Position>> airplanes = new List<Tuple<TaskType, Position, Position, Position>>();
 

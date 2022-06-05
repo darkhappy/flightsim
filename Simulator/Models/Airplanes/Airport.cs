@@ -97,5 +97,15 @@ namespace Simulator.Models.Airplanes
 
       Clients.Add(newClient);
     }
+
+    public List<string> GetClients()
+    {
+      var list = new List<string>();
+      foreach (var client in Clients)
+      {
+        list.Add(client.ToString());
+      }
+      return list;
+    }
   }
 }

@@ -59,9 +59,14 @@ namespace Simulator.Controllers
     /// <summary>
     /// Takes all airports from the scenario airports list and places them on the map.
     /// </summary>
-    public List<Position> AirportPositions()
+    public List<Tuple<string, Position>> AirportPositions()
     {
-      return _scenario.Airports.Select(airport => airport.Position).ToList();
+      var list = new List<Tuple<string, Position>>();
+      foreach (var airport in _scenario.Airports)
+      {
+        list.Add(new Tuple<string, Position>(airport.Name, airport.Position));
+      }
+     return list;
     }
 
     /// <summary>
@@ -86,9 +91,9 @@ namespace Simulator.Controllers
     /// <returns>
     /// List of clients.
     /// </returns>
-    public List<string> Clients()
+    public List<string> Clients(string id)
     {
-      return _scenario.GetClients();
+      return _scenario.GetClients(id);
     }
 
     /// <summary>
@@ -106,6 +111,8 @@ namespace Simulator.Controllers
       //Make all actions 
       _scenario.HandleTick(time);
 
+      //Draw actions results
+      _frmSim.DrawMap();
       UpdateEvents(_scenario.GetEvents());
       UpdateAirplanes(_scenario.GetFlyingAirplanes());
     }
@@ -118,7 +125,7 @@ namespace Simulator.Controllers
     /// </returns>
     private bool CanGenerate(int time)
     {
-      return time % 60 * 60 == 0;
+      return time % 3600 == 0;
     }
 
     /// <summary>
