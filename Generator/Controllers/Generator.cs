@@ -6,6 +6,9 @@ using Generator.Models;
 
 namespace Generator.Controllers
 {
+  /// <summary>
+  ///   Class representing the generator.
+  /// </summary>
   public class Generator
   {
     public const int MapHeight = 650;
@@ -38,17 +41,29 @@ namespace Generator.Controllers
       Instance.GenerateView();
     }
 
+    /// <summary>
+    ///   Generate the <see cref="FormGenerator"/>
+    /// </summary>
     private void GenerateView()
     {
       _frmGen.UpdateAirports(_scenario.GetAirportsInfo());
       Application.Run(_frmGen);
     }
 
+    /// <summary>
+    /// Shows in the <see cref="FormGenerator"/> all the <see cref="Airplane"/> in the selected <see cref="Airport"/>
+    /// </summary>
+    /// <param name="id">The unique identifier for the <see cref="Airplane" />.</param>
     public void UpdateAirplanes(string id)
     {
       _frmGen.UpdateAirplanes(_scenario.GetAirplanesInfo(id));
     }
 
+    /// <summary>
+    ///   Add an <see cref="Airplane"/> into the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="Airportid">The unique identifier for the <see cref="Airport"/> in wich the <see cref="Airplane"/> will be created</param>
+    /// <param name="info"><see cref="AirplaneInfo"/> of the new <see cref="Airplane"/> </param>
     public void AddAirplane(string Airportid, AirplaneInfo info)
     {
       try
@@ -65,6 +80,12 @@ namespace Generator.Controllers
       }
     }
 
+    /// <summary>
+    ///    Edit an existing <see cref="Airplane"/> in the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="airportId">The <see cref="Airport"/> ID in wich the <see cref="Airplane"/> is edited </param>
+    /// <param name="airplaneId">The edited <see cref="Airplane"/> ID</param>
+    /// <param name="info">New <see cref="AirplaneInfo"/> of the <see cref="Airplane"/></param>
     public void EditAirplane(string airportId, string airplaneId, AirplaneInfo info)
     {
       try
@@ -81,6 +102,10 @@ namespace Generator.Controllers
       }
     }
 
+    /// <summary>
+    ///   Delete an existing <see cref="Airplane"/> in the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="id">The ID of the <see cref="Airplane"/> that will be deleted </param>
     public void DeleteAirplane(string id)
     {
       try
@@ -113,6 +138,11 @@ namespace Generator.Controllers
       }
     }
 
+    /// <summary>
+    ///    Edit an existing <see cref="Airport"/> in the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="id">The edited <see cref="Airport"/> ID></param>
+    /// <param name="info">New <see cref="AirportInfo"/> of the <see cref="Airport"/></param>
     public void EditAirport(string id, AirportInfo info)
     {
       try
@@ -129,6 +159,10 @@ namespace Generator.Controllers
       }
     }
 
+    /// <summary>
+    ///   Delete an existint <see cref="Airport"/> in the <see cref="Scenario"/>
+    /// </summary>
+    /// <param name="id">The unique identifier of the <see cref="Airport"/> that will be deleted</param>
     public void DeleteAirport(string id)
     {
       try
@@ -145,6 +179,19 @@ namespace Generator.Controllers
       }
     }
 
+    /// <summary>
+    ///   Check if the <see cref="Scenario"/> can be serialized
+    /// </summary>
+    /// <returns>Whether the <see cref="Scenario"/> can be serialized</returns>
+    public bool CanSerialize()
+    {
+      return _scenario.Airports.Count > 1 ? true : false;
+    }
+
+    /// <summary>
+    ///   Serialized the <see cref="Scenario"/> in XML 
+    /// </summary>
+    /// <param name="path">Path of the serialized <see cref="Scenario"/></param>
     public void Export(string path)
     {
       var serializer = new DataContractSerializer(typeof(Scenario));
@@ -152,10 +199,14 @@ namespace Generator.Controllers
       try
       {
         serializer.WriteObject(stream, _scenario);
+        _frmGen.SetPath(path);
+        _frmGen.EnableGroups(true);
       }
       catch (Exception e)
       {
         MessageBox.Show(e.Message);
+        _frmGen.ResetPath();
+        _frmGen.EnableGroups(false);
       }
       finally
       {
@@ -163,6 +214,10 @@ namespace Generator.Controllers
       }
     }
 
+    /// <summary>
+    ///   Import a serialized <see cref="Scenario"/> in its XML form
+    /// </summary>
+    /// <param name="path">The path of the XML <see cref="Scenario"/></param>
     public void Import(string path)
     {
       var serializer = new DataContractSerializer(typeof(Scenario));
@@ -170,19 +225,21 @@ namespace Generator.Controllers
       try
       {
         _scenario = (Scenario) serializer.ReadObject(stream);
+        _frmGen.SetPath(path);
+        _frmGen.EnableGroups(true);
+        var airportInfo = _scenario.GetAirportsInfo();
+        _frmGen.UpdateAirports(airportInfo);
       }
       catch (Exception e)
       {
         MessageBox.Show(e.Message);
+        _frmGen.ResetPath();
+        _frmGen.EnableGroups(false);
       }
       finally
       {
         stream.Close();
       }
-
-      var airportInfo = _scenario.GetAirportsInfo();
-
-      _frmGen.UpdateAirports(airportInfo);
     }
   }
 }

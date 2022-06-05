@@ -498,6 +498,11 @@ namespace Generator
         DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
         if (dialogResult == DialogResult.Yes)
         {
+          if (!Controllers.Generator.Instance.CanSerialize())
+          {
+            MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+          }
           Controllers.Generator.Instance.Export(currentPath);
         }
         else if (dialogResult == DialogResult.Cancel)
@@ -508,16 +513,9 @@ namespace Generator
 
       string path = OpenPath();
 
-      if (path == "") return;     
+      if (path == "") return;
 
       Controllers.Generator.Instance.Import(path);
-      currentPath = path;
-      this.Text = "Scenario Generator - " + currentPath;
-
-      if (listAirports.Items.Count > 0)
-        listAirports.Items[0].Selected = true;
-
-      EnableGroups(true);
     }
 
     /// <summary>
@@ -544,14 +542,7 @@ namespace Generator
 
       if (path == "") return;
       
-      Controllers.Generator.Instance.Import(path);
-      currentPath = path;
-      this.Text = "Scenario Generator - " + currentPath;
-
-      if (listAirports.Items.Count > 0)
-        listAirports.Items[0].Selected = true;
-
-      EnableGroups(true);
+      Controllers.Generator.Instance.Export(path);
     }
 
     /// <summary>
@@ -564,6 +555,12 @@ namespace Generator
       if (currentPath == "")
       {
         MessageBox.Show("No scenario to save", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
+      if (!Controllers.Generator.Instance.CanSerialize())
+      {
+        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
       }
 
@@ -583,6 +580,12 @@ namespace Generator
         return;
       }
 
+      if (!Controllers.Generator.Instance.CanSerialize())
+      {
+        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        return;
+      }
+
       string path = SavePath();
 
       if (path == "")
@@ -592,11 +595,6 @@ namespace Generator
       }
 
       Controllers.Generator.Instance.Export(path);
-      currentPath = path;
-      this.Text = "Scenario Generator - " + currentPath;
-
-      if (listAirports.Items.Count > 0)
-        listAirports.Items[0].Selected = true;
     }
 
     /// <summary>
@@ -615,6 +613,11 @@ namespace Generator
       DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
       if (dialogResult == DialogResult.Yes)
       {
+        if (!Controllers.Generator.Instance.CanSerialize())
+        {
+          MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          return;
+        }
         Controllers.Generator.Instance.Export(currentPath);
       }
       else if (dialogResult == DialogResult.Cancel)
@@ -628,10 +631,31 @@ namespace Generator
       ResetAirplaneInfo();
       ResetAirportInfo();
 
-      this.Text = "Scenario Generator";
-      currentPath = "";
+      ResetPath();
 
       EnableGroups(false);
+    }
+
+    /// <summary>
+    ///   Set the new XML <see cref="Scenario"/> file for the <see cref="Generator"/>
+    /// </summary>
+    /// <param name="path">The path of the XML file</param>
+    public void SetPath(string path) 
+    {
+      currentPath = path;
+      this.Text = "Scenario Generator - " + currentPath;
+
+      if (listAirports.Items.Count > 0)
+        listAirports.Items[0].Selected = true;
+    }
+
+    /// <summary>
+    ///   Reset the XML path for the <see cref="Generator"/>
+    /// </summary>
+    public void ResetPath()
+    {
+      this.Text = "Scenario Generator";
+      currentPath = "";
     }
 
     /// <summary>
@@ -664,7 +688,7 @@ namespace Generator
     /// Will enable or disable all the <see cref="FormGenerator"/> elements
     /// </summary>
     /// <param name="enabled">Whether the groups are enabled or not</param>
-    private void EnableGroups(bool enabled)
+    public void EnableGroups(bool enabled)
     {
       gbAirplanes.Enabled = enabled;
       gbAirports.Enabled = enabled;

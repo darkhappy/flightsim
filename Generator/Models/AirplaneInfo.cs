@@ -2,6 +2,9 @@ using System;
 
 namespace Generator.Models
 {
+  /// <summary>
+  ///   Class representing the <see cref="AirplaneInfo"/> of a basic <see cref="Airplane"/> in the simulation.
+  /// </summary>
   public class AirplaneInfo : ObjectInfo
   {
     /// <inheritdoc cref="Airplane.MaintenanceTime" />
@@ -27,7 +30,7 @@ namespace Generator.Models
     }
 
     /// <summary>
-    ///   Represents the type of the <see cref="Airplane" />.
+    ///   Represents the <see cref="AirplaneType"/> of the <see cref="Airplane" />.
     /// </summary>
     /// <seealso cref="AirplaneType" />
     public AirplaneType Type { get; set; }
@@ -98,12 +101,22 @@ namespace Generator.Models
       set { }
     }
 
+    /// <summary>
+    ///   Determines if two <see cref="AirplaneInfo"/> are equal
+    /// </summary>
+    /// <param name="other">The <see cref="AirplaneInfo"/> that will be compared to the actual object</param>
+    /// <returns>Whether the two object are equal</returns>
     protected bool Equals(AirplaneInfo other)
     {
       return base.Equals(other) && _maintenanceTime == other._maintenanceTime && _speed == other._speed &&
              Type == other.Type;
     }
 
+    /// <summary>
+    ///   Determines if the current <see cref="AirplaneInfo"/> is equal to another object
+    /// </summary>
+    /// <param name="obj">The object that will be compared to the actual object</param>
+    /// <returns>Whether the two object are equal</returns>
     public override bool Equals(object? obj)
     {
       if (ReferenceEquals(null, obj)) return false;
@@ -112,6 +125,9 @@ namespace Generator.Models
       return Equals((AirplaneInfo) obj);
     }
 
+    /// <summary>
+    ///   Represents the HashCode for the <see cref="AirplaneInfo"/> usefull for Equals().
+    /// </summary>
     public override int GetHashCode()
     {
       unchecked
@@ -124,11 +140,23 @@ namespace Generator.Models
       }
     }
 
+    /// <summary>
+    ///   Check if two <see cref="AirplaneInfo"/> are equal
+    /// </summary>
+    /// <param name="left">The first <see cref="AirplaneInfo"/> compared</param>
+    /// <param name="right">The second <see cref="AirplaneInfo"/> compared</param>
+    /// <returns>Whether the two object are equal</returns>
     public static bool operator ==(AirplaneInfo? left, AirplaneInfo? right)
     {
       return Equals(left, right);
     }
 
+    /// <summary>
+    ///   Check if two <see cref="AirplaneInfo"/> are not equal
+    /// </summary>
+    /// <param name="left">The first <see cref="AirplaneInfo"/> compared</param>
+    /// <param name="right">The second <see cref="AirplaneInfo"/> compared</param>
+    /// <returns>Whether the two object are not equal</returns>
     public static bool operator !=(AirplaneInfo? left, AirplaneInfo? right)
     {
       return !Equals(left, right);
