@@ -103,7 +103,6 @@ namespace Simulator.Controllers
       {
         //_scenario.GenerateTasks();
       }
-      //UpdateEvents();
       _scenario.HandleTick(time);
     }
 
@@ -122,9 +121,12 @@ namespace Simulator.Controllers
     /// Make updates to all events
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
-    private void UpdateEvents()
+    public void UpdateEvents(List<Tuple<TaskType, Position>> events)
     {
-      
+      foreach(Tuple<TaskType, Position> task in events)
+      {
+        _frmSim.DrawEvents(task);
+      }
     }
 
     /// <summary>

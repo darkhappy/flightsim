@@ -99,6 +99,19 @@ namespace Simulator.Models
       return Tasks.Select(task => task.ToString()).ToList();
     }
 
+    internal List<Tuple<TaskType,Position>> GetEvents()
+    {
+      List <Tuple<TaskType,Position>> events = new List <Tuple<TaskType,Position>> ();
+
+      foreach (Task task in Tasks)
+      {
+        if (task.Type == TaskType.Passenger || task.Type == TaskType.Cargo) continue;
+        events.Add(new Tuple<TaskType, Position>(task.Type, task.Position));
+      }
+
+      return events;
+    }
+
     /// <summary>
     /// Method that returns two different airports.
     /// </summary>
@@ -143,7 +156,11 @@ namespace Simulator.Models
     public void HandleTick(double time)
     {
       GenerateTasks();
+      Controllers.Simulator.Instance.UpdateEvents(GetEvents());
       AssignUnassignedTasks();
+
+      foreach (var airport in Airports)
+        airport.Action(time * 0.01);
     }
 
     private void AssignUnassignedTasks()
