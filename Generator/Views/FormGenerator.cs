@@ -614,6 +614,10 @@ namespace Generator
       EnableGroups(false);
     }
 
+    /// <summary>
+    ///   Set the new XML <see cref="Scenario"/> file for the <see cref="Generator"/>
+    /// </summary>
+    /// <param name="path">The path of the XML file</param>
     public void SetPath(string path) 
     {
       currentPath = path;
@@ -623,6 +627,9 @@ namespace Generator
         listAirports.Items[0].Selected = true;
     }
 
+    /// <summary>
+    ///   Reset the XML path for the <see cref="Generator"/>
+    /// </summary>
     public void ResetPath()
     {
       this.Text = "Scenario Generator";
