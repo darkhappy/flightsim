@@ -508,16 +508,9 @@ namespace Generator
 
       string path = OpenPath();
 
-      if (path == "") return;     
+      if (path == "") return;
 
       Controllers.Generator.Instance.Import(path);
-      currentPath = path;
-      this.Text = "Scenario Generator - " + currentPath;
-
-      if (listAirports.Items.Count > 0)
-        listAirports.Items[0].Selected = true;
-
-      EnableGroups(true);
     }
 
     /// <summary>
@@ -544,14 +537,7 @@ namespace Generator
 
       if (path == "") return;
       
-      Controllers.Generator.Instance.Import(path);
-      currentPath = path;
-      this.Text = "Scenario Generator - " + currentPath;
-
-      if (listAirports.Items.Count > 0)
-        listAirports.Items[0].Selected = true;
-
-      EnableGroups(true);
+      Controllers.Generator.Instance.Export(path);
     }
 
     /// <summary>
@@ -592,11 +578,6 @@ namespace Generator
       }
 
       Controllers.Generator.Instance.Export(path);
-      currentPath = path;
-      this.Text = "Scenario Generator - " + currentPath;
-
-      if (listAirports.Items.Count > 0)
-        listAirports.Items[0].Selected = true;
     }
 
     /// <summary>
@@ -628,10 +609,24 @@ namespace Generator
       ResetAirplaneInfo();
       ResetAirportInfo();
 
-      this.Text = "Scenario Generator";
-      currentPath = "";
+      ResetPath();
 
       EnableGroups(false);
+    }
+
+    public void SetPath(string path) 
+    {
+      currentPath = path;
+      this.Text = "Scenario Generator - " + currentPath;
+
+      if (listAirports.Items.Count > 0)
+        listAirports.Items[0].Selected = true;
+    }
+
+    public void ResetPath()
+    {
+      this.Text = "Scenario Generator";
+      currentPath = "";
     }
 
     /// <summary>
@@ -664,7 +659,7 @@ namespace Generator
     /// Will enable or disable all the <see cref="FormGenerator"/> elements
     /// </summary>
     /// <param name="enabled">Whether the groups are enabled or not</param>
-    private void EnableGroups(bool enabled)
+    public void EnableGroups(bool enabled)
     {
       gbAirplanes.Enabled = enabled;
       gbAirports.Enabled = enabled;

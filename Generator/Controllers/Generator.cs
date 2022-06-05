@@ -152,10 +152,14 @@ namespace Generator.Controllers
       try
       {
         serializer.WriteObject(stream, _scenario);
+        _frmGen.SetPath(path);
+        _frmGen.EnableGroups(true);
       }
       catch (Exception e)
       {
         MessageBox.Show(e.Message);
+        _frmGen.ResetPath();
+        _frmGen.EnableGroups(false);
       }
       finally
       {
@@ -170,19 +174,21 @@ namespace Generator.Controllers
       try
       {
         _scenario = (Scenario) serializer.ReadObject(stream);
+        _frmGen.SetPath(path);
+        _frmGen.EnableGroups(true);
+        var airportInfo = _scenario.GetAirportsInfo();
+        _frmGen.UpdateAirports(airportInfo);
       }
       catch (Exception e)
       {
         MessageBox.Show(e.Message);
+        _frmGen.ResetPath();
+        _frmGen.EnableGroups(false);
       }
       finally
       {
         stream.Close();
       }
-
-      var airportInfo = _scenario.GetAirportsInfo();
-
-      _frmGen.UpdateAirports(airportInfo);
     }
   }
 }
