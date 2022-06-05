@@ -154,7 +154,6 @@ namespace Simulator.Models
 
     public void HandleTick(double time)
     {
-      GenerateTasks();
       Controllers.Simulator.Instance.UpdateEvents(GetEvents());
       AssignUnassignedTasks();
 

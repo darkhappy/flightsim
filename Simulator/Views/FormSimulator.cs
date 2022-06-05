@@ -39,13 +39,9 @@ namespace Simulator.Views
       listAirplanes.Columns.Add("Airplanes", (int)(listAirplanes.Width * 0.96));
 
       //Setup first clients
-      var clients = Controllers.Simulator.Instance.Clients();
       listClients.View = View.Details;
       listClients.Columns.Add("Clients", (int)(listAirplanes.Width * 0.96));
-      foreach (var client in clients)
-      {
-        listClients.Items.Add(new ListViewItem(client));
-      }
+      UpdateClients();
 
       //Setup timer
       timer.Enabled = true;
@@ -58,10 +54,17 @@ namespace Simulator.Views
       
     }
 
-    //not sure of it
-    private void UpdateClients()
+    /// <summary>
+    /// 
+    /// </summary>
+    public void UpdateClients()
     {
-
+      listClients.Items.Clear();
+      var clients = Controllers.Simulator.Instance.Clients();
+      foreach (var client in clients)
+      {
+        listClients.Items.Add(new ListViewItem(client));
+      }
     }
 
     /// <summary>
@@ -133,6 +136,7 @@ namespace Simulator.Views
     {
       
       Bitmap image = task.Item1 switch
+
       {
         TaskType.Fight => new Bitmap(Resources.Rebel_Logo),
         TaskType.Rescue => new Bitmap(Resources.antenna_red),
@@ -203,6 +207,7 @@ namespace Simulator.Views
 
       //OnTick
       Controllers.Simulator.Instance.OnTick(_ticks * 15);
+      UpdateClients();
 
     }
 

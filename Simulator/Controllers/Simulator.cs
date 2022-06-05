@@ -51,7 +51,7 @@ namespace Simulator.Controllers
         return;
 
       Import(path);
-      OnTick(0);
+      _scenario.GenerateTasks();
       Application.Run(_frmSim);
 
     }
@@ -101,7 +101,7 @@ namespace Simulator.Controllers
     {
       if (CanGenerate(time))
       {
-        //_scenario.GenerateTasks();
+        _scenario.GenerateTasks();
       }
       _scenario.HandleTick(time);
     }
@@ -114,7 +114,7 @@ namespace Simulator.Controllers
     /// </returns>
     private bool CanGenerate(int time)
     {
-      return !(time % 60 == 0);
+      return !(time % 3600 == 0);
     }
 
     /// <summary>
