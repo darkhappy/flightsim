@@ -10,12 +10,6 @@ namespace Simulator.Models.States
       Action(overlap);
     }
 
-    public override void Action(double time)
-    {
-      TimeLeft -= time;
-      if (TimeLeft <= 0) OnArrived(TimeLeft * -1);
-    }
-
     protected override void OnArrived(double overlap)
     {
       Plane.State = new StandbyState();

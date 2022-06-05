@@ -30,7 +30,10 @@ namespace Simulator.Models.States
 
     protected override void OnArrived(double overlap)
     {
-      throw new NotImplementedException();
+      if (Destination == Task.Position)
+        HeadBack(overlap);
+      else
+        Plane.State = new MaintenanceState(Plane, overlap);
     }
 
     public override string ToString()

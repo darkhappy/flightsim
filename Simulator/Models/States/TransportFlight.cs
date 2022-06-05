@@ -5,7 +5,7 @@ namespace Simulator.Models.States
 {
   public sealed class TransportFlight : FlyingState
   {
-    public TransportFlight(Airplane plane, Task task, double overlap) : base(plane, task)
+    public TransportFlight(TransportPlane plane, TaskTransport task, double overlap) : base(plane, task)
     {
       Action(overlap);
     }

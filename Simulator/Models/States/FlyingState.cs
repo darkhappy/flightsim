@@ -11,6 +11,7 @@ namespace Simulator.Models.States
       Task = task;
       Destination = task.Position;
       Plane = plane;
+      Current = Plane.OriginPosition;
     }
 
     public Position Current { get; set; }
@@ -19,15 +20,22 @@ namespace Simulator.Models.States
 
     public override void Action(double time)
     {
-      var (position, timeLeft) = CalculateDistance();
+      var (position, overlap) = CalculateDistance(time);
       Current = position;
 
-      if (Current.Equals(Destination)) OnArrived(timeLeft);
+      if (Current.Equals(Destination)) OnArrived(overlap);
     }
 
     public Task Task { get; }
 
-    protected virtual Tuple<Position, double> CalculateDistance()
+    protected void HeadBack(double overlap)
+    {
+      Task.HandleEvent();
+      Destination = Plane.OriginPosition;
+      Action(overlap);
+    }
+
+    public virtual Tuple<Position, double> CalculateDistance(double time)
     {
       var distanceX = Destination.X - Current.X;
       var distanceY = Destination.Y - Current.Y;
@@ -36,13 +44,23 @@ namespace Simulator.Models.States
       var directionX = distanceX / norm;
       var directionY = distanceY / norm;
 
-      var newX = directionX * Plane.Speed;
-      var newY = directionY * Plane.Speed;
+      var newX = directionX * Plane.Speed * time;
+      var newY = directionY * Plane.Speed * time;
 
       var newPos = new Position(Convert.ToInt32(newX), Convert.ToInt32(newY));
 
-      // TODO: Calculate the overlap remaining in case we arrive before the tick is over
-      throw new NotImplementedException();
+      // Check if the new position is further than the destination
+      var distanceToNewX = newPos.X - Current.X;
+      var distanceToNewY = newPos.Y - Current.Y;
+      var distanceToNew = Math.Sqrt(Math.Pow(distanceToNewX, 2) + Math.Pow(distanceToNewY, 2));
+
+      if (distanceToNew < norm) return new Tuple<Position, double>(newPos, 0);
+
+      var timeToDo = norm / Plane.Speed;
+      var overlap = time - timeToDo;
+      newPos = Destination;
+
+      return new Tuple<Position, double>(newPos, overlap);
     }
 
     public abstract override string ToString();

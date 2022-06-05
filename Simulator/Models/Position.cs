@@ -17,6 +17,37 @@ namespace Simulator.Models
 
     [DataMember] public int Y { get; set; }
 
+    protected bool Equals(Position other)
+    {
+      return X == other.X && Y == other.Y;
+    }
+
+    public override bool Equals(object obj)
+    {
+      if (ReferenceEquals(null, obj)) return false;
+      if (ReferenceEquals(this, obj)) return true;
+      if (obj.GetType() != GetType()) return false;
+      return Equals((Position) obj);
+    }
+
+    public override int GetHashCode()
+    {
+      unchecked
+      {
+        return (X * 397) ^ Y;
+      }
+    }
+
+    public static bool operator ==(Position left, Position right)
+    {
+      return Equals(left, right);
+    }
+
+    public static bool operator !=(Position left, Position right)
+    {
+      return !Equals(left, right);
+    }
+
     public static Position GetRandomPosition()
     {
       var random = new Random();

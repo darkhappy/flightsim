@@ -1,4 +1,3 @@
-using System;
 using Simulator.Models.Airplanes;
 using Simulator.Models.Tasks;
 
@@ -13,7 +12,19 @@ namespace Simulator.Models.States
 
     protected override void OnArrived(double overlap)
     {
-      throw new NotImplementedException();
+      if (Destination == Task.Position)
+      {
+        HeadBack(overlap);
+      }
+      else if (Task.IsCompleted)
+      {
+        Plane.State = new MaintenanceState(Plane, overlap);
+      }
+      else
+      {
+        Destination = Task.Position;
+        Action(overlap);
+      }
     }
 
     public override string ToString()
