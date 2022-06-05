@@ -48,11 +48,11 @@ namespace Simulator.Models.Airplanes
       }
     }
 
-    public List<Tuple<TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    public List<Tuple<string, TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
       return (from airplane in Airplanes
               where !airplane.Position.Hidden
-              select new Tuple<TaskType, Position, Position, Position>(airplane.Type, airplane.Position,
+              select new Tuple<string, TaskType, Position, Position, Position>(airplane.Name, airplane.Type, airplane.Position,
                 airplane.OriginPosition, airplane.Destination)).ToList();
     }
 
@@ -84,6 +84,16 @@ namespace Simulator.Models.Airplanes
       var newClient = client.Split(remainder);
 
       Clients.Add(newClient);
+    }
+
+    public List<string> GetClients()
+    {
+      var list = new List<string>();
+      foreach (var client in Clients)
+      {
+        list.Add(client.ToString());
+      }
+      return list;
     }
   }
 }
