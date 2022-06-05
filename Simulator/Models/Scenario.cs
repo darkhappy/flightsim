@@ -148,8 +148,17 @@ namespace Simulator.Models
 
     private void AssignUnassignedTasks()
     {
-      foreach (var task in UnassignedTasks.Where(task => Airports.Any(airport => airport.AssignTask(task))))
-        UnassignedTasks.Remove(task);
+      for (int i = UnassignedTasks.Count - 1; i >= 0; i--)
+      {
+        foreach (Airport airport in GetNearestAirports(UnassignedTasks[i].Position))
+        {
+          if (airport.AssignTask(UnassignedTasks[i]))
+          {
+            UnassignedTasks.RemoveAt(i);
+            break;
+          }
+        }
+      }
     }
 
     public void RemoveTask(Task task)
