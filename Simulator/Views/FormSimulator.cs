@@ -24,6 +24,8 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void FormSimulator_Load(object sender, EventArgs e)
     {
+      DoubleBuffered = true;
+
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
       listAirports.View = View.Details;
@@ -55,7 +57,9 @@ namespace Simulator.Views
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
       _player.PlayLooping();
-      
+
+
+      checkMute.Checked = true;
     }
 
     //not sure of it
@@ -129,9 +133,8 @@ namespace Simulator.Views
       }
     }
 
-    internal void DrawEvents(Tuple<TaskType, Position> task)
-    {
-      
+    internal void DrawEvent(Tuple<TaskType, Position> task)
+    {  
       Bitmap image = task.Item1 switch
       {
         TaskType.Fight => new Bitmap(Resources.Rebel_Logo),
@@ -143,6 +146,42 @@ namespace Simulator.Views
       var simCanevas = mapPanel.CreateGraphics();
 
       simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 35, 35);
+    }
+
+    internal void DrawAirplane(TaskType type, Position actual, Position origin, Position target)
+    {
+      //Draw airplane
+      Bitmap image = type switch
+      {
+        TaskType.Passenger => new Bitmap(Resources.tie_fighter),
+        TaskType.Cargo => new Bitmap(Resources.x_wing),
+        TaskType.Fight => new Bitmap(Resources.m_flacon),
+        TaskType.Rescue => new Bitmap(Resources.Coruscant),
+        TaskType.Scout => new Bitmap(Resources.Corellia),
+        _ => throw new ArgumentException($"TaskType { type } was not found.")
+      };
+
+      var simCanevas = mapPanel.CreateGraphics();
+      simCanevas.DrawImage(image, actual.X, actual.Y, 25, 25);
+
+      //Draw trajectory
+
+      // Create pen.
+      Pen blackPen = type switch
+      {
+        TaskType.Passenger => new Pen(Color.Green, 3),
+        TaskType.Cargo => new Pen(Color.Blue, 3),
+        TaskType.Fight => new Pen(Color.Yellow, 3),
+        TaskType.Rescue => new Pen(Color.Red, 3),
+        TaskType.Scout => new Pen(Color.Gray, 3),
+        _ => throw new ArgumentException($"TaskType { type } was not found.")
+      };
+
+      // Create points that define line.
+      PointF pointOrigin = new PointF(origin.X, origin.Y);
+      PointF pointTarget = new PointF(target.X, target.Y);
+
+      simCanevas.DrawLine(blackPen, pointOrigin, pointTarget);
     }
 
     /// <summary>

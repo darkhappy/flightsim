@@ -99,11 +99,17 @@ namespace Simulator.Controllers
     /// </param>
     public void OnTick(int time)
     {
+      //Generate events
       if (CanGenerate(time))
-      {
-        //_scenario.GenerateTasks();
-      }
+        _scenario.GenerateTasks();
+      
+      //Make all actions 
       _scenario.HandleTick(time);
+
+      //Draw actions results
+      _frmSim.DrawMap();
+      UpdateEvents(_scenario.GetEvents());
+      UpdateAirplanes(_scenario.GetFlyingAirplanes());
     }
 
     /// <summary>
@@ -114,7 +120,7 @@ namespace Simulator.Controllers
     /// </returns>
     private bool CanGenerate(int time)
     {
-      return !(time % 60 == 0);
+      return time % 60 * 60 == 0;
     }
 
     /// <summary>
@@ -125,7 +131,15 @@ namespace Simulator.Controllers
     {
       foreach(Tuple<TaskType, Position> task in events)
       {
-        _frmSim.DrawEvents(task);
+        _frmSim.DrawEvent(task);
+      }
+    }
+
+    public void UpdateAirplanes(List<Tuple<TaskType, Position, Position, Position>> airplanes)
+    {
+      foreach(var airplane in airplanes)
+      {
+        _frmSim.DrawAirplane(airplane.Item1, airplane.Item2, airplane.Item3, airplane.Item4);
       }
     }
 
