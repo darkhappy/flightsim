@@ -187,7 +187,14 @@ namespace Simulator.Views
         _ => throw new ArgumentException($"TaskType { type } was not found.")
       };
 
+      //Rotate Image
+      int x = target.X - origin.X;
+      int y = target.Y - origin.X;
+      float angle = (float)(270 + Math.Acos((double)x/y));
+      image = RotateImage(image, angle);
+
       var simCanevas = mapPanel.CreateGraphics();
+
       simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
       //Draw trajectory
@@ -216,7 +223,7 @@ namespace Simulator.Views
       float x = 150.0F;
       float y = 50.0F;
       StringFormat drawFormat = new StringFormat();
-      simCanevas.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y, drawFormat);
+      simCanevas.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
 
     }
 
@@ -230,7 +237,7 @@ namespace Simulator.Views
     /// Angle for the rotation.
     /// </param>
     /// <returns></returns>
-    public Image RotateImage(Image img, float rotationAngle)
+    public Bitmap RotateImage(Bitmap img, float rotationAngle)
     {
       //create an empty Bitmap image
       Bitmap bmp = new Bitmap(img.Width, img.Height);
