@@ -7,6 +7,8 @@ namespace Simulator.Models
   [DataContract(Namespace = "")]
   public class Position
   {
+    private static readonly Random _random = new Random();
+
     public Position(int x, int y)
     {
       X = x;
@@ -50,9 +52,8 @@ namespace Simulator.Models
 
     public static Position GetRandomPosition()
     {
-      var random = new Random();
-      var x = random.Next(0, Constants.MapWidth);
-      var y = random.Next(0, Constants.MapHeight);
+      var x = _random.Next(0, Constants.MapWidth);
+      var y = _random.Next(0, Constants.MapHeight);
       var position = new Position(x, y);
 
       return position;
