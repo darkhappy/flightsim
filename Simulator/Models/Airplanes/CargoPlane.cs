@@ -1,5 +1,4 @@
 using System.Runtime.Serialization;
-using Simulator.Models.States;
 using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
@@ -18,7 +17,8 @@ namespace Simulator.Models.Airplanes
     protected override bool CanDoTask(Task task)
     {
       if (task.GetType() != typeof(ClientCargo)) return false;
-      State = new EmbarkState(this, (TaskTransport) task);
+
+      LoadCargo((TaskTransport) task);
 
       return true;
     }

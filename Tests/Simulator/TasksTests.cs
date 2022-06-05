@@ -21,6 +21,7 @@ namespace Tests.Simulator
     {
       _scenario.Airports.Clear();
       _scenario.Tasks.Clear();
+      _scenario.UnassignedTasks.Clear();
     }
 
     private Scenario _scenario;
@@ -52,7 +53,7 @@ namespace Tests.Simulator
     }
 
     [Test]
-    public void CannotMergeTwoClientsWithSameDestination()
+    public void CannotMergeTwoClientsWithDifferentDestination()
     {
       var otherAirport = new Airport("DS-01", "Death Star", new Position(0, 0), 40, 40);
       var clientOne = TaskFactory.Instance.CreatePassengerTask(_airport);
@@ -94,7 +95,7 @@ namespace Tests.Simulator
     }
 
     [Test]
-    public void CannotMergeClientPassengerAndClientTransport()
+    public void CannotMergeClientPassengerAndClientTransportScenarioVersion()
     {
       var clientOne = TaskFactory.Instance.CreatePassengerTask(_airport);
       var clientTwo = TaskFactory.Instance.CreateCargoTask(_airport);
@@ -106,6 +107,21 @@ namespace Tests.Simulator
       _airport.AddClient(clientTwo);
 
       Assert.That(_scenario.Tasks.Count, Is.EqualTo(2));
+    }
+
+    [Test]
+    public void CannotMergeClientPassengerAndClientTransportAirportVersion()
+    {
+      var clientOne = TaskFactory.Instance.CreatePassengerTask(_airport);
+      var clientTwo = TaskFactory.Instance.CreateCargoTask(_airport);
+
+      _scenario.Tasks.Add(clientOne);
+      _scenario.Tasks.Add(clientTwo);
+
+      _airport.AddClient(clientOne);
+      _airport.AddClient(clientTwo);
+
+      Assert.That(_airport.Clients.Count, Is.EqualTo(2));
     }
 
     [Test]

@@ -39,22 +39,28 @@ namespace Simulator.Models.Airplanes
 
     public void Action(double time)
     {
-      foreach (var airplane in Airplanes) airplane.Action(time);
+      foreach (var airplane in Airplanes)
+      {
+        foreach (var client in Clients.ToList().Where(client => airplane.AssignTask(client))) Clients.Remove(client);
+
+        airplane.Action(time);
+      }
     }
 
     public bool AssignTask(Task task)
     {
-      return Airplanes.Any(airplane => airplane.AssignTask(task));
+      if (!Airplanes.Any(airplane => airplane.AssignTask(task))) return false;
+
+      // Remove task from clients
+      if (task is TaskTransport taskTransport) Clients.Remove(taskTransport);
+      return true;
     }
 
     public void AddClient(TaskTransport task)
     {
       var taskToMerge = Clients.FirstOrDefault(t => t.Destination == task.Destination);
-      if (taskToMerge != null)
-      {
-        task.Merge(taskToMerge);
+      if (taskToMerge != null && task.Merge(taskToMerge))
         Clients.Remove(taskToMerge);
-      }
 
       Clients.Add(task);
     }
@@ -68,6 +74,13 @@ namespace Simulator.Models.Airplanes
       }
 
       return list;
+    }
+
+    public void SplitClient(TaskTransport client, double remainder)
+    {
+      var newClient = client.Split(remainder);
+
+      Clients.Add(newClient);
     }
   }
 }

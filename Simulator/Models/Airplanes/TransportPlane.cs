@@ -1,4 +1,6 @@
 using System.Runtime.Serialization;
+using Simulator.Models.States;
+using Simulator.Models.Tasks;
 
 namespace Simulator.Models.Airplanes
 {
@@ -17,5 +19,13 @@ namespace Simulator.Models.Airplanes
     [DataMember] public double MaxCapacity { get; set; }
     [DataMember] public int EmbarkingTime { get; set; }
     [DataMember] public int DisembarkingTime { get; set; }
+
+    protected void LoadCargo(TaskTransport task)
+    {
+      // Check if there is enough people to make it worth transporting
+      if (task.Amount > MaxCapacity) Origin.SplitClient(task, MaxCapacity);
+
+      State = new EmbarkState(this, task);
+    }
   }
 }

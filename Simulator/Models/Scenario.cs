@@ -99,9 +99,9 @@ namespace Simulator.Models
       return Tasks.Select(task => task.ToString()).ToList();
     }
 
-    internal List<Tuple<TaskType,Position>> GetEvents()
+    internal List<Tuple<TaskType, Position>> GetEvents()
     {
-      List <Tuple<TaskType,Position>> events = new List <Tuple<TaskType,Position>> ();
+      List<Tuple<TaskType, Position>> events = new List<Tuple<TaskType, Position>>();
 
       foreach (Task task in Tasks)
       {
@@ -165,16 +165,10 @@ namespace Simulator.Models
 
     private void AssignUnassignedTasks()
     {
-      for (int i = UnassignedTasks.Count - 1; i >= 0; i--)
+      for (var i = UnassignedTasks.Count - 1; i >= 0; i--)
       {
-        foreach (Airport airport in GetNearestAirports(UnassignedTasks[i].Position))
-        {
-          if (airport.AssignTask(UnassignedTasks[i]))
-          {
-            UnassignedTasks.RemoveAt(i);
-            break;
-          }
-        }
+        if (GetNearestAirports(UnassignedTasks[i].Position).Any(airport => airport.AssignTask(UnassignedTasks[i])))
+          UnassignedTasks.RemoveAt(i);
       }
     }
 
@@ -186,6 +180,11 @@ namespace Simulator.Models
     public List<Airport> GetNearestAirports(Position position)
     {
       return Airports.OrderBy(airport => airport.Position.DistanceTo(position)).ToList();
+    }
+
+    public void AddTask(Task client)
+    {
+      Tasks.Add(client);
     }
   }
 }

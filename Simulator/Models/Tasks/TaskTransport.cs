@@ -27,19 +27,32 @@ namespace Simulator.Models.Tasks
 
     public Airport Destination { get; }
 
-    public void Merge(TaskTransport other)
+    public bool Merge(TaskTransport other)
     {
       // Check if both tasks are the same type
-      if (GetType() != other.GetType()) return;
+      if (GetType() != other.GetType()) return false;
 
       // Check if both tasks have the same destination
-      if (Destination != other.Destination) return;
+      if (Destination != other.Destination) return false;
 
       // Add the amount of both tasks
       Amount += other.Amount;
 
       // Remove the second task
       Scenario.Instance.RemoveTask(other);
+      return true;
+    }
+
+    public TaskTransport Split(double remainder)
+    {
+      // Create a new task with the remainder
+      var task = (TaskTransport) Activator.CreateInstance(GetType(), Destination);
+
+      task.Amount = Amount - remainder;
+      Amount = remainder;
+
+      Scenario.Instance.AddTask(task);
+      return task;
     }
   }
 }

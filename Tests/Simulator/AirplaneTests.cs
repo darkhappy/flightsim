@@ -80,5 +80,92 @@ namespace Tests.Simulator
 
       Assert.That(plane.State, Is.TypeOf<StandbyState>());
     }
+
+    [Test]
+    public void AssigningATransportPlaneATaskRemovesFromClientList()
+    {
+      var airport = new Airport("DS-01", "Death Star", new Position(0, 0), 100, 100);
+      var plane = new CargoPlane("T-01", "Tie Fighter", 100, 2, airport, 100, 10, 10);
+      var client = new ClientCargo(airport)
+      {
+        Amount = 100
+      };
+
+      airport.Airplanes.Add(plane);
+      airport.AddClient(client);
+
+      airport.Action(0);
+      Assert.That(airport.Clients.Count, Is.EqualTo(0));
+    }
+
+    [Test]
+    public void AssigningAClientWillChangeState()
+    {
+      var airport = new Airport("DS-01", "Death Star", new Position(0, 0), 100, 100);
+      var plane = new CargoPlane("T-01", "Tie Fighter", 100, 2, airport, 100, 10, 10);
+      var client = new ClientCargo(airport)
+      {
+        Amount = 100
+      };
+
+      airport.Airplanes.Add(plane);
+      airport.AddClient(client);
+
+      airport.Action(0);
+      Assert.That(plane.State, Is.TypeOf<EmbarkState>());
+    }
+
+    [Test]
+    public void AssigningAClientWithTooManyCargoWillSplit()
+    {
+      var airport = new Airport("DS-01", "Death Star", new Position(0, 0), 100, 100);
+      var plane = new CargoPlane("T-01", "Tie Fighter", 100, 2, airport, 100, 10, 10);
+      var client = new ClientCargo(airport)
+      {
+        Amount = 150
+      };
+
+      airport.Airplanes.Add(plane);
+      airport.AddClient(client);
+
+      airport.Action(0);
+      Assert.That(airport.Clients.Count, Is.EqualTo(1));
+    }
+
+    [Test]
+    public void AssigningAClientWithTooManyCargoWillOnlyEmbarkTheProperAmount()
+    {
+      var airport = new Airport("DS-01", "Death Star", new Position(0, 0), 100, 100);
+      var plane = new CargoPlane("T-01", "Tie Fighter", 100, 2, airport, 100, 10, 10);
+      var client = new ClientCargo(airport)
+      {
+        Amount = 150
+      };
+
+      airport.Airplanes.Add(plane);
+      airport.AddClient(client);
+
+      airport.Action(0);
+      Assert.That(airport.Clients[0].Amount, Is.EqualTo(50));
+    }
+
+    [Test]
+    public void AssigningAClientWillOnlyAssignToOneAirplane()
+    {
+      var airport = new Airport("DS-01", "Death Star", new Position(0, 0), 100, 100);
+      var plane = new CargoPlane("T-01", "Tie Fighter", 100, 2, airport, 100, 10, 10);
+      var plane2 = new CargoPlane("T-02", "Tie Fighter", 100, 2, airport, 100, 10, 10);
+      var client = new ClientCargo(airport)
+      {
+        Amount = 100
+      };
+
+      airport.Airplanes.Add(plane);
+      airport.Airplanes.Add(plane2);
+      airport.AddClient(client);
+
+      airport.Action(0);
+      Assert.That(plane2.State, Is.TypeOf<StandbyState>());
+    }
   }
 }
