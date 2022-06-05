@@ -308,6 +308,25 @@ namespace Tests.Generator
     }
 
     [Test]
+    public void SerializeOneAirport()
+    {
+      _scenario.AddAirport(_airportInfo);
+
+      var airplane = new AirplaneInfo("T-01", "Tie Fighter", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", airplane);
+
+      var newAirplane = new AirplaneInfo("X-01", "X-Wing", AirplaneType.Fight, 420, 60);
+      _scenario.AddAirplane("CRS", newAirplane);
+
+      var writer = new FileStream("oneairport.xml", FileMode.Create);
+      var serializer = new DataContractSerializer(typeof(Scenario));
+
+      Assert.That(() => serializer.WriteObject(writer, _scenario), Throws.Nothing);
+
+      writer.Close();
+    }
+
+    [Test]
     public void Deserializer()
     {
       Serializer();

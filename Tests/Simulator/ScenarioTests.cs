@@ -94,5 +94,21 @@ namespace Tests.Simulator
 
       Assert.That(_scenario.UnassignedTasks.Count, Is.EqualTo(0));
     }
+
+    [Test]
+    public void CannotImportAScenarioWithOnlyOneAirport()
+    {
+      var reader = new FileStream("oneairport.xml", FileMode.Open);
+      var serializer = new DataContractSerializer(typeof(Scenario));
+
+      void Read()
+      {
+        _scenario = (Scenario) serializer.ReadObject(reader);
+      }
+
+      Assert.That(Read, Throws.Exception);
+
+      reader.Close();
+    }
   }
 }

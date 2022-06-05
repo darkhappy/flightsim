@@ -40,6 +40,7 @@ namespace Simulator.Models
     {
       Tasks = new List<Task>();
       UnassignedTasks = new List<Task>();
+      if (Airports.Count < 2) throw new Exception("Cannot create scenario with less than 2 airports.");
     }
 
     /// <summary>
@@ -106,6 +107,7 @@ namespace Simulator.Models
       {
         list.Add(task.ToString());
       }
+
       return list;
     }
 
@@ -151,9 +153,9 @@ namespace Simulator.Models
       {
         list.Add(new ObjectInfo(airport.Id, airport.Name));
       }
+
       return list;
     }
-
 
 
     public void HandleTick(double time)
