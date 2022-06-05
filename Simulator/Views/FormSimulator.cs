@@ -176,23 +176,8 @@ namespace Simulator.Views
       int height = 25;
       int width = 25;
 
-      //Draw airplane
-      Bitmap image = type switch
-      {
-        TaskType.Passenger => new Bitmap(Resources.m_flacon),
-        TaskType.Cargo => new Bitmap(Resources.m_flacon),
-        TaskType.Fight => new Bitmap(Resources.x_wing),
-        TaskType.Rescue => new Bitmap(Resources.m_flacon),
-        TaskType.Scout => new Bitmap(Resources.tie_fighter),
-        _ => throw new ArgumentException($"TaskType { type } was not found.")
-      };
-
       var simCanevas = mapPanel.CreateGraphics();
-      simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
-
       //Draw trajectory
-
-      // Create pen.
       Pen blackPen = type switch
       {
         TaskType.Passenger => new Pen(Color.Green, 3),
@@ -209,6 +194,25 @@ namespace Simulator.Views
 
       simCanevas.DrawLine(blackPen, pointOrigin, pointTarget);
 
+      //Draw airplane
+      Bitmap image = type switch
+      {
+        TaskType.Passenger => new Bitmap(Resources.m_flacon),
+        TaskType.Cargo => new Bitmap(Resources.m_flacon),
+        TaskType.Fight => new Bitmap(Resources.x_wing),
+        TaskType.Rescue => new Bitmap(Resources.m_flacon),
+        TaskType.Scout => new Bitmap(Resources.tie_fighter),
+        _ => throw new ArgumentException($"TaskType { type } was not found.")
+      };
+
+      //Rotate Image
+      int o = target.X - origin.X;
+      int a = target.Y - origin.X;
+      float angle = (float)(270 + Math.Acos((double)o/a));
+      image = RotateImage(image, angle);
+   
+      simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
+
       //Draw id
       string drawString = id;
       Font drawFont = new Font("Arial", 12);
@@ -216,7 +220,7 @@ namespace Simulator.Views
       float x = 150.0F;
       float y = 50.0F;
       StringFormat drawFormat = new StringFormat();
-      simCanevas.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y, drawFormat);
+      simCanevas.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
 
     }
 
@@ -230,7 +234,7 @@ namespace Simulator.Views
     /// Angle for the rotation.
     /// </param>
     /// <returns></returns>
-    public Image RotateImage(Image img, float rotationAngle)
+    public Bitmap RotateImage(Bitmap img, float rotationAngle)
     {
       //create an empty Bitmap image
       Bitmap bmp = new Bitmap(img.Width, img.Height);
