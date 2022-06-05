@@ -131,7 +131,15 @@ namespace Simulator.Views
 
     internal void DrawEvents(Tuple<TaskType, Position> task)
     {
-      var image = new Bitmap(Resources.Rebel_Logo);
+      
+      Bitmap image = task.Item1 switch
+      {
+        TaskType.Fight => new Bitmap(Resources.Rebel_Logo),
+        TaskType.Rescue => new Bitmap(Resources.Rebel_Logo),
+        TaskType.Scout => new Bitmap(Resources.Rebel_Logo),
+        _ => throw new ArgumentException($"TaskType { task.Item1 } was not found.")
+      };
+
       var simCanevas = mapPanel.CreateGraphics();
 
       simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 40, 40);
