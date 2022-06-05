@@ -24,7 +24,8 @@ namespace Simulator.Models.States
       var (position, overlap) = CalculateDistance(time);
       _current = position;
 
-      if (Current.Equals(Destination)) OnArrived(overlap);
+      if (Current.Equals(Destination)) 
+        OnArrived(overlap);
     }
 
     public Task Task { get; }
@@ -42,17 +43,22 @@ namespace Simulator.Models.States
       var distanceY = Destination.Y - Current.Y;
 
       var norm = Math.Sqrt(Math.Pow(distanceX, 2) + Math.Pow(distanceY, 2));
+
       var directionX = distanceX / norm;
       var directionY = distanceY / norm;
 
-      var newX = directionX * Plane.Speed * time;
-      var newY = directionY * Plane.Speed * time;
+      double newX;
+      double newY;
+
+      newX = Current.X + directionX * Plane.Speed * time;
+      newY = Current.Y + directionY * Plane.Speed * time;
 
       var newPos = new Position(Convert.ToInt32(newX), Convert.ToInt32(newY));
 
       // Check if the new position is further than the destination
       var distanceToNewX = newPos.X - Current.X;
       var distanceToNewY = newPos.Y - Current.Y;
+
       var distanceToNew = Math.Sqrt(Math.Pow(distanceToNewX, 2) + Math.Pow(distanceToNewY, 2));
 
       if (distanceToNew < norm) return new Tuple<Position, double>(newPos, 0);
