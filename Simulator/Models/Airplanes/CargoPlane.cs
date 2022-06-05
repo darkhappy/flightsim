@@ -13,6 +13,8 @@ namespace Simulator.Models.Airplanes
     }
 
     public override Colour Colour => Colour.Blue;
+    public override TaskType Type => TaskType.Cargo;
+
 
     protected override bool CanDoTask(Task task)
     {
