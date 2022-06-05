@@ -126,10 +126,8 @@ namespace Simulator.Views
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
         var airport = new Bitmap(airports[ind%3]);
 
-        //simCanevas.DrawImage(airport, position.X - (int)(width / 2), (position.Y) - (int)(height/2), height, width);
+        simCanevas.DrawImage(airport, position.X - (int)(width / 2), (position.Y) - (int)(height/2), height, width);
         
-        simCanevas.DrawImage(airport, position.X, (position.Y), height, width);
-
         ind++;
       }
     }
@@ -140,9 +138,11 @@ namespace Simulator.Views
     /// <param name="task"></param>
     /// <exception cref="ArgumentException"></exception>
     internal void DrawEvent(Tuple<TaskType, Position> task)
-    {  
-      Bitmap image = task.Item1 switch
+    {
+      int height = 35;
+      int width = 35;
 
+      Bitmap image = task.Item1 switch
       {
         TaskType.Fight => new Bitmap(Resources.Rebel_Logo),
         TaskType.Rescue => new Bitmap(Resources.antenna_red),
@@ -152,7 +152,7 @@ namespace Simulator.Views
 
       var simCanevas = mapPanel.CreateGraphics();
 
-      simCanevas.DrawImage(image, task.Item2.X, task.Item2.Y, 35, 35);
+      simCanevas.DrawImage(image, task.Item2.X - (int)(width / 2), task.Item2.Y - (int)(height / 2), height, width);
     }
 
     /// <summary>
@@ -165,6 +165,9 @@ namespace Simulator.Views
     /// <exception cref="ArgumentException"></exception>
     internal void DrawAirplane(TaskType type, Position actual, Position origin, Position target)
     {
+      int height = 25;
+      int width = 25;
+
       //Draw airplane
       Bitmap image = type switch
       {
@@ -177,7 +180,7 @@ namespace Simulator.Views
       };
 
       var simCanevas = mapPanel.CreateGraphics();
-      simCanevas.DrawImage(image, actual.X, actual.Y, 25, 25);
+      simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
       //Draw trajectory
 
