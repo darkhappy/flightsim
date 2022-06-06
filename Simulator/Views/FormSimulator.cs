@@ -36,7 +36,6 @@ namespace Simulator.Views
         BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
         null, mapPanel, new object[] { true });
 
-
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
       listAirports.View = View.Details;
@@ -228,6 +227,23 @@ namespace Simulator.Views
         _ => throw new ArgumentException($"TaskType { type } was not found.")
       };
 
+     image = RotateAirplane(actual, target, image);
+
+      _graphics.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
+
+      //Draw id
+      string drawString = id;
+      Font drawFont = new Font("Arial", 12);
+      SolidBrush drawBrush = new SolidBrush(Color.White);
+      float x = 150.0F;
+      float y = 50.0F;
+      StringFormat drawFormat = new StringFormat();
+      _graphics.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
+
+    }
+
+    private Bitmap RotateAirplane(Position actual, Position target, Bitmap image)
+    {
       //Rotate Image
       float dx = (float)(target.X - actual.X);
       float dy = (float)(target.Y - actual.Y);
@@ -275,17 +291,7 @@ namespace Simulator.Views
         image = RotateImage(image, angle);
       }
 
-      _graphics.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
-
-      //Draw id
-      string drawString = id;
-      Font drawFont = new Font("Arial", 12);
-      SolidBrush drawBrush = new SolidBrush(Color.White);
-      float x = 150.0F;
-      float y = 50.0F;
-      StringFormat drawFormat = new StringFormat();
-      _graphics.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
-
+      return image;
     }
 
     /// <summary>
