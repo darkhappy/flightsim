@@ -57,6 +57,12 @@ namespace Simulator.Models.States
       _destination = destination;
     }
 
+    protected void SetPosition(Position current)
+    {
+      _current = current;
+    }
+
+
     protected void HeadBack(double overlap)
     {
       Task.HandleEvent();
