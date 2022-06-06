@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
+using System.Reflection;
 using System.Windows.Forms;
 using Simulator.Models;
 using Simulator.Properties;
 
 namespace Simulator.Views
-{
+{ 
   public partial class FormSimulator : Form
   {
+
     private SoundPlayer _player;
     private int _ticks = 0;
 
@@ -21,6 +23,7 @@ namespace Simulator.Views
       InitializeComponent();
     }
 
+
     /// <summary>
     /// Initalizes everything needed to see at first when FormSimulator loads.
     /// </summary>
@@ -28,7 +31,11 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void FormSimulator_Load(object sender, EventArgs e)
     {
-      DoubleBuffered = true;
+      // Sets double buffering
+      typeof(Panel).InvokeMember("DoubleBuffered",
+        BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+        null, mapPanel, new object[] { true });
+
 
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
