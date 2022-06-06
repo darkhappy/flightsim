@@ -40,7 +40,7 @@ namespace Simulator.Models.Airplanes
 
     public void Action(double time)
     {
-      foreach (var airplane in Airplanes)
+      foreach (var airplane in Airplanes.ToList())
       {
         foreach (var client in Clients.ToList().Where(client => airplane.AssignTask(client))) Clients.Remove(client);
 
@@ -52,7 +52,8 @@ namespace Simulator.Models.Airplanes
     {
       return (from airplane in Airplanes
               where !airplane.Position.Hidden
-              select new Tuple<string, TaskType, Position, Position, Position>(airplane.Id, airplane.Type, airplane.Position,
+              select new Tuple<string, TaskType, Position, Position, Position>(airplane.Id, airplane.Type,
+                airplane.Position,
                 airplane.OriginPosition, airplane.Destination)).ToList();
     }
 
@@ -94,7 +95,15 @@ namespace Simulator.Models.Airplanes
       {
         list.Add(client.ToString());
       }
+
       return list;
+    }
+
+    public void TransferTo(Airport destination, Airplane airplane)
+    {
+      Airplanes.Remove(airplane);
+      destination.Airplanes.Add(airplane);
+      airplane.Origin = destination;
     }
   }
 }

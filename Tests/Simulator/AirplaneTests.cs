@@ -167,5 +167,21 @@ namespace Tests.Simulator
       airport.Action(0);
       Assert.That(plane2.State, Is.TypeOf<StandbyState>());
     }
+
+    [Test]
+    public void TransportPlaneSwitchesAirportUponFinishingTask()
+    {
+      var transportPlane = new CargoPlane("T-01", "Tie Fighter", 100, 2, _firstAirport, 5, 1, 1);
+      var task = new ClientCargo(_secondAirport)
+      {
+        Amount = 5
+      };
+
+      _firstAirport.Airplanes.Add(transportPlane);
+      _firstAirport.AddClient(task);
+
+      _firstAirport.Action(6);
+      Assert.That(transportPlane.Origin, Is.EqualTo(_secondAirport));
+    }
   }
 }

@@ -196,5 +196,10 @@ namespace Simulator.Models
       if (addToUnassigned)
         UnassignedTasks.Add(client);
     }
+
+    public Airport? GetAirportFromPosition(Position taskPosition)
+    {
+      return Airports.FirstOrDefault(airport => airport.Position == taskPosition);
+    }
   }
 }
