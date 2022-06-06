@@ -189,7 +189,7 @@ namespace Simulator.Views
       // 
       // timer
       // 
-      this.timer.Interval = 1000;
+      this.timer.Interval = 1;
       this.timer.Tick += new System.EventHandler(this.timer_Tick);
       // 
       // speedUpDown
