@@ -4,11 +4,10 @@ namespace Simulator.Models.States
   {
     public void Action(double time)
     {
-      Destination = new Position(-1, -1);
     }
 
     public Position Current => new Position(-1, -1);
-    public virtual Position Destination { get; set; }
+    public Position Destination => new Position(-1, -1);
 
 
     public override string ToString()

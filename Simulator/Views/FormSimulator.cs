@@ -12,6 +12,10 @@ namespace Simulator.Views
   {
     private SoundPlayer _player;
     private int _ticks = 0;
+
+    private Bitmap _bitmap;
+    private Graphics _graphics;
+
     public FormSimulator()
     {
       InitializeComponent();
@@ -24,7 +28,7 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void FormSimulator_Load(object sender, EventArgs e)
     {
-      DoubleBuffered = true;
+      //DoubleBuffered = true;
 
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
@@ -110,12 +114,14 @@ namespace Simulator.Views
     /// </summary>
     public void DrawMap()
     {
+      _bitmap = new Bitmap(mapPanel.Width, mapPanel.Height);
+      _graphics = Graphics.FromImage(_bitmap);
+
       int height = 45;
       int width = 45;
 
       var map = new Bitmap(Resources.galaxy);
-      var simCanevas = mapPanel.CreateGraphics();
-      simCanevas.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
+      _graphics.DrawImage(map, 0, 0, mapPanel.Width, mapPanel.Height);
 
       var airportPositions = Controllers.Simulator.Instance.AirportPositions();
 
@@ -132,9 +138,9 @@ namespace Simulator.Views
         float x = 150.0F;
         float y = 50.0F;
         StringFormat drawFormat = new StringFormat();
-        simCanevas.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height/2), position.Item2.Y + (int)(height / 2), drawFormat);
+        _graphics.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height/2), position.Item2.Y + (int)(height / 2), drawFormat);
 
-        simCanevas.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height/2), height, width);
+        _graphics.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height/2), height, width);
         
         ind++;
       }
@@ -158,9 +164,7 @@ namespace Simulator.Views
         _ => throw new ArgumentException($"TaskType { task.Item1 } was not found.")
       };
 
-      var simCanevas = mapPanel.CreateGraphics();
-
-      simCanevas.DrawImage(image, task.Item2.X - (int)(width / 2), task.Item2.Y - (int)(height / 2), height, width);
+      _graphics.DrawImage(image, task.Item2.X - (int)(width / 2), task.Item2.Y - (int)(height / 2), height, width);
     }
 
     /// <summary>
@@ -175,6 +179,23 @@ namespace Simulator.Views
     {
       int height = 25;
       int width = 25;
+
+      //Draw trajectory
+      Pen blackPen = type switch
+      {
+        TaskType.Passenger => new Pen(Color.Green, 3),
+        TaskType.Cargo => new Pen(Color.Blue, 3),
+        TaskType.Fight => new Pen(Color.Yellow, 3),
+        TaskType.Rescue => new Pen(Color.Red, 3),
+        TaskType.Scout => new Pen(Color.Gray, 3),
+        _ => throw new ArgumentException($"TaskType { type } was not found.")
+      };
+
+      // Create points that define line.
+      PointF pointOrigin = new PointF(origin.X, origin.Y);
+      PointF pointTarget = new PointF(target.X, target.Y);
+
+      _graphics.DrawLine(blackPen, pointOrigin, pointTarget);
 
       //Draw airplane
       Bitmap image = type switch
@@ -239,24 +260,6 @@ namespace Simulator.Views
 
       simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
-      //Draw trajectory
-
-      // Create pen.
-      Pen blackPen = type switch
-      {
-        TaskType.Passenger => new Pen(Color.Green, 3),
-        TaskType.Cargo => new Pen(Color.Blue, 3),
-        TaskType.Fight => new Pen(Color.Yellow, 3),
-        TaskType.Rescue => new Pen(Color.Red, 3),
-        TaskType.Scout => new Pen(Color.Gray, 3),
-        _ => throw new ArgumentException($"TaskType { type } was not found.")
-      };
-
-      // Create points that define line.
-      PointF pointOrigin = new PointF(origin.X, origin.Y);
-      PointF pointTarget = new PointF(target.X, target.Y);
-
-      simCanevas.DrawLine(blackPen, pointOrigin, pointTarget);
 
       //Draw id
       string drawString = id;
@@ -265,7 +268,7 @@ namespace Simulator.Views
       float x = 150.0F;
       float y = 50.0F;
       StringFormat drawFormat = new StringFormat();
-      simCanevas.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
+      _graphics.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
 
     }
 
@@ -313,6 +316,11 @@ namespace Simulator.Views
     private void mapPanel_Paint(object sender, PaintEventArgs e)
     {
       //DrawMap();
+    }
+
+    public void DrawAll()
+    {
+      mapPanel.BackgroundImage = _bitmap;
     }
 
     /// <summary>

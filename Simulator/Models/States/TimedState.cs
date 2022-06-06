@@ -10,6 +10,8 @@ namespace Simulator.Models.States
 
     public override Position Current => new Position(-1, -1);
 
+    public override Position Destination => new Position(-1, -1);
+
     protected double TimeLeft { get; set; }
 
     public override void Action(double time)

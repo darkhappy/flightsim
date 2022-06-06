@@ -17,6 +17,7 @@ namespace Simulator.Models.Tasks
     public virtual void HandleEvent()
     {
       IsCompleted = true;
+      
       Scenario.Instance.RemoveTask(this);
     }
   }
