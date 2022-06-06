@@ -140,12 +140,23 @@ namespace Simulator.Models.Airplanes
       return Assembly.GetExecutingAssembly().GetTypes().Where(_ => _.IsSubclassOf(typeof(Airplane))).ToArray();
     }
 
+    /// <summary>
+    /// ToString override for task.
+    /// </summary>
+    /// <returns>
+    /// A string that represents the state.
+    /// </returns>
     public override string ToString()
     {
       return "Airplane : " + Name + ", State : " + State.ToString();
-      //TODO : make all tostrings for each states.
     }
 
+    /// <summary>
+    /// Transfers airplane to another airport.
+    /// </summary>
+    /// <param name="destination">
+    /// The airport to be replaced.
+    /// </param>
     public void TransferTo(Airport destination)
     {
       Origin.TransferTo(destination, this);

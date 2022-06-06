@@ -1,5 +1,8 @@
 namespace Simulator.Controllers
 {
+  /// <summary>
+  /// Class that sets all constants that we need in all the project.
+  /// </summary>
   public static class Constants
   {
     public const int MapHeight = 630;
