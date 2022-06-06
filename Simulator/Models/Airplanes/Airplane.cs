@@ -72,5 +72,10 @@ namespace Simulator.Models.Airplanes
       return "Airplane : " + Name + ", State : " + State.ToString();
       //TODO : make all tostrings for each states.
     }
+
+    public void TransferTo(Airport destination)
+    {
+      Origin.TransferTo(destination, this);
+    }
   }
 }

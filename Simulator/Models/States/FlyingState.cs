@@ -42,7 +42,7 @@ namespace Simulator.Models.States
         OnArrived(overlap);
     }
 
-    public Task Task { get; }
+    public virtual Task Task { get; }
 
     /// <summary>
     ///   Sets the destination of the plane.

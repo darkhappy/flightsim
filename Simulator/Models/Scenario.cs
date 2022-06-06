@@ -35,6 +35,7 @@ namespace Simulator.Models
       Tasks = new List<Task>();
       UnassignedTasks = new List<Task>();
       if (Airports.Count < 2) throw new Exception("Cannot create scenario with less than 2 airports.");
+      _instance = this;
     }
 
     /// <summary>
@@ -194,6 +195,11 @@ namespace Simulator.Models
       Tasks.Add(client);
       if (addToUnassigned)
         UnassignedTasks.Add(client);
+    }
+
+    public Airport? GetAirportFromPosition(Position taskPosition)
+    {
+      return Airports.FirstOrDefault(airport => airport.Position == taskPosition);
     }
   }
 }
