@@ -67,9 +67,10 @@ namespace Simulator.Models.Airplanes
 
     public void AddClient(TaskTransport task)
     {
-      var taskToMerge = Clients.FirstOrDefault(t => t.Destination == task.Destination);
-      if (taskToMerge != null && task.Merge(taskToMerge))
-        Clients.Remove(taskToMerge);
+      var taskToMerge = Clients.FirstOrDefault(t => t.Destination == task.Destination && t.Type == task.Type);
+      if (taskToMerge != null)
+        if (task.Merge(taskToMerge))
+          Clients.Remove(taskToMerge);
 
       Clients.Add(task);
     }
