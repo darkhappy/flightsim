@@ -188,11 +188,53 @@ namespace Simulator.Views
       };
 
       //Rotate Image
-      int o = target.X - origin.X;
-      int a = target.Y - origin.X;
-      float angle = (float)(270 + Math.Acos((double)o/a));
-      image = RotateImage(image, angle);
-
+      float dx = (float)(target.X - origin.X);
+      float dy = (float)(target.Y - origin.Y);
+      if(Math.Abs(dx) > 0 || Math.Abs(dy) > 0)
+      {
+        float angle;
+        if (dy == 0 && dx > 0)
+          angle = 0;
+        else if (dy == 0 && dx < 0)
+          angle = 180;
+        else if (dy < 0 && dx == 0)
+          angle = 90;
+        else if (dy > 0 && dx == 0)
+          angle = 270;
+        else
+        {
+          float ratio;
+          float rectify;
+          if (Math.Abs(dx) > Math.Abs(dy))
+          {
+            ratio = Math.Abs(dy / dx);
+            if (dx < 0 && dy > 0)
+              angle = (float)(270 - (float)(180 / Math.PI * Math.Atan(ratio)));
+            else if (dx < 0 && dy < 0)
+              angle = (float)((float)(180 / Math.PI * Math.Atan(ratio)) + 270);
+            else if (dx > 0 && dy < 0)
+              angle = (float)(90 - (float)(180 / Math.PI * Math.Atan(ratio)));
+            else
+              angle = (float)((float)(180 / Math.PI * Math.Atan(ratio)) + 90);
+            
+          }
+          else
+          {
+            
+            ratio = Math.Abs(dx / dy);
+            if (dx < 0 && dy > 0)
+              angle = (float)(270 - (float)(180 / Math.PI * Math.Acos(ratio)));
+            else if (dx < 0 && dy < 0)
+              angle = (float)((float)(180 / Math.PI * Math.Acos(ratio)) + 270);
+            else if (dx > 0 && dy < 0)
+              angle = (float)(90 - (float)(180 / Math.PI * Math.Acos(ratio)));
+            else
+              angle = (float)((float)(180 / Math.PI * Math.Acos(ratio)) + 90);
+          }
+        }
+        image = RotateImage(image, angle);
+      }
+      
       var simCanevas = mapPanel.CreateGraphics();
 
       simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
