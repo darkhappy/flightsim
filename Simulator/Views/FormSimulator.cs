@@ -51,7 +51,7 @@ namespace Simulator.Views
       //Setup timer
       timer.Enabled = true;
       timer.Interval = 1000;
-      
+
       //Load music
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
@@ -106,7 +106,7 @@ namespace Simulator.Views
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
       xmlFilePath.Title = "Choose a scenario";
       var result = xmlFilePath.ShowDialog();
-      return (result != DialogResult.OK) ?  "" : xmlFilePath.FileName;
+      return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
     }
 
     /// <summary>
@@ -131,17 +131,17 @@ namespace Simulator.Views
       foreach (var position in airportPositions)
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
-        var airport = new Bitmap(airports[ind%3]);
+        var airport = new Bitmap(airports[ind % 3]);
         string drawString = position.Item1;
         Font drawFont = new Font("Arial", 12);
         SolidBrush drawBrush = new SolidBrush(Color.White);
         float x = 150.0F;
         float y = 50.0F;
         StringFormat drawFormat = new StringFormat();
-        _graphics.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height/2), position.Item2.Y + (int)(height / 2), drawFormat);
+        _graphics.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height / 2), position.Item2.Y + (int)(height / 2), drawFormat);
 
-        _graphics.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height/2), height, width);
-        
+        _graphics.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height / 2), height, width);
+
         ind++;
       }
     }
@@ -211,7 +211,7 @@ namespace Simulator.Views
       //Rotate Image
       float dx = (float)(target.X - origin.X);
       float dy = (float)(target.Y - origin.Y);
-      if(Math.Abs(dx) > 0 || Math.Abs(dy) > 0)
+      if (Math.Abs(dx) > 0 || Math.Abs(dy) > 0)
       {
         float angle;
         if (dy == 0 && dx > 0)
@@ -225,7 +225,6 @@ namespace Simulator.Views
         else
         {
           float ratio;
-          float rectify;
           if (Math.Abs(dx) > Math.Abs(dy))
           {
             ratio = Math.Abs(dy / dx);
@@ -237,11 +236,11 @@ namespace Simulator.Views
               angle = (float)(90 - (float)(180 / Math.PI * Math.Atan(ratio)));
             else
               angle = (float)((float)(180 / Math.PI * Math.Atan(ratio)) + 90);
-            
+
           }
           else
           {
-            
+
             ratio = Math.Abs(dx / dy);
             if (dx < 0 && dy > 0)
               angle = (float)(270 - (float)(180 / Math.PI * Math.Acos(ratio)));
@@ -255,11 +254,8 @@ namespace Simulator.Views
         }
         image = RotateImage(image, angle);
       }
-      
-      var simCanevas = mapPanel.CreateGraphics();
 
-      simCanevas.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
-
+      _graphics.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
       //Draw id
       string drawString = id;
