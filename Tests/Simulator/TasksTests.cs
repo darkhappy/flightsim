@@ -1,6 +1,7 @@
 using NUnit.Framework;
 using Simulator.Models;
 using Simulator.Models.Airplanes;
+using Simulator.Models.States;
 using Simulator.Models.Tasks;
 
 namespace Tests.Simulator
@@ -39,6 +40,25 @@ namespace Tests.Simulator
       clientOne.Merge(clientTwo);
 
       Assert.That(clientOne.Amount, Is.EqualTo(60));
+    }
+
+    [Test]
+    public void CanAssignToAPlaneAfterTaskIsOver()
+    {
+      var plane = new RescuePlane("T-01", "Tie Fighter", 100, 2, _airport);
+      _airport.Airplanes.Add(plane);
+
+      var rescue = new TaskRescue(new Position(0, 100));
+      Scenario.Instance.AddTask(rescue, true);
+
+      Scenario.Instance.HandleTick(4);
+
+      var newRescue = new TaskRescue(new Position(0, 200));
+      Scenario.Instance.AddTask(newRescue, true);
+
+
+      Scenario.Instance.HandleTick(1);
+      Assert.That(plane.State, Is.TypeOf<RescueFlight>());
     }
 
     [Test]

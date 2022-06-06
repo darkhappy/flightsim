@@ -104,12 +104,12 @@ namespace Simulator.Models
       return (from task in Tasks
               where !task.IsTransportTask
               select new Tuple<TaskType, Position>(task.Type, task.Position)).ToList();
-    
     }
 
     public List<Tuple<string, TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
-      List<Tuple<string, TaskType, Position, Position, Position>> airplanes = new List<Tuple<string, TaskType, Position, Position, Position>>();
+      List<Tuple<string, TaskType, Position, Position, Position>> airplanes =
+        new List<Tuple<string, TaskType, Position, Position, Position>>();
 
       foreach (Airport airport in Airports)
       {
@@ -189,9 +189,11 @@ namespace Simulator.Models
       return Airports.OrderBy(airport => airport.Position.DistanceTo(position)).ToList();
     }
 
-    public void AddTask(Task client)
+    public void AddTask(Task client, bool addToUnassigned = false)
     {
       Tasks.Add(client);
+      if (addToUnassigned)
+        UnassignedTasks.Add(client);
     }
   }
 }
