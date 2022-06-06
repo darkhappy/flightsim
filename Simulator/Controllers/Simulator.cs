@@ -115,6 +115,7 @@ namespace Simulator.Controllers
       _frmSim.DrawMap();
       UpdateEvents(_scenario.GetEvents());
       UpdateAirplanes(_scenario.GetFlyingAirplanes());
+      _frmSim.DrawAll();
     }
 
     /// <summary>
