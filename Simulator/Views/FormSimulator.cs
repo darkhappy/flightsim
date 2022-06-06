@@ -62,8 +62,11 @@ namespace Simulator.Views
     }
 
     /// <summary>
-    /// 
+    /// Update the clients in the list when called.
     /// </summary>
+    /// <param name="id">
+    /// Id of an airport.
+    /// </param>
     public void UpdateClients(string id)
     {
       listClients.Items.Clear();
@@ -147,9 +150,11 @@ namespace Simulator.Views
     }
 
     /// <summary>
-    /// 
+    /// Draws a given task.
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="task">
+    /// The task.
+    /// </param>
     /// <exception cref="ArgumentException"></exception>
     internal void DrawEvent(Tuple<TaskType, Position> task)
     {
@@ -168,12 +173,20 @@ namespace Simulator.Views
     }
 
     /// <summary>
-    /// 
+    /// Draws a given airplane.
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="actual"></param>
-    /// <param name="origin"></param>
-    /// <param name="target"></param>
+    /// <param name="type">
+    /// Type of plane.
+    /// </param>
+    /// <param name="actual">
+    /// Actual positon of the plane.
+    /// </param>
+    /// <param name="origin">
+    /// Position of the origin of the plane.
+    /// </param>
+    /// <param name="target">
+    /// The targeted position.
+    /// </param>
     /// <exception cref="ArgumentException"></exception>
     public void DrawAirplane(string id, TaskType type, Position actual, Position origin, Position target)
     {
@@ -344,16 +357,31 @@ namespace Simulator.Views
       timer.Interval = (int)(1000 / (int)speedUpDown.Value);
     }
 
+    /// <summary>
+    /// Pauses the simulation.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void pauseSim_Click(object sender, EventArgs e)
     {
       timer.Enabled = false;
     }
 
+    /// <summary>
+    /// Restart a paused simulation.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void startSim_Click(object sender, EventArgs e)
     {
       timer.Enabled = true;
     }
 
+    /// <summary>
+    /// Mute/Unmute the playing music.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void checkMute_CheckedChanged(object sender, EventArgs e)
     {
       if (checkMute.Checked)

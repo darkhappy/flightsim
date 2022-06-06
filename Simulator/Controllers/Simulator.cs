@@ -18,7 +18,7 @@ namespace Simulator.Controllers
     private Scenario _scenario;
 
     /// <summary>
-    /// Constructor of a singleton instance of Simulator
+    /// Constructor of a singleton instance of Simulator.
     /// </summary>
     private Simulator()
     {
@@ -27,12 +27,12 @@ namespace Simulator.Controllers
     }
 
     /// <summary>
-    /// Checks if there is alredy an existing instance of Simulator, if not, it creates one
+    /// Checks if there is alredy an existing instance of Simulator, if not, it creates one.
     /// </summary>
     public static Simulator Instance => _instance ??= new Simulator();
 
     /// <summary>
-    /// Entry point of the Simulator program
+    /// Entry point of the Simulator program.
     /// </summary>
     /// <param name="args"></param>
     [STAThread]
@@ -42,7 +42,7 @@ namespace Simulator.Controllers
     }
 
     /// <summary>
-    /// 
+    /// Generates the initial view.
     /// </summary>
     private void GenerateView()
     {
@@ -141,6 +141,12 @@ namespace Simulator.Controllers
       }
     }
 
+    /// <summary>
+    /// Updates the airplanes on the panel.
+    /// </summary>
+    /// <param name="airplanes">
+    /// A list of airplanes.
+    /// </param>
     public void UpdateAirplanes(List<Tuple<string, TaskType, Position, Position, Position>> airplanes)
     {
       foreach(var airplane in airplanes)
