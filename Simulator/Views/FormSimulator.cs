@@ -2,14 +2,16 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Media;
+using System.Reflection;
 using System.Windows.Forms;
 using Simulator.Models;
 using Simulator.Properties;
 
 namespace Simulator.Views
-{
+{ 
   public partial class FormSimulator : Form
   {
+
     private SoundPlayer _player;
     private int _ticks = 0;
 
@@ -21,6 +23,7 @@ namespace Simulator.Views
       InitializeComponent();
     }
 
+
     /// <summary>
     /// Initalizes everything needed to see at first when FormSimulator loads.
     /// </summary>
@@ -28,7 +31,10 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void FormSimulator_Load(object sender, EventArgs e)
     {
-      //DoubleBuffered = true;
+      // Sets double buffering
+      typeof(Panel).InvokeMember("DoubleBuffered",
+        BindingFlags.SetProperty | BindingFlags.Instance | BindingFlags.NonPublic,
+        null, mapPanel, new object[] { true });
 
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
@@ -205,7 +211,7 @@ namespace Simulator.Views
       };
 
       // Create points that define line.
-      PointF pointOrigin = new PointF(origin.X, origin.Y);
+      PointF pointOrigin = new PointF(actual.X, actual.Y);
       PointF pointTarget = new PointF(target.X, target.Y);
 
       _graphics.DrawLine(blackPen, pointOrigin, pointTarget);
@@ -221,9 +227,26 @@ namespace Simulator.Views
         _ => throw new ArgumentException($"TaskType { type } was not found.")
       };
 
+     image = RotateAirplane(actual, target, image);
+
+      _graphics.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
+
+      //Draw id
+      string drawString = id;
+      Font drawFont = new Font("Arial", 12);
+      SolidBrush drawBrush = new SolidBrush(Color.White);
+      float x = 150.0F;
+      float y = 50.0F;
+      StringFormat drawFormat = new StringFormat();
+      _graphics.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
+
+    }
+
+    private Bitmap RotateAirplane(Position actual, Position target, Bitmap image)
+    {
       //Rotate Image
-      float dx = (float)(target.X - origin.X);
-      float dy = (float)(target.Y - origin.Y);
+      float dx = (float)(target.X - actual.X);
+      float dy = (float)(target.Y - actual.Y);
       if (Math.Abs(dx) > 0 || Math.Abs(dy) > 0)
       {
         float angle;
@@ -268,17 +291,7 @@ namespace Simulator.Views
         image = RotateImage(image, angle);
       }
 
-      _graphics.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
-
-      //Draw id
-      string drawString = id;
-      Font drawFont = new Font("Arial", 12);
-      SolidBrush drawBrush = new SolidBrush(Color.White);
-      float x = 150.0F;
-      float y = 50.0F;
-      StringFormat drawFormat = new StringFormat();
-      _graphics.DrawString(drawString, drawFont, drawBrush, actual.X - (int)(height / 2), actual.Y + (int)(height / 2), drawFormat);
-
+      return image;
     }
 
     /// <summary>
@@ -388,6 +401,11 @@ namespace Simulator.Views
         _player.Stop();
       else
         _player.PlayLooping();
+    }
+
+    private void loadScenario_Click(object sender, EventArgs e)
+    {
+
     }
   }
 }

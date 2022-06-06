@@ -126,7 +126,7 @@ namespace Simulator.Controllers
     /// </returns>
     private bool CanGenerate(int time)
     {
-      return time % 3600 == 0;
+      return time % (15*60) == 0;
     }
 
     /// <summary>

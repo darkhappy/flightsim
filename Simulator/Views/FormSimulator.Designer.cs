@@ -33,7 +33,7 @@ namespace Simulator.Views
       System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormSimulator));
       this.menueSim = new System.Windows.Forms.ToolStrip();
       this.toolFile = new System.Windows.Forms.ToolStripDropDownButton();
-      this.subToolOpen = new System.Windows.Forms.ToolStripMenuItem();
+      this.loadScenario = new System.Windows.Forms.ToolStripMenuItem();
       this.pauseSim = new System.Windows.Forms.ToolStripMenuItem();
       this.startSim = new System.Windows.Forms.ToolStripMenuItem();
       this.mapPanel = new System.Windows.Forms.Panel();
@@ -72,7 +72,7 @@ namespace Simulator.Views
       // 
       this.toolFile.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
       this.toolFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.subToolOpen,
+            this.loadScenario,
             this.pauseSim,
             this.startSim});
       this.toolFile.Image = ((System.Drawing.Image)(resources.GetObject("toolFile.Image")));
@@ -81,23 +81,24 @@ namespace Simulator.Views
       this.toolFile.Size = new System.Drawing.Size(77, 22);
       this.toolFile.Text = "Simulation";
       // 
-      // subToolOpen
+      // loadScenario
       // 
-      this.subToolOpen.Name = "subToolOpen";
-      this.subToolOpen.Size = new System.Drawing.Size(156, 22);
-      this.subToolOpen.Text = "Load a scenario";
+      this.loadScenario.Name = "loadScenario";
+      this.loadScenario.Size = new System.Drawing.Size(180, 22);
+      this.loadScenario.Text = "Load a scenario";
+      this.loadScenario.Click += new System.EventHandler(this.loadScenario_Click);
       // 
       // pauseSim
       // 
       this.pauseSim.Name = "pauseSim";
-      this.pauseSim.Size = new System.Drawing.Size(156, 22);
+      this.pauseSim.Size = new System.Drawing.Size(180, 22);
       this.pauseSim.Text = "Pause";
       this.pauseSim.Click += new System.EventHandler(this.pauseSim_Click);
       // 
       // startSim
       // 
       this.startSim.Name = "startSim";
-      this.startSim.Size = new System.Drawing.Size(156, 22);
+      this.startSim.Size = new System.Drawing.Size(180, 22);
       this.startSim.Text = "Start";
       this.startSim.Click += new System.EventHandler(this.startSim_Click);
       // 
@@ -262,7 +263,7 @@ namespace Simulator.Views
 
     private System.Windows.Forms.ToolStrip menueSim;
     private System.Windows.Forms.ToolStripDropDownButton toolFile;
-    private System.Windows.Forms.ToolStripMenuItem subToolOpen;
+    private System.Windows.Forms.ToolStripMenuItem loadScenario;
     private System.Windows.Forms.ToolStripMenuItem pauseSim;
     private System.Windows.Forms.Panel mapPanel;
     private System.Windows.Forms.GroupBox groupBox1;

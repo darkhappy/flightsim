@@ -4,11 +4,25 @@ using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
+  /// <summary>
+  /// Class of flying state.
+  /// </summary>
   public abstract class FlyingState : PlaneState, ITaskState
   {
+    /// <summary>
+    /// Member data of current position as Position.
+    /// </summary>
     private Position _current;
+    /// <summary>
+    /// Member data of destination position as Position. 
+    /// </summary>
     private Position _destination;
 
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="plane"></param>
+    /// <param name="task"></param>
     protected FlyingState(Airplane plane, Task task) : base(plane)
     {
       Task = task;
@@ -42,6 +56,9 @@ namespace Simulator.Models.States
         OnArrived(overlap);
     }
 
+    /// <summary>
+    /// Getter of task.
+    /// </summary>
     public virtual Task Task { get; }
 
     /// <summary>
@@ -57,12 +74,19 @@ namespace Simulator.Models.States
       _destination = destination;
     }
 
+    /// <summary>
+    /// Sets the position.
+    /// </summary>
+    /// <param name="current"></param>
     protected void SetPosition(Position current)
     {
       _current = current;
     }
 
-
+    /// <summary>
+    /// If the plane overlaps, this method takes it back to the place it's supposed to be.
+    /// </summary>
+    /// <param name="overlap"></param>
     protected void HeadBack(double overlap)
     {
       Task.HandleEvent();
@@ -70,6 +94,11 @@ namespace Simulator.Models.States
       Action(overlap);
     }
 
+    /// <summary>
+    /// Method that calculates the distance between the flying plane and destination.
+    /// </summary>
+    /// <param name="time"></param>
+    /// <returns></returns>
     public virtual Tuple<Position, double> CalculateDistance(double time)
     {
       var distanceX = Destination.X - Current.X;
@@ -108,6 +137,10 @@ namespace Simulator.Models.States
       return new Tuple<Position, double>(newPos, overlap);
     }
 
+    /// <summary>
+    /// ToString of flying state.
+    /// </summary>
+    /// <returns></returns>
     public abstract override string ToString();
   }
 }
