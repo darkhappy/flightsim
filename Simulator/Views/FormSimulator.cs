@@ -28,7 +28,7 @@ namespace Simulator.Views
     /// <param name="e"></param>
     private void FormSimulator_Load(object sender, EventArgs e)
     {
-      //DoubleBuffered = true;
+      DoubleBuffered = true;
 
       //Setup listAirports
       var airports = Controllers.Simulator.Instance.Airports();
@@ -205,7 +205,7 @@ namespace Simulator.Views
       };
 
       // Create points that define line.
-      PointF pointOrigin = new PointF(origin.X, origin.Y);
+      PointF pointOrigin = new PointF(actual.X, actual.Y);
       PointF pointTarget = new PointF(target.X, target.Y);
 
       _graphics.DrawLine(blackPen, pointOrigin, pointTarget);
@@ -222,8 +222,8 @@ namespace Simulator.Views
       };
 
       //Rotate Image
-      float dx = (float)(target.X - origin.X);
-      float dy = (float)(target.Y - origin.Y);
+      float dx = (float)(target.X - actual.X);
+      float dy = (float)(target.Y - actual.Y);
       if (Math.Abs(dx) > 0 || Math.Abs(dy) > 0)
       {
         float angle;
@@ -388,6 +388,11 @@ namespace Simulator.Views
         _player.Stop();
       else
         _player.PlayLooping();
+    }
+
+    private void loadScenario_Click(object sender, EventArgs e)
+    {
+
     }
   }
 }
