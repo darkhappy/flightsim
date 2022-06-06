@@ -32,7 +32,7 @@ namespace Simulator.Models.Tasks
     public bool Merge(TaskTransport other)
     {
       // Check if both tasks are the same type
-      if (GetType() != other.GetType()) return false;
+      if (Type != other.Type) return false;
 
       // Check if both tasks have the same destination
       if (Destination != other.Destination) return false;
