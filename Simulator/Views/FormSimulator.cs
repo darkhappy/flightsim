@@ -212,7 +212,7 @@ namespace Simulator.Views
       int o = target.X - origin.X;
       int a = target.Y - origin.X;
       float angle = (float)(270 + Math.Acos((double)o/a));
-      image = RotateImage(image, angle);
+      //image = RotateImage(image, angle);
 
       _graphics.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
