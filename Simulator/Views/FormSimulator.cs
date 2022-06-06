@@ -51,7 +51,7 @@ namespace Simulator.Views
       //Setup timer
       timer.Enabled = true;
       timer.Interval = 1000;
-      
+
       //Load music
       _player = new SoundPlayer();
       _player.Stream = Resources.star_wars_theme_song;
@@ -62,8 +62,11 @@ namespace Simulator.Views
     }
 
     /// <summary>
-    /// 
+    /// Update the clients in the list when called.
     /// </summary>
+    /// <param name="id">
+    /// Id of an airport.
+    /// </param>
     public void UpdateClients(string id)
     {
       listClients.Items.Clear();
@@ -106,7 +109,7 @@ namespace Simulator.Views
       xmlFilePath.Filter = "XML Files (*.xml)|*.xml";
       xmlFilePath.Title = "Choose a scenario";
       var result = xmlFilePath.ShowDialog();
-      return (result != DialogResult.OK) ?  "" : xmlFilePath.FileName;
+      return (result != DialogResult.OK) ? "" : xmlFilePath.FileName;
     }
 
     /// <summary>
@@ -131,25 +134,27 @@ namespace Simulator.Views
       foreach (var position in airportPositions)
       {
         Image[] airports = { Resources.Corellia, Resources.Coruscant, Resources.hoth };
-        var airport = new Bitmap(airports[ind%3]);
+        var airport = new Bitmap(airports[ind % 3]);
         string drawString = position.Item1;
         Font drawFont = new Font("Arial", 12);
         SolidBrush drawBrush = new SolidBrush(Color.White);
         float x = 150.0F;
         float y = 50.0F;
         StringFormat drawFormat = new StringFormat();
-        _graphics.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height/2), position.Item2.Y + (int)(height / 2), drawFormat);
+        _graphics.DrawString(drawString, drawFont, drawBrush, position.Item2.X - (int)(height / 2), position.Item2.Y + (int)(height / 2), drawFormat);
 
-        _graphics.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height/2), height, width);
-        
+        _graphics.DrawImage(airport, position.Item2.X - (int)(width / 2), (position.Item2.Y) - (int)(height / 2), height, width);
+
         ind++;
       }
     }
 
     /// <summary>
-    /// 
+    /// Draws a given task.
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="task">
+    /// The task.
+    /// </param>
     /// <exception cref="ArgumentException"></exception>
     internal void DrawEvent(Tuple<TaskType, Position> task)
     {
@@ -168,12 +173,20 @@ namespace Simulator.Views
     }
 
     /// <summary>
-    /// 
+    /// Draws a given airplane.
     /// </summary>
-    /// <param name="type"></param>
-    /// <param name="actual"></param>
-    /// <param name="origin"></param>
-    /// <param name="target"></param>
+    /// <param name="type">
+    /// Type of plane.
+    /// </param>
+    /// <param name="actual">
+    /// Actual positon of the plane.
+    /// </param>
+    /// <param name="origin">
+    /// Position of the origin of the plane.
+    /// </param>
+    /// <param name="target">
+    /// The targeted position.
+    /// </param>
     /// <exception cref="ArgumentException"></exception>
     public void DrawAirplane(string id, TaskType type, Position actual, Position origin, Position target)
     {
@@ -209,10 +222,51 @@ namespace Simulator.Views
       };
 
       //Rotate Image
-      int o = target.X - origin.X;
-      int a = target.Y - origin.X;
-      float angle = (float)(270 + Math.Acos((double)o/a));
-      image = RotateImage(image, angle);
+      float dx = (float)(target.X - origin.X);
+      float dy = (float)(target.Y - origin.Y);
+      if (Math.Abs(dx) > 0 || Math.Abs(dy) > 0)
+      {
+        float angle;
+        if (dy == 0 && dx > 0)
+          angle = 0;
+        else if (dy == 0 && dx < 0)
+          angle = 180;
+        else if (dy < 0 && dx == 0)
+          angle = 90;
+        else if (dy > 0 && dx == 0)
+          angle = 270;
+        else
+        {
+          float ratio;
+          if (Math.Abs(dx) > Math.Abs(dy))
+          {
+            ratio = Math.Abs(dy / dx);
+            if (dx < 0 && dy > 0)
+              angle = (float)(270 - (float)(180 / Math.PI * Math.Atan(ratio)));
+            else if (dx < 0 && dy < 0)
+              angle = (float)((float)(180 / Math.PI * Math.Atan(ratio)) + 270);
+            else if (dx > 0 && dy < 0)
+              angle = (float)(90 - (float)(180 / Math.PI * Math.Atan(ratio)));
+            else
+              angle = (float)((float)(180 / Math.PI * Math.Atan(ratio)) + 90);
+
+          }
+          else
+          {
+
+            ratio = Math.Abs(dx / dy);
+            if (dx < 0 && dy > 0)
+              angle = (float)(270 - (float)(180 / Math.PI * Math.Acos(ratio)));
+            else if (dx < 0 && dy < 0)
+              angle = (float)((float)(180 / Math.PI * Math.Acos(ratio)) + 270);
+            else if (dx > 0 && dy < 0)
+              angle = (float)(90 - (float)(180 / Math.PI * Math.Acos(ratio)));
+            else
+              angle = (float)((float)(180 / Math.PI * Math.Acos(ratio)) + 90);
+          }
+        }
+        image = RotateImage(image, angle);
+      }
 
       _graphics.DrawImage(image, actual.X - (int)(width / 2), actual.Y - (int)(height / 2), height, width);
 
@@ -303,16 +357,31 @@ namespace Simulator.Views
       timer.Interval = (int)(1000 / (int)speedUpDown.Value);
     }
 
+    /// <summary>
+    /// Pauses the simulation.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void pauseSim_Click(object sender, EventArgs e)
     {
       timer.Enabled = false;
     }
 
+    /// <summary>
+    /// Restart a paused simulation.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void startSim_Click(object sender, EventArgs e)
     {
       timer.Enabled = true;
     }
 
+    /// <summary>
+    /// Mute/Unmute the playing music.
+    /// </summary>
+    /// <param name="sender"></param>
+    /// <param name="e"></param>
     private void checkMute_CheckedChanged(object sender, EventArgs e)
     {
       if (checkMute.Checked)
