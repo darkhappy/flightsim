@@ -390,7 +390,7 @@ namespace Generator
     /// <param name="e">The event</param>
     private void btnEditAirport_Click(object sender, EventArgs e)
     {
-      if (listAirplanes.SelectedIndices.Count == 0)
+      if (listAirports.SelectedIndices.Count == 0)
       {
         labError.Visible = true;
         labError.Text = "Please select an airport to edit it";

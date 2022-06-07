@@ -2,205 +2,243 @@
 
 package Models {
     ' ----------------------------------- '
-    ' -- Enum                          -- '
-    ' Red = Rescue
-    ' Yellow = Fires
-    ' Blue = Cargo
-    ' Green = Passenger
-    ' Gray = Observer
-    enum Colour {
-        RED
-        YELLOW
-        BLUE
-        GREEN
-        GRAY
+    enum AirplaneType { 
+        Fight
+        Cargo
+        Passenger
+        Rescue
+        Scout
     }
 
     class Position {
         - _x: int
         - _y: int
         + Position(int x, int y)
-        + Position(string longitude, string latitude)
         + {static} Transpose(int x, int y): string
-        + {static} Transpose(string): Tuple<int, int>
         + ToString(): string
     }
 
     class Scenario {
-        - _airports: AirportList
-        + AddAirport(string[] data): void
-        + EditAirport(string id, string[] data): void
-        + DeleteAirport(string id): void
-        + AddAirplane(string id, string[] data): void
-        + EditAirplane(string id, string[] data): void
+        + Airports {get; set;}: List<airport>
+        + ExtensionData { get; set;}: ExtemtionDataObject
+
+        + AddAirplane(string airplaneId, AirplaneInfo info): void
+        + AddAirport(AirplaneInfo info): void
         + DeleteAirplane(string id): void
-        + ToString(): string
+        + DeleteAirport(string id): void
+        + EditAirplane(string airportId, AirplaneInfo info): void
+        + EditAirport(string airportId, AirplaneInfo info): void
+        + GetAirplanesInfo(string airportId): List<AirplaneInfo>
+        - GetAirport(string airportCode): Airport
+        + GetAirportsInfo(): List<AirportInfo>
+        + GetAirportWithPlane(string airplaneCode): Airport
+        + HasAirplane(string airplaneId): bool
+        + HasAirport(string airportCode): bool
     }
     
     ' -----------------------------------'
     ' -- Airport Management           -- '
     'package "Airplanes and Airports" {
-        class Airport {
-            - _id: string
-            - _name: string
-            - _location: Position
-            - _airplanes: List<Airplane>
-            - _passengerTraffic: int
-            - _merchandiseTraffic: double
-            - _passenger: int
-            - _merchandise: double
-            + Export(): string[]
-            + Action(int time): void
-            + AddAirplane(string[] data): void
-            + EditAirplane(string id, string[] data): void
-            + DeleteAirplane(string id): void
-        }
+    class Airport {
+        + Id {get; set;}: string
+        + Name {get; set;}: string
+        + Position {get; set;}: Position
+        + Airplanes {get; set;}: List<Airplane>
+        + PassengerTraffic {get; set;}: int
+        + CargoTraffic {get; set;}: double
+        + ExtensionData {get; set;}: ExtensionDataObject
+
+        + AddAirplane(AirplaneIndo data): void
+        + DeleteAirplane(string id): void
+        + EditAirplane(string id, AirplaneIndo data): void
+        + FindAirplane(string id): void
+        + GetAirplanesInfo(): List<AirplaneInfo>
+        + HasPlane(string airplaneCode): bool       
+        + ToAirportInfo(): AirportInfo
+    }
     
     ' -----------------------------------'
     ' -- Airplane Management          -- '
-        class AirplaneFactory << (S,orange) Singleton>> {
-            - {static} _airplaneFactory: AirplaneFactory
-            + {static} GetAirplaneFactory(): AirplaneFactory
-            + CreateAirplane(string[] data): Airplane
-        }
-
-        abstract class Airplane {
-            - _id: string
-            - _name: string
-            - _speed: int
-            - _maintenanceTime: int
-            - _origin: Airport
-            - _colour: Colour 
-            - _state: IState
-            - _available: bool
-            + Action(int time): void
-            + Export(): string[]
-        }
-
-        class FightPlane extends Airplane{
-        }
-        
-        abstract class TransportPlane extends Airplane {
-            - _maxCapacity: double
-            - _embarkingTime: int
-            - _disembarkingTime: int
-        }
-        
-        class PassengerPlane extends TransportPlane {
-        }
-        
-        class MerchandisePlane extends TransportPlane {
-        }
-        
-        class ScoutPlane extends Airplane{
-        }
-        
-        class RescuePlane extends Airplane{
-        }
-    '}
-    
-    ' -----------------------------------'
-    ' -- Airplane States              -- '
-    
-/'
-    package "Airplane States" {
-        interface IState {
-            + Action(int time): void
-        }
-        
-        abstract class Flying implements IState {
-            - _current: Position
-            - _angle: int
-            - _destination: Position
-        }
-        
-        abstract Grounded implements IState {
-        }
-        
-        abstract AtAirport extends Grounded {
-            - _time: int
-            - _capacity : double
-            + Action(int time): void
-        }
-        
-        class Embark extends AtAirport {
-            + Action(int time): void
-        }
-        
-        class Disembark extends AtAirport {
-            + Action(int time): void
-        }
-        
-        class Standby extends Grounded {
-            + Action(int time): void
-        }
-        
-        class Maintenance extends Grounded {
-            - _maintenanceOver: int
-            + Action(int time): void
-        }
-        
-        class Transport extends Flying {
-            - _event : EventClient
-            - _capacity : double
-            + Action(int time): void
-        }
-        
-        class Fight extends Flying {
-            - _event : EventFight
-            + Action(int time): void
-        }
-        
-        class Rescue extends Flying {
-            - _event : EventRescue
-            + Action(int time): void
-        }
-        class Scout extends Flying {
-            - _event : EventScout
-            + Action(int time): void
-            - GeneratePath(Position position): List<Position>
-        }
+    class AirplaneFactory << (S,orange) Singleton>> {
+        - {static} _instance: AirplaneFactory
+        + {static} Instance { get;}: AirplaneFactory
+        + CreateAirplane(AirplaneInfo data): Airplane
     }
-'/
+
+    abstract class Airplane {
+        + Id { get; set;}: string
+        + Name { get; set;}: string
+        + Speed { get; set;}: int
+        + MaintenanceTime{ get; set;}: int
+        + ExtensionData { get; set;}: ExtensionDataObject
+        + Type { get;}: AirplaneType
+    
+        + Edit(AirplaneInfo info): void
+        - GetDerivedTypes(): Type[]
+        + ToAirplaneInfo(): AirplaneInfo
+    }
+
+    class FightPlane extends Airplane{
+        + Type { get;}: AirplaneType
+    }
+    
+    abstract class TransportPlane extends Airplane {
+        + MaxCapacity { get; set;}: int
+        + EmbarkingTime { get; set;}: int
+        + DisembarkingTime{ get; set;}: double
+
+        Edit(AirplaneInfo data): void
+        ToAirplaneInfo(): AirplaneInfo
+    }
+    
+    class PassengerPlane extends TransportPlane {
+        + Type { get;}: AirplaneType
+    }
+    
+    class MerchandisePlane extends TransportPlane {
+        + Type { get;}: AirplaneType
+    }
+    
+    class ScoutPlane extends Airplane{
+        + Type { get;}: AirplaneType
+    }
+    
+    class RescuePlane extends Airplane{
+        + Type { get;}: AirplaneType
+    }
+}
+
+package Informations {
+    ' -----------------------------------'
+    ' -- Object Info Management       -- '
+
+    abstract class ObjectInfo {
+        + Id { get; set;}: string
+        + Name { get; set;}: string
+
+        + Equals(object obj): bool
+        # Equals(ObjectInfo obj): bool
+        + GetHashCode(): int
+        + operator != (ObjectInfo left, ObjectInfo right): bool
+        + operator == (ObjectInfo left, ObjectInfo right): bool
+    }
+
+    class AirportInfo extends ObjectInfo {
+        + Position { get; set;}: Position
+        + PassengerTraffic { get; set;}: int
+        + CargoTraffic { get; set;}: double
+
+        # Equals(AirportInfo other): bool
+        + Equals(object obj): bool
+        + GetHashCode(): int
+        + operator != (AirportInfo left, AirportInfo right): bool
+        + operator == (AirportInfo left, AirportInfo right): bool
+    }
+
+    class AirplaneInfo extends ObjectInfo {
+        - _maintenanceTime: int
+        - _speed: int
+        + Type { get;}: AirplaneType
+        + Speed { get; set;}: int
+        + MaintenanceTime{ get; set;}: int
+        + EmbarkingTime { get; set;}: int
+        + DisembarkingTime{ get; set;}: double
+        + MaxCapacity { get; set;}: int
+
+        # Equals(AirplaneInfo other): boolean
+        + Equals(object obj): bool
+        + GetHashCode(): int
+        + operator != (AirplaneInfo left, AirplaneInfo right): bool
+        + operator == (AirplaneInfo left, AirplaneInfo right): bool
+    }
+
+    class TransportInfo extends AirplaneInfo {
+        - _disembarkingTime: int
+        - _embarkingTime: int
+        - _maxCapacity: double
+        + DisembarkingTime{ get; set;}: int
+        + EmbarkingTime { get; set;}: int
+        + MaxCapacity { get; set;}: double
+
+        - Equals(object obj): bool
+        # Equals(TransportInfo other): boolean
+        + GetHashCode(): int
+        + operator != (TransportInfo left, TransportInfo right): bool
+        + operator == (TransportInfo left, TransportInfo right): bool
+
+    }
 }
 
 package Controllers {
     class Generator << (S,orange) Singleton>> {
-        - _form: FormGenerator
-        - _generator: Generator
-        + GetGenerator(): Generator
-        + AddAirport(string[] data): void
-        + EditAirport(string id, string[] data): void
-        + DeleteAirport(string id): void
-        + AddAirplane(string id, string[] data): void
-        + EditAirplane(string id, string[] data): void
+        - _frmGen: FormGenerator
+        - _instance: Generator
+        - _Scenario: Scenario
+        + MapHeight: int
+        + MapWidth: int
+        + Instance { get;}: Generator
+
+        + AddAirplane(string airportId, AirplaneInfo info): void
+        + AddAirport(AirportInfo info): void
+        + CanSerialize(): bool
         + DeleteAirplane(string id): void
-        + Export(): void
-        + Import(): void
+        + DeleteAirport(string id): void
+        + EditAirplane(string airportId, string airplaneId, AirplaneInfo info): void
+        + EditAirport(string id, AirportInfo data): void
+        + Export(string Path): void
+        - GenerateView(): void
+        + GetrAirportPosition(string text): Position
+        + Import(string path): void
+        + Main(string[] args): void	
+        + UpdateAirplanes(string id): void
     }
 }
 
 package Views {
     class FormMap {
-        - ClickOnMap(): void
-        - Select(): void
-        - Cancel(): void
+        + Pos {get; set;}: Position
+        
+        + DrawMapPos(): void
+        - mapPanelPos_CLick(object sender, EventArgs e): void
+        - mapPanelPos_Paint(object sender, PaintEventArgs e): void
     }
     class FormGenerator {
-        - _data: string[]
-        - _listAirports: string[]
-        - _listAirplanes: string[]
-        - _selectedAirport: string
-        - _selectedAirplane: string
-        - AddAirport(): void
-        - EditAirport(): void
-        - DeleteAirport(): void
-        - AddAirplane(): void
-        - EditAirplane(): void
-        - DeleteAirplane(): void
-        - Save(): void
-        - Exit(): void
-        + UpdateView(string[] data): void
+        - _mapPos: FormMap
+        - _player: SoundPlayer
+        - _selectedPosition: Position
+        - currentPath: string
+
+        - btnAddAirplane_Click(object sender, EventArgs e): void
+        - btnAddAirport_Click(object sender, EventArgs e): void
+        - btnDeleteAirplane_Click(object sender, EventArgs e): void
+        - btnDeleteAirport_Click(object sender, EventArgs e): void
+        - btnEditAirplane_Click(object sender, EventArgs e): void
+        - btnEditAirport_Click(object sender, EventArgs e): void
+        - cmbType_SelectedIndexChanged(object sender, EventArgs e): void
+        + EnableGroups(bool enabled): void
+        - FormGenerator_Load(object sender, EventArgs e): void
+        - GetAirplaneInfo(AirplaneType): void
+        - GetAirplaneType(string type): AirplaneType
+        - InitializeComponent(): void
+        - IsAirplaneValid(): bool
+        - listAirplanes_SelectedIndexChanged(object sender, EventArgs e): void
+        - listAirports_SelectedIndexChanged(object sender, EventArgs e): void
+        + OpenPath(): string
+        - ResetAirplaneInfo(): void
+        - ResetAirportInfo(): void
+        + ResetPath(): void
+        + SavePath(): string
+        + SetPath(string path): void
+        - subToolClose_Click(object sender, EventArgs e): void
+        - subToolOpen_Click(object sender, EventArgs e): void
+        - subToolSave_Click(object sender, EventArgs e): void
+        - subToolSaveAs_Click(object sender, EventArgs e): void
+        - subToolNew_Click(object sender, EventArgs e): void
+        - subToolStop_Click(object sender, EventArgs e): void
+        - subToolStart_Click(object sender, EventArgs e): void
+        - txbPosition_Click(object sender, EventArgs e): void
+        + UpdateAirplanes(List<AirplaneInfo> airplanes): void
+        + UpdateAirports(List<AirportInfo> airports): void
     }
 }
 
