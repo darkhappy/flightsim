@@ -24,11 +24,6 @@ namespace Simulator.Models.Airplanes
     }
 
     /// <summary>
-    /// Getter of the colour.
-    /// </summary>
-    public override Colour Colour => Colour.Red;
-
-    /// <summary>
     /// Getter of the task type.
     /// </summary>
     public override TaskType Type => TaskType.Rescue;

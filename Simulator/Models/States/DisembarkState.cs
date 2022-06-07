@@ -28,13 +28,10 @@ namespace Simulator.Models.States
       Plane.Action(overlap);
     }
 
-    /// <summary>
-    /// ToString of state.
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc cref="PlaneState.ToString()" />
     public override string ToString()
     {
-      return "Disembarking";
+      return $"Disembarking {Task} ({TimeLeft} seconds)";
     }
   }
 }

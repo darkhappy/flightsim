@@ -59,7 +59,6 @@
     <Compile Include="Models\Airplanes\ScoutPlane.cs" />
     <Compile Include="Models\Airplanes\TransportPlane.cs" />
     <Compile Include="Models\TaskType.cs" />
-    <Compile Include="Models\Colour.cs" />
     <Compile Include="Models\ObjectInfo.cs" />
     <Compile Include="Models\Position.cs" />
     <Compile Include="Models\Scenario.cs" />
@@ -68,7 +67,6 @@
     <Compile Include="Models\States\FightingFlight.cs" />
     <Compile Include="Models\States\FlyingState.cs" />
     <Compile Include="Models\States\IState.cs" />
-    <Compile Include="Models\States\ITaskState.cs" />
     <Compile Include="Models\States\MaintenanceState.cs" />
     <Compile Include="Models\States\PlaneState.cs" />
     <Compile Include="Models\States\RescueFlight.cs" />

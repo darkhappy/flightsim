@@ -12,6 +12,7 @@ namespace Generator
   {
     private FormMap _mapPos;
     private SoundPlayer _player;
+    private Position _selectedPosition;
     private string currentPath = "";
 
     /// <summary>
@@ -36,26 +37,26 @@ namespace Generator
 
       //Setup listAirports
       listAirports.View = View.Details;
-      listAirports.Columns.Add("Id", (int)(listAirports.Width * 0.07));
-      listAirports.Columns.Add("Name", (int)(listAirports.Width * 0.30));
-      listAirports.Columns.Add("Position", (int)(listAirports.Width * 0.30));
-      listAirports.Columns.Add("Passenger Traffic", (int)(listAirports.Width * 0.1632));
-      listAirports.Columns.Add("Merchandise Traffic", (int)(listAirports.Width * 0.1632));
+      listAirports.Columns.Add("Id", (int) (listAirports.Width * 0.07));
+      listAirports.Columns.Add("Name", (int) (listAirports.Width * 0.30));
+      listAirports.Columns.Add("Position", (int) (listAirports.Width * 0.30));
+      listAirports.Columns.Add("Passenger Traffic", (int) (listAirports.Width * 0.1632));
+      listAirports.Columns.Add("Merchandise Traffic", (int) (listAirports.Width * 0.1632));
 
       //Setup listPlane
       listAirplanes.View = View.Details;
-      listAirplanes.Columns.Add("Id", (int)(listAirports.Width * 0.07));
-      listAirplanes.Columns.Add("Name", (int)(listAirports.Width * 0.236));
-      listAirplanes.Columns.Add("Type", (int)(listAirports.Width * 0.20));
-      listAirplanes.Columns.Add("Speed", (int)(listAirports.Width * 0.09));
-      listAirplanes.Columns.Add("Capacity", (int)(listAirports.Width * 0.1));
-      listAirplanes.Columns.Add("Embarking", (int)(listAirports.Width * 0.1));
-      listAirplanes.Columns.Add("Disembarking", (int)(listAirports.Width * 0.1));
-      listAirplanes.Columns.Add("Maintenance", (int)(listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Id", (int) (listAirports.Width * 0.07));
+      listAirplanes.Columns.Add("Name", (int) (listAirports.Width * 0.236));
+      listAirplanes.Columns.Add("Type", (int) (listAirports.Width * 0.20));
+      listAirplanes.Columns.Add("Speed", (int) (listAirports.Width * 0.09));
+      listAirplanes.Columns.Add("Capacity", (int) (listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Embarking", (int) (listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Disembarking", (int) (listAirports.Width * 0.1));
+      listAirplanes.Columns.Add("Maintenance", (int) (listAirports.Width * 0.1));
 
       //Default selected type
       cmbType.SelectedIndex = 1;
-      gbAirplanes.Enabled = false; 
+      gbAirplanes.Enabled = false;
       gbAirports.Enabled = false;
 
       EnableGroups(false);
@@ -145,6 +146,8 @@ namespace Generator
       txbPosition.Text = listAirports.SelectedItems[0].SubItems[2].Text;
       numPTraffic.Text = listAirports.SelectedItems[0].SubItems[3].Text;
       numCTraffic.Text = listAirports.SelectedItems[0].SubItems[4].Text;
+
+      _selectedPosition = Controllers.Generator.Instance.GetAirportPosition(txbAirportId.Text);
     }
 
     /// <summary>
@@ -223,13 +226,13 @@ namespace Generator
       {
         case AirplaneType.Cargo:
         case AirplaneType.Passenger:
-          {
-            if (!int.TryParse(numCapacity.Text, out var capacity)) throw new ArgumentException("Invalid data");
-            if (!int.TryParse(numEmbarking.Text, out var embarking)) throw new ArgumentException("Invalid data");
-            if (!int.TryParse(numDisembarking.Text, out var disembarking)) throw new ArgumentException("Invalid data");
-            return new TransportInfo(txbAirplaneId.Text, txbAirplaneName.Text, type, speed, maintenance, capacity,
-              embarking, disembarking);
-          }
+        {
+          if (!int.TryParse(numCapacity.Text, out var capacity)) throw new ArgumentException("Invalid data");
+          if (!int.TryParse(numEmbarking.Text, out var embarking)) throw new ArgumentException("Invalid data");
+          if (!int.TryParse(numDisembarking.Text, out var disembarking)) throw new ArgumentException("Invalid data");
+          return new TransportInfo(txbAirplaneId.Text, txbAirplaneName.Text, type, speed, maintenance, capacity,
+            embarking, disembarking);
+        }
         case AirplaneType.Fight:
         case AirplaneType.Rescue:
         case AirplaneType.Scout:
@@ -260,7 +263,8 @@ namespace Generator
 
       listAirports.Items.Clear();
 
-      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text, Position.StringToPosition(txbPosition.Text), pTraffic, cTraffic));
+      Controllers.Generator.Instance.AddAirport(new AirportInfo(txbAirportId.Text, txbAirportName.Text,
+        _selectedPosition, pTraffic, cTraffic));
 
       listAirports.Items[listAirports.Items.Count - 1].Selected = true;
     }
@@ -277,9 +281,12 @@ namespace Generator
 
       //Verify if is valid
       if (!IsAirplaneValid()) return;
-    
+
       //Get airplane type
-      try { type = GetAirplaneType(cmbType.SelectedItem.ToString()); }
+      try
+      {
+        type = GetAirplaneType(cmbType.SelectedItem.ToString());
+      }
       catch
       {
         labError.Text = "Please enter valid data";
@@ -287,7 +294,10 @@ namespace Generator
       }
 
       //Get airplane info
-      try { info = GetAirplaneInfo(type); }
+      try
+      {
+        info = GetAirplaneInfo(type);
+      }
       catch
       {
         labError.Text = "Please enter valid data";
@@ -319,18 +329,20 @@ namespace Generator
       int selected = listAirports.SelectedIndices[0];
 
       Controllers.Generator.Instance.DeleteAirport(listAirports.SelectedItems[0].SubItems[0].Text);
-      try 
-      { 
-        if(selected == 0)
+      try
+      {
+        if (selected == 0)
           listAirports.Items[selected].Selected = true;
         else
-          listAirports.Items[selected-1].Selected = true; 
+          listAirports.Items[selected - 1].Selected = true;
       }
-      catch 
+      catch
       {
         ResetAirportInfo();
         listAirplanes.Items.Clear();
-      };
+      }
+
+      ;
 
       labError.Visible = false;
     }
@@ -354,17 +366,19 @@ namespace Generator
       Controllers.Generator.Instance.DeleteAirplane(listAirplanes.SelectedItems[0].SubItems[0].Text);
       Controllers.Generator.Instance.UpdateAirplanes(listAirports.SelectedItems[0].SubItems[0].Text);
 
-      try 
-      { 
+      try
+      {
         if (selected == 0)
           listAirplanes.Items[selected].Selected = true;
         else
           listAirplanes.Items[selected - 1].Selected = true;
       }
-      catch 
+      catch
       {
         ResetAirplaneInfo();
-      };
+      }
+
+      ;
 
       labError.Visible = false;
     }
@@ -396,7 +410,8 @@ namespace Generator
 
       labError.Visible = false;
 
-      AirportInfo info = new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(1, 1), pTraffic, cTraffic);
+      AirportInfo info =
+        new AirportInfo(txbAirportId.Text, txbAirportName.Text, new Position(1, 1), pTraffic, cTraffic);
       Controllers.Generator.Instance.EditAirport(listAirports.SelectedItems[0].SubItems[0].Text, info);
 
       listAirports.Items[selected].Selected = true;
@@ -426,10 +441,10 @@ namespace Generator
 
       //Verify if is valid
       if (!IsAirplaneValid()) return;
-      try 
+      try
       {
         newType = GetAirplaneType(cmbType.SelectedItem.ToString());
-        info = GetAirplaneInfo(newType); 
+        info = GetAirplaneInfo(newType);
       }
       catch
       {
@@ -464,7 +479,7 @@ namespace Generator
       var pos = _mapPos.Pos;
 
       txbPosition.Text = Position.Transpose(pos.X, pos.Y);
-      Position.StringToPosition(txbPosition.Text);
+      _selectedPosition = pos;
     }
 
     /// <summary>
@@ -496,14 +511,17 @@ namespace Generator
     {
       if (currentPath != "")
       {
-        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
+        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?",
+          "Are you sure?", MessageBoxButtons.YesNoCancel);
         if (dialogResult == DialogResult.Yes)
         {
           if (!Controllers.Generator.Instance.CanSerialize())
           {
-            MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK,
+              MessageBoxIcon.Warning);
             return;
           }
+
           Controllers.Generator.Instance.Export(currentPath);
         }
         else if (dialogResult == DialogResult.Cancel)
@@ -528,7 +546,8 @@ namespace Generator
     {
       if (currentPath != "")
       {
-        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel);
+        DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?",
+          "Are you sure?", MessageBoxButtons.YesNoCancel);
         if (dialogResult == DialogResult.Yes)
         {
           Controllers.Generator.Instance.Export(currentPath);
@@ -542,7 +561,7 @@ namespace Generator
       string path = SavePath();
 
       if (path == "") return;
-      
+
       Controllers.Generator.Instance.Export(path);
     }
 
@@ -561,7 +580,8 @@ namespace Generator
 
       if (!Controllers.Generator.Instance.CanSerialize())
       {
-        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK,
+          MessageBoxIcon.Warning);
         return;
       }
 
@@ -583,7 +603,8 @@ namespace Generator
 
       if (!Controllers.Generator.Instance.CanSerialize())
       {
-        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK,
+          MessageBoxIcon.Warning);
         return;
       }
 
@@ -607,18 +628,21 @@ namespace Generator
     {
       if (currentPath == "")
       {
-        MessageBox.Show("No scenario to close", "Warning" , MessageBoxButtons.OK, MessageBoxIcon.Warning);
+        MessageBox.Show("No scenario to close", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
         return;
       }
 
-      DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?", "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
+      DialogResult dialogResult = MessageBox.Show("Before leaving, do you want to save any modification?",
+        "Are you sure?", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Warning);
       if (dialogResult == DialogResult.Yes)
       {
         if (!Controllers.Generator.Instance.CanSerialize())
         {
-          MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+          MessageBox.Show("You need at least two airports to save the scenario", "Warning", MessageBoxButtons.OK,
+            MessageBoxIcon.Warning);
           return;
         }
+
         Controllers.Generator.Instance.Export(currentPath);
       }
       else if (dialogResult == DialogResult.Cancel)
@@ -641,7 +665,7 @@ namespace Generator
     ///   Set the new XML <see cref="Scenario"/> file for the <see cref="Generator"/>
     /// </summary>
     /// <param name="path">The path of the XML file</param>
-    public void SetPath(string path) 
+    public void SetPath(string path)
     {
       currentPath = path;
       this.Text = "Scenario Generator - " + currentPath;

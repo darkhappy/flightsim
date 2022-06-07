@@ -2,6 +2,9 @@ using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
+  /// <summary>
+  ///   Represents a plane that transports cargo.
+  /// </summary>
   [DataContract(Namespace = "")]
   public class CargoPlane : TransportPlane
   {

@@ -16,10 +16,7 @@ namespace Simulator.Models.States
       TimeLeft = plane.MaintenanceTime;
     }
 
-    /// <summary>
-    /// Onarrived.
-    /// </summary>
-    /// <param name="overlap"></param>
+    /// <inheritdoc cref="PlaneState.OnArrived" />
     protected override void OnArrived(double overlap)
     {
       Plane.State = new StandbyState();
@@ -31,7 +28,7 @@ namespace Simulator.Models.States
     /// <returns></returns>
     public override string ToString()
     {
-      return "In Maintenace";
+      return "Currently in maintenance for " + TimeLeft + " seconds.";
     }
   }
 }

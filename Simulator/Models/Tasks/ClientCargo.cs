@@ -10,8 +10,18 @@ namespace Simulator.Models.Tasks
       Amount = (new Random().NextDouble() * airport.CargoTraffic + 1) * 5;
     }
 
+    /// <summary>
+    ///   Represents the type of the task.
+    /// </summary>
     public override TaskType Type => TaskType.Cargo;
 
-    public override string ToString() => Amount + " tons of cargo to " + Destination.Name;
+    /// <summary>
+    ///   Returns a string representation of the task.
+    /// </summary>
+    /// <returns>The string representation of the task.</returns>
+    public override string ToString()
+    {
+      return Amount + " tons of cargo heading to " + Destination.Name;
+    }
   }
 }

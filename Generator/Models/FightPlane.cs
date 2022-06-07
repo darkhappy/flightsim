@@ -2,6 +2,9 @@ using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
+  /// <summary>
+  ///   Represents a plane that engages in fights.
+  /// </summary>
   [DataContract(Namespace = "")]
   public class FightPlane : Airplane
   {

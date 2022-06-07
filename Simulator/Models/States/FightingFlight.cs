@@ -8,19 +8,12 @@ namespace Simulator.Models.States
   /// </summary>
   public sealed class FightingFlight : FlyingState
   {
-    /// <summary>
-    /// Constructor.
-    /// </summary>
-    /// <param name="plane"></param>
-    /// <param name="task"></param>
+    /// <inheritdoc cref="FlyingState(Airplane, Task)" />
     public FightingFlight(Airplane plane, Task task) : base(plane, task)
     {
     }
 
-    /// <summary>
-    /// Onarrived method that calls action.
-    /// </summary>
-    /// <param name="overlap"></param>
+    /// <inheritdoc cref="FlyingState.OnArrived" />
     protected override void OnArrived(double overlap)
     {
       if (Destination == Task.Position)
@@ -39,13 +32,12 @@ namespace Simulator.Models.States
       }
     }
 
-    /// <summary>
-    /// ToString of state.
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc cref="PlaneState.ToString()" />
     public override string ToString()
     {
-      return "Flying to fight";
+      return Destination == Task.Position ? $"Handling {Task}"
+        : Task.IsCompleted                ? "Returning to base for maintenance"
+                                            : "Returning to base to refuel";
     }
   }
 }
