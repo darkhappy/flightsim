@@ -18,84 +18,126 @@ package Models {
     }
 
     class Position {
-        - _x: int
-        - _y: int
+        - Random : Random
+        - Hidden { get; } : bool
+        - X { get; set; }: int
+        - Y { get; set;}: int
+        + DistanceTo(Position target) : double
+        + Equals(object obj) : bool
+        + GetHashCode() : int
+        + GetRandomPosition() : Position
         + Position(int x, int y)
-        + Position(string longitude, string latitude)
+        + operator !=(Position left, Position right) : bool
+        + operator ==(Position left, Position right) : bool
+        + Position(int x, int y)
         + {static} Transpose(int x, int y): string
-        + {static} Transpose(string): Tuple<int, int>
         + ToString(): string
     }
 
     class Scenario << (S, Orange) Singleton >> {
-        - _airports: List<Airport>
-        - _tasks: List<Task>
-        - _unassignedTasks: List<Task>
-        - {static} _scenario: Scenario
-        + {static} GetScenario(): Scenario
+        - {static} _scenario : Scenario
+        - Airports {get; set;} : List<Airport>
+        - ExtentionData { get; set; } : ExtentionDataObject
+        - Instance { get; set; } : Scenario
+        - Tasks { get; set; } : List<Task>
+        - UnassignedTasks { get; set; } : List<Task>
+        + AddTask(Task task, [bool addToUnassigned = false]) : void
+        + AssignUnassignedTasks() : void
         + GenerateTasks(): void
+        + GetAirplanesFromAirport(strin id) : List<string>
+        + GetAirport(string airportCode) : Airport
+        + GetAirportsObjectInfo() : List<ObjectInfo>
+        + GetClients(string id) : List<string>
+        + GetEvents() : List<Tuple<TaskType, Position>>
+        + GetFlyingAirplane() : List<Tuple<string, taskType, Position, Position, Position>>
+        + GetNearestAirports(Position position) : List<Airport>
+        + GetTwoUniqueAirports() : Tuple<Airport, Airport>
         + HandleTick(double time): void
+        + {static} OnDeserialized(StreamingContext context) : void
         + RemoveTask(Task task): void
-        + GetNearestAirports(Position position): List<Airport>
+        + Senario()
     }
     
     ' -----------------------------------'
     ' -- Airport Management           -- '
     package "Airplanes and Airports" {
         class Airport {
-            - _id: string
-            - _name: string
-            - _position: Position
-            - _airplanes: List<Airplane>
-            - _passengerTraffic: int
-            - _merchandiseTraffic: double
-            - _clients : List<TaskTransport>
-            + Action(double time): double
+            - Airplanes { get; set; } : List<Airplane>
+            - CargoTraffic { get; set; } : double
+            - Clients { get; set; } : List<TaskTransport>
+            - ExtentionData { get; set; } : ExtentionDataObject
+            - Id { get; set; } : string
+            - Name { get; set; } : string
+            - PassengerTraffic { get; set; } : int
+            - Position { get; set; } : Position
+            + Action(double time): void
+            + AddClient(TaskTransport task) : void
             + AssignTask(Task task): bool
+            + GetClient() : List<string>
+            + GetFlyingAirplanes() : IEnumerable<Tuple<string, TaskType, Position, Position, Position>>
+            + GetToStringOfPlanes() : List<string>
+            + OnDeserialized(StreamingContext context) : void
+            + SplitClient(TaskTransport client, double remainder) : void
+            + TransferTo(Airport destination, Airplane airplane) : void
         }
     
         abstract class Airplane {
-            - _id: string
-            - _name: string
-            - _speed: int
-            - _maintenanceTime: int
-            - _origin: Airport
-            - _colour: Colour 
-            - _state: IState
+            - Destination { get; } : Position
+            - Id { get; set; } : string
+            - MaintenanceTime { get; set; } : int
+            - Name { get; set; } : string
+            - Origin { get; set; } : Airport
+            - OriginePosition { get; } : Position
+            - Position { get; } : Position
+            - Speed { get; set; } : int
+            - State  { get; set; } : IState
+            - Type { get; } : TaskType
             + Action(double time): double
-            + AssignTask(Task task): bool
-            + ChangeState(): void
-            + ChangeState(Task task): void
+            # Airplane(string id, string name, int speed, int maintenanceTime, Airport origin)
+            + AssignTask(Task task) : bool
+            # CanDoTask(Task task) : bool
+            - GetDerivedTypes() : Type[]
+            - OnDeserialized(StreamingContext context) : void
+            + ToString() : string
+            + TransferTo(Airport  destination) : void
         }
 
         class FightPlane extends Airplane{
-            + AssignTask(Task task): bool
-            + ChangeState(): void
+            - Type { get; set; } : TaskType
+            # CanDoTask(Task task): bool
+            + FightPlane(string id, string name, int speed, int maintenanceTime, Airport origin): void
         }
         
         abstract class TransportPlane extends Airplane {
-            - _maxCapacity: double
-            - _embarkingTime: int
-            - _disembarkingTime: int
-            + AssignTask(Task task): bool
-            + ChangeState(): void
-            + ChangeState(Task task): void
+            - DisembarkingTime { get; set; } : int
+            - EmbarkingTime { get; set; } : int
+            - MaxCapacity { get; set; } : double
+            # LoadClient(TaskTransport task) : void
+            # TransportPlane(string id, string name, int speed, int maintenanceTime, Airport origin, double maxCapacity, int embarkingTime, int disembarkingTime)
         }
         
         class PassengerPlane extends TransportPlane {
+            - Type { get; } : TaskType
+            # CanDoTask(Task task) : bool
+            + TransportPlane(string id, string name, int speed, int maintenanceTime, Airport origin, double maxCapacity, int embarkingTime, int disembarkingTime)
         }
         
-        class MerchandisePlane extends TransportPlane {
+        class CargoPlane extends TransportPlane {
+            - Type { get; } : TaskType
+            # CanDoTask(Task task) : bool
+            + CargoPlane(string id, string name, int speed, int maintenanceTime, Airport origin, double maxCapacity, int embarkingTime, int disembarkingTime)
         }
         
         class ScoutPlane extends Airplane{
-            + AssignTask(Task task): bool
-            + ChangeState(): void
+            - Type { get; } : TaskType
+            # CanDoTask(Task task): bool
+            + ScoutPlane(string id, string name, int speed, int maintenanceTime, Airport origin)
         }
         
         class RescuePlane extends Airplane{
-            + AssignTask(Task task): bool
-            + ChangeState(): void
+            - Type { get; } : TaskType
+            # CanDoTask(Task task): bool
+            + RescuePlane(string id, string name, int speed, int maintenanceTime, Airport origin)
         }
     }
     
@@ -104,60 +146,107 @@ package Models {
     
     package "Airplane States" {
         interface IState {
-            + Action(double time): double
+            - Current { get; } : Position
+            - Destination { get; } : Position
+            + Action(double time): void
+            + ToString(): string
         }
         
-        abstract class StateWithPlane implements IState {
-            - _plane: Airplane
+        abstract class PlaneState implements IState {
+            - Plane { get; }: Airplane
+            - Current { get; } : Position
+            - Destination { get; } : Position
+            + Action(double time): void
+            # OnArrived(double overlap) : void
+            # PlaneState(Aiplane plane)
+            + ToString(): string
         }
         
-        abstract class FlyingState extends StateWithPlane implements ITaskState {
+        abstract class FlyingState extends PlaneState implements ITaskState {
             - _current: Position
             - _destination: Position
-            - CalculateDistance(Position current, Position destination): Position
+            - Current { get; } : Position
+            - Destination { get; } : Position
+            - Task { get; } : Task
             + Action(double time): double
+            + CalculateDistance(double time): Tuple<Position, double>
+            # FlyingState(Airplane plane, Task task)
+            # HeadBack(double overlap) : void
+            # SetDestination(Position destination) : void
+            # SetPosition(Position current) : void
         }
         
         class StandbyState implements IState {
-            + Action(double time): double
+            - Current { get; } : Position
+            - Destination { get; } : Position
+            + Action(double time): void
+            + ToString() : string
         }
         
-        interface ITaskState extends IState {
-            # Task : Task
-        }
-        
-        abstract TimedState extends StateWithPlane{
-            - _time : double
-            + Action(double time): double
+        abstract TimedState extends PlaneState{
+            - Current { get; } : Position
+            - Destination { get; } : Position
+            # TimeLeft { get; set; } : double
+            + Action(double time): void
+            # TimedState(Airplane plane)
         }
         
         class MaintenanceState extends TimedState {
+            + MaintenanceState(Airplane plane)
+            # OnArrived(double overlap) : void
+            + ToString() : string
         }
         
         abstract class TimedStateWithTask extends TimedState implements ITaskState {
+            # Task { get; } : Task
+            # TimedStateWithTask(Airplane plane, Task task)
         }
         
         class EmbarkState extends TimedStateWithTask {
+            - _plane : TransportPlane
+            - _task : TaskTransport
+            + EmbarkState(TransportPlane plae, TaskTransport task)
+            # OnArrived(double overlap) : void
+            + ToString() : string
         }
         
         class DisembarkState extends TimedStateWithTask {
+            + DisembarkState(TransportPlane plane, TaskTransport task)
+            # OnArrived(double overlap) : void
+            + ToString() : string
         }
         
         class TransportFlight extends FlyingState {
-            - _capacity : double
-            + Action(double time): double
+            - _plane : TransportPlane
+            - _task : TaskTransport            
+            - Task { get; } : Task
+            # OnArrived(double overlap) : void
+            + ToString() : string
+            + TransportFlight(TransportPlane plane, TaskTransport task)
         }
         
         class FightingFlight extends FlyingState {
-            + Action(double time): double
+            # OnArrived(double overlap) : void
+            + ToString() : string
+            + FightingFlight(Airplane plane, Task task)
         }
         
         class RescueFlight extends FlyingState {
-            + Action(double time): double
+            # OnArrived(double overlap) : void
+            + ToString() : string
+            + RescueFlight(Airplane plane, Task task)
         }
         
         class ScoutFlight extends FlyingState {
-            + Action(double time): double
+            - _circling : bool
+            - Radius : int
+            - CirclingPosition { get; } : Position
+            + Action(double time): void
+            + CalculateDistance(double time) : Tuple<Position, double>
+            - CalculateCircle(int radius, double time) : Tuple<Position, double>
+            # OnArrived(double overlap) : void
+            + ScoutFlight(Airplane plane, Task task)
+            ToString() : string
         }
     }
     
@@ -166,55 +255,75 @@ package Models {
     package Task {
         class TaskFactory << (S,orange) Singleton>> {
             - {static} _instance: TaskFactory
-            + {static} GetInstance(): TaskFactory
-            + GenerateFight(): TaskFight
+            + {static} Instance { get; } : TaskFactory
+            + CreateCargoTask(Airport airport): ClientCargo
             + GenerateRescue(): TaskRescue
-            + GeneratePassengers(): ClientPassenger
-            + GenerateMerchandise(): ClientMerchandise
-            + GenerateScout(): TaskScout
-            - GetRandomPosition(): Position
+            + CreateFightTask(): TaskFight
+            + CreatePassengerTask(Airport airport): ClientPassenger
+            + CreateRescueTask(): TaskRescue
+            + CreateScoutTask(): TaskScout
         }
 
         abstract class Task {
-            - _position : Position
-            + ToString() : string
-            + HandleTask() : void
-            - GenerateRandomPosition : Position
+            - IsCompleted { get; set; } : bool
+            - IsTransportTask { get; } : bool
+            - Position { get; } : Position
+            - Type { get; } : TaskType
+            + HandleEvent() : void
+            # Task(Position position)
         }
 
         abstract class TaskTransport extends Task {
-            - _destination : Airport
+            - _amount : double
+            - Amount { get; set; } : double
+            - Destination { get; } : Airport
+            - IsTransportTask { get; } : bool
+            + Merge(TaskTransport other) : bool
+            + Split(double remainder) : TaskTransport
+            # TaskTransport(Airport destination)
         }
 
         together {
             class ClientPassenger extends TaskTransport {
-                - _count: int
+                - Type { get; } : TaskType
+                + ClientPassenger(Airport airport)
+                + ToString() : string
             }
 
-            class ClientMerchandise extends TaskTransport {
-                - _count: double
+            class ClientCargo extends TaskTransport {
+                - Type { get; } : TaskType
+                + ClientCargo(Airport airport)
+                + ToString() : string
             }
         }
 
         class TaskRescue extends Task {
+            - Type { get; } : TaskType
+            + TaskRescue(Position position)
+            + ToString() : string
         }
 
         class TaskScout extends Task {
+            - Type { get; } : TaskType
+            + TaskScout(Position position)
+            + ToString() : string
         }
 
         class TaskFight extends Task {
-            + HandleTask() : void
-            - _force: int
+            -Health { get; set; } : int
+            - Type { get; } : TaskType
+            + TaskFight(Position position)
+            + ToString() : string
         }
     }
 }
 
 package Controllers {
     class Simulator << (S,orange) Singleton>> {
-        - _simulator: Simulator
-        - _view : FormMap
-        - {static} _instance: Scenario
-        + {static} Instance(): Scenario 
+        - _instance : Simulator
+        - _simView : FormSimulator
+        - _scenario: Scenario
+        + {static} Instance { get; } : Simulator 
         + {static} Main(): void
         + LoadScenario(): void
         + OnTick(double time): void
@@ -222,7 +331,27 @@ package Controllers {
 }
 
 package Views {
-    class FormMap {
+    class FormSimulator {
+        - _bitmap : Bitmap
+        - _graphics : Grafics
+        - _player : SoundPlayer
+        - _ticks : int
+        - checkMute_CheckedChanged() : void
+        + DrawAirplane() : void
+        + DrawEvent() : void
+        + DrawMap() : Void
+        + DrawAll() : void
+        + FormSimulator()
+        + FormSimulator_Load() : void
+        + listAirport_SelectedIndex() : void
+        + loadScenario() : void
+        + Path() : string
+        + pause() : void
+        + Rotate() : Bitmap
+        + pauseSim_Click() : void
+        + startSim_Click() : void
+        + timer_Tick() : void
+        + UpdateClients(string id) : void
     }
 }
 
