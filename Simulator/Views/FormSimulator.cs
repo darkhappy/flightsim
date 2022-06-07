@@ -64,7 +64,7 @@ namespace Simulator.Views
       _player.PlayLooping();
 
 
-      checkMute.Checked = true;
+      //checkMute.Checked = true;
     }
 
     /// <summary>
