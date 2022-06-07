@@ -1,0 +1,145 @@
+@startuml Loop in simulator
+title Tick in the Simulation
+
+FormSimulator -> FormSimulator ++: timer_tick(object sender, EventArgs e)
+FormSimulator -> Simulator ++: OnTick()
+
+'Checks if clients can be generated
+Simulator -> Simulator ++: CanGenerate()
+return false
+
+Simulator -> Scenario ++: HandleTick(double time)
+
+'Assign unassigned tasks
+Scenario -> Scenario ++: AssignUnassignedTasks()
+
+group For each unassigned task
+    'Get nearest airport
+    Scenario -> Scenario ++: GetNearestAirports(Position position)
+    group Make a list of airport order by distance
+        Scenario -> Position ++: DistanceTo(Positition Target)
+        return (double) distance    
+    end
+    return List<Airport>
+
+    'Assign tasks
+    Scenario -> Airport ++: AssignTask(Task task)
+    group For each airport
+        'AssignTask to the airplane
+        group For each airplane
+            group Case where an airplane cannot respond
+                Airport -> Airplane ++: AssignTask(Task task)
+                Airplane -> Airplane ++: CanDoTask(Task task)
+                return false
+                return false
+            end
+
+            group Case where an airplane can respond
+                Airport -> Airplane ++: AssignTask(Task task)
+                Airplane -> Airplane ++: CanDoTask(Task task)
+                Airplane -> State ++: new State()
+                return State
+                return true
+                return
+                note right
+                    AssignTask to the airplane
+                    And remove it from the
+                    Unassigned task list
+                end note
+            end   
+        end
+    end
+    return
+    return
+        
+    'Make all airplane actions
+    group For each airport
+        Scenario -> Airport ++: Action(double time)
+        group For each airplane in airport
+            group For each Client in airport
+                Airport -> Airplane ++: AssignTask(Task task)
+                Airplane -> Airplane ++: CanDoTask(Task task)
+
+                group Case airplane cannot transport
+                    Airplane -> Airplane ++: CanDoTask(Task task)
+                    return false
+                end
+
+                group Case airplane can transport
+                    Airplane -> Airplane ++: CanDoTask(Task task)
+                    Airplane -> Airplane ++: LoadClient(TaskTransport task)
+                    Airplane -> Airport ++: SplitClient(TaskTransport task, double remainder)
+                    Airport -> TaskTransport ++: Split(double remainder)
+                    TaskTransport -> Scenario ++: AddTask(Task client, bool addToUnassigned = false)
+                    return
+                    return task
+                    return
+                    Airplane -> Task ++: new TaskTransport()
+                    return task
+                    return
+                    return true
+                    return true
+                end
+                note right
+                    If is a plane that can transport,
+                    Load the client and split the transport task
+                end note
+
+                return
+
+                Airport -> Airplane ++: Action(double time)
+                Airplane -> State ++: Action(double time)
+                return
+                return
+                note right
+                    Make action
+                end note
+            end
+        end
+        return
+        'Ajouter ici des action
+        
+    end
+end    
+return
+
+'Update form
+Simulator -> FormSimulator ++: DrawMap()
+return
+
+'Update events
+Simulator -> Scenario ++: GetEvents()
+return List<Tuple<TaskType, Position>>
+Simulator -> Simulator ++: UpdateEvents(List<Tuple<TaskType, Position>> events)
+group For each events
+    Simulator -> FormSimulator ++: DrawEvent(Tuple<TaskType, Position> task)
+    return
+end
+return
+
+'Update airplanes
+Simulator -> Scenario ++: GetFlyingAirplanes()
+group For each airports
+    Scenario -> Airport ++: GetFlyingAirplanes()
+    return List<Tuple<string, TaskType, Position, Position, Position>>    
+end
+return List<Tuple<string, TaskType, Position, Position, Position>>
+
+Simulator -> Simulator ++: UpdateAirplanes()
+group For each airplanes
+    Simulator -> FormSimulator ++: DrawAirplane(string id, TaskType type, Position actual, Position origin, Position target)
+    FormSimulator -> FormSimulator ++: RotateAirplane(Position actual, Position target, Bitmap image)
+    FormSimulator -> FormSimulator ++: RotateImage(Bitmap img, float rotationAngle)
+    return Bitmap
+    return Bitmap
+    return
+end
+return
+
+'Draw all
+Simulator -> FormSimulator ++: DrawAll()
+return
+
+return
+return
+@enduml
