@@ -4,17 +4,30 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization;
 using System.Windows.Forms;
-using Generator.Models;
 using Simulator.Models;
 using Simulator.Views;
 
 namespace Simulator.Controllers
 
 {
+  /// <summary>
+  ///   Controller for the main form.
+  /// </summary>
   public class Simulator
   {
-    private static Simulator _instance;
+    /// <summary>
+    ///   References to this class.
+    /// </summary>
+    private static Simulator? _instance;
+
+    /// <summary>
+    ///   Represents the form in which the simulator is displayed
+    /// </summary>
     private readonly FormSimulator _frmSim;
+
+    /// <summary>
+    ///   Represents the current simulation
+    /// </summary>
     private Scenario _scenario;
 
     /// <summary>
@@ -34,9 +47,8 @@ namespace Simulator.Controllers
     /// <summary>
     /// Entry point of the Simulator program.
     /// </summary>
-    /// <param name="args"></param>
     [STAThread]
-    public static void Main(string[] args)
+    public static void Main()
     {
       Instance.GenerateView();
     }
@@ -53,7 +65,6 @@ namespace Simulator.Controllers
       Import(path);
       _scenario.GenerateTasks();
       Application.Run(_frmSim);
-
     }
 
     /// <summary>
@@ -61,12 +72,7 @@ namespace Simulator.Controllers
     /// </summary>
     public List<Tuple<string, Position>> AirportPositions()
     {
-      var list = new List<Tuple<string, Position>>();
-      foreach (var airport in _scenario.Airports)
-      {
-        list.Add(new Tuple<string, Position>(airport.Name, airport.Position));
-      }
-     return list;
+      return _scenario.Airports.Select(airport => new Tuple<string, Position>(airport.Name, airport.Position)).ToList();
     }
 
     /// <summary>
@@ -107,7 +113,7 @@ namespace Simulator.Controllers
       //Generate events
       if (CanGenerate(time))
         _scenario.GenerateTasks();
-      
+
       //Make all actions 
       _scenario.HandleTick(time);
 
@@ -115,7 +121,7 @@ namespace Simulator.Controllers
       _frmSim.DrawMap();
       UpdateEvents(_scenario.GetEvents());
       UpdateAirplanes(_scenario.GetFlyingAirplanes());
-     _frmSim.DrawAll();
+      _frmSim.DrawAll();
     }
 
     /// <summary>
@@ -124,18 +130,18 @@ namespace Simulator.Controllers
     /// <returns>
     /// A bool.
     /// </returns>
-    private bool CanGenerate(int time)
+    private static bool CanGenerate(int time)
     {
-      return time % (15*60) == 0;
+      return time % (15 * 60) == 0;
     }
 
     /// <summary>
     /// Make updates to all events
     /// </summary>
     /// <exception cref="NotImplementedException"></exception>
-    public void UpdateEvents(List<Tuple<TaskType, Position>> events)
+    private void UpdateEvents(List<Tuple<TaskType, Position>> events)
     {
-      foreach(Tuple<TaskType, Position> task in events)
+      foreach (Tuple<TaskType, Position> task in events)
       {
         _frmSim.DrawEvent(task);
       }
@@ -147,9 +153,9 @@ namespace Simulator.Controllers
     /// <param name="airplanes">
     /// A list of airplanes.
     /// </param>
-    public void UpdateAirplanes(List<Tuple<string, TaskType, Position, Position, Position>> airplanes)
+    private void UpdateAirplanes(List<Tuple<string, TaskType, Position, Position, Position>> airplanes)
     {
-      foreach(var airplane in airplanes)
+      foreach (var airplane in airplanes)
       {
         _frmSim.DrawAirplane(airplane.Item1, airplane.Item2, airplane.Item3, airplane.Item4, airplane.Item5);
       }
@@ -161,7 +167,7 @@ namespace Simulator.Controllers
     /// <param name="path">
     /// This is the path to the serialized .xml scenario file.
     /// </param>
-    public void Import(string path)
+    private void Import(string path)
     {
       var serializer = new DataContractSerializer(typeof(Scenario));
       using var stream = new FileStream(path, FileMode.Open);

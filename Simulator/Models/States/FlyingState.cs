@@ -7,22 +7,23 @@ namespace Simulator.Models.States
   /// <summary>
   /// Class of flying state.
   /// </summary>
-  public abstract class FlyingState : PlaneState, ITaskState
+  public abstract class FlyingState : PlaneState
   {
     /// <summary>
     /// Member data of current position as Position.
     /// </summary>
     private Position _current;
+
     /// <summary>
     /// Member data of destination position as Position. 
     /// </summary>
     private Position _destination;
 
     /// <summary>
-    /// 
+    /// Constructor.
     /// </summary>
-    /// <param name="plane"></param>
-    /// <param name="task"></param>
+    /// <param name="plane">The plane.</param>
+    /// <param name="task">The task to handle.</param>
     protected FlyingState(Airplane plane, Task task) : base(plane)
     {
       Task = task;
@@ -41,6 +42,11 @@ namespace Simulator.Models.States
     public override Position Current => _current;
 
     /// <summary>
+    /// Represents the task that the plane is handling. 
+    /// </summary>
+    protected virtual Task Task { get; }
+
+    /// <summary>
     ///   Moves the plane to the next position. If the plane is at the destination, the plane will call
     ///   <see cref="PlaneState.OnArrived" /> method.
     /// </summary>
@@ -55,11 +61,6 @@ namespace Simulator.Models.States
       if (Current.Equals(Destination))
         OnArrived(overlap);
     }
-
-    /// <summary>
-    /// Getter of task.
-    /// </summary>
-    public virtual Task Task { get; }
 
     /// <summary>
     ///   Sets the destination of the plane.
@@ -77,16 +78,20 @@ namespace Simulator.Models.States
     /// <summary>
     /// Sets the position.
     /// </summary>
-    /// <param name="current"></param>
+    /// <remarks>
+    ///   The only reason we do not use a setter in the property is due to the property coming from the base class. We
+    ///   need to ensure that the destination is only set by the state, and there is no way to do this with an interface.
+    /// </remarks>
+    /// <param name="current">The position to which the plane should go to.</param>
     protected void SetPosition(Position current)
     {
       _current = current;
     }
 
     /// <summary>
-    /// If the plane overlaps, this method takes it back to the place it's supposed to be.
+    /// Heads back to the origin. 
     /// </summary>
-    /// <param name="overlap"></param>
+    /// <param name="overlap">The amount of time to progress in the next state.</param>
     protected void HeadBack(double overlap)
     {
       Task.HandleEvent();
@@ -97,8 +102,8 @@ namespace Simulator.Models.States
     /// <summary>
     /// Method that calculates the distance between the flying plane and destination.
     /// </summary>
-    /// <param name="time"></param>
-    /// <returns></returns>
+    /// <param name="time">The amount of time the plane will be flying.</param>
+    /// <returns>A tuple of the position and the amount of time the plane will be flying.</returns>
     public virtual Tuple<Position, double> CalculateDistance(double time)
     {
       var distanceX = Destination.X - Current.X;
@@ -136,11 +141,5 @@ namespace Simulator.Models.States
 
       return new Tuple<Position, double>(newPos, overlap);
     }
-
-    /// <summary>
-    /// ToString of flying state.
-    /// </summary>
-    /// <returns></returns>
-    public abstract override string ToString();
   }
 }

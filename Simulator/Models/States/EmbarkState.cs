@@ -11,7 +11,12 @@ namespace Simulator.Models.States
     /// <summary>
     /// Member data airplane.
     /// </summary>
-    private new TransportPlane Plane;
+    private readonly TransportPlane _plane;
+
+    /// <summary>
+    ///   Task of the state.
+    /// </summary>
+    private readonly TaskTransport _task;
 
     /// <summary>
     /// Constructor of state.
@@ -20,27 +25,25 @@ namespace Simulator.Models.States
     /// <param name="task"></param>
     public EmbarkState(TransportPlane plane, TaskTransport task) : base(plane, task)
     {
-      Plane = plane;
+      _plane = plane;
+      _task = task;
       TimeLeft = plane.EmbarkingTime * task.Amount;
     }
 
     /// <summary>
-    /// Override OnArrived and calls Action.
+    /// Method that is called upon arrival of the task. 
     /// </summary>
-    /// <param name="overlap"></param>
+    /// <param name="overlap">The amount of time that the airplane overlaps with the next task.</param>
     protected override void OnArrived(double overlap)
     {
-      Plane.State = new TransportFlight(Plane, (TaskTransport) Task);
-      Plane.Action(overlap);
+      _plane.State = new TransportFlight(_plane, _task);
+      _plane.Action(overlap);
     }
 
-    /// <summary>
-    /// ToString of state.
-    /// </summary>
-    /// <returns></returns>
+    /// <inheritdoc cref="PlaneState.ToString()" />
     public override string ToString()
     {
-      return "Embarking";
+      return $"Embarking {Task} ({TimeLeft} seconds)";
     }
   }
 }

@@ -17,7 +17,6 @@ namespace Simulator.Models.Airplanes
     /// <summary>
     ///   Constructor for the <see cref="Airplane" /> class.
     /// </summary>
-    /// <param name="info">The information needed to create an airplane.</param>
     protected Airplane(string id, string name, int speed, int maintenanceTime, Airport origin)
     {
       Id = id;
@@ -29,29 +28,33 @@ namespace Simulator.Models.Airplanes
     }
 
     /// <summary>
-    /// Getter and Setter of the state of the airplane.
+    /// Represents the state of the airplane. 
     /// </summary>
     public IState State { get; set; }
 
     /// <summary>
     ///   Represents the unique identifier for the <see cref="Airplane" />.
     /// </summary>
-    [DataMember] public string Id { get; private set; }
+    [DataMember]
+    public string Id { get; private set; }
 
     /// <summary>
     ///   Represents the name of the <see cref="Airplane" />.
     /// </summary>
-    [DataMember] public string Name { get; private set; }
+    [DataMember]
+    public string Name { get; private set; }
 
     /// <summary>
     ///   Represents the speed at which the <see cref="Airplane" /> can travel.
     /// </summary>
-    [DataMember] public int Speed { get; private set; }
+    [DataMember]
+    public int Speed { get; private set; }
 
     /// <summary>
     ///   Represents the time it takes to perform maintenance on the <see cref="Airplane" />.
     /// </summary>
-    [DataMember] public int MaintenanceTime { get; private set; }
+    [DataMember]
+    public int MaintenanceTime { get; private set; }
 
     /// <summary>
     /// Method that returns the task type that the airplane can take.
@@ -62,11 +65,6 @@ namespace Simulator.Models.Airplanes
     /// Gets and Sets the origin Airport of the airplane.
     /// </summary>
     public Airport Origin { get; set; }
-
-    /// <summary>
-    /// Gets the colour of the airplane.
-    /// </summary>
-    public abstract Colour Colour { get; }
 
     /// <summary>
     /// Sets the origine position of the airplane.
@@ -130,14 +128,12 @@ namespace Simulator.Models.Airplanes
     protected abstract bool CanDoTask(Task task);
 
     /// <summary>
-    /// 
+    /// Used for deserialization.
     /// </summary>
-    /// <returns>
-    /// Returns a list of type.
-    /// </returns>
     private static Type[] GetDerivedTypes()
     {
-      return Assembly.GetExecutingAssembly().GetTypes().Where(_ => _.IsSubclassOf(typeof(Airplane))).ToArray();
+      return Assembly.GetExecutingAssembly().GetTypes()
+        .Where(_ => _.IsSubclassOf(typeof(Airplane))).ToArray();
     }
 
     /// <summary>
@@ -148,7 +144,7 @@ namespace Simulator.Models.Airplanes
     /// </returns>
     public override string ToString()
     {
-      return "Airplane : " + Name + ", State : " + State.ToString();
+      return $"{Name} ({Id}) - {State.ToString()}";
     }
 
     /// <summary>

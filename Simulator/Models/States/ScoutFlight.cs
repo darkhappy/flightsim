@@ -4,28 +4,40 @@ using Simulator.Models.Tasks;
 
 namespace Simulator.Models.States
 {
+  /// <summary>
+  ///   Represents a state in which the airplane is scouting around a target.
+  /// </summary>
   public sealed class ScoutFlight : FlyingState
   {
-    private bool _circling;
-    const int _radius = 50;
+    /// <summary>
+    ///   Represents the radius of the circle in which the airplane will fly around the target.
+    /// </summary>
+    private const int Radius = 50;
 
+    /// <summary>
+    ///   Represents whether the plane is circling or not.
+    /// </summary>
+    private bool _circling;
+
+    /// <inheritdoc cref="FlyingState(Airplane, Task)" />
     public ScoutFlight(Airplane plane, Task task) : base(plane, task)
     {
       _circling = false;
     }
 
-    public Position CirclingPosition => new Position(Destination.X - _radius, Destination.Y - _radius);
+    /// <summary>
+    ///   Represents a position for the circle.
+    /// </summary>
+    private Position CirclingPosition => new Position(Destination.X - Radius, Destination.Y - Radius);
 
+    /// <inheritdoc cref="PlaneState.Action" />
     public override void Action(double time)
     {
       if (time == 0) return;
 
       Tuple<Position, double> poslapbitch;
 
-      if (_circling)
-        poslapbitch = calculateInCircle(_radius, Destination, time);
-      else
-        poslapbitch = CalculateDistance(time);
+      poslapbitch = _circling ? CalculateInCircle(Radius, time) : CalculateDistance(time);
 
       var position = poslapbitch.Item1;
       var overlap = poslapbitch.Item2;
@@ -36,10 +48,16 @@ namespace Simulator.Models.States
         OnArrived(overlap);
     }
 
-    private Tuple<Position, double> calculateInCircle(int radius, Position center, double time)
+    /// <summary>
+    ///   Calculates a position based on a circle.
+    /// </summary>
+    /// <param name="radius">The radius of the circle.</param>
+    /// <param name="time">The time to calculate the position for.</param>
+    /// <returns>A tuple containing the position and the overlap.</returns>
+    private Tuple<Position, double> CalculateInCircle(int radius, double time)
     {
       var deltaTheta = Plane.Speed * time / radius;
-      var thetaI = Math.Acos((double)Current.X / radius);
+      var thetaI = Math.Acos((double) Current.X / radius);
 
       if (Current.Y != 0) thetaI *= Math.Sign(Current.Y);
 
@@ -50,6 +68,7 @@ namespace Simulator.Models.States
       return new Tuple<Position, double>(new Position(newX, newY), time);
     }
 
+    /// <inheritdoc cref="FlyingState.CalculateDistance" />
     public override Tuple<Position, double> CalculateDistance(double time)
     {
       var distanceX = CirclingPosition.X - Current.X;
@@ -88,6 +107,7 @@ namespace Simulator.Models.States
       return new Tuple<Position, double>(newPos, overlap);
     }
 
+    /// <inheritdoc cref="PlaneState.OnArrived" />
     protected override void OnArrived(double overlap)
     {
       if (Destination == Task.Position)
@@ -96,10 +116,11 @@ namespace Simulator.Models.States
         {
           _circling = true;
           Action(overlap);
-          return;
         }
-        
+        else
+        {
           HeadBack(overlap);
+        }
       }
       else
       {
@@ -108,9 +129,10 @@ namespace Simulator.Models.States
       }
     }
 
+    /// <inheritdoc cref="PlaneState.ToString()" />
     public override string ToString()
     {
-      return "Scouting";
+      return $"Scouting {Task}";
     }
   }
 }

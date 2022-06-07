@@ -241,5 +241,15 @@ namespace Generator.Controllers
         stream.Close();
       }
     }
+
+    /// <summary>
+    ///   Gets an airport's position.
+    /// </summary>
+    /// <param name="text">The airport's ID.</param>
+    /// <returns></returns>
+    public Position GetAirportPosition(string text)
+    {
+      return _scenario.GetAirportsInfo().Find(info => info.Id == text).Position;
+    }
   }
 }

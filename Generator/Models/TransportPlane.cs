@@ -3,6 +3,9 @@ using System.Runtime.Serialization;
 
 namespace Generator.Models
 {
+  /// <summary>
+  ///   Abstract class representing a plane that transports things.
+  /// </summary>
   [DataContract(Namespace = "")]
   public abstract class TransportPlane : Airplane
   {
@@ -24,17 +27,20 @@ namespace Generator.Models
     /// <summary>
     ///   Represents the max capacity of cargo or passenger that can be transported on the <see cref="Airplane" />.
     /// </summary>
-    [DataMember] public double MaxCapacity { get; private set; }
+    [DataMember]
+    public double MaxCapacity { get; private set; }
 
     /// <summary>
     ///   Represents the embarking time for each cargo or passenger on the <see cref="Airplane" />.
     /// </summary>
-    [DataMember] public int EmbarkingTime { get; private set; }
+    [DataMember]
+    public int EmbarkingTime { get; private set; }
 
     /// <summary>
     ///   Represents the disembarking time for each cargo or passenger on the <see cref="Airplane" />.
     /// </summary>
-    [DataMember] public int DisembarkingTime { get; private set; }
+    [DataMember]
+    public int DisembarkingTime { get; private set; }
 
     /// <summary>
     ///   Edits the <see cref="TransportPlane" /> information.

@@ -49,32 +49,38 @@ namespace Simulator.Models.Airplanes
     /// <summary>
     /// Property : unique identifier as string.
     /// </summary>
-    [DataMember] public string Id { get; private set; }
+    [DataMember]
+    public string Id { get; private set; }
 
     /// <summary>
     /// Property : name of airport as string.
     /// </summary>
-    [DataMember] public string Name { get; private set; }
+    [DataMember]
+    public string Name { get; private set; }
 
     /// <summary>
     /// Property : Position of the airport on the map as a Position type.
     /// </summary>
-    [DataMember] public Position Position { get; private set; }
+    [DataMember]
+    public Position Position { get; private set; }
 
     /// <summary>
     /// Traffic of passengers in the airport as int.
     /// </summary>
-    [DataMember] public int PassengerTraffic { get; private set; }
+    [DataMember]
+    public int PassengerTraffic { get; private set; }
 
     /// <summary>
     /// Traffic of cargo in the airport as double.
     /// </summary>
-    [DataMember] public double CargoTraffic { get; private set; }
+    [DataMember]
+    public double CargoTraffic { get; private set; }
 
     /// <summary>
     /// Getter setter of list of airplanes.
     /// </summary>
-    [DataMember] public List<Airplane> Airplanes { get; private set; }
+    [DataMember]
+    public List<Airplane> Airplanes { get; private set; }
 
     /// <summary>
     /// Returns or sets the estention data object.
@@ -114,7 +120,7 @@ namespace Simulator.Models.Airplanes
     /// Method that returns all flying airplanes.
     /// </summary>
     /// <returns>A list of airplanes.</returns>
-    public List<Tuple<string, TaskType, Position, Position, Position>> GetFlyingAirplanes()
+    public IEnumerable<Tuple<string, TaskType, Position, Position, Position>> GetFlyingAirplanes()
     {
       return (from airplane in Airplanes
               where !airplane.Position.Hidden
@@ -167,9 +173,7 @@ namespace Simulator.Models.Airplanes
     /// <param name="remainder">No</param>
     public void SplitClient(TaskTransport client, double remainder)
     {
-      var newClient = client.Split(remainder);
-
-      Clients.Add(newClient);
+      Clients.Add(client.Split(remainder));
     }
 
     /// <summary>
@@ -178,13 +182,7 @@ namespace Simulator.Models.Airplanes
     /// <returns>List of clients.</returns>
     public List<string> GetClients()
     {
-      var list = new List<string>();
-      foreach (var client in Clients)
-      {
-        list.Add(client.ToString());
-      }
-
-      return list;
+      return Clients.Select(client => client.ToString()).ToList();
     }
 
     /// <summary>
