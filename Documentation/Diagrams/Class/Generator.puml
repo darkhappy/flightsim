@@ -17,6 +17,12 @@ package Models {
         + {static} Transpose(int x, int y): string
         + ToString(): string
     }
+    
+    note right of Position
+        Position is used everywhere in the code.
+        To make it easier to read, we did not include a line from
+        position to the other classes
+    end note 
 
     class Scenario {
         + Airports {get; set;}: List<airport>

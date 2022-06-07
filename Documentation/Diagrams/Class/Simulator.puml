@@ -9,12 +9,12 @@ package Models {
     ' Blue = Cargo
     ' Green = Passenger
     ' Gray = Observer
-    enum Colour {
-        RED
-        YELLOW
-        BLUE
-        GREEN
-        GRAY
+    enum TaskType {
+    Fight
+    Rescue
+    Scout
+    Passenger
+    Cargo
     }
 
     class Position {
@@ -93,7 +93,6 @@ package Models {
             - State  { get; set; } : IState
             - Type { get; } : TaskType
             + Action(double time): double
-            # Airplane(string id, string name, int speed, int maintenanceTime, Airport origin)
             + AssignTask(Task task) : bool
             # CanDoTask(Task task) : bool
             - GetDerivedTypes() : Type[]
@@ -105,7 +104,6 @@ package Models {
         class FightPlane extends Airplane{
             - Type { get; set; } : TaskType
             # CanDoTask(Task task): bool
-            + FightPlane(string id, string name, int speed, int maintenanceTime, Airport origin): void
         }
         
         abstract class TransportPlane extends Airplane {
@@ -113,31 +111,26 @@ package Models {
             - EmbarkingTime { get; set; } : int
             - MaxCapacity { get; set; } : double
             # LoadClient(TaskTransport task) : void
-            # TransportPlane(string id, string name, int speed, int maintenanceTime, Airport origin, double maxCapacity, int embarkingTime, int disembarkingTime)
         }
         
         class PassengerPlane extends TransportPlane {
             - Type { get; } : TaskType
             # CanDoTask(Task task) : bool
-            + TransportPlane(string id, string name, int speed, int maintenanceTime, Airport origin, double maxCapacity, int embarkingTime, int disembarkingTime)
         }
         
         class CargoPlane extends TransportPlane {
             - Type { get; } : TaskType
             # CanDoTask(Task task) : bool
-            + CargoPlane(string id, string name, int speed, int maintenanceTime, Airport origin, double maxCapacity, int embarkingTime, int disembarkingTime)
         }
         
         class ScoutPlane extends Airplane{
             - Type { get; } : TaskType
             # CanDoTask(Task task): bool
-            + ScoutPlane(string id, string name, int speed, int maintenanceTime, Airport origin)
         }
         
         class RescuePlane extends Airplane{
             - Type { get; } : TaskType
             # CanDoTask(Task task): bool
-            + RescuePlane(string id, string name, int speed, int maintenanceTime, Airport origin)
         }
     }
     
@@ -146,8 +139,8 @@ package Models {
     
     package "Airplane States" {
         interface IState {
-            - Current { get; } : Position
-            - Destination { get; } : Position
+            + Current { get; } : Position
+            + Destination { get; } : Position
             + Action(double time): void
             + ToString(): string
         }
@@ -162,7 +155,7 @@ package Models {
             + ToString(): string
         }
         
-        abstract class FlyingState extends PlaneState implements ITaskState {
+        abstract class FlyingState extends PlaneState {
             - _current: Position
             - _destination: Position
             - Current { get; } : Position
@@ -184,8 +177,8 @@ package Models {
         }
         
         abstract TimedState extends PlaneState{
-            - Current { get; } : Position
-            - Destination { get; } : Position
+            # Current { get; } : Position
+            # Destination { get; } : Position
             # TimeLeft { get; set; } : double
             + Action(double time): void
             # TimedState(Airplane plane)
@@ -197,7 +190,7 @@ package Models {
             + ToString() : string
         }
         
-        abstract class TimedStateWithTask extends TimedState implements ITaskState {
+        abstract class TimedStateWithTask extends TimedState {
             # Task { get; } : Task
             # TimedStateWithTask(Airplane plane, Task task)
         }
@@ -358,8 +351,8 @@ package Views {
 ' Relations
 ' - Global
 ' -- Controller and View
-Simulator "1" *-u-> "1" FormMap
-FormMap -d-> Simulator
+Simulator "1" *-u-> "1" FormSimulator
+FormSimulator -d-> Simulator
 ' -- Controller and Model
 Simulator "1" *--> "1" Scenario
 Simulator "1" *-> "1" Simulator
@@ -382,11 +375,12 @@ Airplane "1" o--> "1" Airport
 ' -- Tasks
 TaskFactory --> Task
 TaskFactory "1" *--> "1" TaskFactory
-ITaskState "1" o--> "1" Task
 
 TaskTransport "1" o-> "1" Airport
 Task <.. Airport
 Task <.. Airplane
 Task -u-> Scenario
-   
+
+TimedStateWithTask "1" o-u-> "1" Task
+FlyingState "1" o-u-> "1" Task
 @enduml
