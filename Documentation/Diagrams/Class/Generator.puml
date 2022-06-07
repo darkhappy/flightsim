@@ -106,68 +106,77 @@ package Models {
     class RescuePlane extends Airplane{
         + Type { get;}: AirplaneType
     }
+    
+    
+    package Informations {
+        ' -----------------------------------'
+        ' -- Object Info Management       -- '
+        
+        
+note top of ObjectInfo
+    AirportInfo and AirplaneInfo is passed between the view and the model. 
+    As there would have been way too many lines, only the direct implemenations
+    are shown.
+end note 
+
+        abstract class ObjectInfo {
+            + Id { get; set;}: string
+            + Name { get; set;}: string
+
+            + Equals(object obj): bool
+            # Equals(ObjectInfo obj): bool
+            + GetHashCode(): int
+            + operator != (ObjectInfo left, ObjectInfo right): bool
+            + operator == (ObjectInfo left, ObjectInfo right): bool
+        }
+
+        class AirportInfo extends ObjectInfo {
+            + Position { get; set;}: Position
+            + PassengerTraffic { get; set;}: int
+            + CargoTraffic { get; set;}: double
+
+            # Equals(AirportInfo other): bool
+            + Equals(object obj): bool
+            + GetHashCode(): int
+            + operator != (AirportInfo left, AirportInfo right): bool
+            + operator == (AirportInfo left, AirportInfo right): bool
+        }
+
+        class AirplaneInfo extends ObjectInfo {
+            - _maintenanceTime: int
+            - _speed: int
+            + Type { get;}: AirplaneType
+            + Speed { get; set;}: int
+            + MaintenanceTime{ get; set;}: int
+            + EmbarkingTime { get; set;}: int
+            + DisembarkingTime{ get; set;}: double
+            + MaxCapacity { get; set;}: int
+
+            # Equals(AirplaneInfo other): boolean
+            + Equals(object obj): bool
+            + GetHashCode(): int
+            + operator != (AirplaneInfo left, AirplaneInfo right): bool
+            + operator == (AirplaneInfo left, AirplaneInfo right): bool
+        }
+
+        class TransportInfo extends AirplaneInfo {
+            - _disembarkingTime: int
+            - _embarkingTime: int
+            - _maxCapacity: double
+            + DisembarkingTime{ get; set;}: int
+            + EmbarkingTime { get; set;}: int
+            + MaxCapacity { get; set;}: double
+
+            - Equals(object obj): bool
+            # Equals(TransportInfo other): boolean
+            + GetHashCode(): int
+            + operator != (TransportInfo left, TransportInfo right): bool
+            + operator == (TransportInfo left, TransportInfo right): bool
+
+        }
+    }
 }
 
-package Informations {
-    ' -----------------------------------'
-    ' -- Object Info Management       -- '
-
-    abstract class ObjectInfo {
-        + Id { get; set;}: string
-        + Name { get; set;}: string
-
-        + Equals(object obj): bool
-        # Equals(ObjectInfo obj): bool
-        + GetHashCode(): int
-        + operator != (ObjectInfo left, ObjectInfo right): bool
-        + operator == (ObjectInfo left, ObjectInfo right): bool
-    }
-
-    class AirportInfo extends ObjectInfo {
-        + Position { get; set;}: Position
-        + PassengerTraffic { get; set;}: int
-        + CargoTraffic { get; set;}: double
-
-        # Equals(AirportInfo other): bool
-        + Equals(object obj): bool
-        + GetHashCode(): int
-        + operator != (AirportInfo left, AirportInfo right): bool
-        + operator == (AirportInfo left, AirportInfo right): bool
-    }
-
-    class AirplaneInfo extends ObjectInfo {
-        - _maintenanceTime: int
-        - _speed: int
-        + Type { get;}: AirplaneType
-        + Speed { get; set;}: int
-        + MaintenanceTime{ get; set;}: int
-        + EmbarkingTime { get; set;}: int
-        + DisembarkingTime{ get; set;}: double
-        + MaxCapacity { get; set;}: int
-
-        # Equals(AirplaneInfo other): boolean
-        + Equals(object obj): bool
-        + GetHashCode(): int
-        + operator != (AirplaneInfo left, AirplaneInfo right): bool
-        + operator == (AirplaneInfo left, AirplaneInfo right): bool
-    }
-
-    class TransportInfo extends AirplaneInfo {
-        - _disembarkingTime: int
-        - _embarkingTime: int
-        - _maxCapacity: double
-        + DisembarkingTime{ get; set;}: int
-        + EmbarkingTime { get; set;}: int
-        + MaxCapacity { get; set;}: double
-
-        - Equals(object obj): bool
-        # Equals(TransportInfo other): boolean
-        + GetHashCode(): int
-        + operator != (TransportInfo left, TransportInfo right): bool
-        + operator == (TransportInfo left, TransportInfo right): bool
-
-    }
-}
 
 package Controllers {
     class Generator << (S,orange) Singleton>> {
@@ -250,6 +259,8 @@ FormGenerator --> Generator
 ' -- Controller and Model
 Generator "1" *--> "1" Scenario
 
+Generator "1" *--> "1" Generator
+
 ' - View
 FormGenerator "0..1" *--> "1" FormMap
 
@@ -265,5 +276,15 @@ Airport "1" *--> "N" Airplane
 AirplaneFactory --> Airplane
 Airplane "1" o--> "1" Airport
 ' Airplane "1" o-u-> "1" IState
+
+Airport -> AirportInfo
+Airplane -> AirplaneInfo
+TransportPlane --> TransportInfo
+AirportInfo -[hidden]d-> AirplaneInfo
+
+FormGenerator --> AirportInfo
+FormGenerator --> AirplaneInfo
+
+
 
 @enduml
